@@ -3,10 +3,10 @@ id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
   docChecksum: 21cc094adda452fc5c197731871f1237
   docVersion: 1.0.0
-  speakeasyVersion: 1.580.2
+  speakeasyVersion: 1.581.0
   generationVersion: 2.656.5
-  releaseVersion: 0.4.13
-  configChecksum: 519f8a6596aa0f30dab1a21f21521c8c
+  releaseVersion: 0.4.15
+  configChecksum: fef72c64735e5c0e75146a321ffcda0e
   repoURL: https://github.com/kintsugi-tax/kintsugi-speakeasy.git
   repoSubDirectory: sdks/typescript
   installationURL: https://gitpkg.now.sh/kintsugi-tax/kintsugi-speakeasy/sdks/typescript
