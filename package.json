@@ -1,6 +1,6 @@
 {
   "name": "@kintsugi-tax/tax-platform-sdk",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "author": "Kintsugi Tax",
   "type": "module",
   "tshy": {
@@ -21,7 +21,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/kintsugi-tax/kintsugi-speakeasy.git",
+    "url": "https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git",
     "directory": "sdks/typescript"
   },
   "scripts": {
