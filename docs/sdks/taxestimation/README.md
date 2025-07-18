@@ -27,20 +27,10 @@ async function run() {
     apiKeyHeader: "<YOUR_API_KEY_HERE>",
   }, {
     xOrganizationId: "org_12345",
-    transactionEstimateRequest: {
+    transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
       currency: "USD",
-      addresses: [
-        {
-          type: "SHIP_TO",
-          street1: "789 Pine St",
-          city: "Austin",
-          state: "TX",
-          postalCode: "78701",
-          country: "US",
-        },
-      ],
       transactionItems: [
         {
           externalId: "item_A",
@@ -55,6 +45,16 @@ async function run() {
           externalProductId: "prod_xyz",
           quantity: 1,
           amount: 75.5,
+        },
+      ],
+      addresses: [
+        {
+          type: "SHIP_TO",
+          street1: "789 Pine St",
+          city: "Austin",
+          state: "TX",
+          postalCode: "78701",
+          country: "US",
         },
       ],
     },
@@ -85,20 +85,10 @@ async function run() {
     apiKeyHeader: "<YOUR_API_KEY_HERE>",
   }, {
     xOrganizationId: "org_12345",
-    transactionEstimateRequest: {
+    transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
       currency: "USD",
-      addresses: [
-        {
-          type: "SHIP_TO",
-          street1: "789 Pine St",
-          city: "Austin",
-          state: "TX",
-          postalCode: "78701",
-          country: "US",
-        },
-      ],
       transactionItems: [
         {
           externalId: "item_A",
@@ -113,6 +103,16 @@ async function run() {
           externalProductId: "prod_xyz",
           quantity: 1,
           amount: 75.5,
+        },
+      ],
+      addresses: [
+        {
+          type: "SHIP_TO",
+          street1: "789 Pine St",
+          city: "Austin",
+          state: "TX",
+          postalCode: "78701",
+          country: "US",
         },
       ],
     },

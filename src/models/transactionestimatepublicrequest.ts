@@ -13,11 +13,11 @@ import {
   CurrencyEnum$outboundSchema,
 } from "./currencyenum.js";
 import {
-  CustomerBaseInput,
-  CustomerBaseInput$inboundSchema,
-  CustomerBaseInput$Outbound,
-  CustomerBaseInput$outboundSchema,
-} from "./customerbaseinput.js";
+  CustomerBasePublic,
+  CustomerBasePublic$inboundSchema,
+  CustomerBasePublic$Outbound,
+  CustomerBasePublic$outboundSchema,
+} from "./customerbasepublic.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   SourceEnum,
@@ -42,7 +42,7 @@ export type TotalAmountOfTheTransactionAfterDiscounts = number | string;
  * @remarks
  *                         SHIP_TO or BILL_TO.
  */
-export const TransactionEstimateRequestType = {
+export const TransactionEstimatePublicRequestType = {
   ShipTo: "SHIP_TO",
   BillTo: "BILL_TO",
 } as const;
@@ -52,18 +52,18 @@ export const TransactionEstimateRequestType = {
  * @remarks
  *                         SHIP_TO or BILL_TO.
  */
-export type TransactionEstimateRequestType = ClosedEnum<
-  typeof TransactionEstimateRequestType
+export type TransactionEstimatePublicRequestType = ClosedEnum<
+  typeof TransactionEstimatePublicRequestType
 >;
 
-export type TransactionEstimateRequestAddress = {
+export type TransactionEstimatePublicRequestAddress = {
   /**
    * Type of the address. Must be either
    *
    * @remarks
    *                         SHIP_TO or BILL_TO.
    */
-  type: TransactionEstimateRequestType;
+  type: TransactionEstimatePublicRequestType;
   /**
    * Phone number associated with the customer.
    */
@@ -106,19 +106,15 @@ export type TransactionEstimateRequestAddress = {
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   status?: string | undefined;
-  /**
-   * Additional enriched fields related to the address.
-   */
-  enrichedFields?: string | undefined;
 };
 
 /**
- * Request model for tax estimation, including all fields from TransactionEstimateBase
+ * Public request model for tax estimation API documentation.
  *
  * @remarks
- * and an additional field to simulate nexus being met.
+ * This model excludes internal fields like enriched_fields that should not be exposed in API docs.
  */
-export type TransactionEstimateRequest = {
+export type TransactionEstimatePublicRequest = {
   /**
    * The date of the transaction in ISO 8601 format (e.g., 2025-01-25T12:00:00Z).
    */
@@ -147,30 +143,17 @@ export type TransactionEstimateRequest = {
    */
   marketplace?: boolean | null | undefined;
   /**
-   * Details about the customer. If the customer is not found, it will be ignored.
-   */
-  customer?: CustomerBaseInput | null | undefined;
-  /**
-   * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
-   */
-  addresses: Array<TransactionEstimateRequestAddress>;
-  /**
    * List of items involved in the transaction.
    */
   transactionItems: Array<TransactionItemEstimateBase>;
   /**
-   * If True, assumes active registration is met for tax estimation.
+   * Details about the customer. If the customer is not found, it will be ignored.
    */
-  simulateActiveRegistration?: boolean | null | undefined;
+  customer?: CustomerBasePublic | null | undefined;
   /**
-   * Use simulate_active_registration instead.
-   *
-   * @remarks
-   *         This field will be removed in future releases.
-   *
-   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+   * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
    */
-  simulateNexusMet?: boolean | null | undefined;
+  addresses: Array<TransactionEstimatePublicRequestAddress>;
 };
 
 /** @internal */
@@ -236,33 +219,36 @@ export function totalAmountOfTheTransactionAfterDiscountsFromJSON(
 }
 
 /** @internal */
-export const TransactionEstimateRequestType$inboundSchema: z.ZodNativeEnum<
-  typeof TransactionEstimateRequestType
-> = z.nativeEnum(TransactionEstimateRequestType);
+export const TransactionEstimatePublicRequestType$inboundSchema:
+  z.ZodNativeEnum<typeof TransactionEstimatePublicRequestType> = z.nativeEnum(
+    TransactionEstimatePublicRequestType,
+  );
 
 /** @internal */
-export const TransactionEstimateRequestType$outboundSchema: z.ZodNativeEnum<
-  typeof TransactionEstimateRequestType
-> = TransactionEstimateRequestType$inboundSchema;
+export const TransactionEstimatePublicRequestType$outboundSchema:
+  z.ZodNativeEnum<typeof TransactionEstimatePublicRequestType> =
+    TransactionEstimatePublicRequestType$inboundSchema;
 
 /**
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace TransactionEstimateRequestType$ {
-  /** @deprecated use `TransactionEstimateRequestType$inboundSchema` instead. */
-  export const inboundSchema = TransactionEstimateRequestType$inboundSchema;
-  /** @deprecated use `TransactionEstimateRequestType$outboundSchema` instead. */
-  export const outboundSchema = TransactionEstimateRequestType$outboundSchema;
+export namespace TransactionEstimatePublicRequestType$ {
+  /** @deprecated use `TransactionEstimatePublicRequestType$inboundSchema` instead. */
+  export const inboundSchema =
+    TransactionEstimatePublicRequestType$inboundSchema;
+  /** @deprecated use `TransactionEstimatePublicRequestType$outboundSchema` instead. */
+  export const outboundSchema =
+    TransactionEstimatePublicRequestType$outboundSchema;
 }
 
 /** @internal */
-export const TransactionEstimateRequestAddress$inboundSchema: z.ZodType<
-  TransactionEstimateRequestAddress,
+export const TransactionEstimatePublicRequestAddress$inboundSchema: z.ZodType<
+  TransactionEstimatePublicRequestAddress,
   z.ZodTypeDef,
   unknown
 > = z.object({
-  type: TransactionEstimateRequestType$inboundSchema,
+  type: TransactionEstimatePublicRequestType$inboundSchema,
   phone: z.string().optional(),
   street_1: z.string().optional(),
   street_2: z.string().optional(),
@@ -273,19 +259,17 @@ export const TransactionEstimateRequestAddress$inboundSchema: z.ZodType<
   country: z.string(),
   full_address: z.string().optional(),
   status: z.string().optional(),
-  enriched_fields: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
     "street_2": "street2",
     "postal_code": "postalCode",
     "full_address": "fullAddress",
-    "enriched_fields": "enrichedFields",
   });
 });
 
 /** @internal */
-export type TransactionEstimateRequestAddress$Outbound = {
+export type TransactionEstimatePublicRequestAddress$Outbound = {
   type: string;
   phone?: string | undefined;
   street_1?: string | undefined;
@@ -297,16 +281,15 @@ export type TransactionEstimateRequestAddress$Outbound = {
   country: string;
   full_address?: string | undefined;
   status?: string | undefined;
-  enriched_fields?: string | undefined;
 };
 
 /** @internal */
-export const TransactionEstimateRequestAddress$outboundSchema: z.ZodType<
-  TransactionEstimateRequestAddress$Outbound,
+export const TransactionEstimatePublicRequestAddress$outboundSchema: z.ZodType<
+  TransactionEstimatePublicRequestAddress$Outbound,
   z.ZodTypeDef,
-  TransactionEstimateRequestAddress
+  TransactionEstimatePublicRequestAddress
 > = z.object({
-  type: TransactionEstimateRequestType$outboundSchema,
+  type: TransactionEstimatePublicRequestType$outboundSchema,
   phone: z.string().optional(),
   street1: z.string().optional(),
   street2: z.string().optional(),
@@ -317,14 +300,12 @@ export const TransactionEstimateRequestAddress$outboundSchema: z.ZodType<
   country: z.string(),
   fullAddress: z.string().optional(),
   status: z.string().optional(),
-  enrichedFields: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",
     street2: "street_2",
     postalCode: "postal_code",
     fullAddress: "full_address",
-    enrichedFields: "enriched_fields",
   });
 });
 
@@ -332,39 +313,47 @@ export const TransactionEstimateRequestAddress$outboundSchema: z.ZodType<
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace TransactionEstimateRequestAddress$ {
-  /** @deprecated use `TransactionEstimateRequestAddress$inboundSchema` instead. */
-  export const inboundSchema = TransactionEstimateRequestAddress$inboundSchema;
-  /** @deprecated use `TransactionEstimateRequestAddress$outboundSchema` instead. */
+export namespace TransactionEstimatePublicRequestAddress$ {
+  /** @deprecated use `TransactionEstimatePublicRequestAddress$inboundSchema` instead. */
+  export const inboundSchema =
+    TransactionEstimatePublicRequestAddress$inboundSchema;
+  /** @deprecated use `TransactionEstimatePublicRequestAddress$outboundSchema` instead. */
   export const outboundSchema =
-    TransactionEstimateRequestAddress$outboundSchema;
-  /** @deprecated use `TransactionEstimateRequestAddress$Outbound` instead. */
-  export type Outbound = TransactionEstimateRequestAddress$Outbound;
+    TransactionEstimatePublicRequestAddress$outboundSchema;
+  /** @deprecated use `TransactionEstimatePublicRequestAddress$Outbound` instead. */
+  export type Outbound = TransactionEstimatePublicRequestAddress$Outbound;
 }
 
-export function transactionEstimateRequestAddressToJSON(
-  transactionEstimateRequestAddress: TransactionEstimateRequestAddress,
+export function transactionEstimatePublicRequestAddressToJSON(
+  transactionEstimatePublicRequestAddress:
+    TransactionEstimatePublicRequestAddress,
 ): string {
   return JSON.stringify(
-    TransactionEstimateRequestAddress$outboundSchema.parse(
-      transactionEstimateRequestAddress,
+    TransactionEstimatePublicRequestAddress$outboundSchema.parse(
+      transactionEstimatePublicRequestAddress,
     ),
   );
 }
 
-export function transactionEstimateRequestAddressFromJSON(
+export function transactionEstimatePublicRequestAddressFromJSON(
   jsonString: string,
-): SafeParseResult<TransactionEstimateRequestAddress, SDKValidationError> {
+): SafeParseResult<
+  TransactionEstimatePublicRequestAddress,
+  SDKValidationError
+> {
   return safeParse(
     jsonString,
-    (x) => TransactionEstimateRequestAddress$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionEstimateRequestAddress' from JSON`,
+    (x) =>
+      TransactionEstimatePublicRequestAddress$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionEstimatePublicRequestAddress' from JSON`,
   );
 }
 
 /** @internal */
-export const TransactionEstimateRequest$inboundSchema: z.ZodType<
-  TransactionEstimateRequest,
+export const TransactionEstimatePublicRequest$inboundSchema: z.ZodType<
+  TransactionEstimatePublicRequest,
   z.ZodTypeDef,
   unknown
 > = z.object({
@@ -375,25 +364,21 @@ export const TransactionEstimateRequest$inboundSchema: z.ZodType<
   description: z.nullable(z.string()).optional(),
   source: z.nullable(SourceEnum$inboundSchema).optional(),
   marketplace: z.nullable(z.boolean()).optional(),
-  customer: z.nullable(CustomerBaseInput$inboundSchema).optional(),
-  addresses: z.array(
-    z.lazy(() => TransactionEstimateRequestAddress$inboundSchema),
-  ),
   transaction_items: z.array(TransactionItemEstimateBase$inboundSchema),
-  simulate_active_registration: z.nullable(z.boolean()).optional(),
-  simulate_nexus_met: z.nullable(z.boolean()).optional(),
+  customer: z.nullable(CustomerBasePublic$inboundSchema).optional(),
+  addresses: z.array(
+    z.lazy(() => TransactionEstimatePublicRequestAddress$inboundSchema),
+  ),
 }).transform((v) => {
   return remap$(v, {
     "external_id": "externalId",
     "total_amount": "totalAmount",
     "transaction_items": "transactionItems",
-    "simulate_active_registration": "simulateActiveRegistration",
-    "simulate_nexus_met": "simulateNexusMet",
   });
 });
 
 /** @internal */
-export type TransactionEstimateRequest$Outbound = {
+export type TransactionEstimatePublicRequest$Outbound = {
   date: string;
   external_id: string;
   total_amount?: number | string | undefined;
@@ -401,18 +386,16 @@ export type TransactionEstimateRequest$Outbound = {
   description?: string | null | undefined;
   source?: string | null | undefined;
   marketplace?: boolean | null | undefined;
-  customer?: CustomerBaseInput$Outbound | null | undefined;
-  addresses: Array<TransactionEstimateRequestAddress$Outbound>;
   transaction_items: Array<TransactionItemEstimateBase$Outbound>;
-  simulate_active_registration?: boolean | null | undefined;
-  simulate_nexus_met?: boolean | null | undefined;
+  customer?: CustomerBasePublic$Outbound | null | undefined;
+  addresses: Array<TransactionEstimatePublicRequestAddress$Outbound>;
 };
 
 /** @internal */
-export const TransactionEstimateRequest$outboundSchema: z.ZodType<
-  TransactionEstimateRequest$Outbound,
+export const TransactionEstimatePublicRequest$outboundSchema: z.ZodType<
+  TransactionEstimatePublicRequest$Outbound,
   z.ZodTypeDef,
-  TransactionEstimateRequest
+  TransactionEstimatePublicRequest
 > = z.object({
   date: z.date().transform(v => v.toISOString()),
   externalId: z.string(),
@@ -421,20 +404,16 @@ export const TransactionEstimateRequest$outboundSchema: z.ZodType<
   description: z.nullable(z.string()).optional(),
   source: z.nullable(SourceEnum$outboundSchema).optional(),
   marketplace: z.nullable(z.boolean()).optional(),
-  customer: z.nullable(CustomerBaseInput$outboundSchema).optional(),
-  addresses: z.array(
-    z.lazy(() => TransactionEstimateRequestAddress$outboundSchema),
-  ),
   transactionItems: z.array(TransactionItemEstimateBase$outboundSchema),
-  simulateActiveRegistration: z.nullable(z.boolean()).optional(),
-  simulateNexusMet: z.nullable(z.boolean()).optional(),
+  customer: z.nullable(CustomerBasePublic$outboundSchema).optional(),
+  addresses: z.array(
+    z.lazy(() => TransactionEstimatePublicRequestAddress$outboundSchema),
+  ),
 }).transform((v) => {
   return remap$(v, {
     externalId: "external_id",
     totalAmount: "total_amount",
     transactionItems: "transaction_items",
-    simulateActiveRegistration: "simulate_active_registration",
-    simulateNexusMet: "simulate_nexus_met",
   });
 });
 
@@ -442,29 +421,31 @@ export const TransactionEstimateRequest$outboundSchema: z.ZodType<
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace TransactionEstimateRequest$ {
-  /** @deprecated use `TransactionEstimateRequest$inboundSchema` instead. */
-  export const inboundSchema = TransactionEstimateRequest$inboundSchema;
-  /** @deprecated use `TransactionEstimateRequest$outboundSchema` instead. */
-  export const outboundSchema = TransactionEstimateRequest$outboundSchema;
-  /** @deprecated use `TransactionEstimateRequest$Outbound` instead. */
-  export type Outbound = TransactionEstimateRequest$Outbound;
+export namespace TransactionEstimatePublicRequest$ {
+  /** @deprecated use `TransactionEstimatePublicRequest$inboundSchema` instead. */
+  export const inboundSchema = TransactionEstimatePublicRequest$inboundSchema;
+  /** @deprecated use `TransactionEstimatePublicRequest$outboundSchema` instead. */
+  export const outboundSchema = TransactionEstimatePublicRequest$outboundSchema;
+  /** @deprecated use `TransactionEstimatePublicRequest$Outbound` instead. */
+  export type Outbound = TransactionEstimatePublicRequest$Outbound;
 }
 
-export function transactionEstimateRequestToJSON(
-  transactionEstimateRequest: TransactionEstimateRequest,
+export function transactionEstimatePublicRequestToJSON(
+  transactionEstimatePublicRequest: TransactionEstimatePublicRequest,
 ): string {
   return JSON.stringify(
-    TransactionEstimateRequest$outboundSchema.parse(transactionEstimateRequest),
+    TransactionEstimatePublicRequest$outboundSchema.parse(
+      transactionEstimatePublicRequest,
+    ),
   );
 }
 
-export function transactionEstimateRequestFromJSON(
+export function transactionEstimatePublicRequestFromJSON(
   jsonString: string,
-): SafeParseResult<TransactionEstimateRequest, SDKValidationError> {
+): SafeParseResult<TransactionEstimatePublicRequest, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => TransactionEstimateRequest$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionEstimateRequest' from JSON`,
+    (x) => TransactionEstimatePublicRequest$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionEstimatePublicRequest' from JSON`,
   );
 }

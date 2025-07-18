@@ -104,6 +104,7 @@ export type NexusResponse = {
   vdaEligible?: boolean | null | undefined;
   confidenceLevel?: number | null | undefined;
   lastProcessedAt?: Date | null | undefined;
+  lastTaxLiabilityProcessedAt?: Date | null | undefined;
   periods?: Array<{ [k: string]: any }> | null | undefined;
   /**
    * Currency code for the nexus (e.g., USD, CAD).
@@ -185,6 +186,9 @@ export const NexusResponse$inboundSchema: z.ZodType<
   last_processed_at: z.nullable(
     z.string().datetime({ offset: true }).transform(v => new Date(v)),
   ).optional(),
+  last_tax_liability_processed_at: z.nullable(
+    z.string().datetime({ offset: true }).transform(v => new Date(v)),
+  ).optional(),
   periods: z.nullable(z.array(z.record(z.any()))).optional(),
   currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
   id: z.string(),
@@ -239,6 +243,7 @@ export const NexusResponse$inboundSchema: z.ZodType<
     "vda_eligible": "vdaEligible",
     "confidence_level": "confidenceLevel",
     "last_processed_at": "lastProcessedAt",
+    "last_tax_liability_processed_at": "lastTaxLiabilityProcessedAt",
     "created_at": "createdAt",
     "updated_at": "updatedAt",
     "organization_id": "organizationId",
@@ -293,6 +298,7 @@ export type NexusResponse$Outbound = {
   vda_eligible?: boolean | null | undefined;
   confidence_level?: number | null | undefined;
   last_processed_at?: string | null | undefined;
+  last_tax_liability_processed_at?: string | null | undefined;
   periods?: Array<{ [k: string]: any }> | null | undefined;
   currency?: string | null | undefined;
   id: string;
@@ -370,6 +376,9 @@ export const NexusResponse$outboundSchema: z.ZodType<
   confidenceLevel: z.nullable(z.number()).optional(),
   lastProcessedAt: z.nullable(z.date().transform(v => v.toISOString()))
     .optional(),
+  lastTaxLiabilityProcessedAt: z.nullable(
+    z.date().transform(v => v.toISOString()),
+  ).optional(),
   periods: z.nullable(z.array(z.record(z.any()))).optional(),
   currency: z.nullable(CurrencyEnum$outboundSchema).optional(),
   id: z.string(),
@@ -424,6 +433,7 @@ export const NexusResponse$outboundSchema: z.ZodType<
     vdaEligible: "vda_eligible",
     confidenceLevel: "confidence_level",
     lastProcessedAt: "last_processed_at",
+    lastTaxLiabilityProcessedAt: "last_tax_liability_processed_at",
     createdAt: "created_at",
     updatedAt: "updated_at",
     organizationId: "organization_id",

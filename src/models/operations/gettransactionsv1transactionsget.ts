@@ -104,6 +104,13 @@ export type GetTransactionsV1TransactionsGetRequest = {
    */
   marketplace?: boolean | null | undefined;
   /**
+   * Filter transactions by exemption status.
+   *
+   * @remarks
+   *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+   */
+  exemptIn?: string | null | undefined;
+  /**
    * Page number
    */
   page?: number | undefined;
@@ -276,6 +283,7 @@ export const GetTransactionsV1TransactionsGetRequest$inboundSchema: z.ZodType<
   date__lte: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
   processing_status__in: z.nullable(z.string()).optional(),
   marketplace: z.nullable(z.boolean()).optional(),
+  exempt__in: z.nullable(z.string()).optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
   "x-organization-id": z.nullable(z.string()),
@@ -291,6 +299,7 @@ export const GetTransactionsV1TransactionsGetRequest$inboundSchema: z.ZodType<
     "date__gte": "dateGte",
     "date__lte": "dateLte",
     "processing_status__in": "processingStatusIn",
+    "exempt__in": "exemptIn",
     "x-organization-id": "xOrganizationId",
   });
 });
@@ -311,6 +320,7 @@ export type GetTransactionsV1TransactionsGetRequest$Outbound = {
   date__lte?: string | null | undefined;
   processing_status__in?: string | null | undefined;
   marketplace?: boolean | null | undefined;
+  exempt__in?: string | null | undefined;
   page: number;
   size: number;
   "x-organization-id": string | null;
@@ -340,6 +350,7 @@ export const GetTransactionsV1TransactionsGetRequest$outboundSchema: z.ZodType<
     .optional(),
   processingStatusIn: z.nullable(z.string()).optional(),
   marketplace: z.nullable(z.boolean()).optional(),
+  exemptIn: z.nullable(z.string()).optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
   xOrganizationId: z.nullable(z.string()),
@@ -355,6 +366,7 @@ export const GetTransactionsV1TransactionsGetRequest$outboundSchema: z.ZodType<
     dateGte: "date__gte",
     dateLte: "date__lte",
     processingStatusIn: "processing_status__in",
+    exemptIn: "exempt__in",
     xOrganizationId: "x-organization-id",
   });
 });

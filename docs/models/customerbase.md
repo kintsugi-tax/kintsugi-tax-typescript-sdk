@@ -1,11 +1,11 @@
-# CustomerBaseOutput
+# CustomerBase
 
 ## Example Usage
 
 ```typescript
-import { CustomerBaseOutput } from "@kintsugi-tax/tax-platform-sdk/models";
+import { CustomerBase } from "@kintsugi-tax/tax-platform-sdk/models";
 
-let value: CustomerBaseOutput = {};
+let value: CustomerBase = {};
 ```
 
 ## Fields

@@ -11,19 +11,24 @@ let value: PageTransactionEstimateResponse = {
       date: new Date("2023-01-22T23:22:06.771Z"),
       externalId: "<id>",
       currency: "GYD",
-      addresses: [
+      transactionItems: [
         {
-          type: "SHIP_TO",
-          state: "Maryland",
-          postalCode: "63632-7577",
-          country: "Azerbaijan",
+          date: new Date("2024-05-31T06:57:32.911Z"),
+          amount: "391.48",
         },
       ],
-      transactionItems: [],
+      addresses: [
+        {
+          type: "BILL_TO",
+          state: "Maryland",
+          postalCode: "32757-7004",
+          country: "Latvia",
+        },
+      ],
     },
   ],
-  total: 497805,
-  page: 59419,
+  total: 59419,
+  page: null,
   size: null,
 };
 ```

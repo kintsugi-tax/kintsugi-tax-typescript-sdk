@@ -1,15 +1,15 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: 21cc094adda452fc5c197731871f1237
+  docChecksum: f400455b19ae3ea3a1c7941292d77ecf
   docVersion: 1.0.0
-  speakeasyVersion: 1.581.0
-  generationVersion: 2.656.5
-  releaseVersion: 0.4.15
-  configChecksum: fef72c64735e5c0e75146a321ffcda0e
-  repoURL: https://github.com/kintsugi-tax/kintsugi-speakeasy.git
+  speakeasyVersion: 1.583.0
+  generationVersion: 2.658.3
+  releaseVersion: 0.4.16
+  configChecksum: c16c5bc0e8627196b47f2360564e45da
+  repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: sdks/typescript
-  installationURL: https://gitpkg.now.sh/kintsugi-tax/kintsugi-speakeasy/sdks/typescript
+  installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
   published: true
 features:
   typescript:
@@ -74,9 +74,9 @@ generatedFiles:
   - docs/models/creditnoteitemcreateupdatetaxrateimported.md
   - docs/models/currencyenum.md
   - docs/models/customer.md
+  - docs/models/customerbase.md
   - docs/models/customerbasebase.md
-  - docs/models/customerbaseinput.md
-  - docs/models/customerbaseoutput.md
+  - docs/models/customerbasepublic.md
   - docs/models/customercreate.md
   - docs/models/customerread.md
   - docs/models/customerupdate.md
@@ -225,9 +225,9 @@ generatedFiles:
   - docs/models/transactioncreatetotaltaxamountcalculated.md
   - docs/models/transactioncreatetotaltaxamountimported.md
   - docs/models/transactioncreatetotaltaxliabilityamount.md
-  - docs/models/transactionestimaterequest.md
-  - docs/models/transactionestimaterequestaddress.md
-  - docs/models/transactionestimaterequesttype.md
+  - docs/models/transactionestimatepublicrequest.md
+  - docs/models/transactionestimatepublicrequestaddress.md
+  - docs/models/transactionestimatepublicrequesttype.md
   - docs/models/transactionestimateresponse.md
   - docs/models/transactionestimateresponseaddress.md
   - docs/models/transactionestimateresponsetype.md
@@ -383,9 +383,9 @@ generatedFiles:
   - src/models/creditnotecreate.ts
   - src/models/creditnoteitemcreateupdate.ts
   - src/models/currencyenum.ts
+  - src/models/customerbase.ts
   - src/models/customerbasebase.ts
-  - src/models/customerbaseinput.ts
-  - src/models/customerbaseoutput.ts
+  - src/models/customerbasepublic.ts
   - src/models/customercreate.ts
   - src/models/customerread.ts
   - src/models/customerupdate.ts
@@ -480,7 +480,7 @@ generatedFiles:
   - src/models/transactionaddresspublic.ts
   - src/models/transactionaddressreadoutput.ts
   - src/models/transactioncreate.ts
-  - src/models/transactionestimaterequest.ts
+  - src/models/transactionestimatepublicrequest.ts
   - src/models/transactionestimateresponse.ts
   - src/models/transactionexemptstatusenum.ts
   - src/models/transactionimportcustomer.ts
@@ -1281,7 +1281,7 @@ examples:
         header:
           x-organization-id: "org_12345"
       requestBody:
-        application/json: {"date": "2025-10-15T06:09:56.760Z", "external_id": "<id>", "currency": "WST", "addresses": [{"type": "BILL_TO", "state": "Virginia", "postal_code": "53776-2466", "country": "Wallis and Futuna"}], "transaction_items": [{"date": "2023-10-09T10:49:19.753Z", "amount": "612.37", "exempt": false}]}
+        application/json: {"date": "2025-10-15T06:09:56.760Z", "external_id": "<id>", "currency": "WST", "transaction_items": [{"date": "2023-10-09T10:49:19.753Z", "amount": "612.37", "exempt": false}], "addresses": [{"type": "BILL_TO", "state": "Virginia", "postal_code": "53776-2466", "country": "Wallis and Futuna"}]}
       responses:
         "200":
           application/json: {"items": [], "total": 610767, "page": 61497, "size": 435684}

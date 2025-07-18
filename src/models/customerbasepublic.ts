@@ -28,7 +28,7 @@ import {
   StatusEnum$outboundSchema,
 } from "./statusenum.js";
 
-export type CustomerBaseOutput = {
+export type CustomerBasePublic = {
   /**
    * Phone number associated with the address.
    */
@@ -91,8 +91,8 @@ export type CustomerBaseOutput = {
 };
 
 /** @internal */
-export const CustomerBaseOutput$inboundSchema: z.ZodType<
-  CustomerBaseOutput,
+export const CustomerBasePublic$inboundSchema: z.ZodType<
+  CustomerBasePublic,
   z.ZodTypeDef,
   unknown
 > = z.object({
@@ -127,7 +127,7 @@ export const CustomerBaseOutput$inboundSchema: z.ZodType<
 });
 
 /** @internal */
-export type CustomerBaseOutput$Outbound = {
+export type CustomerBasePublic$Outbound = {
   phone?: string | null | undefined;
   street_1?: string | null | undefined;
   street_2?: string | null | undefined;
@@ -148,10 +148,10 @@ export type CustomerBaseOutput$Outbound = {
 };
 
 /** @internal */
-export const CustomerBaseOutput$outboundSchema: z.ZodType<
-  CustomerBaseOutput$Outbound,
+export const CustomerBasePublic$outboundSchema: z.ZodType<
+  CustomerBasePublic$Outbound,
   z.ZodTypeDef,
-  CustomerBaseOutput
+  CustomerBasePublic
 > = z.object({
   phone: z.nullable(z.string()).optional(),
   street1: z.nullable(z.string()).optional(),
@@ -187,29 +187,29 @@ export const CustomerBaseOutput$outboundSchema: z.ZodType<
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace CustomerBaseOutput$ {
-  /** @deprecated use `CustomerBaseOutput$inboundSchema` instead. */
-  export const inboundSchema = CustomerBaseOutput$inboundSchema;
-  /** @deprecated use `CustomerBaseOutput$outboundSchema` instead. */
-  export const outboundSchema = CustomerBaseOutput$outboundSchema;
-  /** @deprecated use `CustomerBaseOutput$Outbound` instead. */
-  export type Outbound = CustomerBaseOutput$Outbound;
+export namespace CustomerBasePublic$ {
+  /** @deprecated use `CustomerBasePublic$inboundSchema` instead. */
+  export const inboundSchema = CustomerBasePublic$inboundSchema;
+  /** @deprecated use `CustomerBasePublic$outboundSchema` instead. */
+  export const outboundSchema = CustomerBasePublic$outboundSchema;
+  /** @deprecated use `CustomerBasePublic$Outbound` instead. */
+  export type Outbound = CustomerBasePublic$Outbound;
 }
 
-export function customerBaseOutputToJSON(
-  customerBaseOutput: CustomerBaseOutput,
+export function customerBasePublicToJSON(
+  customerBasePublic: CustomerBasePublic,
 ): string {
   return JSON.stringify(
-    CustomerBaseOutput$outboundSchema.parse(customerBaseOutput),
+    CustomerBasePublic$outboundSchema.parse(customerBasePublic),
   );
 }
 
-export function customerBaseOutputFromJSON(
+export function customerBasePublicFromJSON(
   jsonString: string,
-): SafeParseResult<CustomerBaseOutput, SDKValidationError> {
+): SafeParseResult<CustomerBasePublic, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => CustomerBaseOutput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CustomerBaseOutput' from JSON`,
+    (x) => CustomerBasePublic$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CustomerBasePublic' from JSON`,
   );
 }
