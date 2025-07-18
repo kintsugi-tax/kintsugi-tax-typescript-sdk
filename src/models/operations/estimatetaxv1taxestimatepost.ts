@@ -25,7 +25,7 @@ export type EstimateTaxV1TaxEstimatePostRequest = {
    * The unique identifier for the organization making the request
    */
   xOrganizationId: string | null;
-  transactionEstimateRequest: models.TransactionEstimateRequest;
+  transactionEstimatePublicRequest: models.TransactionEstimatePublicRequest;
 };
 
 /** @internal */
@@ -108,12 +108,13 @@ export const EstimateTaxV1TaxEstimatePostRequest$inboundSchema: z.ZodType<
 > = z.object({
   simulate_nexus_met: z.boolean().optional(),
   "x-organization-id": z.nullable(z.string()),
-  TransactionEstimateRequest: models.TransactionEstimateRequest$inboundSchema,
+  TransactionEstimatePublicRequest:
+    models.TransactionEstimatePublicRequest$inboundSchema,
 }).transform((v) => {
   return remap$(v, {
     "simulate_nexus_met": "simulateNexusMet",
     "x-organization-id": "xOrganizationId",
-    "TransactionEstimateRequest": "transactionEstimateRequest",
+    "TransactionEstimatePublicRequest": "transactionEstimatePublicRequest",
   });
 });
 
@@ -121,7 +122,8 @@ export const EstimateTaxV1TaxEstimatePostRequest$inboundSchema: z.ZodType<
 export type EstimateTaxV1TaxEstimatePostRequest$Outbound = {
   simulate_nexus_met?: boolean | undefined;
   "x-organization-id": string | null;
-  TransactionEstimateRequest: models.TransactionEstimateRequest$Outbound;
+  TransactionEstimatePublicRequest:
+    models.TransactionEstimatePublicRequest$Outbound;
 };
 
 /** @internal */
@@ -132,12 +134,13 @@ export const EstimateTaxV1TaxEstimatePostRequest$outboundSchema: z.ZodType<
 > = z.object({
   simulateNexusMet: z.boolean().optional(),
   xOrganizationId: z.nullable(z.string()),
-  transactionEstimateRequest: models.TransactionEstimateRequest$outboundSchema,
+  transactionEstimatePublicRequest:
+    models.TransactionEstimatePublicRequest$outboundSchema,
 }).transform((v) => {
   return remap$(v, {
     simulateNexusMet: "simulate_nexus_met",
     xOrganizationId: "x-organization-id",
-    transactionEstimateRequest: "TransactionEstimateRequest",
+    transactionEstimatePublicRequest: "TransactionEstimatePublicRequest",
   });
 });
 

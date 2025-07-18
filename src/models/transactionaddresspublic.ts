@@ -59,10 +59,6 @@ export type TransactionAddressPublic = {
    */
   fullAddress?: string | null | undefined;
   type: AddressType;
-  /**
-   * Optional additional enriched data for the address.
-   */
-  enrichedFields?: string | null | undefined;
 };
 
 /** @internal */
@@ -81,14 +77,12 @@ export const TransactionAddressPublic$inboundSchema: z.ZodType<
   country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
   full_address: z.nullable(z.string()).optional(),
   type: AddressType$inboundSchema,
-  enriched_fields: z.nullable(z.string()).optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
     "street_2": "street2",
     "postal_code": "postalCode",
     "full_address": "fullAddress",
-    "enriched_fields": "enrichedFields",
   });
 });
 
@@ -104,7 +98,6 @@ export type TransactionAddressPublic$Outbound = {
   country?: string | null | undefined;
   full_address?: string | null | undefined;
   type: string;
-  enriched_fields?: string | null | undefined;
 };
 
 /** @internal */
@@ -123,14 +116,12 @@ export const TransactionAddressPublic$outboundSchema: z.ZodType<
   country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
   fullAddress: z.nullable(z.string()).optional(),
   type: AddressType$outboundSchema,
-  enrichedFields: z.nullable(z.string()).optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",
     street2: "street_2",
     postalCode: "postal_code",
     fullAddress: "full_address",
-    enrichedFields: "enriched_fields",
   });
 });
 

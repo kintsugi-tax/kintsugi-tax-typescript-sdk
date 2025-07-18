@@ -28,7 +28,7 @@ import {
   StatusEnum$outboundSchema,
 } from "./statusenum.js";
 
-export type CustomerBaseInput = {
+export type CustomerBase = {
   /**
    * Phone number associated with the address.
    */
@@ -88,15 +88,11 @@ export type CustomerBaseInput = {
    * Unique identifier of the connection related to the customer.
    */
   connectionId?: string | null | undefined;
-  /**
-   * Additional enriched fields for the customer, if available.
-   */
-  enrichedFields?: string | null | undefined;
 };
 
 /** @internal */
-export const CustomerBaseInput$inboundSchema: z.ZodType<
-  CustomerBaseInput,
+export const CustomerBase$inboundSchema: z.ZodType<
+  CustomerBase,
   z.ZodTypeDef,
   unknown
 > = z.object({
@@ -117,7 +113,6 @@ export const CustomerBaseInput$inboundSchema: z.ZodType<
   source: z.nullable(SourceEnum$inboundSchema).optional(),
   registration_number: z.nullable(z.string()).optional(),
   connection_id: z.nullable(z.string()).optional(),
-  enriched_fields: z.nullable(z.string()).optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
@@ -128,12 +123,11 @@ export const CustomerBaseInput$inboundSchema: z.ZodType<
     "address_status": "addressStatus",
     "registration_number": "registrationNumber",
     "connection_id": "connectionId",
-    "enriched_fields": "enrichedFields",
   });
 });
 
 /** @internal */
-export type CustomerBaseInput$Outbound = {
+export type CustomerBase$Outbound = {
   phone?: string | null | undefined;
   street_1?: string | null | undefined;
   street_2?: string | null | undefined;
@@ -151,14 +145,13 @@ export type CustomerBaseInput$Outbound = {
   source?: string | null | undefined;
   registration_number?: string | null | undefined;
   connection_id?: string | null | undefined;
-  enriched_fields?: string | null | undefined;
 };
 
 /** @internal */
-export const CustomerBaseInput$outboundSchema: z.ZodType<
-  CustomerBaseInput$Outbound,
+export const CustomerBase$outboundSchema: z.ZodType<
+  CustomerBase$Outbound,
   z.ZodTypeDef,
-  CustomerBaseInput
+  CustomerBase
 > = z.object({
   phone: z.nullable(z.string()).optional(),
   street1: z.nullable(z.string()).optional(),
@@ -177,7 +170,6 @@ export const CustomerBaseInput$outboundSchema: z.ZodType<
   source: z.nullable(SourceEnum$outboundSchema).optional(),
   registrationNumber: z.nullable(z.string()).optional(),
   connectionId: z.nullable(z.string()).optional(),
-  enrichedFields: z.nullable(z.string()).optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",
@@ -188,7 +180,6 @@ export const CustomerBaseInput$outboundSchema: z.ZodType<
     addressStatus: "address_status",
     registrationNumber: "registration_number",
     connectionId: "connection_id",
-    enrichedFields: "enriched_fields",
   });
 });
 
@@ -196,29 +187,25 @@ export const CustomerBaseInput$outboundSchema: z.ZodType<
  * @internal
  * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
  */
-export namespace CustomerBaseInput$ {
-  /** @deprecated use `CustomerBaseInput$inboundSchema` instead. */
-  export const inboundSchema = CustomerBaseInput$inboundSchema;
-  /** @deprecated use `CustomerBaseInput$outboundSchema` instead. */
-  export const outboundSchema = CustomerBaseInput$outboundSchema;
-  /** @deprecated use `CustomerBaseInput$Outbound` instead. */
-  export type Outbound = CustomerBaseInput$Outbound;
+export namespace CustomerBase$ {
+  /** @deprecated use `CustomerBase$inboundSchema` instead. */
+  export const inboundSchema = CustomerBase$inboundSchema;
+  /** @deprecated use `CustomerBase$outboundSchema` instead. */
+  export const outboundSchema = CustomerBase$outboundSchema;
+  /** @deprecated use `CustomerBase$Outbound` instead. */
+  export type Outbound = CustomerBase$Outbound;
 }
 
-export function customerBaseInputToJSON(
-  customerBaseInput: CustomerBaseInput,
-): string {
-  return JSON.stringify(
-    CustomerBaseInput$outboundSchema.parse(customerBaseInput),
-  );
+export function customerBaseToJSON(customerBase: CustomerBase): string {
+  return JSON.stringify(CustomerBase$outboundSchema.parse(customerBase));
 }
 
-export function customerBaseInputFromJSON(
+export function customerBaseFromJSON(
   jsonString: string,
-): SafeParseResult<CustomerBaseInput, SDKValidationError> {
+): SafeParseResult<CustomerBase, SDKValidationError> {
   return safeParse(
     jsonString,
-    (x) => CustomerBaseInput$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CustomerBaseInput' from JSON`,
+    (x) => CustomerBase$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CustomerBase' from JSON`,
   );
 }

@@ -97,7 +97,7 @@ async function $do(
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = encodeJSON("body", payload.TransactionEstimateRequest, {
+  const body = encodeJSON("body", payload.TransactionEstimatePublicRequest, {
     explode: true,
   });
 

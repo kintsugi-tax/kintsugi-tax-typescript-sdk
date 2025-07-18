@@ -1,11 +1,11 @@
-# CustomerBaseInput
+# CustomerBasePublic
 
 ## Example Usage
 
 ```typescript
-import { CustomerBaseInput } from "@kintsugi-tax/tax-platform-sdk/models";
+import { CustomerBasePublic } from "@kintsugi-tax/tax-platform-sdk/models";
 
-let value: CustomerBaseInput = {};
+let value: CustomerBasePublic = {};
 ```
 
 ## Fields
@@ -29,4 +29,3 @@ let value: CustomerBaseInput = {};
 | `source`                                                                                           | [models.SourceEnum](../models/sourceenum.md)                                                       | :heavy_minus_sign:                                                                                 | Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.).                              |
 | `registrationNumber`                                                                               | *string*                                                                                           | :heavy_minus_sign:                                                                                 | N/A                                                                                                |
 | `connectionId`                                                                                     | *string*                                                                                           | :heavy_minus_sign:                                                                                 | Unique identifier of the connection related to the customer.                                       |
-| `enrichedFields`                                                                                   | *string*                                                                                           | :heavy_minus_sign:                                                                                 | Additional enriched fields for the customer, if available.                                         |
