@@ -1,15 +1,15 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: 21cc094adda452fc5c197731871f1237
+  docChecksum: bd336bd5772a87d0f275f61b5a986d8a
   docVersion: 1.0.0
-  speakeasyVersion: 1.581.0
-  generationVersion: 2.656.5
-  releaseVersion: 0.4.15
-  configChecksum: fef72c64735e5c0e75146a321ffcda0e
-  repoURL: https://github.com/kintsugi-tax/kintsugi-speakeasy.git
+  speakeasyVersion: 1.582.0
+  generationVersion: 2.657.1
+  releaseVersion: 0.4.16
+  configChecksum: c16c5bc0e8627196b47f2360564e45da
+  repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: sdks/typescript
-  installationURL: https://gitpkg.now.sh/kintsugi-tax/kintsugi-speakeasy/sdks/typescript
+  installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
   published: true
 features:
   typescript:

@@ -105,6 +105,7 @@ async function $do(
     "country": payload.country,
     "date__gte": payload.date__gte,
     "date__lte": payload.date__lte,
+    "exempt__in": payload.exempt__in,
     "filing_id": payload.filing_id,
     "marketplace": payload.marketplace,
     "order_by": payload.order_by,
