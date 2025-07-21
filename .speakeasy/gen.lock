@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: f400455b19ae3ea3a1c7941292d77ecf
+  docChecksum: 1b6449007877bd846337a4e4f9acc795
   docVersion: 1.0.0
   speakeasyVersion: 1.583.0
   generationVersion: 2.658.3
-  releaseVersion: 0.4.16
-  configChecksum: c16c5bc0e8627196b47f2360564e45da
+  releaseVersion: 0.4.17
+  configChecksum: b99c3dfdec9c252bfba98f98008a4dd8
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: sdks/typescript
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
