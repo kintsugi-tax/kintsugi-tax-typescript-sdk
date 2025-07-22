@@ -1,6 +1,6 @@
 {
   "name": "@kintsugi-tax/tax-platform-sdk",
-  "version": "0.4.17",
+  "version": "0.4.18",
   "author": "Kintsugi Tax",
   "type": "module",
   "tshy": {
@@ -22,6 +22,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git",
+    "directory": "./"
   },
   "scripts": {
     "lint": "eslint --cache --max-warnings=0 src",
