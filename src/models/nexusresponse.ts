@@ -122,6 +122,7 @@ export type NexusResponse = {
   totalTransactionsIncluded: number;
   totalTransactionsExempted: number;
   totalTransactionsMarketplace: number;
+  marketplaceIncluded: boolean | null;
 };
 
 /** @internal */
@@ -204,6 +205,7 @@ export const NexusResponse$inboundSchema: z.ZodType<
   total_transactions_included: z.number().int(),
   total_transactions_exempted: z.number().int(),
   total_transactions_marketplace: z.number().int(),
+  marketplace_included: z.nullable(z.boolean()),
 }).transform((v) => {
   return remap$(v, {
     "processing_status": "processingStatus",
@@ -254,6 +256,7 @@ export const NexusResponse$inboundSchema: z.ZodType<
     "total_transactions_included": "totalTransactionsIncluded",
     "total_transactions_exempted": "totalTransactionsExempted",
     "total_transactions_marketplace": "totalTransactionsMarketplace",
+    "marketplace_included": "marketplaceIncluded",
   });
 });
 
@@ -313,6 +316,7 @@ export type NexusResponse$Outbound = {
   total_transactions_included: number;
   total_transactions_exempted: number;
   total_transactions_marketplace: number;
+  marketplace_included: boolean | null;
 };
 
 /** @internal */
@@ -394,6 +398,7 @@ export const NexusResponse$outboundSchema: z.ZodType<
   totalTransactionsIncluded: z.number().int(),
   totalTransactionsExempted: z.number().int(),
   totalTransactionsMarketplace: z.number().int(),
+  marketplaceIncluded: z.nullable(z.boolean()),
 }).transform((v) => {
   return remap$(v, {
     processingStatus: "processing_status",
@@ -444,6 +449,7 @@ export const NexusResponse$outboundSchema: z.ZodType<
     totalTransactionsIncluded: "total_transactions_included",
     totalTransactionsExempted: "total_transactions_exempted",
     totalTransactionsMarketplace: "total_transactions_marketplace",
+    marketplaceIncluded: "marketplace_included",
   });
 });
 
