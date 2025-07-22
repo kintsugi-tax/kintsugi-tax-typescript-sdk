@@ -8,7 +8,7 @@ management:
   releaseVersion: 0.4.17
   configChecksum: b99c3dfdec9c252bfba98f98008a4dd8
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
-  repoSubDirectory: sdks/typescript
+  repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
   published: true
 features:

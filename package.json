@@ -22,7 +22,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git",
-    "directory": "sdks/typescript"
   },
   "scripts": {
     "lint": "eslint --cache --max-warnings=0 src",
