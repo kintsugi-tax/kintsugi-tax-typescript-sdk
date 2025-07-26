@@ -11,5 +11,5 @@ let value: TreatmentEnum = "INCLUDED";
 ## Values
 
 ```typescript
-"INCLUDED" | "EXCLUDED" | "DEPENDS" | "YES_SALES_NO_TRANSACTIONS"
+"INCLUDED" | "EXCLUDED" | "DEPENDS" | "INCLUDE_IF_PRESENCE" | "YES_SALES_NO_TRANSACTIONS"
 ```
