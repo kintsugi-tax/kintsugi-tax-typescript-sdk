@@ -1,32 +1,28 @@
-# UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest
+# PUTUpdateCreditNoteByTransactionIdRequest
 
 ## Example Usage
 
 ```typescript
-import {
-  UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest,
-} from "@kintsugi-tax/tax-platform-sdk/models/operations";
+import { PUTUpdateCreditNoteByTransactionIdRequest } from "@kintsugi-tax/tax-platform-sdk/models/operations";
 
-let value:
-  UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest =
-    {
-      originalTransactionId: "<id>",
-      creditNoteId: "<id>",
-      xOrganizationId: "org_12345",
-      creditNoteCreate: {
+let value: PUTUpdateCreditNoteByTransactionIdRequest = {
+  originalTransactionId: "<id>",
+  creditNoteId: "<id>",
+  xOrganizationId: "org_12345",
+  creditNoteCreate: {
+    externalId: "<id>",
+    date: new Date("2024-09-09T14:40:30.850Z"),
+    status: "COMMITTED",
+    currency: "PGK",
+    transactionItems: [
+      {
         externalId: "<id>",
-        date: new Date("2024-09-09T14:40:30.850Z"),
-        status: "COMMITTED",
-        currency: "PGK",
-        transactionItems: [
-          {
-            externalId: "<id>",
-            date: new Date("2024-05-02T16:02:44.932Z"),
-            externalProductId: "<id>",
-          },
-        ],
+        date: new Date("2024-05-02T16:02:44.932Z"),
+        externalProductId: "<id>",
       },
-    };
+    ],
+  },
+};
 ```
 
 ## Fields
