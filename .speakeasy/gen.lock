@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: 890469606d92bc400c9d71b5d930330b
+  docChecksum: abf6143ab509ec16a4cf8fb0683fbb3d
   docVersion: 1.0.0
-  speakeasyVersion: 1.586.0
-  generationVersion: 2.661.4
-  releaseVersion: 0.4.18
-  configChecksum: 7d8505e52bfa8a2e09a3548ca163f228
+  speakeasyVersion: 1.590.0
+  generationVersion: 2.666.0
+  releaseVersion: 0.4.19
+  configChecksum: 356ef38cdb72260e84ae7aeb0ba7ca2a
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -15,7 +15,7 @@ features:
   typescript:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.12
-    core: 3.21.14
+    core: 3.21.15
     defaultEnabledRetries: 0.1.0
     deprecations: 2.81.1
     enumUnions: 0.1.0
@@ -151,11 +151,11 @@ generatedFiles:
   - docs/models/operations/gettransactionsv1transactionsgetrequest.md
   - docs/models/operations/gettransactionsv1transactionsgetsecurity.md
   - docs/models/operations/product.md
+  - docs/models/operations/putupdatecreditnotebytransactionidrequest.md
+  - docs/models/operations/putupdatecreditnotebytransactionidsecurity.md
   - docs/models/operations/searchv1addressvalidationsearchpostsecurity.md
   - docs/models/operations/suggestionsv1addressvalidationsuggestionspostrequest.md
   - docs/models/operations/suggestionsv1addressvalidationsuggestionspostsecurity.md
-  - docs/models/operations/updatecreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotescreditnoteidputrequest.md
-  - docs/models/operations/updatecreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotescreditnoteidputsecurity.md
   - docs/models/operations/updatecustomerv1customerscustomeridputrequest.md
   - docs/models/operations/updatecustomerv1customerscustomeridputsecurity.md
   - docs/models/operations/updateproductv1productsproductidputrequest.md
@@ -439,9 +439,9 @@ generatedFiles:
   - src/models/operations/gettransactionsbyfilingidv1transactionsfilingsfilingidget.ts
   - src/models/operations/gettransactionsv1transactionsget.ts
   - src/models/operations/index.ts
+  - src/models/operations/putupdatecreditnotebytransactionid.ts
   - src/models/operations/searchv1addressvalidationsearchpost.ts
   - src/models/operations/suggestionsv1addressvalidationsuggestionspost.ts
-  - src/models/operations/updatecreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotescreditnoteidput.ts
   - src/models/operations/updatecustomerv1customerscustomeridput.ts
   - src/models/operations/updateproductv1productsproductidput.ts
   - src/models/operations/updatetransactionv1transactionstransactionidput.ts
@@ -3734,6 +3734,21 @@ examples:
           x-organization-id: "org_12345"
       requestBody:
         application/json: {"type": "ITC", "start_date": "2025-06-30", "registration_id": "<id>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  PUT_update_credit_note_by_transaction_id:
+    speakeasy-default-PUT-update-credit-note-by-transaction-id:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+          credit_note_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2023-07-25T11:01:44.924Z", "status": "CANCELLED", "currency": "SPL", "transaction_items": [{"external_id": "<id>", "date": "2024-09-15T23:01:02.880Z", "external_product_id": "<id>"}]}
       responses:
         "200":
           application/json: "<value>"

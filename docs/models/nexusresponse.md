@@ -10,7 +10,7 @@ let value: NexusResponse = {
   countryCode: "GB",
   stateCode: "<value>",
   stateName: "<value>",
-  treatmentOfExemptTransactions: "DEPENDS",
+  treatmentOfExemptTransactions: "INCLUDE_IF_PRESENCE",
   trigger: "<value>",
   salesOrTransactions: "BOTH",
   thresholdSales: 761273,

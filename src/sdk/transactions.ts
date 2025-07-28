@@ -167,10 +167,8 @@ export class Transactions extends ClientSDK {
    * Update an existing credit note for a specific transaction.
    */
   async updateCreditNote(
-    security:
-      operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity,
-    request:
-      operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest,
+    security: operations.PUTUpdateCreditNoteByTransactionIdSecurity,
+    request: operations.PUTUpdateCreditNoteByTransactionIdRequest,
     options?: RequestOptions,
   ): Promise<any> {
     return unwrapAsync(transactionsUpdateCreditNote(

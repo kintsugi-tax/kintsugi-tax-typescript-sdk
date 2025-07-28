@@ -34,10 +34,8 @@ import { Result } from "../types/fp.js";
  */
 export function transactionsUpdateCreditNote(
   client: SDKCore,
-  security:
-    operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity,
-  request:
-    operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest,
+  security: operations.PUTUpdateCreditNoteByTransactionIdSecurity,
+  request: operations.PUTUpdateCreditNoteByTransactionIdRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -63,10 +61,8 @@ export function transactionsUpdateCreditNote(
 
 async function $do(
   client: SDKCore,
-  security:
-    operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity,
-  request:
-    operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest,
+  security: operations.PUTUpdateCreditNoteByTransactionIdSecurity,
+  request: operations.PUTUpdateCreditNoteByTransactionIdRequest,
   options?: RequestOptions,
 ): Promise<
   [
@@ -88,9 +84,9 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations
-        .UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest$outboundSchema
-        .parse(value),
+      operations.PUTUpdateCreditNoteByTransactionIdRequest$outboundSchema.parse(
+        value,
+      ),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -145,8 +141,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID:
-      "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
+    operationID: "PUT_update_credit_note_by_transaction_id",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
