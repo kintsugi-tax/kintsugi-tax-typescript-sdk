@@ -21,6 +21,7 @@ The Get Customers API retrieves
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_customers_v1" method="get" path="/v1/customers" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -118,6 +119,7 @@ details like name, contact information, and address, along with optional metadat
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="create_customer_v1_customers_post" method="post" path="/v1/customers" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -232,6 +234,7 @@ The Get Customer By ID API retrieves the details of a single customer
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_customer_by_id_v1_customers__customer_id__get" method="get" path="/v1/customers/{customer_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -314,6 +317,7 @@ The Update Customer API allows you to modify an existing customer's
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="update_customer_v1_customers__customer_id__put" method="put" path="/v1/customers/{customer_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -432,6 +436,7 @@ an external ID is available.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_customer_by_external_id_v1_customers_external__external_id__get" method="get" path="/v1/customers/external/{external_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -512,6 +517,7 @@ Get a list of transactions for a customer by their unique ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_transactions_by_customer_id_v1_customers__customer_id__transactions_get" method="get" path="/v1/customers/{customer_id}/transactions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -592,6 +598,7 @@ Create a new transaction for a specific customer.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="create_transaction_by_customer_id_v1_customers__customer_id__transactions_post" method="post" path="/v1/customers/{customer_id}/transactions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 

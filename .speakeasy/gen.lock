@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: abf6143ab509ec16a4cf8fb0683fbb3d
+  docChecksum: 3b7599d4823043c763a96752a57b54f0
   docVersion: 1.0.0
-  speakeasyVersion: 1.590.0
-  generationVersion: 2.666.0
-  releaseVersion: 0.4.19
-  configChecksum: 356ef38cdb72260e84ae7aeb0ba7ca2a
+  speakeasyVersion: 1.592.1
+  generationVersion: 2.667.0
+  releaseVersion: 0.4.20
+  configChecksum: 688698e4c1dd65b03f9921ee04c0548d
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -15,7 +15,7 @@ features:
   typescript:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.12
-    core: 3.21.15
+    core: 3.21.16
     defaultEnabledRetries: 0.1.0
     deprecations: 2.81.1
     enumUnions: 0.1.0
@@ -104,8 +104,6 @@ generatedFiles:
   - docs/models/nexusstatusenum.md
   - docs/models/nexustypeenum.md
   - docs/models/operations/countrycode.md
-  - docs/models/operations/createcreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotespostrequest.md
-  - docs/models/operations/createcreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotespostsecurity.md
   - docs/models/operations/createcustomerv1customerspostrequest.md
   - docs/models/operations/createcustomerv1customerspostsecurity.md
   - docs/models/operations/createexemptionv1exemptionspostrequest.md
@@ -150,6 +148,8 @@ generatedFiles:
   - docs/models/operations/gettransactionsv1transactionsgetcountry.md
   - docs/models/operations/gettransactionsv1transactionsgetrequest.md
   - docs/models/operations/gettransactionsv1transactionsgetsecurity.md
+  - docs/models/operations/postcreatecreditnotebytransactionidrequest.md
+  - docs/models/operations/postcreatecreditnotebytransactionidsecurity.md
   - docs/models/operations/product.md
   - docs/models/operations/putupdatecreditnotebytransactionidrequest.md
   - docs/models/operations/putupdatecreditnotebytransactionidsecurity.md
@@ -416,7 +416,6 @@ generatedFiles:
   - src/models/nexusstateenum.ts
   - src/models/nexusstatusenum.ts
   - src/models/nexustypeenum.ts
-  - src/models/operations/createcreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotespost.ts
   - src/models/operations/createcustomerv1customerspost.ts
   - src/models/operations/createexemptionv1exemptionspost.ts
   - src/models/operations/createproductv1productspost.ts
@@ -439,6 +438,7 @@ generatedFiles:
   - src/models/operations/gettransactionsbyfilingidv1transactionsfilingsfilingidget.ts
   - src/models/operations/gettransactionsv1transactionsget.ts
   - src/models/operations/index.ts
+  - src/models/operations/postcreatecreditnotebytransactionid.ts
   - src/models/operations/putupdatecreditnotebytransactionid.ts
   - src/models/operations/searchv1addressvalidationsearchpost.ts
   - src/models/operations/suggestionsv1addressvalidationsuggestionspost.ts
@@ -3752,6 +3752,20 @@ examples:
       responses:
         "200":
           application/json: "<value>"
+        "422":
+          application/json: {}
+  POST_create_credit_note_by_transaction_id:
+    speakeasy-default-POST-create-credit-note-by-transaction-id:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2024-01-17T09:54:06.459Z", "status": "PENDING", "currency": "GEL", "transaction_items": [{"external_id": "<id>", "date": "2023-07-11T07:57:04.867Z", "external_product_id": "<id>"}]}
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-03-08T14:51:43.874Z", "total_amount": "0.00", "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2025-04-01T04:49:49.945Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": []}], "type": "SALE"}
         "422":
           application/json: {}
 examplesVersion: 1.0.2

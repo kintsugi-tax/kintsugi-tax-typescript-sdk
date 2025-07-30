@@ -17,6 +17,7 @@ Retrieve a list of exemptions based on filters.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_exemptions_v1_exemptions_get" method="get" path="/v1/exemptions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
@@ -121,6 +122,7 @@ The Create Exemption API allows you to create a new exemption record.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="create_exemption_v1_exemptions_post" method="post" path="/v1/exemptions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
@@ -232,6 +234,7 @@ The Get Exemption By ID API retrieves a specific exemption record by
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_exemption_by_id_v1_exemptions__exemption_id__get" method="get" path="/v1/exemptions/{exemption_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -317,6 +320,7 @@ The Upload Exemption Certificate API allows you
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post" method="post" path="/v1/exemptions/{exemption_id}/attachments" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import { openAsBlob } from "node:fs";
@@ -410,6 +414,7 @@ The Get Attachments for Exemption API retrieves all
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_attachments_for_exemption_v1_exemptions__exemption_id__attachments_get" method="get" path="/v1/exemptions/{exemption_id}/attachments" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 

@@ -21,6 +21,7 @@ The Get Transactions API retrieves a list of transactions with
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_transactions_v1_transactions_get" method="get" path="/v1/transactions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -101,6 +102,7 @@ Create a transaction.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -248,6 +250,7 @@ Retrieves a specific transaction based on its external ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_transaction_by_external_id_v1_transactions_external__external_id__get" method="get" path="/v1/transactions/external/{external_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -330,6 +333,7 @@ Update a specific transaction by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="update_transaction_v1_transactions__transaction_id__put" method="put" path="/v1/transactions/{transaction_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -447,6 +451,7 @@ The Get Transaction By Id API retrieves detailed information
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_transaction_by_id_v1_transactions__transaction_id__get" method="get" path="/v1/transactions/{transaction_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -529,6 +534,7 @@ Retrieve transactions by filing ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="get_transactions_by_filing_id_v1_transactions_filings__filing_id__get" method="get" path="/v1/transactions/filings/{filing_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -611,6 +617,7 @@ Create a new credit note for a specific transaction.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="POST_create_credit_note_by_transaction_id" method="post" path="/v1/transactions/{original_transaction_id}/credit_notes" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -700,13 +707,13 @@ run();
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                                                    | [operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest](../../models/operations/createcreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotespostrequest.md)   | :heavy_check_mark:                                                                                                                                                                                                           | The request object to use for the request.                                                                                                                                                                                   |
-| `security`                                                                                                                                                                                                                   | [operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity](../../models/operations/createcreditnotebytransactionidv1transactionsoriginaltransactionidcreditnotespostsecurity.md) | :heavy_check_mark:                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                            |
-| `options`                                                                                                                                                                                                                    | RequestOptions                                                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                                                           | Used to set various options for making HTTP requests.                                                                                                                                                                        |
-| `options.fetchOptions`                                                                                                                                                                                                       | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                                                      | :heavy_minus_sign:                                                                                                                                                                                                           | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                                               |
-| `options.retries`                                                                                                                                                                                                            | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                           | Enables retrying HTTP requests under certain failure conditions.                                                                                                                                                             |
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.POSTCreateCreditNoteByTransactionIdRequest](../../models/operations/postcreatecreditnotebytransactionidrequest.md)                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `security`                                                                                                                                                                     | [operations.POSTCreateCreditNoteByTransactionIdSecurity](../../models/operations/postcreatecreditnotebytransactionidsecurity.md)                                               | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
 
 ### Response
 
@@ -725,6 +732,7 @@ Update an existing credit note for a specific transaction.
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="PUT_update_credit_note_by_transaction_id" method="put" path="/v1/transactions/{original_transaction_id}/credit_notes/{credit_note_id}" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 

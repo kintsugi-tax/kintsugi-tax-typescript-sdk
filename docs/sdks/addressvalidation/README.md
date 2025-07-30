@@ -17,6 +17,7 @@ This API validates and enriches address information
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="search_v1_address_validation_search_post" method="post" path="/v1/address_validation/search" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -117,6 +118,7 @@ This API endpoint provides address suggestions based on
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="suggestions_v1_address_validation_suggestions_post" method="post" path="/v1/address_validation/suggestions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 

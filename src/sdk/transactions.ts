@@ -146,10 +146,8 @@ export class Transactions extends ClientSDK {
    * Create a new credit note for a specific transaction.
    */
   async createCreditNote(
-    security:
-      operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity,
-    request:
-      operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest,
+    security: operations.POSTCreateCreditNoteByTransactionIdSecurity,
+    request: operations.POSTCreateCreditNoteByTransactionIdRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
     return unwrapAsync(transactionsCreateCreditNote(

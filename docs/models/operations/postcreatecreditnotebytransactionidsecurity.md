@@ -1,15 +1,11 @@
-# CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity
+# POSTCreateCreditNoteByTransactionIdSecurity
 
 ## Example Usage
 
 ```typescript
-import {
-  CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity,
-} from "@kintsugi-tax/tax-platform-sdk/models/operations";
+import { POSTCreateCreditNoteByTransactionIdSecurity } from "@kintsugi-tax/tax-platform-sdk/models/operations";
 
-let value:
-  CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity =
-    {};
+let value: POSTCreateCreditNoteByTransactionIdSecurity = {};
 ```
 
 ## Fields
