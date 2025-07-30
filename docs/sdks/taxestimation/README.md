@@ -15,6 +15,7 @@ The Estimate Tax API calculates the estimated tax for a specific
 
 ### Example Usage
 
+<!-- UsageSnippet language="typescript" operationID="estimate_tax_v1_tax_estimate_post" method="post" path="/v1/tax/estimate" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 

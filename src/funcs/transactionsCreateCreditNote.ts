@@ -34,10 +34,8 @@ import { Result } from "../types/fp.js";
  */
 export function transactionsCreateCreditNote(
   client: SDKCore,
-  security:
-    operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity,
-  request:
-    operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest,
+  security: operations.POSTCreateCreditNoteByTransactionIdSecurity,
+  request: operations.POSTCreateCreditNoteByTransactionIdRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -63,10 +61,8 @@ export function transactionsCreateCreditNote(
 
 async function $do(
   client: SDKCore,
-  security:
-    operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity,
-  request:
-    operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest,
+  security: operations.POSTCreateCreditNoteByTransactionIdSecurity,
+  request: operations.POSTCreateCreditNoteByTransactionIdRequest,
   options?: RequestOptions,
 ): Promise<
   [
@@ -88,8 +84,7 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations
-        .CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest$outboundSchema
+      operations.POSTCreateCreditNoteByTransactionIdRequest$outboundSchema
         .parse(value),
     "Input validation failed",
   );
@@ -141,8 +136,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID:
-      "create_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes_post",
+    operationID: "POST_create_credit_note_by_transaction_id",
     oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,

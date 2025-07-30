@@ -11,16 +11,10 @@ let value: PUTUpdateCreditNoteByTransactionIdRequest = {
   xOrganizationId: "org_12345",
   creditNoteCreate: {
     externalId: "<id>",
-    date: new Date("2024-09-09T14:40:30.850Z"),
-    status: "COMMITTED",
-    currency: "PGK",
-    transactionItems: [
-      {
-        externalId: "<id>",
-        date: new Date("2024-05-02T16:02:44.932Z"),
-        externalProductId: "<id>",
-      },
-    ],
+    date: new Date("2023-10-26T18:28:15.690Z"),
+    status: "PENDING",
+    currency: "GIP",
+    transactionItems: [],
   },
 };
 ```

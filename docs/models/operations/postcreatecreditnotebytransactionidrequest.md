@@ -1,31 +1,21 @@
-# CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest
+# POSTCreateCreditNoteByTransactionIdRequest
 
 ## Example Usage
 
 ```typescript
-import {
-  CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest,
-} from "@kintsugi-tax/tax-platform-sdk/models/operations";
+import { POSTCreateCreditNoteByTransactionIdRequest } from "@kintsugi-tax/tax-platform-sdk/models/operations";
 
-let value:
-  CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest =
-    {
-      originalTransactionId: "<id>",
-      xOrganizationId: "org_12345",
-      creditNoteCreate: {
-        externalId: "<id>",
-        date: new Date("2024-09-09T14:40:30.850Z"),
-        status: "COMMITTED",
-        currency: "PGK",
-        transactionItems: [
-          {
-            externalId: "<id>",
-            date: new Date("2024-05-02T16:02:44.932Z"),
-            externalProductId: "<id>",
-          },
-        ],
-      },
-    };
+let value: POSTCreateCreditNoteByTransactionIdRequest = {
+  originalTransactionId: "<id>",
+  xOrganizationId: "org_12345",
+  creditNoteCreate: {
+    externalId: "<id>",
+    date: new Date("2023-10-26T18:28:15.690Z"),
+    status: "PENDING",
+    currency: "GIP",
+    transactionItems: [],
+  },
+};
 ```
 
 ## Fields
