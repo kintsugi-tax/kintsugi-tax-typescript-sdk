@@ -178,19 +178,20 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    phone: "555-123-4567",
-    street1: "1600 Amphitheatre Parkway",
-    street2: "Building 40",
-    city: "Mountain View",
-    county: "Santa Clara",
-    state: "CA",
-    postalCode: "94043",
-    country: "US",
-    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-  });
+  const result = await sdk.addressValidation
+    .searchV1AddressValidationSearchPost({
+      apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    }, {
+      phone: "555-123-4567",
+      street1: "1600 Amphitheatre Parkway",
+      street2: "Building 40",
+      city: "Mountain View",
+      county: "Santa Clara",
+      state: "CA",
+      postalCode: "94043",
+      country: "US",
+      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    });
 
   console.log(result);
 }
@@ -224,17 +225,18 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation.suggestions({
-    line1: "1600 Amphitheatre Parkway",
-    line2: "",
-    line3: "",
-    city: "Mountain View",
-    state: "CA",
-    postalCode: "94043",
-    id: 215,
-    county: "",
-    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-  });
+  const result = await sdk.addressValidation
+    .suggestionsV1AddressValidationSuggestionsPost({
+      line1: "1600 Amphitheatre Parkway",
+      line2: "",
+      line3: "",
+      city: "Mountain View",
+      state: "CA",
+      postalCode: "94043",
+      id: 215,
+      county: "",
+      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    });
 
   console.log(result);
 }
@@ -252,19 +254,20 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    phone: "555-123-4567",
-    street1: "1600 Amphitheatre Parkway",
-    street2: "Building 40",
-    city: "Mountain View",
-    county: "Santa Clara",
-    state: "CA",
-    postalCode: "94043",
-    country: "US",
-    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-  });
+  const result = await sdk.addressValidation
+    .searchV1AddressValidationSearchPost({
+      apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    }, {
+      phone: "555-123-4567",
+      street1: "1600 Amphitheatre Parkway",
+      street2: "Building 40",
+      city: "Mountain View",
+      county: "Santa Clara",
+      state: "CA",
+      postalCode: "94043",
+      country: "US",
+      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    });
 
   console.log(result);
 }
@@ -282,54 +285,72 @@ run();
 
 ### [addressValidation](docs/sdks/addressvalidation/README.md)
 
-* [search](docs/sdks/addressvalidation/README.md#search) - Search
-* [suggestions](docs/sdks/addressvalidation/README.md#suggestions) - Suggestions
+* [searchV1AddressValidationSearchPost](docs/sdks/addressvalidation/README.md#searchv1addressvalidationsearchpost) - Search
+* [suggestionsV1AddressValidationSuggestionsPost](docs/sdks/addressvalidation/README.md#suggestionsv1addressvalidationsuggestionspost) - Suggestions
 
 ### [customers](docs/sdks/customers/README.md)
 
-* [list](docs/sdks/customers/README.md#list) - Get Customers
-* [create](docs/sdks/customers/README.md#create) - Create Customer
-* [get](docs/sdks/customers/README.md#get) - Get Customer By Id
-* [update](docs/sdks/customers/README.md#update) - Update Customer
-* [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
-* [getTransactions](docs/sdks/customers/README.md#gettransactions) - Get Transactions By Customer Id
-* [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
+* [getCustomersV1](docs/sdks/customers/README.md#getcustomersv1) - Get Customers
+* [createCustomerV1CustomersPost](docs/sdks/customers/README.md#createcustomerv1customerspost) - Create Customer
+* [getCustomerByIdV1CustomersCustomerIdGet](docs/sdks/customers/README.md#getcustomerbyidv1customerscustomeridget) - Get Customer By Id
+* [updateCustomerV1CustomersCustomerIdPut](docs/sdks/customers/README.md#updatecustomerv1customerscustomeridput) - Update Customer
+* [getCustomerByExternalIdV1CustomersExternalExternalIdGet](docs/sdks/customers/README.md#getcustomerbyexternalidv1customersexternalexternalidget) - Get Customer By External Id
+* [getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet](docs/sdks/customers/README.md#gettransactionsbycustomeridv1customerscustomeridtransactionsget) - Get Transactions By Customer Id
+* [createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost](docs/sdks/customers/README.md#createtransactionbycustomeridv1customerscustomeridtransactionspost) - Create Transaction By Customer Id
 
 ### [exemptions](docs/sdks/exemptions/README.md)
 
-* [list](docs/sdks/exemptions/README.md#list) - Get Exemptions
-* [create](docs/sdks/exemptions/README.md#create) - Create Exemption
-* [get](docs/sdks/exemptions/README.md#get) - Get Exemption By Id
-* [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
-* [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
+* [getExemptionsV1ExemptionsGet](docs/sdks/exemptions/README.md#getexemptionsv1exemptionsget) - Get Exemptions
+* [createExemptionV1ExemptionsPost](docs/sdks/exemptions/README.md#createexemptionv1exemptionspost) - Create Exemption
+* [getExemptionByIdV1ExemptionsExemptionIdGet](docs/sdks/exemptions/README.md#getexemptionbyidv1exemptionsexemptionidget) - Get Exemption By Id
+* [uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost](docs/sdks/exemptions/README.md#uploadexemptioncertificatev1exemptionsexemptionidattachmentspost) - Upload Exemption Certificate
+* [getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet](docs/sdks/exemptions/README.md#getattachmentsforexemptionv1exemptionsexemptionidattachmentsget) - Get Attachments For Exemption
+
+### [filings](docs/sdks/filings/README.md)
+
+* [getFilingsV1FilingsGet](docs/sdks/filings/README.md#getfilingsv1filingsget) - Get Filings
+* [getFilingByIdV1FilingsFilingIdGet](docs/sdks/filings/README.md#getfilingbyidv1filingsfilingidget) - Get Filing By Id
+* [getFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet](docs/sdks/filings/README.md#getfilingsbyregistrationidv1filingsregistrationregistrationidget) - Get Filings By Registration Id
 
 ### [nexus](docs/sdks/nexus/README.md)
 
-* [list](docs/sdks/nexus/README.md#list) - Get Nexus For Org
+* [getPhysicalNexusV1NexusPhysicalNexusGet](docs/sdks/nexus/README.md#getphysicalnexusv1nexusphysicalnexusget) - Get Physical Nexus
+* [createPhysicalNexusV1NexusPhysicalNexusPost](docs/sdks/nexus/README.md#createphysicalnexusv1nexusphysicalnexuspost) - Create Physical Nexus
+* [updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut](docs/sdks/nexus/README.md#updatephysicalnexusv1nexusphysicalnexusphysicalnexusidput) - Update Physical Nexus
+* [deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete](docs/sdks/nexus/README.md#deletephysicalnexusv1nexusphysicalnexusphysicalnexusiddelete) - Delete Physical Nexus
+* [getNexusForOrgV1NexusGet](docs/sdks/nexus/README.md#getnexusfororgv1nexusget) - Get Nexus For Org
 
 ### [products](docs/sdks/products/README.md)
 
-* [list](docs/sdks/products/README.md#list) - Get Products
-* [create](docs/sdks/products/README.md#create) - Create Product
-* [get](docs/sdks/products/README.md#get) - Get Product By Id
-* [update](docs/sdks/products/README.md#update) - Update Product
-* [listCategories](docs/sdks/products/README.md#listcategories) - Get Product Categories
+* [getProductsV1ProductsGet](docs/sdks/products/README.md#getproductsv1productsget) - Get Products
+* [createProductV1ProductsPost](docs/sdks/products/README.md#createproductv1productspost) - Create Product
+* [getProductByIdV1ProductsProductIdGet](docs/sdks/products/README.md#getproductbyidv1productsproductidget) - Get Product By Id
+* [updateProductV1ProductsProductIdPut](docs/sdks/products/README.md#updateproductv1productsproductidput) - Update Product
+* [getProductCategoriesV1ProductsCategoriesGet](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get Product Categories
+
+### [registrations](docs/sdks/registrations/README.md)
+
+* [getRegistrationsV1RegistrationsGet](docs/sdks/registrations/README.md#getregistrationsv1registrationsget) - Get Registrations
+* [createRegistrationV1RegistrationsPost](docs/sdks/registrations/README.md#createregistrationv1registrationspost) - Create Registration
+* [getRegistrationByIdV1RegistrationsRegistrationIdGet](docs/sdks/registrations/README.md#getregistrationbyidv1registrationsregistrationidget) - Get Registration By Id
+* [updateRegistrationV1RegistrationsRegistrationIdPut](docs/sdks/registrations/README.md#updateregistrationv1registrationsregistrationidput) - Update Registration
+* [deregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost](docs/sdks/registrations/README.md#deregisterregistrationv1registrationsregistrationidderegisterpost) - Deregister Registration
 
 
 ### [taxEstimation](docs/sdks/taxestimation/README.md)
 
-* [estimateTax](docs/sdks/taxestimation/README.md#estimatetax) - Estimate Tax
+* [estimateTaxV1TaxEstimatePost](docs/sdks/taxestimation/README.md#estimatetaxv1taxestimatepost) - Estimate Tax
 
 ### [transactions](docs/sdks/transactions/README.md)
 
-* [list](docs/sdks/transactions/README.md#list) - Get Transactions
-* [create](docs/sdks/transactions/README.md#create) - Create Transaction
-* [getByExternalId](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
-* [update](docs/sdks/transactions/README.md#update) - Update Transaction
-* [getById](docs/sdks/transactions/README.md#getbyid) - Get Transaction By Id
-* [getByFilingId](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
-* [createCreditNote](docs/sdks/transactions/README.md#createcreditnote) - Create Credit Note By Transaction Id
-* [updateCreditNote](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
+* [getTransactionsV1TransactionsGet](docs/sdks/transactions/README.md#gettransactionsv1transactionsget) - Get Transactions
+* [createTransactionV1TransactionsPost](docs/sdks/transactions/README.md#createtransactionv1transactionspost) - Create Transaction
+* [getTransactionByExternalIdV1TransactionsExternalExternalIdGet](docs/sdks/transactions/README.md#gettransactionbyexternalidv1transactionsexternalexternalidget) - Get Transaction By External Id
+* [updateTransactionV1TransactionsTransactionIdPut](docs/sdks/transactions/README.md#updatetransactionv1transactionstransactionidput) - Update Transaction
+* [getTransactionByIdV1TransactionsTransactionIdGet](docs/sdks/transactions/README.md#gettransactionbyidv1transactionstransactionidget) - Get Transaction By Id
+* [getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet](docs/sdks/transactions/README.md#gettransactionsbyfilingidv1transactionsfilingsfilingidget) - Get Transactions By Filing Id
+* [postCreateCreditNoteByTransactionId](docs/sdks/transactions/README.md#postcreatecreditnotebytransactionid) - Create Credit Note By Transaction Id
+* [putUpdateCreditNoteByTransactionId](docs/sdks/transactions/README.md#putupdatecreditnotebytransactionid) - Update Credit Note By Transaction Id
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -349,35 +370,47 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 
 <summary>Available standalone functions</summary>
 
-- [`addressValidationSearch`](docs/sdks/addressvalidation/README.md#search) - Search
-- [`addressValidationSuggestions`](docs/sdks/addressvalidation/README.md#suggestions) - Suggestions
-- [`customersCreate`](docs/sdks/customers/README.md#create) - Create Customer
-- [`customersCreateTransaction`](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
-- [`customersGet`](docs/sdks/customers/README.md#get) - Get Customer By Id
-- [`customersGetByExternalId`](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
-- [`customersGetTransactions`](docs/sdks/customers/README.md#gettransactions) - Get Transactions By Customer Id
-- [`customersList`](docs/sdks/customers/README.md#list) - Get Customers
-- [`customersUpdate`](docs/sdks/customers/README.md#update) - Update Customer
-- [`exemptionsCreate`](docs/sdks/exemptions/README.md#create) - Create Exemption
-- [`exemptionsGet`](docs/sdks/exemptions/README.md#get) - Get Exemption By Id
-- [`exemptionsGetAttachments`](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
-- [`exemptionsList`](docs/sdks/exemptions/README.md#list) - Get Exemptions
-- [`exemptionsUploadCertificate`](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
-- [`nexusList`](docs/sdks/nexus/README.md#list) - Get Nexus For Org
-- [`productsCreate`](docs/sdks/products/README.md#create) - Create Product
-- [`productsGet`](docs/sdks/products/README.md#get) - Get Product By Id
-- [`productsList`](docs/sdks/products/README.md#list) - Get Products
-- [`productsListCategories`](docs/sdks/products/README.md#listcategories) - Get Product Categories
-- [`productsUpdate`](docs/sdks/products/README.md#update) - Update Product
-- [`taxEstimationEstimateTax`](docs/sdks/taxestimation/README.md#estimatetax) - Estimate Tax
-- [`transactionsCreate`](docs/sdks/transactions/README.md#create) - Create Transaction
-- [`transactionsCreateCreditNote`](docs/sdks/transactions/README.md#createcreditnote) - Create Credit Note By Transaction Id
-- [`transactionsGetByExternalId`](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
-- [`transactionsGetByFilingId`](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
-- [`transactionsGetById`](docs/sdks/transactions/README.md#getbyid) - Get Transaction By Id
-- [`transactionsList`](docs/sdks/transactions/README.md#list) - Get Transactions
-- [`transactionsUpdate`](docs/sdks/transactions/README.md#update) - Update Transaction
-- [`transactionsUpdateCreditNote`](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
+- [`addressValidationSearchV1AddressValidationSearchPost`](docs/sdks/addressvalidation/README.md#searchv1addressvalidationsearchpost) - Search
+- [`addressValidationSuggestionsV1AddressValidationSuggestionsPost`](docs/sdks/addressvalidation/README.md#suggestionsv1addressvalidationsuggestionspost) - Suggestions
+- [`customersCreateCustomerV1CustomersPost`](docs/sdks/customers/README.md#createcustomerv1customerspost) - Create Customer
+- [`customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost`](docs/sdks/customers/README.md#createtransactionbycustomeridv1customerscustomeridtransactionspost) - Create Transaction By Customer Id
+- [`customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet`](docs/sdks/customers/README.md#getcustomerbyexternalidv1customersexternalexternalidget) - Get Customer By External Id
+- [`customersGetCustomerByIdV1CustomersCustomerIdGet`](docs/sdks/customers/README.md#getcustomerbyidv1customerscustomeridget) - Get Customer By Id
+- [`customersGetCustomersV1`](docs/sdks/customers/README.md#getcustomersv1) - Get Customers
+- [`customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet`](docs/sdks/customers/README.md#gettransactionsbycustomeridv1customerscustomeridtransactionsget) - Get Transactions By Customer Id
+- [`customersUpdateCustomerV1CustomersCustomerIdPut`](docs/sdks/customers/README.md#updatecustomerv1customerscustomeridput) - Update Customer
+- [`exemptionsCreateExemptionV1ExemptionsPost`](docs/sdks/exemptions/README.md#createexemptionv1exemptionspost) - Create Exemption
+- [`exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet`](docs/sdks/exemptions/README.md#getattachmentsforexemptionv1exemptionsexemptionidattachmentsget) - Get Attachments For Exemption
+- [`exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet`](docs/sdks/exemptions/README.md#getexemptionbyidv1exemptionsexemptionidget) - Get Exemption By Id
+- [`exemptionsGetExemptionsV1ExemptionsGet`](docs/sdks/exemptions/README.md#getexemptionsv1exemptionsget) - Get Exemptions
+- [`exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost`](docs/sdks/exemptions/README.md#uploadexemptioncertificatev1exemptionsexemptionidattachmentspost) - Upload Exemption Certificate
+- [`filingsGetFilingByIdV1FilingsFilingIdGet`](docs/sdks/filings/README.md#getfilingbyidv1filingsfilingidget) - Get Filing By Id
+- [`filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet`](docs/sdks/filings/README.md#getfilingsbyregistrationidv1filingsregistrationregistrationidget) - Get Filings By Registration Id
+- [`filingsGetFilingsV1FilingsGet`](docs/sdks/filings/README.md#getfilingsv1filingsget) - Get Filings
+- [`nexusCreatePhysicalNexusV1NexusPhysicalNexusPost`](docs/sdks/nexus/README.md#createphysicalnexusv1nexusphysicalnexuspost) - Create Physical Nexus
+- [`nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete`](docs/sdks/nexus/README.md#deletephysicalnexusv1nexusphysicalnexusphysicalnexusiddelete) - Delete Physical Nexus
+- [`nexusGetNexusForOrgV1NexusGet`](docs/sdks/nexus/README.md#getnexusfororgv1nexusget) - Get Nexus For Org
+- [`nexusGetPhysicalNexusV1NexusPhysicalNexusGet`](docs/sdks/nexus/README.md#getphysicalnexusv1nexusphysicalnexusget) - Get Physical Nexus
+- [`nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut`](docs/sdks/nexus/README.md#updatephysicalnexusv1nexusphysicalnexusphysicalnexusidput) - Update Physical Nexus
+- [`productsCreateProductV1ProductsPost`](docs/sdks/products/README.md#createproductv1productspost) - Create Product
+- [`productsGetProductByIdV1ProductsProductIdGet`](docs/sdks/products/README.md#getproductbyidv1productsproductidget) - Get Product By Id
+- [`productsGetProductCategoriesV1ProductsCategoriesGet`](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get Product Categories
+- [`productsGetProductsV1ProductsGet`](docs/sdks/products/README.md#getproductsv1productsget) - Get Products
+- [`productsUpdateProductV1ProductsProductIdPut`](docs/sdks/products/README.md#updateproductv1productsproductidput) - Update Product
+- [`registrationsCreateRegistrationV1RegistrationsPost`](docs/sdks/registrations/README.md#createregistrationv1registrationspost) - Create Registration
+- [`registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost`](docs/sdks/registrations/README.md#deregisterregistrationv1registrationsregistrationidderegisterpost) - Deregister Registration
+- [`registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet`](docs/sdks/registrations/README.md#getregistrationbyidv1registrationsregistrationidget) - Get Registration By Id
+- [`registrationsGetRegistrationsV1RegistrationsGet`](docs/sdks/registrations/README.md#getregistrationsv1registrationsget) - Get Registrations
+- [`registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut`](docs/sdks/registrations/README.md#updateregistrationv1registrationsregistrationidput) - Update Registration
+- [`taxEstimationEstimateTaxV1TaxEstimatePost`](docs/sdks/taxestimation/README.md#estimatetaxv1taxestimatepost) - Estimate Tax
+- [`transactionsCreateTransactionV1TransactionsPost`](docs/sdks/transactions/README.md#createtransactionv1transactionspost) - Create Transaction
+- [`transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet`](docs/sdks/transactions/README.md#gettransactionbyexternalidv1transactionsexternalexternalidget) - Get Transaction By External Id
+- [`transactionsGetTransactionByIdV1TransactionsTransactionIdGet`](docs/sdks/transactions/README.md#gettransactionbyidv1transactionstransactionidget) - Get Transaction By Id
+- [`transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet`](docs/sdks/transactions/README.md#gettransactionsbyfilingidv1transactionsfilingsfilingidget) - Get Transactions By Filing Id
+- [`transactionsGetTransactionsV1TransactionsGet`](docs/sdks/transactions/README.md#gettransactionsv1transactionsget) - Get Transactions
+- [`transactionsPOSTCreateCreditNoteByTransactionId`](docs/sdks/transactions/README.md#postcreatecreditnotebytransactionid) - Create Credit Note By Transaction Id
+- [`transactionsPUTUpdateCreditNoteByTransactionId`](docs/sdks/transactions/README.md#putupdatecreditnotebytransactionid) - Update Credit Note By Transaction Id
+- [`transactionsUpdateTransactionV1TransactionsTransactionIdPut`](docs/sdks/transactions/README.md#updatetransactionv1transactionstransactionidput) - Update Transaction
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
@@ -408,12 +441,13 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.exemptions.uploadCertificate({
-    exemptionId: "<id>",
-    bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
-      file: await openAsBlob("example.file"),
-    },
-  });
+  const result = await sdk.exemptions
+    .uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost({
+      exemptionId: "<id>",
+      bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
+        file: await openAsBlob("example.file"),
+      },
+    });
 
   console.log(result);
 }
@@ -435,30 +469,31 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    phone: "555-123-4567",
-    street1: "1600 Amphitheatre Parkway",
-    street2: "Building 40",
-    city: "Mountain View",
-    county: "Santa Clara",
-    state: "CA",
-    postalCode: "94043",
-    country: "US",
-    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-  }, {
-    retries: {
-      strategy: "backoff",
-      backoff: {
-        initialInterval: 1,
-        maxInterval: 50,
-        exponent: 1.1,
-        maxElapsedTime: 100,
+  const result = await sdk.addressValidation
+    .searchV1AddressValidationSearchPost({
+      apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    }, {
+      phone: "555-123-4567",
+      street1: "1600 Amphitheatre Parkway",
+      street2: "Building 40",
+      city: "Mountain View",
+      county: "Santa Clara",
+      state: "CA",
+      postalCode: "94043",
+      country: "US",
+      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    }, {
+      retries: {
+        strategy: "backoff",
+        backoff: {
+          initialInterval: 1,
+          maxInterval: 50,
+          exponent: 1.1,
+          maxElapsedTime: 100,
+        },
+        retryConnectionErrors: false,
       },
-      retryConnectionErrors: false,
-    },
-  });
+    });
 
   console.log(result);
 }
@@ -485,19 +520,20 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    phone: "555-123-4567",
-    street1: "1600 Amphitheatre Parkway",
-    street2: "Building 40",
-    city: "Mountain View",
-    county: "Santa Clara",
-    state: "CA",
-    postalCode: "94043",
-    country: "US",
-    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-  });
+  const result = await sdk.addressValidation
+    .searchV1AddressValidationSearchPost({
+      apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    }, {
+      phone: "555-123-4567",
+      street1: "1600 Amphitheatre Parkway",
+      street2: "Building 40",
+      city: "Mountain View",
+      county: "Santa Clara",
+      state: "CA",
+      postalCode: "94043",
+      country: "US",
+      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    });
 
   console.log(result);
 }
@@ -530,19 +566,20 @@ const sdk = new SDK();
 
 async function run() {
   try {
-    const result = await sdk.addressValidation.search({
-      apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    }, {
-      phone: "555-123-4567",
-      street1: "1600 Amphitheatre Parkway",
-      street2: "Building 40",
-      city: "Mountain View",
-      county: "Santa Clara",
-      state: "CA",
-      postalCode: "94043",
-      country: "US",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    });
+    const result = await sdk.addressValidation
+      .searchV1AddressValidationSearchPost({
+        apiKeyHeader: "<YOUR_API_KEY_HERE>",
+      }, {
+        phone: "555-123-4567",
+        street1: "1600 Amphitheatre Parkway",
+        street2: "Building 40",
+        city: "Mountain View",
+        county: "Santa Clara",
+        state: "CA",
+        postalCode: "94043",
+        country: "US",
+        fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+      });
 
     console.log(result);
   } catch (error) {
@@ -569,7 +606,7 @@ run();
 **Primary error:**
 * [`SDKError`](./src/models/errors/sdkerror.ts): The base class for HTTP error responses.
 
-<details><summary>Less common errors (14)</summary>
+<details><summary>Less common errors (17)</summary>
 
 <br />
 
@@ -582,14 +619,17 @@ run();
 
 
 **Inherit from [`SDKError`](./src/models/errors/sdkerror.ts)**:
-* [`ErrorResponse`](./src/models/errors/errorresponse.ts): Applicable to 20 of 29 methods.*
-* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Validation Error. Status code `422`. Applicable to 9 of 29 methods.*
-* [`BackendSrcExemptionsResponsesValidationErrorResponse`](./src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 29 methods.*
-* [`BackendSrcTransactionsResponsesValidationErrorResponse`](./src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts): Status code `422`. Applicable to 5 of 29 methods.*
-* [`BackendSrcProductsResponsesValidationErrorResponse`](./src/models/errors/backendsrcproductsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 29 methods.*
-* [`BackendSrcCustomersResponsesValidationErrorResponse`](./src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 29 methods.*
-* [`BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 29 methods.*
-* [`BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts): Validation Error. Status code `422`. Applicable to 1 of 29 methods.*
+* [`ErrorResponse`](./src/models/errors/errorresponse.ts): Applicable to 32 of 41 methods.*
+* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Validation Error. Status code `422`. Applicable to 9 of 41 methods.*
+* [`BackendSrcExemptionsResponsesValidationErrorResponse`](./src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 41 methods.*
+* [`BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
+* [`BackendSrcTransactionsResponsesValidationErrorResponse`](./src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts): Status code `422`. Applicable to 5 of 41 methods.*
+* [`BackendSrcNexusResponsesValidationErrorResponse`](./src/models/errors/backendsrcnexusresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
+* [`BackendSrcProductsResponsesValidationErrorResponse`](./src/models/errors/backendsrcproductsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
+* [`BackendSrcCustomersResponsesValidationErrorResponse`](./src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 41 methods.*
+* [`BackendSrcFilingsResponsesValidationErrorResponse`](./src/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 3 of 41 methods.*
+* [`BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 41 methods.*
+* [`BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts): Validation Error. Status code `422`. Applicable to 1 of 41 methods.*
 * [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>
@@ -611,19 +651,20 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    phone: "555-123-4567",
-    street1: "1600 Amphitheatre Parkway",
-    street2: "Building 40",
-    city: "Mountain View",
-    county: "Santa Clara",
-    state: "CA",
-    postalCode: "94043",
-    country: "US",
-    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-  });
+  const result = await sdk.addressValidation
+    .searchV1AddressValidationSearchPost({
+      apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    }, {
+      phone: "555-123-4567",
+      street1: "1600 Amphitheatre Parkway",
+      street2: "Building 40",
+      city: "Mountain View",
+      county: "Santa Clara",
+      state: "CA",
+      postalCode: "94043",
+      country: "US",
+      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    });
 
   console.log(result);
 }

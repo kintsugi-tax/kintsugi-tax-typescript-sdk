@@ -5,10 +5,10 @@
 
 ### Available Operations
 
-* [search](#search) - Search
-* [suggestions](#suggestions) - Suggestions
+* [searchV1AddressValidationSearchPost](#searchv1addressvalidationsearchpost) - Search
+* [suggestionsV1AddressValidationSuggestionsPost](#suggestionsv1addressvalidationsuggestionspost) - Suggestions
 
-## search
+## searchV1AddressValidationSearchPost
 
 This API validates and enriches address information
     submitted by the user. It ensures that the address is standardized, accurate,
@@ -24,7 +24,7 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation.search({
+  const result = await sdk.addressValidation.searchV1AddressValidationSearchPost({
     apiKeyHeader: "<YOUR_API_KEY_HERE>",
   }, {
     phone: "555-123-4567",
@@ -50,14 +50,14 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { addressValidationSearch } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSearch.js";
+import { addressValidationSearchV1AddressValidationSearchPost } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSearchV1AddressValidationSearchPost.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore();
 
 async function run() {
-  const res = await addressValidationSearch(sdk, {
+  const res = await addressValidationSearchV1AddressValidationSearchPost(sdk, {
     apiKeyHeader: "<YOUR_API_KEY_HERE>",
   }, {
     phone: "555-123-4567",
@@ -74,7 +74,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("addressValidationSearch failed:", res.error);
+    console.log("addressValidationSearchV1AddressValidationSearchPost failed:", res.error);
   }
 }
 
@@ -104,7 +104,7 @@ run();
 | errors.ErrorResponse                                               | 500                                                                | application/json                                                   |
 | errors.SDKDefaultError                                             | 4XX, 5XX                                                           | \*/\*                                                              |
 
-## suggestions
+## suggestionsV1AddressValidationSuggestionsPost
 
 This API endpoint provides address suggestions based on
     partial input data. It helps users auto-complete and validate addresses efficiently
@@ -126,7 +126,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation.suggestions({
+  const result = await sdk.addressValidation.suggestionsV1AddressValidationSuggestionsPost({
     line1: "1600 Amphitheatre Parkway",
     line2: "",
     line3: "",
@@ -150,7 +150,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { addressValidationSuggestions } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSuggestions.js";
+import { addressValidationSuggestionsV1AddressValidationSuggestionsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSuggestionsV1AddressValidationSuggestionsPost.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -162,7 +162,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await addressValidationSuggestions(sdk, {
+  const res = await addressValidationSuggestionsV1AddressValidationSuggestionsPost(sdk, {
     line1: "1600 Amphitheatre Parkway",
     line2: "",
     line3: "",
@@ -177,7 +177,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("addressValidationSuggestions failed:", res.error);
+    console.log("addressValidationSuggestionsV1AddressValidationSuggestionsPost failed:", res.error);
   }
 }
 

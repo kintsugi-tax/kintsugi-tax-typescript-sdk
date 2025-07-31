@@ -6,8 +6,10 @@ import { ClientSDK } from "../lib/sdks.js";
 import { AddressValidation } from "./addressvalidation.js";
 import { Customers } from "./customers.js";
 import { Exemptions } from "./exemptions.js";
+import { Filings } from "./filings.js";
 import { Nexus } from "./nexus.js";
 import { Products } from "./products.js";
+import { Registrations } from "./registrations.js";
 import { TaxEstimation } from "./taxestimation.js";
 import { Transactions } from "./transactions.js";
 
@@ -27,6 +29,11 @@ export class SDK extends ClientSDK {
     return (this._exemptions ??= new Exemptions(this._options));
   }
 
+  private _filings?: Filings;
+  get filings(): Filings {
+    return (this._filings ??= new Filings(this._options));
+  }
+
   private _nexus?: Nexus;
   get nexus(): Nexus {
     return (this._nexus ??= new Nexus(this._options));
@@ -35,6 +42,11 @@ export class SDK extends ClientSDK {
   private _products?: Products;
   get products(): Products {
     return (this._products ??= new Products(this._options));
+  }
+
+  private _registrations?: Registrations;
+  get registrations(): Registrations {
+    return (this._registrations ??= new Registrations(this._options));
   }
 
   private _transactions?: Transactions;
