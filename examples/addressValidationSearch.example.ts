@@ -8,7 +8,7 @@ dotenv.config();
  * Example usage of the @kintsugi-tax/tax-platform-sdk SDK
  *
  * To run this example from the examples directory:
- * npm run build && npx tsx addressValidationSearchV1AddressValidationSearchPost.ts
+ * npm run build && npx tsx addressValidationSearch.ts
  */
 
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
@@ -16,7 +16,7 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function main() {
-  const result = await sdk.searchV1AddressValidationSearchPost({
+  const result = await sdk.search({
     apiKeyHeader: "<YOUR_API_KEY_HERE>",
   }, {
     phone: "555-123-4567",

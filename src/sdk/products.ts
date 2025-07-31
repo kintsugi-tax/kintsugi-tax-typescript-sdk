@@ -19,11 +19,11 @@ export class Products extends ClientSDK {
    * @remarks
    * Retrieve a paginated list of products based on filters and search query.
    */
-  async getProductsV1ProductsGet(
+  async list(
     request?: operations.GetProductsV1ProductsGetRequest | undefined,
     options?: RequestOptions,
   ): Promise<models.PageProductRead> {
-    return unwrapAsync(productsGetProductsV1ProductsGet(
+    return unwrapAsync(productsList(
       this,
       request,
       options,
@@ -38,11 +38,11 @@ export class Products extends ClientSDK {
    *     in the system. This includes specifying product details such as category,
    *     subcategory, and tax exemption status, etc.
    */
-  async createProductV1ProductsPost(
+  async create(
     request: models.ProductCreateManual,
     options?: RequestOptions,
   ): Promise<models.ProductRead> {
-    return unwrapAsync(productsCreateProductV1ProductsPost(
+    return unwrapAsync(productsCreate(
       this,
       request,
       options,
@@ -57,11 +57,11 @@ export class Products extends ClientSDK {
    *     a single product by its unique ID. This API helps in viewing the specific details
    *     of a product, including its attributes, status, and categorization.
    */
-  async getProductByIdV1ProductsProductIdGet(
+  async get(
     request: operations.GetProductByIdV1ProductsProductIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.ProductRead> {
-    return unwrapAsync(productsGetProductByIdV1ProductsProductIdGet(
+    return unwrapAsync(productsGet(
       this,
       request,
       options,
@@ -75,11 +75,11 @@ export class Products extends ClientSDK {
    * The Update Product API allows users to modify the details of
    *     an existing product identified by its unique product_id
    */
-  async updateProductV1ProductsProductIdPut(
+  async update(
     request: operations.UpdateProductV1ProductsProductIdPutRequest,
     options?: RequestOptions,
   ): Promise<models.ProductRead> {
-    return unwrapAsync(productsUpdateProductV1ProductsProductIdPut(
+    return unwrapAsync(productsUpdate(
       this,
       request,
       options,

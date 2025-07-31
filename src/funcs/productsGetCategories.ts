@@ -32,11 +32,7 @@ import { Result } from "../types/fp.js";
  *     product categories.  This endpoint helps users understand and select the
  *     appropriate categories for their products.
  */
-<<<<<<<< HEAD:src/funcs/productsGetCategories.ts
 export function productsGetCategories(
-========
-export function productsGetProductCategoriesV1ProductsCategoriesGet(
->>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7:src/funcs/productsGetProductCategoriesV1ProductsCategoriesGet.ts
   client: SDKCore,
   options?: RequestOptions,
 ): APIPromise<

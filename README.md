@@ -178,20 +178,19 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation
-    .searchV1AddressValidationSearchPost({
-      apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    }, {
-      phone: "555-123-4567",
-      street1: "1600 Amphitheatre Parkway",
-      street2: "Building 40",
-      city: "Mountain View",
-      county: "Santa Clara",
-      state: "CA",
-      postalCode: "94043",
-      country: "US",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    });
+  const result = await sdk.addressValidation.search({
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+  }, {
+    phone: "555-123-4567",
+    street1: "1600 Amphitheatre Parkway",
+    street2: "Building 40",
+    city: "Mountain View",
+    county: "Santa Clara",
+    state: "CA",
+    postalCode: "94043",
+    country: "US",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+  });
 
   console.log(result);
 }
@@ -253,20 +252,19 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation
-    .searchV1AddressValidationSearchPost({
-      apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    }, {
-      phone: "555-123-4567",
-      street1: "1600 Amphitheatre Parkway",
-      street2: "Building 40",
-      city: "Mountain View",
-      county: "Santa Clara",
-      state: "CA",
-      postalCode: "94043",
-      country: "US",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    });
+  const result = await sdk.addressValidation.search({
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+  }, {
+    phone: "555-123-4567",
+    street1: "1600 Amphitheatre Parkway",
+    street2: "Building 40",
+    city: "Mountain View",
+    county: "Santa Clara",
+    state: "CA",
+    postalCode: "94043",
+    country: "US",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+  });
 
   console.log(result);
 }
@@ -289,27 +287,21 @@ run();
 
 ### [customers](docs/sdks/customers/README.md)
 
-* [getCustomersV1](docs/sdks/customers/README.md#getcustomersv1) - Get Customers
-* [createCustomerV1CustomersPost](docs/sdks/customers/README.md#createcustomerv1customerspost) - Create Customer
-* [getCustomerByIdV1CustomersCustomerIdGet](docs/sdks/customers/README.md#getcustomerbyidv1customerscustomeridget) - Get Customer By Id
-* [updateCustomerV1CustomersCustomerIdPut](docs/sdks/customers/README.md#updatecustomerv1customerscustomeridput) - Update Customer
-* [getCustomerByExternalIdV1CustomersExternalExternalIdGet](docs/sdks/customers/README.md#getcustomerbyexternalidv1customersexternalexternalidget) - Get Customer By External Id
-* [getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet](docs/sdks/customers/README.md#gettransactionsbycustomeridv1customerscustomeridtransactionsget) - Get Transactions By Customer Id
-* [createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost](docs/sdks/customers/README.md#createtransactionbycustomeridv1customerscustomeridtransactionspost) - Create Transaction By Customer Id
+* [list](docs/sdks/customers/README.md#list) - Get Customers
+* [create](docs/sdks/customers/README.md#create) - Create Customer
+* [get](docs/sdks/customers/README.md#get) - Get Customer By Id
+* [update](docs/sdks/customers/README.md#update) - Update Customer
+* [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
+* [getTransactions](docs/sdks/customers/README.md#gettransactions) - Get Transactions By Customer Id
+* [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
 
 ### [exemptions](docs/sdks/exemptions/README.md)
 
-* [getExemptionsV1ExemptionsGet](docs/sdks/exemptions/README.md#getexemptionsv1exemptionsget) - Get Exemptions
-* [createExemptionV1ExemptionsPost](docs/sdks/exemptions/README.md#createexemptionv1exemptionspost) - Create Exemption
-* [getExemptionByIdV1ExemptionsExemptionIdGet](docs/sdks/exemptions/README.md#getexemptionbyidv1exemptionsexemptionidget) - Get Exemption By Id
-* [uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost](docs/sdks/exemptions/README.md#uploadexemptioncertificatev1exemptionsexemptionidattachmentspost) - Upload Exemption Certificate
-* [getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet](docs/sdks/exemptions/README.md#getattachmentsforexemptionv1exemptionsexemptionidattachmentsget) - Get Attachments For Exemption
-
-### [filings](docs/sdks/filings/README.md)
-
-* [getFilingsV1FilingsGet](docs/sdks/filings/README.md#getfilingsv1filingsget) - Get Filings
-* [getFilingByIdV1FilingsFilingIdGet](docs/sdks/filings/README.md#getfilingbyidv1filingsfilingidget) - Get Filing By Id
-* [getFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet](docs/sdks/filings/README.md#getfilingsbyregistrationidv1filingsregistrationregistrationidget) - Get Filings By Registration Id
+* [list](docs/sdks/exemptions/README.md#list) - Get Exemptions
+* [create](docs/sdks/exemptions/README.md#create) - Create Exemption
+* [get](docs/sdks/exemptions/README.md#get) - Get Exemption By Id
+* [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
+* [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
 
 ### [filings](docs/sdks/filings/README.md)
 
@@ -446,13 +438,12 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.exemptions
-    .uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost({
-      exemptionId: "<id>",
-      bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
-        file: await openAsBlob("example.file"),
-      },
-    });
+  const result = await sdk.exemptions.uploadCertificate({
+    exemptionId: "<id>",
+    bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
+      file: await openAsBlob("example.file"),
+    },
+  });
 
   console.log(result);
 }
@@ -474,31 +465,30 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation
-    .searchV1AddressValidationSearchPost({
-      apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    }, {
-      phone: "555-123-4567",
-      street1: "1600 Amphitheatre Parkway",
-      street2: "Building 40",
-      city: "Mountain View",
-      county: "Santa Clara",
-      state: "CA",
-      postalCode: "94043",
-      country: "US",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    }, {
-      retries: {
-        strategy: "backoff",
-        backoff: {
-          initialInterval: 1,
-          maxInterval: 50,
-          exponent: 1.1,
-          maxElapsedTime: 100,
-        },
-        retryConnectionErrors: false,
+  const result = await sdk.addressValidation.search({
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+  }, {
+    phone: "555-123-4567",
+    street1: "1600 Amphitheatre Parkway",
+    street2: "Building 40",
+    city: "Mountain View",
+    county: "Santa Clara",
+    state: "CA",
+    postalCode: "94043",
+    country: "US",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+  }, {
+    retries: {
+      strategy: "backoff",
+      backoff: {
+        initialInterval: 1,
+        maxInterval: 50,
+        exponent: 1.1,
+        maxElapsedTime: 100,
       },
-    });
+      retryConnectionErrors: false,
+    },
+  });
 
   console.log(result);
 }
@@ -525,20 +515,19 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation
-    .searchV1AddressValidationSearchPost({
-      apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    }, {
-      phone: "555-123-4567",
-      street1: "1600 Amphitheatre Parkway",
-      street2: "Building 40",
-      city: "Mountain View",
-      county: "Santa Clara",
-      state: "CA",
-      postalCode: "94043",
-      country: "US",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    });
+  const result = await sdk.addressValidation.search({
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+  }, {
+    phone: "555-123-4567",
+    street1: "1600 Amphitheatre Parkway",
+    street2: "Building 40",
+    city: "Mountain View",
+    county: "Santa Clara",
+    state: "CA",
+    postalCode: "94043",
+    country: "US",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+  });
 
   console.log(result);
 }
@@ -571,20 +560,19 @@ const sdk = new SDK();
 
 async function run() {
   try {
-    const result = await sdk.addressValidation
-      .searchV1AddressValidationSearchPost({
-        apiKeyHeader: "<YOUR_API_KEY_HERE>",
-      }, {
-        phone: "555-123-4567",
-        street1: "1600 Amphitheatre Parkway",
-        street2: "Building 40",
-        city: "Mountain View",
-        county: "Santa Clara",
-        state: "CA",
-        postalCode: "94043",
-        country: "US",
-        fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-      });
+    const result = await sdk.addressValidation.search({
+      apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    }, {
+      phone: "555-123-4567",
+      street1: "1600 Amphitheatre Parkway",
+      street2: "Building 40",
+      city: "Mountain View",
+      county: "Santa Clara",
+      state: "CA",
+      postalCode: "94043",
+      country: "US",
+      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+    });
 
     console.log(result);
   } catch (error) {
@@ -656,20 +644,19 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation
-    .searchV1AddressValidationSearchPost({
-      apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    }, {
-      phone: "555-123-4567",
-      street1: "1600 Amphitheatre Parkway",
-      street2: "Building 40",
-      city: "Mountain View",
-      county: "Santa Clara",
-      state: "CA",
-      postalCode: "94043",
-      country: "US",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    });
+  const result = await sdk.addressValidation.search({
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+  }, {
+    phone: "555-123-4567",
+    street1: "1600 Amphitheatre Parkway",
+    street2: "Building 40",
+    city: "Mountain View",
+    county: "Santa Clara",
+    state: "CA",
+    postalCode: "94043",
+    country: "US",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+  });
 
   console.log(result);
 }

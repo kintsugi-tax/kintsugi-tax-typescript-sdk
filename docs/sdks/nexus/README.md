@@ -382,7 +382,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.nexus.getNexusForOrgV1NexusGet({});
+  const result = await sdk.nexus.list({});
 
   console.log(result);
 }
@@ -396,7 +396,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { nexusGetNexusForOrgV1NexusGet } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusGetNexusForOrgV1NexusGet.js";
+import { nexusList } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusList.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -408,12 +408,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await nexusGetNexusForOrgV1NexusGet(sdk, {});
+  const res = await nexusList(sdk, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("nexusGetNexusForOrgV1NexusGet failed:", res.error);
+    console.log("nexusList failed:", res.error);
   }
 }
 
