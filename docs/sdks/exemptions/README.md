@@ -5,13 +5,13 @@
 
 ### Available Operations
 
-* [getExemptionsV1ExemptionsGet](#getexemptionsv1exemptionsget) - Get Exemptions
-* [createExemptionV1ExemptionsPost](#createexemptionv1exemptionspost) - Create Exemption
-* [getExemptionByIdV1ExemptionsExemptionIdGet](#getexemptionbyidv1exemptionsexemptionidget) - Get Exemption By Id
-* [uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost](#uploadexemptioncertificatev1exemptionsexemptionidattachmentspost) - Upload Exemption Certificate
-* [getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet](#getattachmentsforexemptionv1exemptionsexemptionidattachmentsget) - Get Attachments For Exemption
+* [list](#list) - Get Exemptions
+* [create](#create) - Create Exemption
+* [get](#get) - Get Exemption By Id
+* [uploadCertificate](#uploadcertificate) - Upload Exemption Certificate
+* [getAttachments](#getattachments) - Get Attachments For Exemption
 
-## getExemptionsV1ExemptionsGet
+## list
 
 Retrieve a list of exemptions based on filters.
 
@@ -29,7 +29,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.exemptions.getExemptionsV1ExemptionsGet({
+  const result = await sdk.exemptions.list({
     searchQuery: "John",
     countryCode: [
 
@@ -53,7 +53,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { exemptionsGetExemptionsV1ExemptionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsGetExemptionsV1ExemptionsGet.js";
+import { exemptionsList } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsList.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -65,7 +65,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await exemptionsGetExemptionsV1ExemptionsGet(sdk, {
+  const res = await exemptionsList(sdk, {
     searchQuery: "John",
     countryCode: [
   
@@ -80,7 +80,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("exemptionsGetExemptionsV1ExemptionsGet failed:", res.error);
+    console.log("exemptionsList failed:", res.error);
   }
 }
 
@@ -109,7 +109,7 @@ run();
 | errors.ErrorResponse                                        | 500                                                         | application/json                                            |
 | errors.SDKDefaultError                                      | 4XX, 5XX                                                    | \*/\*                                                       |
 
-## createExemptionV1ExemptionsPost
+## create
 
 The Create Exemption API allows you to create a new exemption record.
     This includes defining details such as exemption type, jurisdiction,
@@ -130,7 +130,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.exemptions.createExemptionV1ExemptionsPost({
+  const result = await sdk.exemptions.create({
     exemptionType: "wholesale",
     jurisdiction: "CA",
     countryCode: "US",
@@ -156,7 +156,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { exemptionsCreateExemptionV1ExemptionsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsCreateExemptionV1ExemptionsPost.js";
+import { exemptionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsCreate.js";
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 // Use `SDKCore` for best tree-shaking performance.
@@ -169,7 +169,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await exemptionsCreateExemptionV1ExemptionsPost(sdk, {
+  const res = await exemptionsCreate(sdk, {
     exemptionType: "wholesale",
     jurisdiction: "CA",
     countryCode: "US",
@@ -186,7 +186,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("exemptionsCreateExemptionV1ExemptionsPost failed:", res.error);
+    console.log("exemptionsCreate failed:", res.error);
   }
 }
 
@@ -215,7 +215,7 @@ run();
 | errors.ErrorResponse                                        | 500                                                         | application/json                                            |
 | errors.SDKDefaultError                                      | 4XX, 5XX                                                    | \*/\*                                                       |
 
-## getExemptionByIdV1ExemptionsExemptionIdGet
+## get
 
 The Get Exemption By ID API retrieves a specific exemption record by
     its unique ID. This API is useful for retrieving detailed information
@@ -236,7 +236,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.exemptions.getExemptionByIdV1ExemptionsExemptionIdGet({
+  const result = await sdk.exemptions.get({
     exemptionId: "<id>",
   });
 
@@ -252,7 +252,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet.js";
+import { exemptionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -264,14 +264,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet(sdk, {
+  const res = await exemptionsGet(sdk, {
     exemptionId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet failed:", res.error);
+    console.log("exemptionsGet failed:", res.error);
   }
 }
 
@@ -300,7 +300,7 @@ run();
 | errors.ErrorResponse                                        | 500                                                         | application/json                                            |
 | errors.SDKDefaultError                                      | 4XX, 5XX                                                    | \*/\*                                                       |
 
-## uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost
+## uploadCertificate
 
 The Upload Exemption Certificate API allows you
     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
@@ -322,7 +322,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.exemptions.uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost({
+  const result = await sdk.exemptions.uploadCertificate({
     exemptionId: "<id>",
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
       file: await openAsBlob("example.file"),
@@ -341,7 +341,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.js";
+import { exemptionsUploadCertificate } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsUploadCertificate.js";
 import { openAsBlob } from "node:fs";
 
 // Use `SDKCore` for best tree-shaking performance.
@@ -354,7 +354,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(sdk, {
+  const res = await exemptionsUploadCertificate(sdk, {
     exemptionId: "<id>",
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
       file: await openAsBlob("example.file"),
@@ -364,7 +364,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost failed:", res.error);
+    console.log("exemptionsUploadCertificate failed:", res.error);
   }
 }
 
@@ -393,7 +393,7 @@ run();
 | errors.ErrorResponse                                        | 500                                                         | application/json                                            |
 | errors.SDKDefaultError                                      | 4XX, 5XX                                                    | \*/\*                                                       |
 
-## getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet
+## getAttachments
 
 The Get Attachments for Exemption API retrieves all
     attachments associated with a specific exemption.
@@ -414,7 +414,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.exemptions.getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet({
+  const result = await sdk.exemptions.getAttachments({
     exemptionId: "<id>",
   });
 
@@ -430,7 +430,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.js";
+import { exemptionsGetAttachments } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsGetAttachments.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -442,14 +442,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet(sdk, {
+  const res = await exemptionsGetAttachments(sdk, {
     exemptionId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet failed:", res.error);
+    console.log("exemptionsGetAttachments failed:", res.error);
   }
 }
 

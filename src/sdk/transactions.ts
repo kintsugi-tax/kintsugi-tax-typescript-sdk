@@ -40,11 +40,11 @@ export class Transactions extends ClientSDK {
    * @remarks
    * Create a transaction.
    */
-  async createTransactionV1TransactionsPost(
+  async create(
     request: models.TransactionPublicRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
-    return unwrapAsync(transactionsCreateTransactionV1TransactionsPost(
+    return unwrapAsync(transactionsCreate(
       this,
       request,
       options,
@@ -58,18 +58,16 @@ export class Transactions extends ClientSDK {
    * Retrieves a specific transaction based on its external ID.
    *     This allows users to fetch transaction details using an identifier from an external system.
    */
-  async getTransactionByExternalIdV1TransactionsExternalExternalIdGet(
+  async getByExternalId(
     request:
       operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
-    return unwrapAsync(
-      transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet(
-        this,
-        request,
-        options,
-      ),
-    );
+    return unwrapAsync(transactionsGetByExternalId(
+      this,
+      request,
+      options,
+    ));
   }
 
   /**
@@ -78,17 +76,15 @@ export class Transactions extends ClientSDK {
    * @remarks
    * Update a specific transaction by its ID.
    */
-  async updateTransactionV1TransactionsTransactionIdPut(
+  async update(
     request: operations.UpdateTransactionV1TransactionsTransactionIdPutRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
-    return unwrapAsync(
-      transactionsUpdateTransactionV1TransactionsTransactionIdPut(
-        this,
-        request,
-        options,
-      ),
-    );
+    return unwrapAsync(transactionsUpdate(
+      this,
+      request,
+      options,
+    ));
   }
 
   /**
@@ -98,17 +94,15 @@ export class Transactions extends ClientSDK {
    * The Get Transaction By Id API retrieves detailed information
    *     about a specific transaction by providing its unique transaction ID.
    */
-  async getTransactionByIdV1TransactionsTransactionIdGet(
+  async getById(
     request: operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
-    return unwrapAsync(
-      transactionsGetTransactionByIdV1TransactionsTransactionIdGet(
-        this,
-        request,
-        options,
-      ),
-    );
+    return unwrapAsync(transactionsGetById(
+      this,
+      request,
+      options,
+    ));
   }
 
   /**
@@ -117,18 +111,16 @@ export class Transactions extends ClientSDK {
    * @remarks
    * Retrieve transactions by filing ID.
    */
-  async getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet(
+  async getByFilingId(
     request:
       operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest,
     options?: RequestOptions,
   ): Promise<Array<models.TransactionRead>> {
-    return unwrapAsync(
-      transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet(
-        this,
-        request,
-        options,
-      ),
-    );
+    return unwrapAsync(transactionsGetByFilingId(
+      this,
+      request,
+      options,
+    ));
   }
 
   /**
@@ -137,11 +129,11 @@ export class Transactions extends ClientSDK {
    * @remarks
    * Create a new credit note for a specific transaction.
    */
-  async postCreateCreditNoteByTransactionId(
+  async createCreditNote(
     request: operations.POSTCreateCreditNoteByTransactionIdRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
-    return unwrapAsync(transactionsPOSTCreateCreditNoteByTransactionId(
+    return unwrapAsync(transactionsCreateCreditNote(
       this,
       request,
       options,
@@ -154,11 +146,11 @@ export class Transactions extends ClientSDK {
    * @remarks
    * Update an existing credit note for a specific transaction.
    */
-  async putUpdateCreditNoteByTransactionId(
+  async updateCreditNote(
     request: operations.PUTUpdateCreditNoteByTransactionIdRequest,
     options?: RequestOptions,
   ): Promise<any> {
-    return unwrapAsync(transactionsPUTUpdateCreditNoteByTransactionId(
+    return unwrapAsync(transactionsUpdateCreditNote(
       this,
       request,
       options,

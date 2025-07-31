@@ -5,15 +5,15 @@
 
 ### Available Operations
 
-* [getCustomersV1](#getcustomersv1) - Get Customers
-* [createCustomerV1CustomersPost](#createcustomerv1customerspost) - Create Customer
-* [getCustomerByIdV1CustomersCustomerIdGet](#getcustomerbyidv1customerscustomeridget) - Get Customer By Id
-* [updateCustomerV1CustomersCustomerIdPut](#updatecustomerv1customerscustomeridput) - Update Customer
-* [getCustomerByExternalIdV1CustomersExternalExternalIdGet](#getcustomerbyexternalidv1customersexternalexternalidget) - Get Customer By External Id
-* [getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet](#gettransactionsbycustomeridv1customerscustomeridtransactionsget) - Get Transactions By Customer Id
-* [createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost](#createtransactionbycustomeridv1customerscustomeridtransactionspost) - Create Transaction By Customer Id
+* [list](#list) - Get Customers
+* [create](#create) - Create Customer
+* [get](#get) - Get Customer By Id
+* [update](#update) - Update Customer
+* [getByExternalId](#getbyexternalid) - Get Customer By External Id
+* [getTransactions](#gettransactions) - Get Transactions By Customer Id
+* [createTransaction](#createtransaction) - Create Transaction By Customer Id
 
-## getCustomersV1
+## list
 
 The Get Customers API retrieves
     a paginated list of customers based on specified filters.
@@ -33,7 +33,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.customers.getCustomersV1({
+  const result = await sdk.customers.list({
     searchQuery: "John",
     country: [
 
@@ -55,7 +55,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { customersGetCustomersV1 } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGetCustomersV1.js";
+import { customersList } from "@kintsugi-tax/tax-platform-sdk/funcs/customersList.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -67,7 +67,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await customersGetCustomersV1(sdk, {
+  const res = await customersList(sdk, {
     searchQuery: "John",
     country: [
   
@@ -80,7 +80,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("customersGetCustomersV1 failed:", res.error);
+    console.log("customersList failed:", res.error);
   }
 }
 
@@ -109,7 +109,7 @@ run();
 | errors.ErrorResponse                                       | 500                                                        | application/json                                           |
 | errors.SDKDefaultError                                     | 4XX, 5XX                                                   | \*/\*                                                      |
 
-## createCustomerV1CustomersPost
+## create
 
 The Create Customer API enables the creation of a new customer record with essential
 details like name, contact information, and address, along with optional metadata.
@@ -128,7 +128,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.customers.createCustomerV1CustomersPost({
+  const result = await sdk.customers.create({
     phone: "987-654-3210",
     street1: "456 Elm St",
     street2: "Suite 202",
@@ -157,7 +157,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { customersCreateCustomerV1CustomersPost } from "@kintsugi-tax/tax-platform-sdk/funcs/customersCreateCustomerV1CustomersPost.js";
+import { customersCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/customersCreate.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -169,7 +169,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await customersCreateCustomerV1CustomersPost(sdk, {
+  const res = await customersCreate(sdk, {
     phone: "987-654-3210",
     street1: "456 Elm St",
     street2: "Suite 202",
@@ -189,7 +189,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("customersCreateCustomerV1CustomersPost failed:", res.error);
+    console.log("customersCreate failed:", res.error);
   }
 }
 
@@ -218,7 +218,7 @@ run();
 | errors.ErrorResponse                                       | 500                                                        | application/json                                           |
 | errors.SDKDefaultError                                     | 4XX, 5XX                                                   | \*/\*                                                      |
 
-## getCustomerByIdV1CustomersCustomerIdGet
+## get
 
 The Get Customer By ID API retrieves the details of a single customer
     using their unique identifier. It returns customer-specific data,
@@ -238,7 +238,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.customers.getCustomerByIdV1CustomersCustomerIdGet({
+  const result = await sdk.customers.get({
     customerId: "cust_abc123",
   });
 
@@ -254,7 +254,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { customersGetCustomerByIdV1CustomersCustomerIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGetCustomerByIdV1CustomersCustomerIdGet.js";
+import { customersGet } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -266,14 +266,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await customersGetCustomerByIdV1CustomersCustomerIdGet(sdk, {
+  const res = await customersGet(sdk, {
     customerId: "cust_abc123",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("customersGetCustomerByIdV1CustomersCustomerIdGet failed:", res.error);
+    console.log("customersGet failed:", res.error);
   }
 }
 
@@ -300,7 +300,7 @@ run();
 | errors.HTTPValidationError | 422                        | application/json           |
 | errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
 
-## updateCustomerV1CustomersCustomerIdPut
+## update
 
 The Update Customer API allows you to modify an existing customer's
     information using their unique identifier,
@@ -320,7 +320,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.customers.updateCustomerV1CustomersCustomerIdPut({
+  const result = await sdk.customers.update({
     customerId: "<id>",
     customerUpdate: {
       phone: "987-654-3210",
@@ -353,7 +353,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { customersUpdateCustomerV1CustomersCustomerIdPut } from "@kintsugi-tax/tax-platform-sdk/funcs/customersUpdateCustomerV1CustomersCustomerIdPut.js";
+import { customersUpdate } from "@kintsugi-tax/tax-platform-sdk/funcs/customersUpdate.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -365,7 +365,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await customersUpdateCustomerV1CustomersCustomerIdPut(sdk, {
+  const res = await customersUpdate(sdk, {
     customerId: "<id>",
     customerUpdate: {
       phone: "987-654-3210",
@@ -389,7 +389,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("customersUpdateCustomerV1CustomersCustomerIdPut failed:", res.error);
+    console.log("customersUpdate failed:", res.error);
   }
 }
 
@@ -418,7 +418,7 @@ run();
 | errors.ErrorResponse                                       | 500                                                        | application/json                                           |
 | errors.SDKDefaultError                                     | 4XX, 5XX                                                   | \*/\*                                                      |
 
-## getCustomerByExternalIdV1CustomersExternalExternalIdGet
+## getByExternalId
 
 The Get Customer By External ID API retrieves the details of a single customer using
 their external identifier. This endpoint is useful for accessing customer data when only
@@ -438,7 +438,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.customers.getCustomerByExternalIdV1CustomersExternalExternalIdGet({
+  const result = await sdk.customers.getByExternalId({
     externalId: "external_12345",
   });
 
@@ -454,7 +454,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet.js";
+import { customersGetByExternalId } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGetByExternalId.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -466,14 +466,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet(sdk, {
+  const res = await customersGetByExternalId(sdk, {
     externalId: "external_12345",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet failed:", res.error);
+    console.log("customersGetByExternalId failed:", res.error);
   }
 }
 
@@ -500,7 +500,7 @@ run();
 | errors.HTTPValidationError | 422                        | application/json           |
 | errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
 
-## getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet
+## getTransactions
 
 Get a list of transactions for a customer by their unique ID.
 
@@ -518,7 +518,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.customers.getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet({
+  const result = await sdk.customers.getTransactions({
     customerId: "<id>",
   });
 
@@ -534,7 +534,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.js";
+import { customersGetTransactions } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGetTransactions.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -546,14 +546,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(sdk, {
+  const res = await customersGetTransactions(sdk, {
     customerId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet failed:", res.error);
+    console.log("customersGetTransactions failed:", res.error);
   }
 }
 
@@ -580,7 +580,7 @@ run();
 | errors.HTTPValidationError | 422                        | application/json           |
 | errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
 
-## createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost
+## createTransaction
 
 Create a new transaction for a specific customer.
 
@@ -598,7 +598,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.customers.createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost({
+  const result = await sdk.customers.createTransaction({
     customerId: "<id>",
     transactionCreate: {
       organizationId: "<id>",
@@ -641,7 +641,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.js";
+import { customersCreateTransaction } from "@kintsugi-tax/tax-platform-sdk/funcs/customersCreateTransaction.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -653,7 +653,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost(sdk, {
+  const res = await customersCreateTransaction(sdk, {
     customerId: "<id>",
     transactionCreate: {
       organizationId: "<id>",
@@ -687,7 +687,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost failed:", res.error);
+    console.log("customersCreateTransaction failed:", res.error);
   }
 }
 

@@ -19,12 +19,12 @@ export class AddressValidation extends ClientSDK {
    *     and compliant with geographical and postal standards.
    *     The API also adds additional fields, such as county, when possible.
    */
-  async searchV1AddressValidationSearchPost(
+  async search(
     security: operations.SearchV1AddressValidationSearchPostSecurity,
     request: models.AddressBase,
     options?: RequestOptions,
   ): Promise<Array<models.AddressSearchResponse>> {
-    return unwrapAsync(addressValidationSearchV1AddressValidationSearchPost(
+    return unwrapAsync(addressValidationSearch(
       this,
       security,
       request,

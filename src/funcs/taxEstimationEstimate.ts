@@ -34,11 +34,7 @@ import { Result } from "../types/fp.js";
  *     transaction based on the provided details, including organization nexus,
  *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
  */
-<<<<<<<< HEAD:src/funcs/taxEstimationEstimate.ts
 export function taxEstimationEstimate(
-========
-export function taxEstimationEstimateTaxV1TaxEstimatePost(
->>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7:src/funcs/taxEstimationEstimateTaxV1TaxEstimatePost.ts
   client: SDKCore,
   request: operations.EstimateTaxV1TaxEstimatePostRequest,
   options?: RequestOptions,

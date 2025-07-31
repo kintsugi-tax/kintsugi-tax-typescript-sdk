@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.595.0
   generationVersion: 2.670.1
-  releaseVersion: 0.7.3
-  configChecksum: c802b7f4ae8498920eeb08110657c45c
+  releaseVersion: 0.8.0
+  configChecksum: 6abf80c132fff7bbdb099d1a082334cc
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -23,9 +23,11 @@ features:
     globalSecurity: 2.82.13
     globalSecurityCallbacks: 0.1.0
     globalServerURLs: 2.82.5
+    groups: 2.81.2
     mcpServer: 0.9.3
     methodArguments: 0.1.2
     methodSecurity: 2.82.6
+    nameOverrides: 2.81.2
     responseFormat: 0.2.3
     retries: 2.83.0
     sdkHooks: 0.3.0
@@ -218,7 +220,7 @@ generatedFiles:
   - eslint.config.mjs
   - examples/.env.template
   - examples/README.md
-  - examples/addressValidationSearchV1AddressValidationSearchPost.example.ts
+  - examples/addressValidationSearch.example.ts
   - examples/package.json
   - jsr.json
   - package.json

@@ -33,11 +33,7 @@ import { Result } from "../types/fp.js";
  * The Get Transactions API retrieves a list of transactions with
  *     optional filtering, sorting, and pagination.
  */
-<<<<<<<< HEAD:src/funcs/transactionsGet.ts
 export function transactionsGet(
-========
-export function transactionsGetTransactionsV1TransactionsGet(
->>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7:src/funcs/transactionsGetTransactionsV1TransactionsGet.ts
   client: SDKCore,
   request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
   options?: RequestOptions,
