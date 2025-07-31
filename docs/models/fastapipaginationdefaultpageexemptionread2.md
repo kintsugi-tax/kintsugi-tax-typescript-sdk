@@ -7,9 +7,9 @@ import { FastapiPaginationDefaultPageExemptionRead2 } from "@kintsugi-tax/tax-pl
 
 let value: FastapiPaginationDefaultPageExemptionRead2 = {
   items: [],
-  total: 296721,
-  page: 23878,
-  size: 337116,
+  total: 105657,
+  page: 296721,
+  size: 255135,
 };
 ```
 

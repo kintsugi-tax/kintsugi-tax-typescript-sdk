@@ -13,57 +13,11 @@ import {
 } from "./appliedto.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
-export type DiscountAmount = number | string;
-
 export type DiscountBuilder = {
-  externalId?: string | null | undefined;
+  externalId?: string | undefined;
   appliedTo: AppliedTo;
-  discountAmount?: number | string | undefined;
+  discountAmount?: number | undefined;
 };
-
-/** @internal */
-export const DiscountAmount$inboundSchema: z.ZodType<
-  DiscountAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type DiscountAmount$Outbound = number | string;
-
-/** @internal */
-export const DiscountAmount$outboundSchema: z.ZodType<
-  DiscountAmount$Outbound,
-  z.ZodTypeDef,
-  DiscountAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace DiscountAmount$ {
-  /** @deprecated use `DiscountAmount$inboundSchema` instead. */
-  export const inboundSchema = DiscountAmount$inboundSchema;
-  /** @deprecated use `DiscountAmount$outboundSchema` instead. */
-  export const outboundSchema = DiscountAmount$outboundSchema;
-  /** @deprecated use `DiscountAmount$Outbound` instead. */
-  export type Outbound = DiscountAmount$Outbound;
-}
-
-export function discountAmountToJSON(discountAmount: DiscountAmount): string {
-  return JSON.stringify(DiscountAmount$outboundSchema.parse(discountAmount));
-}
-
-export function discountAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<DiscountAmount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => DiscountAmount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'DiscountAmount' from JSON`,
-  );
-}
 
 /** @internal */
 export const DiscountBuilder$inboundSchema: z.ZodType<
@@ -71,9 +25,9 @@ export const DiscountBuilder$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  external_id: z.nullable(z.string()).optional(),
+  external_id: z.string().optional(),
   applied_to: AppliedTo$inboundSchema,
-  discount_amount: z.union([z.number(), z.string()]).optional(),
+  discount_amount: z.number().default(0.00),
 }).transform((v) => {
   return remap$(v, {
     "external_id": "externalId",
@@ -84,9 +38,9 @@ export const DiscountBuilder$inboundSchema: z.ZodType<
 
 /** @internal */
 export type DiscountBuilder$Outbound = {
-  external_id?: string | null | undefined;
+  external_id?: string | undefined;
   applied_to: string;
-  discount_amount?: number | string | undefined;
+  discount_amount: number;
 };
 
 /** @internal */
@@ -95,9 +49,9 @@ export const DiscountBuilder$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   DiscountBuilder
 > = z.object({
-  externalId: z.nullable(z.string()).optional(),
+  externalId: z.string().optional(),
   appliedTo: AppliedTo$outboundSchema,
-  discountAmount: z.union([z.number(), z.string()]).optional(),
+  discountAmount: z.number().default(0.00),
 }).transform((v) => {
   return remap$(v, {
     externalId: "external_id",

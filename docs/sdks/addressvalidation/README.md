@@ -21,9 +21,7 @@ This API validates and enriches address information
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDK();
 
 async function run() {
   const result = await sdk.addressValidation.search({
@@ -56,9 +54,7 @@ import { addressValidationSearch } from "@kintsugi-tax/tax-platform-sdk/funcs/ad
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDKCore();
 
 async function run() {
   const res = await addressValidationSearch(sdk, {
@@ -123,26 +119,23 @@ This API endpoint provides address suggestions based on
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.addressValidation.suggestions({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    xOrganizationId: "org_12345",
-    validationAddress: {
-      line1: "1600 Amphitheatre Parkway",
-      line2: "",
-      line3: "",
-      city: "Mountain View",
-      state: "CA",
-      country: "US",
-      postalCode: "94043",
-      id: 215,
-      county: "",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    },
+    line1: "1600 Amphitheatre Parkway",
+    line2: "",
+    line3: "",
+    city: "Mountain View",
+    state: "CA",
+    postalCode: "94043",
+    id: 215,
+    county: "",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
   });
 
   console.log(result);
@@ -162,26 +155,23 @@ import { addressValidationSuggestions } from "@kintsugi-tax/tax-platform-sdk/fun
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await addressValidationSuggestions(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    xOrganizationId: "org_12345",
-    validationAddress: {
-      line1: "1600 Amphitheatre Parkway",
-      line2: "",
-      line3: "",
-      city: "Mountain View",
-      state: "CA",
-      country: "US",
-      postalCode: "94043",
-      id: 215,
-      county: "",
-      fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-    },
+    line1: "1600 Amphitheatre Parkway",
+    line2: "",
+    line3: "",
+    city: "Mountain View",
+    state: "CA",
+    postalCode: "94043",
+    id: 215,
+    county: "",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -198,8 +188,7 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.SuggestionsV1AddressValidationSuggestionsPostRequest](../../models/operations/suggestionsv1addressvalidationsuggestionspostrequest.md)                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.SuggestionsV1AddressValidationSuggestionsPostSecurity](../../models/operations/suggestionsv1addressvalidationsuggestionspostsecurity.md)                           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `request`                                                                                                                                                                      | [models.ValidationAddress](../../models/validationaddress.md)                                                                                                                  | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |

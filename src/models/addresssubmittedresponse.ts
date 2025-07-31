@@ -12,35 +12,35 @@ export type AddressSubmittedResponse = {
   /**
    * Primary street address of the customer
    */
-  street1?: string | null | undefined;
+  street1?: string | undefined;
   /**
    * Additional street address details, such as an apartment or suite number
    */
-  street2?: string | null | undefined;
+  street2?: string | undefined;
   /**
    * City where the customer resides
    */
-  city?: string | null | undefined;
+  city?: string | undefined;
   /**
    * County or district of the customer
    */
-  county?: string | null | undefined;
+  county?: string | undefined;
   /**
    * State or province of the customer
    */
-  state?: string | null | undefined;
+  state?: string | undefined;
   /**
    * ZIP or Postal code of the customer
    */
-  postalCode?: string | null | undefined;
+  postalCode?: string | undefined;
   /**
    * Country code in ISO 3166-1 alpha-2 format
    */
-  country?: string | null | undefined;
+  country?: string | undefined;
   /**
    * Complete address string of the customer, which can be used as an alternative to individual fields
    */
-  fullAddress?: string | null | undefined;
+  fullAddress?: string | undefined;
 };
 
 /** @internal */
@@ -49,14 +49,14 @@ export const AddressSubmittedResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  street_1: z.nullable(z.string()).optional(),
-  street_2: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  postal_code: z.nullable(z.string()).optional(),
-  country: z.nullable(z.string()).optional(),
-  full_address: z.nullable(z.string()).optional(),
+  street_1: z.string().optional(),
+  street_2: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  postal_code: z.string().optional(),
+  country: z.string().optional(),
+  full_address: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
@@ -68,14 +68,14 @@ export const AddressSubmittedResponse$inboundSchema: z.ZodType<
 
 /** @internal */
 export type AddressSubmittedResponse$Outbound = {
-  street_1?: string | null | undefined;
-  street_2?: string | null | undefined;
-  city?: string | null | undefined;
-  county?: string | null | undefined;
-  state?: string | null | undefined;
-  postal_code?: string | null | undefined;
-  country?: string | null | undefined;
-  full_address?: string | null | undefined;
+  street_1?: string | undefined;
+  street_2?: string | undefined;
+  city?: string | undefined;
+  county?: string | undefined;
+  state?: string | undefined;
+  postal_code?: string | undefined;
+  country?: string | undefined;
+  full_address?: string | undefined;
 };
 
 /** @internal */
@@ -84,14 +84,14 @@ export const AddressSubmittedResponse$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   AddressSubmittedResponse
 > = z.object({
-  street1: z.nullable(z.string()).optional(),
-  street2: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  postalCode: z.nullable(z.string()).optional(),
-  country: z.nullable(z.string()).optional(),
-  fullAddress: z.nullable(z.string()).optional(),
+  street1: z.string().optional(),
+  street2: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
+  fullAddress: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",

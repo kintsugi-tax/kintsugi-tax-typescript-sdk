@@ -37,14 +37,11 @@ import {
 } from "./exemptiontype.js";
 
 export type BackendSrcExemptionsSerializersExemptionRead = {
-  /**
-   * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
-   */
-  countryCode?: CountryCodeEnum | null | undefined;
+  countryCode?: CountryCodeEnum | undefined;
   /**
    * The jurisdiction identifier for the exemption
    */
-  jurisdiction?: string | null | undefined;
+  jurisdiction?: string | undefined;
   /**
    * Start date for the exemption validity period (YYYY-MM-DD format)
    */
@@ -52,11 +49,11 @@ export type BackendSrcExemptionsSerializersExemptionRead = {
   /**
    * End date for the exemption validity period (YYYY-MM-DD format)
    */
-  endDate?: RFCDate | null | undefined;
+  endDate?: string | undefined;
   /**
    * Unique identifier for the transaction, if applicable
    */
-  transactionId?: string | null | undefined;
+  transactionId?: string | undefined;
   /**
    * Indicates whether the exemption is for a reseller
    */
@@ -64,23 +61,20 @@ export type BackendSrcExemptionsSerializersExemptionRead = {
   /**
    * Federal Employer Identification Number
    */
-  fein?: string | null | undefined;
+  fein?: string | undefined;
   /**
    * Sales tax ID for the exemption
    */
-  salesTaxId?: string | null | undefined;
+  salesTaxId?: string | undefined;
   /**
    * Unique identifier for the exemption
    */
   id: string;
-  /**
-   * Details of the customer associated with the exemption
-   */
-  customer?: CustomerRead | null | undefined;
+  customer?: CustomerRead | undefined;
   /**
    * List of attachments related to the exemption
    */
-  attachment?: Array<AttachmentRead> | null | undefined;
+  attachment?: Array<AttachmentRead> | undefined;
   exemptionType: ExemptionType;
   status: ExemptionStatus;
 };
@@ -92,17 +86,17 @@ export const BackendSrcExemptionsSerializersExemptionRead$inboundSchema:
     z.ZodTypeDef,
     unknown
   > = z.object({
-    country_code: z.nullable(CountryCodeEnum$inboundSchema).optional(),
-    jurisdiction: z.nullable(z.string()).optional(),
+    country_code: CountryCodeEnum$inboundSchema.optional(),
+    jurisdiction: z.string().optional(),
     start_date: z.string().transform(v => new RFCDate(v)),
-    end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
-    transaction_id: z.nullable(z.string()).optional(),
+    end_date: z.string().optional(),
+    transaction_id: z.string().optional(),
     reseller: z.boolean().default(false),
-    FEIN: z.nullable(z.string()).optional(),
-    sales_tax_id: z.nullable(z.string()).optional(),
+    FEIN: z.string().optional(),
+    sales_tax_id: z.string().optional(),
     id: z.string(),
-    customer: z.nullable(CustomerRead$inboundSchema).optional(),
-    attachment: z.nullable(z.array(AttachmentRead$inboundSchema)).optional(),
+    customer: CustomerRead$inboundSchema.optional(),
+    attachment: z.array(AttachmentRead$inboundSchema).optional(),
     exemption_type: ExemptionType$inboundSchema,
     status: ExemptionStatus$inboundSchema,
   }).transform((v) => {
@@ -119,17 +113,17 @@ export const BackendSrcExemptionsSerializersExemptionRead$inboundSchema:
 
 /** @internal */
 export type BackendSrcExemptionsSerializersExemptionRead$Outbound = {
-  country_code?: string | null | undefined;
-  jurisdiction?: string | null | undefined;
+  country_code?: string | undefined;
+  jurisdiction?: string | undefined;
   start_date: string;
-  end_date?: string | null | undefined;
-  transaction_id?: string | null | undefined;
+  end_date?: string | undefined;
+  transaction_id?: string | undefined;
   reseller: boolean;
-  FEIN?: string | null | undefined;
-  sales_tax_id?: string | null | undefined;
+  FEIN?: string | undefined;
+  sales_tax_id?: string | undefined;
   id: string;
-  customer?: CustomerRead$Outbound | null | undefined;
-  attachment?: Array<AttachmentRead$Outbound> | null | undefined;
+  customer?: CustomerRead$Outbound | undefined;
+  attachment?: Array<AttachmentRead$Outbound> | undefined;
   exemption_type: string;
   status: string;
 };
@@ -141,18 +135,17 @@ export const BackendSrcExemptionsSerializersExemptionRead$outboundSchema:
     z.ZodTypeDef,
     BackendSrcExemptionsSerializersExemptionRead
   > = z.object({
-    countryCode: z.nullable(CountryCodeEnum$outboundSchema).optional(),
-    jurisdiction: z.nullable(z.string()).optional(),
+    countryCode: CountryCodeEnum$outboundSchema.optional(),
+    jurisdiction: z.string().optional(),
     startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-    endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-      .optional(),
-    transactionId: z.nullable(z.string()).optional(),
+    endDate: z.string().optional(),
+    transactionId: z.string().optional(),
     reseller: z.boolean().default(false),
-    fein: z.nullable(z.string()).optional(),
-    salesTaxId: z.nullable(z.string()).optional(),
+    fein: z.string().optional(),
+    salesTaxId: z.string().optional(),
     id: z.string(),
-    customer: z.nullable(CustomerRead$outboundSchema).optional(),
-    attachment: z.nullable(z.array(AttachmentRead$outboundSchema)).optional(),
+    customer: CustomerRead$outboundSchema.optional(),
+    attachment: z.array(AttachmentRead$outboundSchema).optional(),
     exemptionType: ExemptionType$outboundSchema,
     status: ExemptionStatus$outboundSchema,
   }).transform((v) => {

@@ -6,7 +6,6 @@ import * as z from "zod";
 import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
-import { RFCDate } from "../types/rfcdate.js";
 import {
   CountryCodeEnum,
   CountryCodeEnum$inboundSchema,
@@ -58,12 +57,6 @@ import {
   TransactionExemptStatusEnum$outboundSchema,
 } from "./transactionexemptstatusenum.js";
 import {
-  TransactionImportCustomer,
-  TransactionImportCustomer$inboundSchema,
-  TransactionImportCustomer$Outbound,
-  TransactionImportCustomer$outboundSchema,
-} from "./transactionimportcustomer.js";
-import {
   TransactionItemBuilder,
   TransactionItemBuilder$inboundSchema,
   TransactionItemBuilder$Outbound,
@@ -85,48 +78,8 @@ import {
   TransactionTypeEnum$outboundSchema,
 } from "./transactiontypeenum.js";
 
-/**
- * Total amount of the transaction.
- */
-export type TransactionPublicRequestTotalAmount = number | string;
-
-/**
- * Imported tax amount.
- */
-export type TransactionPublicRequestTotalTaxAmountImported = number | string;
-
-/**
- * Imported tax rate.
- */
-export type TransactionPublicRequestTaxRateImported = number | string;
-
-/**
- * Calculated tax amount.
- */
-export type TransactionPublicRequestTotalTaxAmountCalculated = number | string;
-
-/**
- * Calculated tax rate.
- */
-export type TransactionPublicRequestTaxRateCalculated = number | string;
-
-/**
- * Total tax liability amount.
- */
-export type TransactionPublicRequestTotalTaxLiabilityAmount = number | string;
-
-/**
- * Taxable amount.
- */
-export type TransactionPublicRequestTaxableAmount = number | string;
-
-export type Customer = CustomerBaseBase | TransactionImportCustomer;
-
 export type TransactionPublicRequest = {
-  /**
-   * Indicates if transaction requires tax exemption.
-   */
-  requiresExemption?: ExemptionRequired | null | undefined;
+  requiresExemption?: ExemptionRequired | undefined;
   /**
    * Unique identifier of the organization.
    */
@@ -142,84 +95,90 @@ export type TransactionPublicRequest = {
   /**
    * Transaction date in the shop's local timezone
    */
-  shopDate?: RFCDate | null | undefined;
+  shopDate?: string | undefined;
   /**
    * Timezone of the shop
    */
-  shopDateTz?: string | null | undefined;
+  shopDateTz?: string | undefined;
   status?: TransactionStatusEnum | undefined;
   /**
    * Description of the transaction.
    */
-  description?: string | null | undefined;
+  description?: string | undefined;
   /**
-   * Status of refund, if applicable
+   * Shopify has 2 order statuses for refund case: refunded and partially_refunded
+   *
+   * @remarks
+   * If the given order has different status from these 2, we will set the
+   * transaction's refund_status to PARTIALLY_REFUNDED by default.
    */
-  refundStatus?: TransactionRefundStatus | null | undefined;
+  refundStatus?: TransactionRefundStatus | undefined;
   /**
    * Total amount of the transaction.
    */
-  totalAmount?: number | string | undefined;
+  totalAmount?: number | undefined;
   /**
    * Unique identifier of the customer.
    */
-  customerId?: string | null | undefined;
+  customerId?: string | undefined;
   /**
    * Indicates if transaction is marketplace-based.
    */
-  marketplace?: boolean | null | undefined;
+  marketplace?: boolean | undefined;
   /**
-   * Exemption status (e.g., NOT_EXEMPT)
+   * Based on transaction item exempt status.
+   *
+   * @remarks
+   * NOT EXEMPT: None of the items are NOT EXEMPT
+   * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
+   * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
    */
-  exempt?: TransactionExemptStatusEnum | null | undefined;
+  exempt?: TransactionExemptStatusEnum | undefined;
   /**
    * List of exemptions applied (if any).
    */
-  exemptions?: Array<Exemption> | null | undefined;
+  exemptions?: Array<Exemption> | undefined;
   /**
    * Related transaction identifier.
    */
-  relatedTo?: string | null | undefined;
+  relatedTo?: string | undefined;
   /**
    * Secondary External Identifier.
    */
-  secondaryExternalId?: string | null | undefined;
+  secondaryExternalId?: string | undefined;
   /**
    * Secondary source information
    */
-  secondarySource?: string | null | undefined;
+  secondarySource?: string | undefined;
   /**
    * Friendly identifier of the original item.
    */
-  externalFriendlyId?: string | null | undefined;
+  externalFriendlyId?: string | undefined;
   /**
    * Imported tax amount.
    */
-  totalTaxAmountImported?: number | string | undefined;
+  totalTaxAmountImported?: number | undefined;
   /**
    * Imported tax rate.
    */
-  taxRateImported?: number | string | undefined;
+  taxRateImported?: number | undefined;
   /**
    * Calculated tax amount.
    */
-  totalTaxAmountCalculated?: number | string | undefined;
+  totalTaxAmountCalculated?: number | undefined;
   /**
    * Calculated tax rate.
    */
-  taxRateCalculated?: number | string | undefined;
+  taxRateCalculated?: number | undefined;
   /**
    * Total tax liability amount.
    */
-  totalTaxLiabilityAmount?: number | string | undefined;
-  /**
-   * Source of tax liability.
-   */
-  taxLiabilitySource?: TaxLiabilitySourceEnum | null | undefined;
+  totalTaxLiabilityAmount?: number | undefined;
+  taxLiabilitySource?: TaxLiabilitySourceEnum | undefined;
   /**
    * Taxable amount.
    */
-  taxableAmount?: number | string | undefined;
+  taxableAmount?: number | undefined;
   currency?: CurrencyEnum | undefined;
   /**
    * Transaction lock status.
@@ -229,511 +188,37 @@ export type TransactionPublicRequest = {
   /**
    * Connection Identifier
    */
-  connectionId?: string | null | undefined;
+  connectionId?: string | undefined;
   /**
    * Filing identifier.
    */
-  filingId?: string | null | undefined;
+  filingId?: string | undefined;
   /**
    * City of the transaction address.
    */
-  city?: string | null | undefined;
+  city?: string | undefined;
   /**
    * County of the transaction address.
    */
-  county?: string | null | undefined;
+  county?: string | undefined;
   /**
    * State of the transaction address.
    */
-  state?: string | null | undefined;
-  /**
-   * Country code (ISO Alpha-2).
-   */
-  country?: CountryCodeEnum | null | undefined;
+  state?: string | undefined;
+  country?: CountryCodeEnum | undefined;
   /**
    * Postal code of the transaction.
    */
-  postalCode?: string | null | undefined;
+  postalCode?: string | undefined;
   /**
    * Tax ID associated with the transaction
    */
-  taxId?: string | null | undefined;
+  taxId?: string | undefined;
   addresses: Array<TransactionAddressPublic>;
   transactionItems: Array<TransactionItemBuilder>;
-  customer: CustomerBaseBase | TransactionImportCustomer;
+  customer: CustomerBaseBase;
   type: TransactionTypeEnum;
 };
-
-/** @internal */
-export const TransactionPublicRequestTotalAmount$inboundSchema: z.ZodType<
-  TransactionPublicRequestTotalAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionPublicRequestTotalAmount$Outbound = number | string;
-
-/** @internal */
-export const TransactionPublicRequestTotalAmount$outboundSchema: z.ZodType<
-  TransactionPublicRequestTotalAmount$Outbound,
-  z.ZodTypeDef,
-  TransactionPublicRequestTotalAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionPublicRequestTotalAmount$ {
-  /** @deprecated use `TransactionPublicRequestTotalAmount$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionPublicRequestTotalAmount$inboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalAmount$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionPublicRequestTotalAmount$outboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalAmount$Outbound` instead. */
-  export type Outbound = TransactionPublicRequestTotalAmount$Outbound;
-}
-
-export function transactionPublicRequestTotalAmountToJSON(
-  transactionPublicRequestTotalAmount: TransactionPublicRequestTotalAmount,
-): string {
-  return JSON.stringify(
-    TransactionPublicRequestTotalAmount$outboundSchema.parse(
-      transactionPublicRequestTotalAmount,
-    ),
-  );
-}
-
-export function transactionPublicRequestTotalAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<TransactionPublicRequestTotalAmount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionPublicRequestTotalAmount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionPublicRequestTotalAmount' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionPublicRequestTotalTaxAmountImported$inboundSchema:
-  z.ZodType<
-    TransactionPublicRequestTotalTaxAmountImported,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionPublicRequestTotalTaxAmountImported$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionPublicRequestTotalTaxAmountImported$outboundSchema:
-  z.ZodType<
-    TransactionPublicRequestTotalTaxAmountImported$Outbound,
-    z.ZodTypeDef,
-    TransactionPublicRequestTotalTaxAmountImported
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionPublicRequestTotalTaxAmountImported$ {
-  /** @deprecated use `TransactionPublicRequestTotalTaxAmountImported$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionPublicRequestTotalTaxAmountImported$inboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalTaxAmountImported$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionPublicRequestTotalTaxAmountImported$outboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalTaxAmountImported$Outbound` instead. */
-  export type Outbound =
-    TransactionPublicRequestTotalTaxAmountImported$Outbound;
-}
-
-export function transactionPublicRequestTotalTaxAmountImportedToJSON(
-  transactionPublicRequestTotalTaxAmountImported:
-    TransactionPublicRequestTotalTaxAmountImported,
-): string {
-  return JSON.stringify(
-    TransactionPublicRequestTotalTaxAmountImported$outboundSchema.parse(
-      transactionPublicRequestTotalTaxAmountImported,
-    ),
-  );
-}
-
-export function transactionPublicRequestTotalTaxAmountImportedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionPublicRequestTotalTaxAmountImported,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionPublicRequestTotalTaxAmountImported$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionPublicRequestTotalTaxAmountImported' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionPublicRequestTaxRateImported$inboundSchema: z.ZodType<
-  TransactionPublicRequestTaxRateImported,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionPublicRequestTaxRateImported$Outbound = number | string;
-
-/** @internal */
-export const TransactionPublicRequestTaxRateImported$outboundSchema: z.ZodType<
-  TransactionPublicRequestTaxRateImported$Outbound,
-  z.ZodTypeDef,
-  TransactionPublicRequestTaxRateImported
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionPublicRequestTaxRateImported$ {
-  /** @deprecated use `TransactionPublicRequestTaxRateImported$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionPublicRequestTaxRateImported$inboundSchema;
-  /** @deprecated use `TransactionPublicRequestTaxRateImported$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionPublicRequestTaxRateImported$outboundSchema;
-  /** @deprecated use `TransactionPublicRequestTaxRateImported$Outbound` instead. */
-  export type Outbound = TransactionPublicRequestTaxRateImported$Outbound;
-}
-
-export function transactionPublicRequestTaxRateImportedToJSON(
-  transactionPublicRequestTaxRateImported:
-    TransactionPublicRequestTaxRateImported,
-): string {
-  return JSON.stringify(
-    TransactionPublicRequestTaxRateImported$outboundSchema.parse(
-      transactionPublicRequestTaxRateImported,
-    ),
-  );
-}
-
-export function transactionPublicRequestTaxRateImportedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionPublicRequestTaxRateImported,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionPublicRequestTaxRateImported$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionPublicRequestTaxRateImported' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionPublicRequestTotalTaxAmountCalculated$inboundSchema:
-  z.ZodType<
-    TransactionPublicRequestTotalTaxAmountCalculated,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionPublicRequestTotalTaxAmountCalculated$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionPublicRequestTotalTaxAmountCalculated$outboundSchema:
-  z.ZodType<
-    TransactionPublicRequestTotalTaxAmountCalculated$Outbound,
-    z.ZodTypeDef,
-    TransactionPublicRequestTotalTaxAmountCalculated
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionPublicRequestTotalTaxAmountCalculated$ {
-  /** @deprecated use `TransactionPublicRequestTotalTaxAmountCalculated$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionPublicRequestTotalTaxAmountCalculated$inboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalTaxAmountCalculated$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionPublicRequestTotalTaxAmountCalculated$outboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalTaxAmountCalculated$Outbound` instead. */
-  export type Outbound =
-    TransactionPublicRequestTotalTaxAmountCalculated$Outbound;
-}
-
-export function transactionPublicRequestTotalTaxAmountCalculatedToJSON(
-  transactionPublicRequestTotalTaxAmountCalculated:
-    TransactionPublicRequestTotalTaxAmountCalculated,
-): string {
-  return JSON.stringify(
-    TransactionPublicRequestTotalTaxAmountCalculated$outboundSchema.parse(
-      transactionPublicRequestTotalTaxAmountCalculated,
-    ),
-  );
-}
-
-export function transactionPublicRequestTotalTaxAmountCalculatedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionPublicRequestTotalTaxAmountCalculated,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionPublicRequestTotalTaxAmountCalculated$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionPublicRequestTotalTaxAmountCalculated' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionPublicRequestTaxRateCalculated$inboundSchema: z.ZodType<
-  TransactionPublicRequestTaxRateCalculated,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionPublicRequestTaxRateCalculated$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionPublicRequestTaxRateCalculated$outboundSchema:
-  z.ZodType<
-    TransactionPublicRequestTaxRateCalculated$Outbound,
-    z.ZodTypeDef,
-    TransactionPublicRequestTaxRateCalculated
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionPublicRequestTaxRateCalculated$ {
-  /** @deprecated use `TransactionPublicRequestTaxRateCalculated$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionPublicRequestTaxRateCalculated$inboundSchema;
-  /** @deprecated use `TransactionPublicRequestTaxRateCalculated$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionPublicRequestTaxRateCalculated$outboundSchema;
-  /** @deprecated use `TransactionPublicRequestTaxRateCalculated$Outbound` instead. */
-  export type Outbound = TransactionPublicRequestTaxRateCalculated$Outbound;
-}
-
-export function transactionPublicRequestTaxRateCalculatedToJSON(
-  transactionPublicRequestTaxRateCalculated:
-    TransactionPublicRequestTaxRateCalculated,
-): string {
-  return JSON.stringify(
-    TransactionPublicRequestTaxRateCalculated$outboundSchema.parse(
-      transactionPublicRequestTaxRateCalculated,
-    ),
-  );
-}
-
-export function transactionPublicRequestTaxRateCalculatedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionPublicRequestTaxRateCalculated,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionPublicRequestTaxRateCalculated$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionPublicRequestTaxRateCalculated' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionPublicRequestTotalTaxLiabilityAmount$inboundSchema:
-  z.ZodType<
-    TransactionPublicRequestTotalTaxLiabilityAmount,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionPublicRequestTotalTaxLiabilityAmount$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionPublicRequestTotalTaxLiabilityAmount$outboundSchema:
-  z.ZodType<
-    TransactionPublicRequestTotalTaxLiabilityAmount$Outbound,
-    z.ZodTypeDef,
-    TransactionPublicRequestTotalTaxLiabilityAmount
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionPublicRequestTotalTaxLiabilityAmount$ {
-  /** @deprecated use `TransactionPublicRequestTotalTaxLiabilityAmount$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionPublicRequestTotalTaxLiabilityAmount$inboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalTaxLiabilityAmount$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionPublicRequestTotalTaxLiabilityAmount$outboundSchema;
-  /** @deprecated use `TransactionPublicRequestTotalTaxLiabilityAmount$Outbound` instead. */
-  export type Outbound =
-    TransactionPublicRequestTotalTaxLiabilityAmount$Outbound;
-}
-
-export function transactionPublicRequestTotalTaxLiabilityAmountToJSON(
-  transactionPublicRequestTotalTaxLiabilityAmount:
-    TransactionPublicRequestTotalTaxLiabilityAmount,
-): string {
-  return JSON.stringify(
-    TransactionPublicRequestTotalTaxLiabilityAmount$outboundSchema.parse(
-      transactionPublicRequestTotalTaxLiabilityAmount,
-    ),
-  );
-}
-
-export function transactionPublicRequestTotalTaxLiabilityAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionPublicRequestTotalTaxLiabilityAmount,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionPublicRequestTotalTaxLiabilityAmount$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionPublicRequestTotalTaxLiabilityAmount' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionPublicRequestTaxableAmount$inboundSchema: z.ZodType<
-  TransactionPublicRequestTaxableAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionPublicRequestTaxableAmount$Outbound = number | string;
-
-/** @internal */
-export const TransactionPublicRequestTaxableAmount$outboundSchema: z.ZodType<
-  TransactionPublicRequestTaxableAmount$Outbound,
-  z.ZodTypeDef,
-  TransactionPublicRequestTaxableAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionPublicRequestTaxableAmount$ {
-  /** @deprecated use `TransactionPublicRequestTaxableAmount$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionPublicRequestTaxableAmount$inboundSchema;
-  /** @deprecated use `TransactionPublicRequestTaxableAmount$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionPublicRequestTaxableAmount$outboundSchema;
-  /** @deprecated use `TransactionPublicRequestTaxableAmount$Outbound` instead. */
-  export type Outbound = TransactionPublicRequestTaxableAmount$Outbound;
-}
-
-export function transactionPublicRequestTaxableAmountToJSON(
-  transactionPublicRequestTaxableAmount: TransactionPublicRequestTaxableAmount,
-): string {
-  return JSON.stringify(
-    TransactionPublicRequestTaxableAmount$outboundSchema.parse(
-      transactionPublicRequestTaxableAmount,
-    ),
-  );
-}
-
-export function transactionPublicRequestTaxableAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<TransactionPublicRequestTaxableAmount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionPublicRequestTaxableAmount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionPublicRequestTaxableAmount' from JSON`,
-  );
-}
-
-/** @internal */
-export const Customer$inboundSchema: z.ZodType<
-  Customer,
-  z.ZodTypeDef,
-  unknown
-> = z.union([
-  CustomerBaseBase$inboundSchema,
-  TransactionImportCustomer$inboundSchema,
-]);
-
-/** @internal */
-export type Customer$Outbound =
-  | CustomerBaseBase$Outbound
-  | TransactionImportCustomer$Outbound;
-
-/** @internal */
-export const Customer$outboundSchema: z.ZodType<
-  Customer$Outbound,
-  z.ZodTypeDef,
-  Customer
-> = z.union([
-  CustomerBaseBase$outboundSchema,
-  TransactionImportCustomer$outboundSchema,
-]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Customer$ {
-  /** @deprecated use `Customer$inboundSchema` instead. */
-  export const inboundSchema = Customer$inboundSchema;
-  /** @deprecated use `Customer$outboundSchema` instead. */
-  export const outboundSchema = Customer$outboundSchema;
-  /** @deprecated use `Customer$Outbound` instead. */
-  export type Outbound = Customer$Outbound;
-}
-
-export function customerToJSON(customer: Customer): string {
-  return JSON.stringify(Customer$outboundSchema.parse(customer));
-}
-
-export function customerFromJSON(
-  jsonString: string,
-): SafeParseResult<Customer, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Customer$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Customer' from JSON`,
-  );
-}
 
 /** @internal */
 export const TransactionPublicRequest$inboundSchema: z.ZodType<
@@ -741,49 +226,45 @@ export const TransactionPublicRequest$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  requires_exemption: z.nullable(ExemptionRequired$inboundSchema).optional(),
+  requires_exemption: ExemptionRequired$inboundSchema.optional(),
   organization_id: z.string(),
   external_id: z.string(),
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  shop_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
-  shop_date_tz: z.nullable(z.string()).optional(),
+  shop_date: z.string().optional(),
+  shop_date_tz: z.string().optional(),
   status: TransactionStatusEnum$inboundSchema.optional(),
-  description: z.nullable(z.string()).optional(),
-  refund_status: z.nullable(TransactionRefundStatus$inboundSchema).optional(),
-  total_amount: z.union([z.number(), z.string()]).optional(),
-  customer_id: z.nullable(z.string()).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
-  exempt: z.nullable(TransactionExemptStatusEnum$inboundSchema).optional(),
-  exemptions: z.nullable(z.array(Exemption$inboundSchema)).optional(),
-  related_to: z.nullable(z.string()).optional(),
-  secondary_external_id: z.nullable(z.string()).optional(),
-  secondary_source: z.nullable(z.string()).optional(),
-  external_friendly_id: z.nullable(z.string()).optional(),
-  total_tax_amount_imported: z.union([z.number(), z.string()]).optional(),
-  tax_rate_imported: z.union([z.number(), z.string()]).optional(),
-  total_tax_amount_calculated: z.union([z.number(), z.string()]).optional(),
-  tax_rate_calculated: z.union([z.number(), z.string()]).optional(),
-  total_tax_liability_amount: z.union([z.number(), z.string()]).optional(),
-  tax_liability_source: z.nullable(TaxLiabilitySourceEnum$inboundSchema)
-    .optional(),
-  taxable_amount: z.union([z.number(), z.string()]).optional(),
+  description: z.string().optional(),
+  refund_status: TransactionRefundStatus$inboundSchema.optional(),
+  total_amount: z.number().default(0.00),
+  customer_id: z.string().optional(),
+  marketplace: z.boolean().default(false),
+  exempt: TransactionExemptStatusEnum$inboundSchema.optional(),
+  exemptions: z.array(Exemption$inboundSchema).optional(),
+  related_to: z.string().optional(),
+  secondary_external_id: z.string().optional(),
+  secondary_source: z.string().optional(),
+  external_friendly_id: z.string().optional(),
+  total_tax_amount_imported: z.number().default(0.00),
+  tax_rate_imported: z.number().default(0.00),
+  total_tax_amount_calculated: z.number().default(0.00),
+  tax_rate_calculated: z.number().default(0.00),
+  total_tax_liability_amount: z.number().default(0.00),
+  tax_liability_source: TaxLiabilitySourceEnum$inboundSchema.optional(),
+  taxable_amount: z.number().default(0.00),
   currency: CurrencyEnum$inboundSchema.optional(),
   locked: z.boolean().default(false),
   source: SourceEnum$inboundSchema.optional(),
-  connection_id: z.nullable(z.string()).optional(),
-  filing_id: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
-  postal_code: z.nullable(z.string()).optional(),
-  tax_id: z.nullable(z.string()).optional(),
+  connection_id: z.string().optional(),
+  filing_id: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  country: CountryCodeEnum$inboundSchema.optional(),
+  postal_code: z.string().optional(),
+  tax_id: z.string().optional(),
   addresses: z.array(TransactionAddressPublic$inboundSchema),
   transaction_items: z.array(TransactionItemBuilder$inboundSchema),
-  customer: z.union([
-    CustomerBaseBase$inboundSchema,
-    TransactionImportCustomer$inboundSchema,
-  ]),
+  customer: CustomerBaseBase$inboundSchema,
   type: TransactionTypeEnum$inboundSchema,
 }).transform((v) => {
   return remap$(v, {
@@ -816,45 +297,45 @@ export const TransactionPublicRequest$inboundSchema: z.ZodType<
 
 /** @internal */
 export type TransactionPublicRequest$Outbound = {
-  requires_exemption?: ExemptionRequired$Outbound | null | undefined;
+  requires_exemption?: ExemptionRequired$Outbound | undefined;
   organization_id: string;
   external_id: string;
   date: string;
-  shop_date?: string | null | undefined;
-  shop_date_tz?: string | null | undefined;
+  shop_date?: string | undefined;
+  shop_date_tz?: string | undefined;
   status?: string | undefined;
-  description?: string | null | undefined;
-  refund_status?: string | null | undefined;
-  total_amount?: number | string | undefined;
-  customer_id?: string | null | undefined;
-  marketplace?: boolean | null | undefined;
-  exempt?: string | null | undefined;
-  exemptions?: Array<Exemption$Outbound> | null | undefined;
-  related_to?: string | null | undefined;
-  secondary_external_id?: string | null | undefined;
-  secondary_source?: string | null | undefined;
-  external_friendly_id?: string | null | undefined;
-  total_tax_amount_imported?: number | string | undefined;
-  tax_rate_imported?: number | string | undefined;
-  total_tax_amount_calculated?: number | string | undefined;
-  tax_rate_calculated?: number | string | undefined;
-  total_tax_liability_amount?: number | string | undefined;
-  tax_liability_source?: string | null | undefined;
-  taxable_amount?: number | string | undefined;
+  description?: string | undefined;
+  refund_status?: string | undefined;
+  total_amount: number;
+  customer_id?: string | undefined;
+  marketplace: boolean;
+  exempt?: string | undefined;
+  exemptions?: Array<Exemption$Outbound> | undefined;
+  related_to?: string | undefined;
+  secondary_external_id?: string | undefined;
+  secondary_source?: string | undefined;
+  external_friendly_id?: string | undefined;
+  total_tax_amount_imported: number;
+  tax_rate_imported: number;
+  total_tax_amount_calculated: number;
+  tax_rate_calculated: number;
+  total_tax_liability_amount: number;
+  tax_liability_source?: string | undefined;
+  taxable_amount: number;
   currency?: string | undefined;
   locked: boolean;
   source?: string | undefined;
-  connection_id?: string | null | undefined;
-  filing_id?: string | null | undefined;
-  city?: string | null | undefined;
-  county?: string | null | undefined;
-  state?: string | null | undefined;
-  country?: string | null | undefined;
-  postal_code?: string | null | undefined;
-  tax_id?: string | null | undefined;
+  connection_id?: string | undefined;
+  filing_id?: string | undefined;
+  city?: string | undefined;
+  county?: string | undefined;
+  state?: string | undefined;
+  country?: string | undefined;
+  postal_code?: string | undefined;
+  tax_id?: string | undefined;
   addresses: Array<TransactionAddressPublic$Outbound>;
   transaction_items: Array<TransactionItemBuilder$Outbound>;
-  customer: CustomerBaseBase$Outbound | TransactionImportCustomer$Outbound;
+  customer: CustomerBaseBase$Outbound;
   type: string;
 };
 
@@ -864,50 +345,45 @@ export const TransactionPublicRequest$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   TransactionPublicRequest
 > = z.object({
-  requiresExemption: z.nullable(ExemptionRequired$outboundSchema).optional(),
+  requiresExemption: ExemptionRequired$outboundSchema.optional(),
   organizationId: z.string(),
   externalId: z.string(),
   date: z.date().transform(v => v.toISOString()),
-  shopDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-    .optional(),
-  shopDateTz: z.nullable(z.string()).optional(),
+  shopDate: z.string().optional(),
+  shopDateTz: z.string().optional(),
   status: TransactionStatusEnum$outboundSchema.optional(),
-  description: z.nullable(z.string()).optional(),
-  refundStatus: z.nullable(TransactionRefundStatus$outboundSchema).optional(),
-  totalAmount: z.union([z.number(), z.string()]).optional(),
-  customerId: z.nullable(z.string()).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
-  exempt: z.nullable(TransactionExemptStatusEnum$outboundSchema).optional(),
-  exemptions: z.nullable(z.array(Exemption$outboundSchema)).optional(),
-  relatedTo: z.nullable(z.string()).optional(),
-  secondaryExternalId: z.nullable(z.string()).optional(),
-  secondarySource: z.nullable(z.string()).optional(),
-  externalFriendlyId: z.nullable(z.string()).optional(),
-  totalTaxAmountImported: z.union([z.number(), z.string()]).optional(),
-  taxRateImported: z.union([z.number(), z.string()]).optional(),
-  totalTaxAmountCalculated: z.union([z.number(), z.string()]).optional(),
-  taxRateCalculated: z.union([z.number(), z.string()]).optional(),
-  totalTaxLiabilityAmount: z.union([z.number(), z.string()]).optional(),
-  taxLiabilitySource: z.nullable(TaxLiabilitySourceEnum$outboundSchema)
-    .optional(),
-  taxableAmount: z.union([z.number(), z.string()]).optional(),
+  description: z.string().optional(),
+  refundStatus: TransactionRefundStatus$outboundSchema.optional(),
+  totalAmount: z.number().default(0.00),
+  customerId: z.string().optional(),
+  marketplace: z.boolean().default(false),
+  exempt: TransactionExemptStatusEnum$outboundSchema.optional(),
+  exemptions: z.array(Exemption$outboundSchema).optional(),
+  relatedTo: z.string().optional(),
+  secondaryExternalId: z.string().optional(),
+  secondarySource: z.string().optional(),
+  externalFriendlyId: z.string().optional(),
+  totalTaxAmountImported: z.number().default(0.00),
+  taxRateImported: z.number().default(0.00),
+  totalTaxAmountCalculated: z.number().default(0.00),
+  taxRateCalculated: z.number().default(0.00),
+  totalTaxLiabilityAmount: z.number().default(0.00),
+  taxLiabilitySource: TaxLiabilitySourceEnum$outboundSchema.optional(),
+  taxableAmount: z.number().default(0.00),
   currency: CurrencyEnum$outboundSchema.optional(),
   locked: z.boolean().default(false),
   source: SourceEnum$outboundSchema.optional(),
-  connectionId: z.nullable(z.string()).optional(),
-  filingId: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
-  postalCode: z.nullable(z.string()).optional(),
-  taxId: z.nullable(z.string()).optional(),
+  connectionId: z.string().optional(),
+  filingId: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  country: CountryCodeEnum$outboundSchema.optional(),
+  postalCode: z.string().optional(),
+  taxId: z.string().optional(),
   addresses: z.array(TransactionAddressPublic$outboundSchema),
   transactionItems: z.array(TransactionItemBuilder$outboundSchema),
-  customer: z.union([
-    CustomerBaseBase$outboundSchema,
-    TransactionImportCustomer$outboundSchema,
-  ]),
+  customer: CustomerBaseBase$outboundSchema,
   type: TransactionTypeEnum$outboundSchema,
 }).transform((v) => {
   return remap$(v, {

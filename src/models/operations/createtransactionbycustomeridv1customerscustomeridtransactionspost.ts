@@ -9,103 +9,11 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
-export type CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity =
-  {
-    apiKeyHeader?: string | undefined;
-    httpBearer?: string | undefined;
-  };
-
 export type CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest =
   {
     customerId: string;
-    /**
-     * The unique identifier for the organization making the request
-     */
-    xOrganizationId: string | null;
     transactionCreate: models.TransactionCreate;
   };
-
-/** @internal */
-export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$inboundSchema:
-  z.ZodType<
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$Outbound =
-  {
-    APIKeyHeader?: string | undefined;
-    HTTPBearer?: string | undefined;
-  };
-
-/** @internal */
-export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$outboundSchema:
-  z.ZodType<
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$Outbound,
-    z.ZodTypeDef,
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$ {
-  /** @deprecated use `CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$inboundSchema;
-  /** @deprecated use `CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$outboundSchema;
-  /** @deprecated use `CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$Outbound` instead. */
-  export type Outbound =
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$Outbound;
-}
-
-export function createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurityToJSON(
-  createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity:
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity,
-): string {
-  return JSON.stringify(
-    CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$outboundSchema
-      .parse(
-        createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity,
-      ),
-  );
-}
-
-export function createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity$inboundSchema
-        .parse(JSON.parse(x)),
-    `Failed to parse 'CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest$inboundSchema:
@@ -115,12 +23,10 @@ export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     unknown
   > = z.object({
     customer_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
     TransactionCreate: models.TransactionCreate$inboundSchema,
   }).transform((v) => {
     return remap$(v, {
       "customer_id": "customerId",
-      "x-organization-id": "xOrganizationId",
       "TransactionCreate": "transactionCreate",
     });
   });
@@ -129,7 +35,6 @@ export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
 export type CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest$Outbound =
   {
     customer_id: string;
-    "x-organization-id": string | null;
     TransactionCreate: models.TransactionCreate$Outbound;
   };
 
@@ -141,12 +46,10 @@ export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest
   > = z.object({
     customerId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
     transactionCreate: models.TransactionCreate$outboundSchema,
   }).transform((v) => {
     return remap$(v, {
       customerId: "customer_id",
-      xOrganizationId: "x-organization-id",
       transactionCreate: "TransactionCreate",
     });
   });

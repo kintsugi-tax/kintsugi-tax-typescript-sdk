@@ -19,31 +19,6 @@ import {
   TaxItemBuilder$outboundSchema,
 } from "./taxitembuilder.js";
 
-/**
- * Number of units or amount of the product being credited.
- */
-export type CreditNoteItemCreateUpdateQuantity = number | string;
-
-/**
- * Total monetary value of the credit note item before taxes.
- */
-export type CreditNoteItemCreateUpdateAmount = number | string;
-
-/**
- * Pre-calculated tax amount for the item, if provided by the external system.
- */
-export type CreditNoteItemCreateUpdateTaxAmountImported = number | string;
-
-/**
- * Pre-calculated tax rate for the item, if provided by the external system.
- */
-export type CreditNoteItemCreateUpdateTaxRateImported = number | string;
-
-/**
- * Portion of the item amount subject to taxation.
- */
-export type CreditNoteItemCreateUpdateTaxableAmount = number | string;
-
 export type CreditNoteItemCreateUpdate = {
   /**
    * Unique identifier for the credit note item in the external system.
@@ -56,7 +31,7 @@ export type CreditNoteItemCreateUpdate = {
   /**
    * Brief explanation or details about the credit note item.
    */
-  description?: string | null | undefined;
+  description?: string | undefined;
   /**
    * Unique identifier for the associated product in the external system.
    */
@@ -64,318 +39,32 @@ export type CreditNoteItemCreateUpdate = {
   /**
    * Number of units or amount of the product being credited.
    */
-  quantity?: number | string | undefined;
+  quantity?: number | undefined;
   /**
    * Total monetary value of the credit note item before taxes.
    */
-  amount?: number | string | undefined;
+  amount?: number | undefined;
   /**
    * Pre-calculated tax amount for the item, if provided by the external system.
    */
-  taxAmountImported?: number | string | null | undefined;
+  taxAmountImported?: number | undefined;
   /**
    * Pre-calculated tax rate for the item, if provided by the external system.
    */
-  taxRateImported?: number | string | null | undefined;
+  taxRateImported?: number | undefined;
   /**
    * Portion of the item amount subject to taxation.
    */
-  taxableAmount?: number | string | null | undefined;
+  taxableAmount?: number | undefined;
   /**
-   * Specific tax exemption status applied to this item, if any.
+   * This enum is used to determine if a transaction is exempt from tax.
    */
-  taxExemption?: TaxExemptionEnum | null | undefined;
+  taxExemption?: TaxExemptionEnum | undefined;
   /**
    * Detailed breakdown of individual tax components applied to this item.
    */
   taxItems?: Array<TaxItemBuilder> | undefined;
 };
-
-/** @internal */
-export const CreditNoteItemCreateUpdateQuantity$inboundSchema: z.ZodType<
-  CreditNoteItemCreateUpdateQuantity,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type CreditNoteItemCreateUpdateQuantity$Outbound = number | string;
-
-/** @internal */
-export const CreditNoteItemCreateUpdateQuantity$outboundSchema: z.ZodType<
-  CreditNoteItemCreateUpdateQuantity$Outbound,
-  z.ZodTypeDef,
-  CreditNoteItemCreateUpdateQuantity
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreditNoteItemCreateUpdateQuantity$ {
-  /** @deprecated use `CreditNoteItemCreateUpdateQuantity$inboundSchema` instead. */
-  export const inboundSchema = CreditNoteItemCreateUpdateQuantity$inboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateQuantity$outboundSchema` instead. */
-  export const outboundSchema =
-    CreditNoteItemCreateUpdateQuantity$outboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateQuantity$Outbound` instead. */
-  export type Outbound = CreditNoteItemCreateUpdateQuantity$Outbound;
-}
-
-export function creditNoteItemCreateUpdateQuantityToJSON(
-  creditNoteItemCreateUpdateQuantity: CreditNoteItemCreateUpdateQuantity,
-): string {
-  return JSON.stringify(
-    CreditNoteItemCreateUpdateQuantity$outboundSchema.parse(
-      creditNoteItemCreateUpdateQuantity,
-    ),
-  );
-}
-
-export function creditNoteItemCreateUpdateQuantityFromJSON(
-  jsonString: string,
-): SafeParseResult<CreditNoteItemCreateUpdateQuantity, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      CreditNoteItemCreateUpdateQuantity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreditNoteItemCreateUpdateQuantity' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreditNoteItemCreateUpdateAmount$inboundSchema: z.ZodType<
-  CreditNoteItemCreateUpdateAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type CreditNoteItemCreateUpdateAmount$Outbound = number | string;
-
-/** @internal */
-export const CreditNoteItemCreateUpdateAmount$outboundSchema: z.ZodType<
-  CreditNoteItemCreateUpdateAmount$Outbound,
-  z.ZodTypeDef,
-  CreditNoteItemCreateUpdateAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreditNoteItemCreateUpdateAmount$ {
-  /** @deprecated use `CreditNoteItemCreateUpdateAmount$inboundSchema` instead. */
-  export const inboundSchema = CreditNoteItemCreateUpdateAmount$inboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateAmount$outboundSchema` instead. */
-  export const outboundSchema = CreditNoteItemCreateUpdateAmount$outboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateAmount$Outbound` instead. */
-  export type Outbound = CreditNoteItemCreateUpdateAmount$Outbound;
-}
-
-export function creditNoteItemCreateUpdateAmountToJSON(
-  creditNoteItemCreateUpdateAmount: CreditNoteItemCreateUpdateAmount,
-): string {
-  return JSON.stringify(
-    CreditNoteItemCreateUpdateAmount$outboundSchema.parse(
-      creditNoteItemCreateUpdateAmount,
-    ),
-  );
-}
-
-export function creditNoteItemCreateUpdateAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<CreditNoteItemCreateUpdateAmount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => CreditNoteItemCreateUpdateAmount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'CreditNoteItemCreateUpdateAmount' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreditNoteItemCreateUpdateTaxAmountImported$inboundSchema:
-  z.ZodType<
-    CreditNoteItemCreateUpdateTaxAmountImported,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type CreditNoteItemCreateUpdateTaxAmountImported$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const CreditNoteItemCreateUpdateTaxAmountImported$outboundSchema:
-  z.ZodType<
-    CreditNoteItemCreateUpdateTaxAmountImported$Outbound,
-    z.ZodTypeDef,
-    CreditNoteItemCreateUpdateTaxAmountImported
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreditNoteItemCreateUpdateTaxAmountImported$ {
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxAmountImported$inboundSchema` instead. */
-  export const inboundSchema =
-    CreditNoteItemCreateUpdateTaxAmountImported$inboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxAmountImported$outboundSchema` instead. */
-  export const outboundSchema =
-    CreditNoteItemCreateUpdateTaxAmountImported$outboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxAmountImported$Outbound` instead. */
-  export type Outbound = CreditNoteItemCreateUpdateTaxAmountImported$Outbound;
-}
-
-export function creditNoteItemCreateUpdateTaxAmountImportedToJSON(
-  creditNoteItemCreateUpdateTaxAmountImported:
-    CreditNoteItemCreateUpdateTaxAmountImported,
-): string {
-  return JSON.stringify(
-    CreditNoteItemCreateUpdateTaxAmountImported$outboundSchema.parse(
-      creditNoteItemCreateUpdateTaxAmountImported,
-    ),
-  );
-}
-
-export function creditNoteItemCreateUpdateTaxAmountImportedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  CreditNoteItemCreateUpdateTaxAmountImported,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      CreditNoteItemCreateUpdateTaxAmountImported$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'CreditNoteItemCreateUpdateTaxAmountImported' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreditNoteItemCreateUpdateTaxRateImported$inboundSchema: z.ZodType<
-  CreditNoteItemCreateUpdateTaxRateImported,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type CreditNoteItemCreateUpdateTaxRateImported$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const CreditNoteItemCreateUpdateTaxRateImported$outboundSchema:
-  z.ZodType<
-    CreditNoteItemCreateUpdateTaxRateImported$Outbound,
-    z.ZodTypeDef,
-    CreditNoteItemCreateUpdateTaxRateImported
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreditNoteItemCreateUpdateTaxRateImported$ {
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxRateImported$inboundSchema` instead. */
-  export const inboundSchema =
-    CreditNoteItemCreateUpdateTaxRateImported$inboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxRateImported$outboundSchema` instead. */
-  export const outboundSchema =
-    CreditNoteItemCreateUpdateTaxRateImported$outboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxRateImported$Outbound` instead. */
-  export type Outbound = CreditNoteItemCreateUpdateTaxRateImported$Outbound;
-}
-
-export function creditNoteItemCreateUpdateTaxRateImportedToJSON(
-  creditNoteItemCreateUpdateTaxRateImported:
-    CreditNoteItemCreateUpdateTaxRateImported,
-): string {
-  return JSON.stringify(
-    CreditNoteItemCreateUpdateTaxRateImported$outboundSchema.parse(
-      creditNoteItemCreateUpdateTaxRateImported,
-    ),
-  );
-}
-
-export function creditNoteItemCreateUpdateTaxRateImportedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  CreditNoteItemCreateUpdateTaxRateImported,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      CreditNoteItemCreateUpdateTaxRateImported$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'CreditNoteItemCreateUpdateTaxRateImported' from JSON`,
-  );
-}
-
-/** @internal */
-export const CreditNoteItemCreateUpdateTaxableAmount$inboundSchema: z.ZodType<
-  CreditNoteItemCreateUpdateTaxableAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type CreditNoteItemCreateUpdateTaxableAmount$Outbound = number | string;
-
-/** @internal */
-export const CreditNoteItemCreateUpdateTaxableAmount$outboundSchema: z.ZodType<
-  CreditNoteItemCreateUpdateTaxableAmount$Outbound,
-  z.ZodTypeDef,
-  CreditNoteItemCreateUpdateTaxableAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace CreditNoteItemCreateUpdateTaxableAmount$ {
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxableAmount$inboundSchema` instead. */
-  export const inboundSchema =
-    CreditNoteItemCreateUpdateTaxableAmount$inboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxableAmount$outboundSchema` instead. */
-  export const outboundSchema =
-    CreditNoteItemCreateUpdateTaxableAmount$outboundSchema;
-  /** @deprecated use `CreditNoteItemCreateUpdateTaxableAmount$Outbound` instead. */
-  export type Outbound = CreditNoteItemCreateUpdateTaxableAmount$Outbound;
-}
-
-export function creditNoteItemCreateUpdateTaxableAmountToJSON(
-  creditNoteItemCreateUpdateTaxableAmount:
-    CreditNoteItemCreateUpdateTaxableAmount,
-): string {
-  return JSON.stringify(
-    CreditNoteItemCreateUpdateTaxableAmount$outboundSchema.parse(
-      creditNoteItemCreateUpdateTaxableAmount,
-    ),
-  );
-}
-
-export function creditNoteItemCreateUpdateTaxableAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  CreditNoteItemCreateUpdateTaxableAmount,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      CreditNoteItemCreateUpdateTaxableAmount$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'CreditNoteItemCreateUpdateTaxableAmount' from JSON`,
-  );
-}
 
 /** @internal */
 export const CreditNoteItemCreateUpdate$inboundSchema: z.ZodType<
@@ -385,14 +74,14 @@ export const CreditNoteItemCreateUpdate$inboundSchema: z.ZodType<
 > = z.object({
   external_id: z.string(),
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   external_product_id: z.string(),
-  quantity: z.union([z.number(), z.string()]).optional(),
-  amount: z.union([z.number(), z.string()]).optional(),
-  tax_amount_imported: z.nullable(z.union([z.number(), z.string()])).optional(),
-  tax_rate_imported: z.nullable(z.union([z.number(), z.string()])).optional(),
-  taxable_amount: z.nullable(z.union([z.number(), z.string()])).optional(),
-  tax_exemption: z.nullable(TaxExemptionEnum$inboundSchema).optional(),
+  quantity: z.number().default(1.0),
+  amount: z.number().default(0.00),
+  tax_amount_imported: z.number().optional(),
+  tax_rate_imported: z.number().optional(),
+  taxable_amount: z.number().optional(),
+  tax_exemption: TaxExemptionEnum$inboundSchema.optional(),
   tax_items: z.array(TaxItemBuilder$inboundSchema).optional(),
 }).transform((v) => {
   return remap$(v, {
@@ -410,14 +99,14 @@ export const CreditNoteItemCreateUpdate$inboundSchema: z.ZodType<
 export type CreditNoteItemCreateUpdate$Outbound = {
   external_id: string;
   date: string;
-  description?: string | null | undefined;
+  description?: string | undefined;
   external_product_id: string;
-  quantity?: number | string | undefined;
-  amount?: number | string | undefined;
-  tax_amount_imported?: number | string | null | undefined;
-  tax_rate_imported?: number | string | null | undefined;
-  taxable_amount?: number | string | null | undefined;
-  tax_exemption?: string | null | undefined;
+  quantity: number;
+  amount: number;
+  tax_amount_imported?: number | undefined;
+  tax_rate_imported?: number | undefined;
+  taxable_amount?: number | undefined;
+  tax_exemption?: string | undefined;
   tax_items?: Array<TaxItemBuilder$Outbound> | undefined;
 };
 
@@ -429,14 +118,14 @@ export const CreditNoteItemCreateUpdate$outboundSchema: z.ZodType<
 > = z.object({
   externalId: z.string(),
   date: z.date().transform(v => v.toISOString()),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   externalProductId: z.string(),
-  quantity: z.union([z.number(), z.string()]).optional(),
-  amount: z.union([z.number(), z.string()]).optional(),
-  taxAmountImported: z.nullable(z.union([z.number(), z.string()])).optional(),
-  taxRateImported: z.nullable(z.union([z.number(), z.string()])).optional(),
-  taxableAmount: z.nullable(z.union([z.number(), z.string()])).optional(),
-  taxExemption: z.nullable(TaxExemptionEnum$outboundSchema).optional(),
+  quantity: z.number().default(1.0),
+  amount: z.number().default(0.00),
+  taxAmountImported: z.number().optional(),
+  taxRateImported: z.number().optional(),
+  taxableAmount: z.number().optional(),
+  taxExemption: TaxExemptionEnum$outboundSchema.optional(),
   taxItems: z.array(TaxItemBuilder$outboundSchema).optional(),
 }).transform((v) => {
   return remap$(v, {

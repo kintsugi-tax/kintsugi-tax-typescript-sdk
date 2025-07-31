@@ -29,11 +29,8 @@ export type ExemptionCreate = {
   /**
    * The jurisdiction identifier for the exemption
    */
-  jurisdiction?: string | null | undefined;
-  /**
-   * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
-   */
-  countryCode?: CountryCodeEnum | null | undefined;
+  jurisdiction?: string | undefined;
+  countryCode?: CountryCodeEnum | undefined;
   /**
    * Start date for the exemption validity period (YYYY-MM-DD format)
    */
@@ -41,7 +38,7 @@ export type ExemptionCreate = {
   /**
    * End date for the exemption validity period (YYYY-MM-DD format)
    */
-  endDate?: RFCDate | null | undefined;
+  endDate?: string | undefined;
   /**
    * Unique identifier for the customer associated with the exemption
    */
@@ -49,7 +46,7 @@ export type ExemptionCreate = {
   /**
    * Unique identifier for the transaction, if applicable
    */
-  transactionId?: string | null | undefined;
+  transactionId?: string | undefined;
   /**
    * Indicates whether the exemption is for a reseller
    */
@@ -72,12 +69,12 @@ export const ExemptionCreate$inboundSchema: z.ZodType<
   unknown
 > = z.object({
   exemption_type: ExemptionType$inboundSchema,
-  jurisdiction: z.nullable(z.string()).optional(),
-  country_code: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+  jurisdiction: z.string().optional(),
+  country_code: CountryCodeEnum$inboundSchema.optional(),
   start_date: z.string().transform(v => new RFCDate(v)),
-  end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+  end_date: z.string().optional(),
   customer_id: z.string(),
-  transaction_id: z.nullable(z.string()).optional(),
+  transaction_id: z.string().optional(),
   reseller: z.boolean().default(false),
   FEIN: z.string(),
   sales_tax_id: z.string(),
@@ -98,12 +95,12 @@ export const ExemptionCreate$inboundSchema: z.ZodType<
 /** @internal */
 export type ExemptionCreate$Outbound = {
   exemption_type: string;
-  jurisdiction?: string | null | undefined;
-  country_code?: string | null | undefined;
+  jurisdiction?: string | undefined;
+  country_code?: string | undefined;
   start_date: string;
-  end_date?: string | null | undefined;
+  end_date?: string | undefined;
   customer_id: string;
-  transaction_id?: string | null | undefined;
+  transaction_id?: string | undefined;
   reseller: boolean;
   FEIN: string;
   sales_tax_id: string;
@@ -117,13 +114,12 @@ export const ExemptionCreate$outboundSchema: z.ZodType<
   ExemptionCreate
 > = z.object({
   exemptionType: ExemptionType$outboundSchema,
-  jurisdiction: z.nullable(z.string()).optional(),
-  countryCode: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+  jurisdiction: z.string().optional(),
+  countryCode: CountryCodeEnum$outboundSchema.optional(),
   startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-    .optional(),
+  endDate: z.string().optional(),
   customerId: z.string(),
-  transactionId: z.nullable(z.string()).optional(),
+  transactionId: z.string().optional(),
   reseller: z.boolean().default(false),
   fein: z.string(),
   salesTaxId: z.string(),

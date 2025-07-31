@@ -2,9 +2,7 @@
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDK();
 
 async function run() {
   const result = await sdk.addressValidation.search({

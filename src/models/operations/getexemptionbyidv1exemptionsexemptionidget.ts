@@ -8,102 +8,12 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetExemptionByIdV1ExemptionsExemptionIdGetSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type GetExemptionByIdV1ExemptionsExemptionIdGetRequest = {
   /**
    * The unique identifier for the exemption being retrieved.
    */
   exemptionId: string;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$inboundSchema:
-  z.ZodType<
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$outboundSchema:
-  z.ZodType<
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$Outbound,
-    z.ZodTypeDef,
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$ {
-  /** @deprecated use `GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$inboundSchema;
-  /** @deprecated use `GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$outboundSchema;
-  /** @deprecated use `GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$Outbound` instead. */
-  export type Outbound =
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$Outbound;
-}
-
-export function getExemptionByIdV1ExemptionsExemptionIdGetSecurityToJSON(
-  getExemptionByIdV1ExemptionsExemptionIdGetSecurity:
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity,
-): string {
-  return JSON.stringify(
-    GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$outboundSchema.parse(
-      getExemptionByIdV1ExemptionsExemptionIdGetSecurity,
-    ),
-  );
-}
-
-export function getExemptionByIdV1ExemptionsExemptionIdGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetExemptionByIdV1ExemptionsExemptionIdGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetExemptionByIdV1ExemptionsExemptionIdGetSecurity$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetExemptionByIdV1ExemptionsExemptionIdGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetExemptionByIdV1ExemptionsExemptionIdGetRequest$inboundSchema:
@@ -113,18 +23,15 @@ export const GetExemptionByIdV1ExemptionsExemptionIdGetRequest$inboundSchema:
     unknown
   > = z.object({
     exemption_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       "exemption_id": "exemptionId",
-      "x-organization-id": "xOrganizationId",
     });
   });
 
 /** @internal */
 export type GetExemptionByIdV1ExemptionsExemptionIdGetRequest$Outbound = {
   exemption_id: string;
-  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -135,11 +42,9 @@ export const GetExemptionByIdV1ExemptionsExemptionIdGetRequest$outboundSchema:
     GetExemptionByIdV1ExemptionsExemptionIdGetRequest
   > = z.object({
     exemptionId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       exemptionId: "exemption_id",
-      xOrganizationId: "x-organization-id",
     });
   });
 

@@ -15,10 +15,10 @@ import {
 
 export type PageTransactionRead = {
   items: Array<TransactionRead>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -28,19 +28,19 @@ export const PageTransactionRead$inboundSchema: z.ZodType<
   unknown
 > = z.object({
   items: z.array(TransactionRead$inboundSchema),
-  total: z.nullable(z.number().int()),
-  page: z.nullable(z.number().int()),
-  size: z.nullable(z.number().int()),
-  pages: z.nullable(z.number().int()).optional(),
+  total: z.number().int(),
+  page: z.number().int(),
+  size: z.number().int(),
+  pages: z.number().int().optional(),
 });
 
 /** @internal */
 export type PageTransactionRead$Outbound = {
   items: Array<TransactionRead$Outbound>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -50,10 +50,10 @@ export const PageTransactionRead$outboundSchema: z.ZodType<
   PageTransactionRead
 > = z.object({
   items: z.array(TransactionRead$outboundSchema),
-  total: z.nullable(z.number().int()),
-  page: z.nullable(z.number().int()),
-  size: z.nullable(z.number().int()),
-  pages: z.nullable(z.number().int()).optional(),
+  total: z.number().int(),
+  page: z.number().int(),
+  size: z.number().int(),
+  pages: z.number().int().optional(),
 });
 
 /**

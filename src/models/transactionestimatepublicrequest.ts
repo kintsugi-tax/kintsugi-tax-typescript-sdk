@@ -32,11 +32,6 @@ import {
 } from "./transactionitemestimatebase.js";
 
 /**
- * Total amount of the transaction.
- */
-export type TotalAmountOfTheTransactionAfterDiscounts = number | string;
-
-/**
  * Type of the address. Must be either
  *
  * @remarks
@@ -126,97 +121,27 @@ export type TransactionEstimatePublicRequest = {
   /**
    * Total amount of the transaction.
    */
-  totalAmount?: number | string | undefined;
+  totalAmount?: number | undefined;
   currency: CurrencyEnum;
   /**
    * An optional description of the transaction.
    */
-  description?: string | null | undefined;
-  /**
-   * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-   *
-   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  source?: SourceEnum | null | undefined;
+  description?: string | undefined;
+  source?: SourceEnum | undefined;
   /**
    * Indicates if the transaction involves a marketplace.
    */
-  marketplace?: boolean | null | undefined;
+  marketplace?: boolean | undefined;
   /**
    * List of items involved in the transaction.
    */
   transactionItems: Array<TransactionItemEstimateBase>;
-  /**
-   * Details about the customer. If the customer is not found, it will be ignored.
-   */
-  customer?: CustomerBasePublic | null | undefined;
+  customer?: CustomerBasePublic | undefined;
   /**
    * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
    */
   addresses: Array<TransactionEstimatePublicRequestAddress>;
 };
-
-/** @internal */
-export const TotalAmountOfTheTransactionAfterDiscounts$inboundSchema: z.ZodType<
-  TotalAmountOfTheTransactionAfterDiscounts,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TotalAmountOfTheTransactionAfterDiscounts$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TotalAmountOfTheTransactionAfterDiscounts$outboundSchema:
-  z.ZodType<
-    TotalAmountOfTheTransactionAfterDiscounts$Outbound,
-    z.ZodTypeDef,
-    TotalAmountOfTheTransactionAfterDiscounts
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TotalAmountOfTheTransactionAfterDiscounts$ {
-  /** @deprecated use `TotalAmountOfTheTransactionAfterDiscounts$inboundSchema` instead. */
-  export const inboundSchema =
-    TotalAmountOfTheTransactionAfterDiscounts$inboundSchema;
-  /** @deprecated use `TotalAmountOfTheTransactionAfterDiscounts$outboundSchema` instead. */
-  export const outboundSchema =
-    TotalAmountOfTheTransactionAfterDiscounts$outboundSchema;
-  /** @deprecated use `TotalAmountOfTheTransactionAfterDiscounts$Outbound` instead. */
-  export type Outbound = TotalAmountOfTheTransactionAfterDiscounts$Outbound;
-}
-
-export function totalAmountOfTheTransactionAfterDiscountsToJSON(
-  totalAmountOfTheTransactionAfterDiscounts:
-    TotalAmountOfTheTransactionAfterDiscounts,
-): string {
-  return JSON.stringify(
-    TotalAmountOfTheTransactionAfterDiscounts$outboundSchema.parse(
-      totalAmountOfTheTransactionAfterDiscounts,
-    ),
-  );
-}
-
-export function totalAmountOfTheTransactionAfterDiscountsFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TotalAmountOfTheTransactionAfterDiscounts,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TotalAmountOfTheTransactionAfterDiscounts$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TotalAmountOfTheTransactionAfterDiscounts' from JSON`,
-  );
-}
 
 /** @internal */
 export const TransactionEstimatePublicRequestType$inboundSchema:
@@ -359,13 +284,13 @@ export const TransactionEstimatePublicRequest$inboundSchema: z.ZodType<
 > = z.object({
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
   external_id: z.string(),
-  total_amount: z.union([z.number(), z.string()]).optional(),
+  total_amount: z.number().default(0.0),
   currency: CurrencyEnum$inboundSchema,
-  description: z.nullable(z.string()).optional(),
-  source: z.nullable(SourceEnum$inboundSchema).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
+  description: z.string().optional(),
+  source: SourceEnum$inboundSchema.optional(),
+  marketplace: z.boolean().default(false),
   transaction_items: z.array(TransactionItemEstimateBase$inboundSchema),
-  customer: z.nullable(CustomerBasePublic$inboundSchema).optional(),
+  customer: CustomerBasePublic$inboundSchema.optional(),
   addresses: z.array(
     z.lazy(() => TransactionEstimatePublicRequestAddress$inboundSchema),
   ),
@@ -381,13 +306,13 @@ export const TransactionEstimatePublicRequest$inboundSchema: z.ZodType<
 export type TransactionEstimatePublicRequest$Outbound = {
   date: string;
   external_id: string;
-  total_amount?: number | string | undefined;
+  total_amount: number;
   currency: string;
-  description?: string | null | undefined;
-  source?: string | null | undefined;
-  marketplace?: boolean | null | undefined;
+  description?: string | undefined;
+  source?: string | undefined;
+  marketplace: boolean;
   transaction_items: Array<TransactionItemEstimateBase$Outbound>;
-  customer?: CustomerBasePublic$Outbound | null | undefined;
+  customer?: CustomerBasePublic$Outbound | undefined;
   addresses: Array<TransactionEstimatePublicRequestAddress$Outbound>;
 };
 
@@ -399,13 +324,13 @@ export const TransactionEstimatePublicRequest$outboundSchema: z.ZodType<
 > = z.object({
   date: z.date().transform(v => v.toISOString()),
   externalId: z.string(),
-  totalAmount: z.union([z.number(), z.string()]).optional(),
+  totalAmount: z.number().default(0.0),
   currency: CurrencyEnum$outboundSchema,
-  description: z.nullable(z.string()).optional(),
-  source: z.nullable(SourceEnum$outboundSchema).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
+  description: z.string().optional(),
+  source: SourceEnum$outboundSchema.optional(),
+  marketplace: z.boolean().default(false),
   transactionItems: z.array(TransactionItemEstimateBase$outboundSchema),
-  customer: z.nullable(CustomerBasePublic$outboundSchema).optional(),
+  customer: CustomerBasePublic$outboundSchema.optional(),
   addresses: z.array(
     z.lazy(() => TransactionEstimatePublicRequestAddress$outboundSchema),
   ),

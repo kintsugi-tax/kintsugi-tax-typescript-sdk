@@ -3,12 +3,12 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { encodeJSON } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
-import { resolveSecurity } from "../lib/security.js";
+import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
@@ -22,7 +22,6 @@ import { ResponseValidationError } from "../models/errors/responsevalidationerro
 import { SDKError } from "../models/errors/sdkerror.js";
 import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
-import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
@@ -36,8 +35,7 @@ import { Result } from "../types/fp.js";
  */
 export function productsCreate(
   client: SDKCore,
-  security: operations.CreateProductV1ProductsPostSecurity,
-  request: operations.CreateProductV1ProductsPostRequest,
+  request: models.ProductCreateManual,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -56,7 +54,6 @@ export function productsCreate(
 > {
   return new APIPromise($do(
     client,
-    security,
     request,
     options,
   ));
@@ -64,8 +61,7 @@ export function productsCreate(
 
 async function $do(
   client: SDKCore,
-  security: operations.CreateProductV1ProductsPostSecurity,
-  request: operations.CreateProductV1ProductsPostRequest,
+  request: models.ProductCreateManual,
   options?: RequestOptions,
 ): Promise<
   [
@@ -87,56 +83,34 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) =>
-      operations.CreateProductV1ProductsPostRequest$outboundSchema.parse(value),
+    (value) => models.ProductCreateManual$outboundSchema.parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = encodeJSON("body", payload.ProductCreateManual, {
-    explode: true,
-  });
+  const body = encodeJSON("body", payload, { explode: true });
 
   const path = pathToFunc("/v1/products/")();
 
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
     Accept: "application/json",
-    "x-organization-id": encodeSimple(
-      "x-organization-id",
-      payload["x-organization-id"],
-      { explode: false, charEncoding: "none" },
-    ),
   }));
 
-  const requestSecurity = resolveSecurity(
-    [
-      {
-        fieldName: "X-API-KEY",
-        type: "apiKey:header",
-        value: security?.apiKeyHeader,
-      },
-    ],
-    [
-      {
-        fieldName: "Authorization",
-        type: "http:bearer",
-        value: security?.httpBearer,
-      },
-    ],
-  );
+  const securityInput = await extractSecurity(client._options.security);
+  const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID: "create_product_v1_products__post",
-    oAuth2Scopes: null,
+    oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: security,
+    securitySource: client._options.security,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },

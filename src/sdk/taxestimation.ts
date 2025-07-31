@@ -18,13 +18,11 @@ export class TaxEstimation extends ClientSDK {
    *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
    */
   async estimateTax(
-    security: operations.EstimateTaxV1TaxEstimatePostSecurity,
     request: operations.EstimateTaxV1TaxEstimatePostRequest,
     options?: RequestOptions,
   ): Promise<models.PageTransactionEstimateResponse> {
     return unwrapAsync(taxEstimationEstimateTax(
       this,
-      security,
       request,
       options,
     ));

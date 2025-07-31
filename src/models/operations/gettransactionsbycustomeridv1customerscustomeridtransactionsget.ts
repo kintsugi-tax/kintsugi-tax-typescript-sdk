@@ -8,102 +8,10 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity =
-  {
-    apiKeyHeader?: string | undefined;
-    httpBearer?: string | undefined;
-  };
-
 export type GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest =
   {
     customerId: string;
-    /**
-     * The unique identifier for the organization making the request
-     */
-    xOrganizationId: string | null;
   };
-
-/** @internal */
-export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$inboundSchema:
-  z.ZodType<
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$Outbound =
-  {
-    APIKeyHeader?: string | undefined;
-    HTTPBearer?: string | undefined;
-  };
-
-/** @internal */
-export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$outboundSchema:
-  z.ZodType<
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$Outbound,
-    z.ZodTypeDef,
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$ {
-  /** @deprecated use `GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$inboundSchema;
-  /** @deprecated use `GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$outboundSchema;
-  /** @deprecated use `GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$Outbound` instead. */
-  export type Outbound =
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$Outbound;
-}
-
-export function getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurityToJSON(
-  getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity:
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity,
-): string {
-  return JSON.stringify(
-    GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$outboundSchema
-      .parse(
-        getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity,
-      ),
-  );
-}
-
-export function getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity$inboundSchema
-        .parse(JSON.parse(x)),
-    `Failed to parse 'GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest$inboundSchema:
@@ -113,11 +21,9 @@ export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     unknown
   > = z.object({
     customer_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       "customer_id": "customerId",
-      "x-organization-id": "xOrganizationId",
     });
   });
 
@@ -125,7 +31,6 @@ export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
 export type GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest$Outbound =
   {
     customer_id: string;
-    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -136,11 +41,9 @@ export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
   > = z.object({
     customerId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       customerId: "customer_id",
-      xOrganizationId: "x-organization-id",
     });
   });
 

@@ -8,101 +8,12 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetProductByIdV1ProductsProductIdGetSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type GetProductByIdV1ProductsProductIdGetRequest = {
   /**
    * The unique identifier for the product you want to retrieve.
    */
   productId: string;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetProductByIdV1ProductsProductIdGetSecurity$inboundSchema:
-  z.ZodType<
-    GetProductByIdV1ProductsProductIdGetSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type GetProductByIdV1ProductsProductIdGetSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const GetProductByIdV1ProductsProductIdGetSecurity$outboundSchema:
-  z.ZodType<
-    GetProductByIdV1ProductsProductIdGetSecurity$Outbound,
-    z.ZodTypeDef,
-    GetProductByIdV1ProductsProductIdGetSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetProductByIdV1ProductsProductIdGetSecurity$ {
-  /** @deprecated use `GetProductByIdV1ProductsProductIdGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetProductByIdV1ProductsProductIdGetSecurity$inboundSchema;
-  /** @deprecated use `GetProductByIdV1ProductsProductIdGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetProductByIdV1ProductsProductIdGetSecurity$outboundSchema;
-  /** @deprecated use `GetProductByIdV1ProductsProductIdGetSecurity$Outbound` instead. */
-  export type Outbound = GetProductByIdV1ProductsProductIdGetSecurity$Outbound;
-}
-
-export function getProductByIdV1ProductsProductIdGetSecurityToJSON(
-  getProductByIdV1ProductsProductIdGetSecurity:
-    GetProductByIdV1ProductsProductIdGetSecurity,
-): string {
-  return JSON.stringify(
-    GetProductByIdV1ProductsProductIdGetSecurity$outboundSchema.parse(
-      getProductByIdV1ProductsProductIdGetSecurity,
-    ),
-  );
-}
-
-export function getProductByIdV1ProductsProductIdGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetProductByIdV1ProductsProductIdGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetProductByIdV1ProductsProductIdGetSecurity$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetProductByIdV1ProductsProductIdGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetProductByIdV1ProductsProductIdGetRequest$inboundSchema:
@@ -112,18 +23,15 @@ export const GetProductByIdV1ProductsProductIdGetRequest$inboundSchema:
     unknown
   > = z.object({
     product_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       "product_id": "productId",
-      "x-organization-id": "xOrganizationId",
     });
   });
 
 /** @internal */
 export type GetProductByIdV1ProductsProductIdGetRequest$Outbound = {
   product_id: string;
-  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -134,11 +42,9 @@ export const GetProductByIdV1ProductsProductIdGetRequest$outboundSchema:
     GetProductByIdV1ProductsProductIdGetRequest
   > = z.object({
     productId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       productId: "product_id",
-      xOrganizationId: "x-organization-id",
     });
   });
 

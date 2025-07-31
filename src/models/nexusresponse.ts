@@ -54,6 +54,8 @@ import {
   TreatmentEnum$outboundSchema,
 } from "./treatmentenum.js";
 
+export type Registration = {};
+
 export type NexusResponse = {
   processingStatus?: NexusStatusEnum | undefined;
   status?: NexusStateEnum | undefined;
@@ -64,7 +66,7 @@ export type NexusResponse = {
   trigger: string;
   salesOrTransactions: SalesOrTransactionsEnum;
   thresholdSales: number;
-  thresholdTransactions: number | null;
+  thresholdTransactions: number;
   startDate: RFCDate;
   transactionCount?: number | undefined;
   transactionsAmount?: string | undefined;
@@ -80,50 +82,91 @@ export type NexusResponse = {
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   previousTransactionsAmount?: string | undefined;
-  calculatedTaxLiability?: string | null | undefined;
-  importedTaxLiability?: string | null | undefined;
+  calculatedTaxLiability?: string | undefined;
+  importedTaxLiability?: string | undefined;
   taxLiability?: string | undefined;
   nexusMet?: boolean | undefined;
-  nexusMetDate?: RFCDate | null | undefined;
+  nexusMetDate?: string | undefined;
   economicNexusMet?: boolean | undefined;
-  economicNexusMetDate?: RFCDate | null | undefined;
+  economicNexusMetDate?: string | undefined;
   physicalNexusMet?: boolean | undefined;
-  physicalNexusMetDate?: RFCDate | null | undefined;
-  collectedTaxNexusMet?: boolean | null | undefined;
-  collectedTaxNexusMetDate?: RFCDate | null | undefined;
+  physicalNexusMetDate?: string | undefined;
+  collectedTaxNexusMet?: boolean | undefined;
+  collectedTaxNexusMetDate?: string | undefined;
   collectedTaxEnabled?: boolean | undefined;
   periodModel: PeriodModelEnum;
   periodStartDate: RFCDate;
   periodEndDate: RFCDate;
-  previousPeriodStartDate: RFCDate | null;
-  previousPeriodEndDate: RFCDate | null;
-  earliestTransactionDate?: Date | null | undefined;
-  mostRecentTransactionDate?: Date | null | undefined;
+  previousPeriodStartDate: string;
+  previousPeriodEndDate: string;
+  earliestTransactionDate?: string | undefined;
+  mostRecentTransactionDate?: string | undefined;
   earliestCollectedDate?: Date | undefined;
-  predictedMonthFromToday?: number | null | undefined;
-  vdaEligible?: boolean | null | undefined;
-  confidenceLevel?: number | null | undefined;
-  lastProcessedAt?: Date | null | undefined;
-  lastTaxLiabilityProcessedAt?: Date | null | undefined;
-  periods?: Array<{ [k: string]: any }> | null | undefined;
-  /**
-   * Currency code for the nexus (e.g., USD, CAD).
-   */
-  currency?: CurrencyEnum | null | undefined;
+  predictedMonthFromToday?: number | undefined;
+  vdaEligible?: boolean | undefined;
+  confidenceLevel?: number | undefined;
+  lastProcessedAt?: string | undefined;
+  lastTaxLiabilityProcessedAt?: string | undefined;
+  periods?: Array<{ [k: string]: any }> | undefined;
+  currency?: CurrencyEnum | undefined;
   id: string;
   createdAt: Date;
   updatedAt: Date;
   organizationId: string;
-  registration?: { [k: string]: any } | null | undefined;
-  registrationRegime?: RegistrationsRegimeEnum | null | undefined;
+  registration?: Registration | undefined;
+  registrationRegime?: RegistrationsRegimeEnum | undefined;
   isVdaEligible: boolean;
   nexusType: NexusTypeEnum;
   totalTransactions: number;
   totalTransactionsIncluded: number;
   totalTransactionsExempted: number;
   totalTransactionsMarketplace: number;
-  marketplaceIncluded: boolean | null;
+  marketplaceIncluded: boolean;
 };
+
+/** @internal */
+export const Registration$inboundSchema: z.ZodType<
+  Registration,
+  z.ZodTypeDef,
+  unknown
+> = z.object({});
+
+/** @internal */
+export type Registration$Outbound = {};
+
+/** @internal */
+export const Registration$outboundSchema: z.ZodType<
+  Registration$Outbound,
+  z.ZodTypeDef,
+  Registration
+> = z.object({});
+
+/**
+ * @internal
+ * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
+ */
+export namespace Registration$ {
+  /** @deprecated use `Registration$inboundSchema` instead. */
+  export const inboundSchema = Registration$inboundSchema;
+  /** @deprecated use `Registration$outboundSchema` instead. */
+  export const outboundSchema = Registration$outboundSchema;
+  /** @deprecated use `Registration$Outbound` instead. */
+  export type Outbound = Registration$Outbound;
+}
+
+export function registrationToJSON(registration: Registration): string {
+  return JSON.stringify(Registration$outboundSchema.parse(registration));
+}
+
+export function registrationFromJSON(
+  jsonString: string,
+): SafeParseResult<Registration, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Registration$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Registration' from JSON`,
+  );
+}
 
 /** @internal */
 export const NexusResponse$inboundSchema: z.ZodType<
@@ -140,72 +183,54 @@ export const NexusResponse$inboundSchema: z.ZodType<
   trigger: z.string(),
   sales_or_transactions: SalesOrTransactionsEnum$inboundSchema,
   threshold_sales: z.number().int(),
-  threshold_transactions: z.nullable(z.number().int()),
+  threshold_transactions: z.number().int(),
   start_date: z.string().transform(v => new RFCDate(v)),
   transaction_count: z.number().int().default(0),
   transactions_amount: z.string().default("0.00"),
   previous_transaction_count: z.number().int().default(0),
   previous_transactions_amount: z.string().default("0.00"),
-  calculated_tax_liability: z.nullable(z.string()).optional(),
-  imported_tax_liability: z.nullable(z.string()).optional(),
+  calculated_tax_liability: z.string().default("0.00"),
+  imported_tax_liability: z.string().default("0.00"),
   tax_liability: z.string().default("0.00"),
   nexus_met: z.boolean().default(false),
-  nexus_met_date: z.nullable(z.string().transform(v => new RFCDate(v)))
-    .optional(),
+  nexus_met_date: z.string().optional(),
   economic_nexus_met: z.boolean().default(false),
-  economic_nexus_met_date: z.nullable(z.string().transform(v => new RFCDate(v)))
-    .optional(),
+  economic_nexus_met_date: z.string().optional(),
   physical_nexus_met: z.boolean().default(false),
-  physical_nexus_met_date: z.nullable(z.string().transform(v => new RFCDate(v)))
-    .optional(),
-  collected_tax_nexus_met: z.nullable(z.boolean()).optional(),
-  collected_tax_nexus_met_date: z.nullable(
-    z.string().transform(v => new RFCDate(v)),
-  ).optional(),
+  physical_nexus_met_date: z.string().optional(),
+  collected_tax_nexus_met: z.boolean().default(false),
+  collected_tax_nexus_met_date: z.string().optional(),
   collected_tax_enabled: z.boolean().default(false),
   period_model: PeriodModelEnum$inboundSchema,
   period_start_date: z.string().transform(v => new RFCDate(v)),
   period_end_date: z.string().transform(v => new RFCDate(v)),
-  previous_period_start_date: z.nullable(
-    z.string().transform(v => new RFCDate(v)),
-  ),
-  previous_period_end_date: z.nullable(
-    z.string().transform(v => new RFCDate(v)),
-  ),
-  earliest_transaction_date: z.nullable(
-    z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  ).optional(),
-  most_recent_transaction_date: z.nullable(
-    z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  ).optional(),
+  previous_period_start_date: z.string(),
+  previous_period_end_date: z.string(),
+  earliest_transaction_date: z.string().optional(),
+  most_recent_transaction_date: z.string().optional(),
   earliest_collected_date: z.string().datetime({ offset: true }).default(
     "2018-01-01T00:00:00",
   ).transform(v => new Date(v)),
-  predicted_month_from_today: z.nullable(z.number().int()).optional(),
-  vda_eligible: z.nullable(z.boolean()).optional(),
-  confidence_level: z.nullable(z.number()).optional(),
-  last_processed_at: z.nullable(
-    z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  ).optional(),
-  last_tax_liability_processed_at: z.nullable(
-    z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  ).optional(),
-  periods: z.nullable(z.array(z.record(z.any()))).optional(),
-  currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+  predicted_month_from_today: z.number().int().optional(),
+  vda_eligible: z.boolean().default(false),
+  confidence_level: z.number().optional(),
+  last_processed_at: z.string().optional(),
+  last_tax_liability_processed_at: z.string().optional(),
+  periods: z.array(z.record(z.any())).optional(),
+  currency: CurrencyEnum$inboundSchema.optional(),
   id: z.string(),
   created_at: z.string().datetime({ offset: true }).transform(v => new Date(v)),
   updated_at: z.string().datetime({ offset: true }).transform(v => new Date(v)),
   organization_id: z.string(),
-  registration: z.nullable(z.record(z.any())).optional(),
-  registration_regime: z.nullable(RegistrationsRegimeEnum$inboundSchema)
-    .optional(),
+  registration: z.lazy(() => Registration$inboundSchema).optional(),
+  registration_regime: RegistrationsRegimeEnum$inboundSchema.optional(),
   is_vda_eligible: z.boolean(),
   nexus_type: NexusTypeEnum$inboundSchema,
   total_transactions: z.number().int(),
   total_transactions_included: z.number().int(),
   total_transactions_exempted: z.number().int(),
   total_transactions_marketplace: z.number().int(),
-  marketplace_included: z.nullable(z.boolean()),
+  marketplace_included: z.boolean(),
 }).transform((v) => {
   return remap$(v, {
     "processing_status": "processingStatus",
@@ -271,52 +296,52 @@ export type NexusResponse$Outbound = {
   trigger: string;
   sales_or_transactions: string;
   threshold_sales: number;
-  threshold_transactions: number | null;
+  threshold_transactions: number;
   start_date: string;
   transaction_count: number;
   transactions_amount: string;
   previous_transaction_count: number;
   previous_transactions_amount: string;
-  calculated_tax_liability?: string | null | undefined;
-  imported_tax_liability?: string | null | undefined;
+  calculated_tax_liability: string;
+  imported_tax_liability: string;
   tax_liability: string;
   nexus_met: boolean;
-  nexus_met_date?: string | null | undefined;
+  nexus_met_date?: string | undefined;
   economic_nexus_met: boolean;
-  economic_nexus_met_date?: string | null | undefined;
+  economic_nexus_met_date?: string | undefined;
   physical_nexus_met: boolean;
-  physical_nexus_met_date?: string | null | undefined;
-  collected_tax_nexus_met?: boolean | null | undefined;
-  collected_tax_nexus_met_date?: string | null | undefined;
+  physical_nexus_met_date?: string | undefined;
+  collected_tax_nexus_met: boolean;
+  collected_tax_nexus_met_date?: string | undefined;
   collected_tax_enabled: boolean;
   period_model: string;
   period_start_date: string;
   period_end_date: string;
-  previous_period_start_date: string | null;
-  previous_period_end_date: string | null;
-  earliest_transaction_date?: string | null | undefined;
-  most_recent_transaction_date?: string | null | undefined;
+  previous_period_start_date: string;
+  previous_period_end_date: string;
+  earliest_transaction_date?: string | undefined;
+  most_recent_transaction_date?: string | undefined;
   earliest_collected_date: string;
-  predicted_month_from_today?: number | null | undefined;
-  vda_eligible?: boolean | null | undefined;
-  confidence_level?: number | null | undefined;
-  last_processed_at?: string | null | undefined;
-  last_tax_liability_processed_at?: string | null | undefined;
-  periods?: Array<{ [k: string]: any }> | null | undefined;
-  currency?: string | null | undefined;
+  predicted_month_from_today?: number | undefined;
+  vda_eligible: boolean;
+  confidence_level?: number | undefined;
+  last_processed_at?: string | undefined;
+  last_tax_liability_processed_at?: string | undefined;
+  periods?: Array<{ [k: string]: any }> | undefined;
+  currency?: string | undefined;
   id: string;
   created_at: string;
   updated_at: string;
   organization_id: string;
-  registration?: { [k: string]: any } | null | undefined;
-  registration_regime?: string | null | undefined;
+  registration?: Registration$Outbound | undefined;
+  registration_regime?: string | undefined;
   is_vda_eligible: boolean;
   nexus_type: string;
   total_transactions: number;
   total_transactions_included: number;
   total_transactions_exempted: number;
   total_transactions_marketplace: number;
-  marketplace_included: boolean | null;
+  marketplace_included: boolean;
 };
 
 /** @internal */
@@ -334,71 +359,53 @@ export const NexusResponse$outboundSchema: z.ZodType<
   trigger: z.string(),
   salesOrTransactions: SalesOrTransactionsEnum$outboundSchema,
   thresholdSales: z.number().int(),
-  thresholdTransactions: z.nullable(z.number().int()),
+  thresholdTransactions: z.number().int(),
   startDate: z.instanceof(RFCDate).transform(v => v.toString()),
   transactionCount: z.number().int().default(0),
   transactionsAmount: z.string().default("0.00"),
   previousTransactionCount: z.number().int().default(0),
   previousTransactionsAmount: z.string().default("0.00"),
-  calculatedTaxLiability: z.nullable(z.string()).optional(),
-  importedTaxLiability: z.nullable(z.string()).optional(),
+  calculatedTaxLiability: z.string().default("0.00"),
+  importedTaxLiability: z.string().default("0.00"),
   taxLiability: z.string().default("0.00"),
   nexusMet: z.boolean().default(false),
-  nexusMetDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-    .optional(),
+  nexusMetDate: z.string().optional(),
   economicNexusMet: z.boolean().default(false),
-  economicNexusMetDate: z.nullable(
-    z.instanceof(RFCDate).transform(v => v.toString()),
-  ).optional(),
+  economicNexusMetDate: z.string().optional(),
   physicalNexusMet: z.boolean().default(false),
-  physicalNexusMetDate: z.nullable(
-    z.instanceof(RFCDate).transform(v => v.toString()),
-  ).optional(),
-  collectedTaxNexusMet: z.nullable(z.boolean()).optional(),
-  collectedTaxNexusMetDate: z.nullable(
-    z.instanceof(RFCDate).transform(v => v.toString()),
-  ).optional(),
+  physicalNexusMetDate: z.string().optional(),
+  collectedTaxNexusMet: z.boolean().default(false),
+  collectedTaxNexusMetDate: z.string().optional(),
   collectedTaxEnabled: z.boolean().default(false),
   periodModel: PeriodModelEnum$outboundSchema,
   periodStartDate: z.instanceof(RFCDate).transform(v => v.toString()),
   periodEndDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  previousPeriodStartDate: z.nullable(
-    z.instanceof(RFCDate).transform(v => v.toString()),
-  ),
-  previousPeriodEndDate: z.nullable(
-    z.instanceof(RFCDate).transform(v => v.toString()),
-  ),
-  earliestTransactionDate: z.nullable(z.date().transform(v => v.toISOString()))
-    .optional(),
-  mostRecentTransactionDate: z.nullable(
-    z.date().transform(v => v.toISOString()),
-  ).optional(),
+  previousPeriodStartDate: z.string(),
+  previousPeriodEndDate: z.string(),
+  earliestTransactionDate: z.string().optional(),
+  mostRecentTransactionDate: z.string().optional(),
   earliestCollectedDate: z.date().default(() => new Date("2018-01-01T00:00:00"))
     .transform(v => v.toISOString()),
-  predictedMonthFromToday: z.nullable(z.number().int()).optional(),
-  vdaEligible: z.nullable(z.boolean()).optional(),
-  confidenceLevel: z.nullable(z.number()).optional(),
-  lastProcessedAt: z.nullable(z.date().transform(v => v.toISOString()))
-    .optional(),
-  lastTaxLiabilityProcessedAt: z.nullable(
-    z.date().transform(v => v.toISOString()),
-  ).optional(),
-  periods: z.nullable(z.array(z.record(z.any()))).optional(),
-  currency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+  predictedMonthFromToday: z.number().int().optional(),
+  vdaEligible: z.boolean().default(false),
+  confidenceLevel: z.number().optional(),
+  lastProcessedAt: z.string().optional(),
+  lastTaxLiabilityProcessedAt: z.string().optional(),
+  periods: z.array(z.record(z.any())).optional(),
+  currency: CurrencyEnum$outboundSchema.optional(),
   id: z.string(),
   createdAt: z.date().transform(v => v.toISOString()),
   updatedAt: z.date().transform(v => v.toISOString()),
   organizationId: z.string(),
-  registration: z.nullable(z.record(z.any())).optional(),
-  registrationRegime: z.nullable(RegistrationsRegimeEnum$outboundSchema)
-    .optional(),
+  registration: z.lazy(() => Registration$outboundSchema).optional(),
+  registrationRegime: RegistrationsRegimeEnum$outboundSchema.optional(),
   isVdaEligible: z.boolean(),
   nexusType: NexusTypeEnum$outboundSchema,
   totalTransactions: z.number().int(),
   totalTransactionsIncluded: z.number().int(),
   totalTransactionsExempted: z.number().int(),
   totalTransactionsMarketplace: z.number().int(),
-  marketplaceIncluded: z.nullable(z.boolean()),
+  marketplaceIncluded: z.boolean(),
 }).transform((v) => {
   return remap$(v, {
     processingStatus: "processing_status",

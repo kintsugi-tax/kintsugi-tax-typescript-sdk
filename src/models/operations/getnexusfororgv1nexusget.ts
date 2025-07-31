@@ -8,17 +8,12 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetNexusForOrgV1NexusGetSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type GetNexusForOrgV1NexusGetRequest = {
-  statusIn?: string | null | undefined;
-  stateCode?: string | null | undefined;
-  countryCodeIn?: string | null | undefined;
-  orderBy?: string | null | undefined;
-  collectedTaxNexusMet?: boolean | null | undefined;
+  statusIn?: string | undefined;
+  stateCode?: string | undefined;
+  countryCodeIn?: string | undefined;
+  orderBy?: string | undefined;
+  collectedTaxNexusMet?: boolean | undefined;
   /**
    * Page number
    */
@@ -27,80 +22,7 @@ export type GetNexusForOrgV1NexusGetRequest = {
    * Page size
    */
   size?: number | undefined;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetNexusForOrgV1NexusGetSecurity$inboundSchema: z.ZodType<
-  GetNexusForOrgV1NexusGetSecurity,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  APIKeyHeader: z.string().optional(),
-  HTTPBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "APIKeyHeader": "apiKeyHeader",
-    "HTTPBearer": "httpBearer",
-  });
-});
-
-/** @internal */
-export type GetNexusForOrgV1NexusGetSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const GetNexusForOrgV1NexusGetSecurity$outboundSchema: z.ZodType<
-  GetNexusForOrgV1NexusGetSecurity$Outbound,
-  z.ZodTypeDef,
-  GetNexusForOrgV1NexusGetSecurity
-> = z.object({
-  apiKeyHeader: z.string().optional(),
-  httpBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    apiKeyHeader: "APIKeyHeader",
-    httpBearer: "HTTPBearer",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetNexusForOrgV1NexusGetSecurity$ {
-  /** @deprecated use `GetNexusForOrgV1NexusGetSecurity$inboundSchema` instead. */
-  export const inboundSchema = GetNexusForOrgV1NexusGetSecurity$inboundSchema;
-  /** @deprecated use `GetNexusForOrgV1NexusGetSecurity$outboundSchema` instead. */
-  export const outboundSchema = GetNexusForOrgV1NexusGetSecurity$outboundSchema;
-  /** @deprecated use `GetNexusForOrgV1NexusGetSecurity$Outbound` instead. */
-  export type Outbound = GetNexusForOrgV1NexusGetSecurity$Outbound;
-}
-
-export function getNexusForOrgV1NexusGetSecurityToJSON(
-  getNexusForOrgV1NexusGetSecurity: GetNexusForOrgV1NexusGetSecurity,
-): string {
-  return JSON.stringify(
-    GetNexusForOrgV1NexusGetSecurity$outboundSchema.parse(
-      getNexusForOrgV1NexusGetSecurity,
-    ),
-  );
-}
-
-export function getNexusForOrgV1NexusGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<GetNexusForOrgV1NexusGetSecurity, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetNexusForOrgV1NexusGetSecurity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetNexusForOrgV1NexusGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetNexusForOrgV1NexusGetRequest$inboundSchema: z.ZodType<
@@ -108,14 +30,15 @@ export const GetNexusForOrgV1NexusGetRequest$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  status__in: z.nullable(z.string()).optional(),
-  state_code: z.nullable(z.string()).optional(),
-  country_code__in: z.nullable(z.string()).optional(),
-  order_by: z.nullable(z.string()).optional(),
-  collected_tax_nexus_met: z.nullable(z.boolean()).optional(),
+  status__in: z.string().default(
+    "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED",
+  ),
+  state_code: z.string().optional(),
+  country_code__in: z.string().optional(),
+  order_by: z.string().default("state_code,country_code"),
+  collected_tax_nexus_met: z.boolean().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  "x-organization-id": z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     "status__in": "statusIn",
@@ -123,20 +46,18 @@ export const GetNexusForOrgV1NexusGetRequest$inboundSchema: z.ZodType<
     "country_code__in": "countryCodeIn",
     "order_by": "orderBy",
     "collected_tax_nexus_met": "collectedTaxNexusMet",
-    "x-organization-id": "xOrganizationId",
   });
 });
 
 /** @internal */
 export type GetNexusForOrgV1NexusGetRequest$Outbound = {
-  status__in?: string | null | undefined;
-  state_code?: string | null | undefined;
-  country_code__in?: string | null | undefined;
-  order_by?: string | null | undefined;
-  collected_tax_nexus_met?: boolean | null | undefined;
+  status__in: string;
+  state_code?: string | undefined;
+  country_code__in?: string | undefined;
+  order_by: string;
+  collected_tax_nexus_met?: boolean | undefined;
   page: number;
   size: number;
-  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -145,14 +66,15 @@ export const GetNexusForOrgV1NexusGetRequest$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   GetNexusForOrgV1NexusGetRequest
 > = z.object({
-  statusIn: z.nullable(z.string()).optional(),
-  stateCode: z.nullable(z.string()).optional(),
-  countryCodeIn: z.nullable(z.string()).optional(),
-  orderBy: z.nullable(z.string()).optional(),
-  collectedTaxNexusMet: z.nullable(z.boolean()).optional(),
+  statusIn: z.string().default(
+    "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED",
+  ),
+  stateCode: z.string().optional(),
+  countryCodeIn: z.string().optional(),
+  orderBy: z.string().default("state_code,country_code"),
+  collectedTaxNexusMet: z.boolean().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  xOrganizationId: z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     statusIn: "status__in",
@@ -160,7 +82,6 @@ export const GetNexusForOrgV1NexusGetRequest$outboundSchema: z.ZodType<
     countryCodeIn: "country_code__in",
     orderBy: "order_by",
     collectedTaxNexusMet: "collected_tax_nexus_met",
-    xOrganizationId: "x-organization-id",
   });
 });
 

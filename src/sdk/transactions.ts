@@ -24,13 +24,11 @@ export class Transactions extends ClientSDK {
    *     optional filtering, sorting, and pagination.
    */
   async list(
-    security: operations.GetTransactionsV1TransactionsGetSecurity,
-    request: operations.GetTransactionsV1TransactionsGetRequest,
+    request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
     options?: RequestOptions,
   ): Promise<models.PageTransactionRead> {
     return unwrapAsync(transactionsList(
       this,
-      security,
       request,
       options,
     ));
@@ -43,13 +41,11 @@ export class Transactions extends ClientSDK {
    * Create a transaction.
    */
   async create(
-    security: operations.CreateTransactionV1TransactionsPostSecurity,
-    request: operations.CreateTransactionV1TransactionsPostRequest,
+    request: models.TransactionPublicRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
     return unwrapAsync(transactionsCreate(
       this,
-      security,
       request,
       options,
     ));
@@ -63,15 +59,12 @@ export class Transactions extends ClientSDK {
    *     This allows users to fetch transaction details using an identifier from an external system.
    */
   async getByExternalId(
-    security:
-      operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity,
     request:
       operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
     return unwrapAsync(transactionsGetByExternalId(
       this,
-      security,
       request,
       options,
     ));
@@ -84,14 +77,11 @@ export class Transactions extends ClientSDK {
    * Update a specific transaction by its ID.
    */
   async update(
-    security:
-      operations.UpdateTransactionV1TransactionsTransactionIdPutSecurity,
     request: operations.UpdateTransactionV1TransactionsTransactionIdPutRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
     return unwrapAsync(transactionsUpdate(
       this,
-      security,
       request,
       options,
     ));
@@ -105,14 +95,11 @@ export class Transactions extends ClientSDK {
    *     about a specific transaction by providing its unique transaction ID.
    */
   async getById(
-    security:
-      operations.GetTransactionByIdV1TransactionsTransactionIdGetSecurity,
     request: operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
     return unwrapAsync(transactionsGetById(
       this,
-      security,
       request,
       options,
     ));
@@ -125,15 +112,12 @@ export class Transactions extends ClientSDK {
    * Retrieve transactions by filing ID.
    */
   async getByFilingId(
-    security:
-      operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity,
     request:
       operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest,
     options?: RequestOptions,
   ): Promise<Array<models.TransactionRead>> {
     return unwrapAsync(transactionsGetByFilingId(
       this,
-      security,
       request,
       options,
     ));
@@ -146,13 +130,11 @@ export class Transactions extends ClientSDK {
    * Create a new credit note for a specific transaction.
    */
   async createCreditNote(
-    security: operations.POSTCreateCreditNoteByTransactionIdSecurity,
     request: operations.POSTCreateCreditNoteByTransactionIdRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
     return unwrapAsync(transactionsCreateCreditNote(
       this,
-      security,
       request,
       options,
     ));
@@ -165,13 +147,11 @@ export class Transactions extends ClientSDK {
    * Update an existing credit note for a specific transaction.
    */
   async updateCreditNote(
-    security: operations.PUTUpdateCreditNoteByTransactionIdSecurity,
     request: operations.PUTUpdateCreditNoteByTransactionIdRequest,
     options?: RequestOptions,
   ): Promise<any> {
     return unwrapAsync(transactionsUpdateCreditNote(
       this,
-      security,
       request,
       options,
     ));

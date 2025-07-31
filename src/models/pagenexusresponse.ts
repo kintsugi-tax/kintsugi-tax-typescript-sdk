@@ -15,10 +15,10 @@ import {
 
 export type PageNexusResponse = {
   items: Array<NexusResponse>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -28,19 +28,19 @@ export const PageNexusResponse$inboundSchema: z.ZodType<
   unknown
 > = z.object({
   items: z.array(NexusResponse$inboundSchema),
-  total: z.nullable(z.number().int()),
-  page: z.nullable(z.number().int()),
-  size: z.nullable(z.number().int()),
-  pages: z.nullable(z.number().int()).optional(),
+  total: z.number().int(),
+  page: z.number().int(),
+  size: z.number().int(),
+  pages: z.number().int().optional(),
 });
 
 /** @internal */
 export type PageNexusResponse$Outbound = {
   items: Array<NexusResponse$Outbound>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -50,10 +50,10 @@ export const PageNexusResponse$outboundSchema: z.ZodType<
   PageNexusResponse
 > = z.object({
   items: z.array(NexusResponse$outboundSchema),
-  total: z.nullable(z.number().int()),
-  page: z.nullable(z.number().int()),
-  size: z.nullable(z.number().int()),
-  pages: z.nullable(z.number().int()).optional(),
+  total: z.number().int(),
+  page: z.number().int(),
+  size: z.number().int(),
+  pages: z.number().int().optional(),
 });
 
 /**

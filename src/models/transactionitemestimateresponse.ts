@@ -38,7 +38,7 @@ export type TransactionItemEstimateResponse = {
   /**
    * A unique identifier for the transaction item.
    */
-  externalId?: string | null | undefined;
+  externalId?: string | undefined;
   /**
    * The date of the transaction item.
    */
@@ -46,37 +46,25 @@ export type TransactionItemEstimateResponse = {
   /**
    * A description of the item.
    */
-  description?: string | null | undefined;
+  description?: string | undefined;
   /**
    * External product identifier. If not found and product_subcategory
    *
    * @remarks
    *         and product_category are not provided, an error occurs.
    */
-  externalProductId?: string | null | undefined;
+  externalProductId?: string | undefined;
   /**
    * Name of the product. Used if creating a new product.
    */
-  productName?: string | null | undefined;
+  productName?: string | undefined;
   /**
    * Description of the product. Used if creating a new product.
    */
-  productDescription?: string | null | undefined;
-  productSource?: SourceEnum | null | undefined;
-  /**
-   * Subcategory of the product. Required if product_category is used
-   *
-   * @remarks
-   *         in place of external_product_id.
-   */
-  productSubcategory?: ProductSubCategoryEnum | null | undefined;
-  /**
-   * Category of the product. Required if product_subcategory is used
-   *
-   * @remarks
-   *         in place of external_product_id.
-   */
-  productCategory?: ProductCategoryEnum | null | undefined;
+  productDescription?: string | undefined;
+  productSource?: SourceEnum | undefined;
+  productSubcategory?: ProductSubCategoryEnum | undefined;
+  productCategory?: ProductCategoryEnum | undefined;
   /**
    * Defaults to 1.0. The quantity of the item.
    */
@@ -102,9 +90,9 @@ export type TransactionItemEstimateResponse = {
    */
   taxRate?: string | undefined;
   /**
-   * Reason for exemption, if applicable.
+   * This enum is used to determine if a transaction is exempt from tax.
    */
-  exemptReason?: TaxExemptionEnum | null | undefined;
+  exemptReason?: TaxExemptionEnum | undefined;
   /**
    * List of tax items applied to the transaction item.
    */
@@ -117,23 +105,22 @@ export const TransactionItemEstimateResponse$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  external_id: z.nullable(z.string()).optional(),
+  external_id: z.string().optional(),
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.nullable(z.string()).optional(),
-  external_product_id: z.nullable(z.string()).optional(),
-  product_name: z.nullable(z.string()).optional(),
-  product_description: z.nullable(z.string()).optional(),
-  product_source: z.nullable(SourceEnum$inboundSchema).optional(),
-  product_subcategory: z.nullable(ProductSubCategoryEnum$inboundSchema)
-    .optional(),
-  product_category: z.nullable(ProductCategoryEnum$inboundSchema).optional(),
+  description: z.string().optional(),
+  external_product_id: z.string().optional(),
+  product_name: z.string().optional(),
+  product_description: z.string().optional(),
+  product_source: SourceEnum$inboundSchema.optional(),
+  product_subcategory: ProductSubCategoryEnum$inboundSchema.optional(),
+  product_category: ProductCategoryEnum$inboundSchema.optional(),
   quantity: z.string().default("1.0"),
   amount: z.string(),
   exempt: z.boolean().default(false),
   tax_amount: z.string().default("0.00"),
   taxable_amount: z.string().default("0.00"),
   tax_rate: z.string().default("0.00"),
-  exempt_reason: z.nullable(TaxExemptionEnum$inboundSchema).optional(),
+  exempt_reason: TaxExemptionEnum$inboundSchema.optional(),
   tax_items: z.array(TaxItemEstimate$inboundSchema).optional(),
 }).transform((v) => {
   return remap$(v, {
@@ -154,22 +141,22 @@ export const TransactionItemEstimateResponse$inboundSchema: z.ZodType<
 
 /** @internal */
 export type TransactionItemEstimateResponse$Outbound = {
-  external_id?: string | null | undefined;
+  external_id?: string | undefined;
   date: string;
-  description?: string | null | undefined;
-  external_product_id?: string | null | undefined;
-  product_name?: string | null | undefined;
-  product_description?: string | null | undefined;
-  product_source?: string | null | undefined;
-  product_subcategory?: string | null | undefined;
-  product_category?: string | null | undefined;
+  description?: string | undefined;
+  external_product_id?: string | undefined;
+  product_name?: string | undefined;
+  product_description?: string | undefined;
+  product_source?: string | undefined;
+  product_subcategory?: string | undefined;
+  product_category?: string | undefined;
   quantity: string;
   amount: string;
   exempt: boolean;
   tax_amount: string;
   taxable_amount: string;
   tax_rate: string;
-  exempt_reason?: string | null | undefined;
+  exempt_reason?: string | undefined;
   tax_items?: Array<TaxItemEstimate$Outbound> | undefined;
 };
 
@@ -179,23 +166,22 @@ export const TransactionItemEstimateResponse$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   TransactionItemEstimateResponse
 > = z.object({
-  externalId: z.nullable(z.string()).optional(),
+  externalId: z.string().optional(),
   date: z.date().transform(v => v.toISOString()),
-  description: z.nullable(z.string()).optional(),
-  externalProductId: z.nullable(z.string()).optional(),
-  productName: z.nullable(z.string()).optional(),
-  productDescription: z.nullable(z.string()).optional(),
-  productSource: z.nullable(SourceEnum$outboundSchema).optional(),
-  productSubcategory: z.nullable(ProductSubCategoryEnum$outboundSchema)
-    .optional(),
-  productCategory: z.nullable(ProductCategoryEnum$outboundSchema).optional(),
+  description: z.string().optional(),
+  externalProductId: z.string().optional(),
+  productName: z.string().optional(),
+  productDescription: z.string().optional(),
+  productSource: SourceEnum$outboundSchema.optional(),
+  productSubcategory: ProductSubCategoryEnum$outboundSchema.optional(),
+  productCategory: ProductCategoryEnum$outboundSchema.optional(),
   quantity: z.string().default("1.0"),
   amount: z.string(),
   exempt: z.boolean().default(false),
   taxAmount: z.string().default("0.00"),
   taxableAmount: z.string().default("0.00"),
   taxRate: z.string().default("0.00"),
-  exemptReason: z.nullable(TaxExemptionEnum$outboundSchema).optional(),
+  exemptReason: TaxExemptionEnum$outboundSchema.optional(),
   taxItems: z.array(TaxItemEstimate$outboundSchema).optional(),
 }).transform((v) => {
   return remap$(v, {

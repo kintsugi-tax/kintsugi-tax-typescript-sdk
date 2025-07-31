@@ -9,34 +9,27 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
-export type GetCustomersV1Security = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
-export type GetCustomersV1Country = models.CountryCodeEnum | string;
-
 export type GetCustomersV1Request = {
   /**
    * Search term to filter customers by name or other details
    */
-  searchQuery?: string | null | undefined;
+  searchQuery?: string | undefined;
   /**
    * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
    */
-  country?: Array<models.CountryCodeEnum | string> | null | undefined;
+  country?: Array<models.CountryCodeEnum> | undefined;
   /**
    * State or province code to filter customers
    */
-  state?: string | null | undefined;
+  state?: string | undefined;
   /**
    * Filter customers by source (comma-separated)
    */
-  sourceIn?: string | null | undefined;
+  sourceIn?: string | undefined;
   /**
    * Comma-separated list of fields to sort results by.
    */
-  orderBy?: string | null | undefined;
+  orderBy?: string | undefined;
   /**
    * Page number
    */
@@ -45,126 +38,7 @@ export type GetCustomersV1Request = {
    * Page size
    */
   size?: number | undefined;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetCustomersV1Security$inboundSchema: z.ZodType<
-  GetCustomersV1Security,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  APIKeyHeader: z.string().optional(),
-  HTTPBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "APIKeyHeader": "apiKeyHeader",
-    "HTTPBearer": "httpBearer",
-  });
-});
-
-/** @internal */
-export type GetCustomersV1Security$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const GetCustomersV1Security$outboundSchema: z.ZodType<
-  GetCustomersV1Security$Outbound,
-  z.ZodTypeDef,
-  GetCustomersV1Security
-> = z.object({
-  apiKeyHeader: z.string().optional(),
-  httpBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    apiKeyHeader: "APIKeyHeader",
-    httpBearer: "HTTPBearer",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetCustomersV1Security$ {
-  /** @deprecated use `GetCustomersV1Security$inboundSchema` instead. */
-  export const inboundSchema = GetCustomersV1Security$inboundSchema;
-  /** @deprecated use `GetCustomersV1Security$outboundSchema` instead. */
-  export const outboundSchema = GetCustomersV1Security$outboundSchema;
-  /** @deprecated use `GetCustomersV1Security$Outbound` instead. */
-  export type Outbound = GetCustomersV1Security$Outbound;
-}
-
-export function getCustomersV1SecurityToJSON(
-  getCustomersV1Security: GetCustomersV1Security,
-): string {
-  return JSON.stringify(
-    GetCustomersV1Security$outboundSchema.parse(getCustomersV1Security),
-  );
-}
-
-export function getCustomersV1SecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<GetCustomersV1Security, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetCustomersV1Security$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetCustomersV1Security' from JSON`,
-  );
-}
-
-/** @internal */
-export const GetCustomersV1Country$inboundSchema: z.ZodType<
-  GetCustomersV1Country,
-  z.ZodTypeDef,
-  unknown
-> = z.union([models.CountryCodeEnum$inboundSchema, z.string()]);
-
-/** @internal */
-export type GetCustomersV1Country$Outbound = string | string;
-
-/** @internal */
-export const GetCustomersV1Country$outboundSchema: z.ZodType<
-  GetCustomersV1Country$Outbound,
-  z.ZodTypeDef,
-  GetCustomersV1Country
-> = z.union([models.CountryCodeEnum$outboundSchema, z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetCustomersV1Country$ {
-  /** @deprecated use `GetCustomersV1Country$inboundSchema` instead. */
-  export const inboundSchema = GetCustomersV1Country$inboundSchema;
-  /** @deprecated use `GetCustomersV1Country$outboundSchema` instead. */
-  export const outboundSchema = GetCustomersV1Country$outboundSchema;
-  /** @deprecated use `GetCustomersV1Country$Outbound` instead. */
-  export type Outbound = GetCustomersV1Country$Outbound;
-}
-
-export function getCustomersV1CountryToJSON(
-  getCustomersV1Country: GetCustomersV1Country,
-): string {
-  return JSON.stringify(
-    GetCustomersV1Country$outboundSchema.parse(getCustomersV1Country),
-  );
-}
-
-export function getCustomersV1CountryFromJSON(
-  jsonString: string,
-): SafeParseResult<GetCustomersV1Country, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetCustomersV1Country$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetCustomersV1Country' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetCustomersV1Request$inboundSchema: z.ZodType<
@@ -172,35 +46,30 @@ export const GetCustomersV1Request$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  search_query: z.nullable(z.string()).optional(),
-  country: z.nullable(
-    z.array(z.union([models.CountryCodeEnum$inboundSchema, z.string()])),
-  ).optional(),
-  state: z.nullable(z.string()).optional(),
-  source__in: z.nullable(z.string()).optional(),
-  order_by: z.nullable(z.string()).optional(),
+  search_query: z.string().optional(),
+  country: z.array(models.CountryCodeEnum$inboundSchema).optional(),
+  state: z.string().optional(),
+  source__in: z.string().optional(),
+  order_by: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  "x-organization-id": z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     "search_query": "searchQuery",
     "source__in": "sourceIn",
     "order_by": "orderBy",
-    "x-organization-id": "xOrganizationId",
   });
 });
 
 /** @internal */
 export type GetCustomersV1Request$Outbound = {
-  search_query?: string | null | undefined;
-  country?: Array<string | string> | null | undefined;
-  state?: string | null | undefined;
-  source__in?: string | null | undefined;
-  order_by?: string | null | undefined;
+  search_query?: string | undefined;
+  country?: Array<string> | undefined;
+  state?: string | undefined;
+  source__in?: string | undefined;
+  order_by?: string | undefined;
   page: number;
   size: number;
-  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -209,22 +78,18 @@ export const GetCustomersV1Request$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   GetCustomersV1Request
 > = z.object({
-  searchQuery: z.nullable(z.string()).optional(),
-  country: z.nullable(
-    z.array(z.union([models.CountryCodeEnum$outboundSchema, z.string()])),
-  ).optional(),
-  state: z.nullable(z.string()).optional(),
-  sourceIn: z.nullable(z.string()).optional(),
-  orderBy: z.nullable(z.string()).optional(),
+  searchQuery: z.string().optional(),
+  country: z.array(models.CountryCodeEnum$outboundSchema).optional(),
+  state: z.string().optional(),
+  sourceIn: z.string().optional(),
+  orderBy: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  xOrganizationId: z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     searchQuery: "search_query",
     sourceIn: "source__in",
     orderBy: "order_by",
-    xOrganizationId: "x-organization-id",
   });
 });
 

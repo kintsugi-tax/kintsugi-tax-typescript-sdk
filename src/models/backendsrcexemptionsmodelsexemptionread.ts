@@ -29,11 +29,8 @@ export type BackendSrcExemptionsModelsExemptionRead = {
   /**
    * The jurisdiction identifier for the exemption
    */
-  jurisdiction?: string | null | undefined;
-  /**
-   * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
-   */
-  countryCode?: CountryCodeEnum | null | undefined;
+  jurisdiction?: string | undefined;
+  countryCode?: CountryCodeEnum | undefined;
   /**
    * Start date for the exemption validity period (YYYY-MM-DD format)
    */
@@ -41,18 +38,18 @@ export type BackendSrcExemptionsModelsExemptionRead = {
   /**
    * End date for the exemption validity period (YYYY-MM-DD format)
    */
-  endDate?: RFCDate | null | undefined;
+  endDate?: string | undefined;
   /**
    * Unique identifier for the customer associated with the exemption
    */
-  customerId?: string | null | undefined;
+  customerId?: string | undefined;
   /**
    * Unique identifier for the transaction
    *
    * @remarks
    *         associated with the exemption, if applicable.
    */
-  transactionId?: string | null | undefined;
+  transactionId?: string | undefined;
   /**
    * Indicates whether the exemption is for a reseller
    */
@@ -63,21 +60,15 @@ export type BackendSrcExemptionsModelsExemptionRead = {
    * @remarks
    *         associated with the exemption.
    */
-  fein?: string | null | undefined;
+  fein?: string | undefined;
   /**
    * Sales tax ID for the exemption
    */
-  salesTaxId?: string | null | undefined;
-  /**
-   * The status of the exemption.
-   *
-   * @remarks
-   *         Defaults to ACTIVE if not provided.
-   */
-  status?: ExemptionStatus | null | undefined;
+  salesTaxId?: string | undefined;
+  status?: ExemptionStatus | undefined;
   id: string;
-  customerName?: string | null | undefined;
-  attachmentId?: string | null | undefined;
+  customerName?: string | undefined;
+  attachmentId?: string | undefined;
 };
 
 /** @internal */
@@ -87,19 +78,19 @@ export const BackendSrcExemptionsModelsExemptionRead$inboundSchema: z.ZodType<
   unknown
 > = z.object({
   exemption_type: ExemptionType$inboundSchema,
-  jurisdiction: z.nullable(z.string()).optional(),
-  country_code: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+  jurisdiction: z.string().optional(),
+  country_code: CountryCodeEnum$inboundSchema.optional(),
   start_date: z.string().transform(v => new RFCDate(v)),
-  end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
-  customer_id: z.nullable(z.string()).optional(),
-  transaction_id: z.nullable(z.string()).optional(),
+  end_date: z.string().optional(),
+  customer_id: z.string().optional(),
+  transaction_id: z.string().optional(),
   reseller: z.boolean().default(false),
-  FEIN: z.nullable(z.string()).optional(),
-  sales_tax_id: z.nullable(z.string()).optional(),
-  status: z.nullable(ExemptionStatus$inboundSchema).optional(),
+  FEIN: z.string().optional(),
+  sales_tax_id: z.string().optional(),
+  status: ExemptionStatus$inboundSchema.optional(),
   id: z.string(),
-  customer_name: z.nullable(z.string()).optional(),
-  attachment_id: z.nullable(z.string()).optional(),
+  customer_name: z.string().optional(),
+  attachment_id: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "exemption_type": "exemptionType",
@@ -118,19 +109,19 @@ export const BackendSrcExemptionsModelsExemptionRead$inboundSchema: z.ZodType<
 /** @internal */
 export type BackendSrcExemptionsModelsExemptionRead$Outbound = {
   exemption_type: string;
-  jurisdiction?: string | null | undefined;
-  country_code?: string | null | undefined;
+  jurisdiction?: string | undefined;
+  country_code?: string | undefined;
   start_date: string;
-  end_date?: string | null | undefined;
-  customer_id?: string | null | undefined;
-  transaction_id?: string | null | undefined;
+  end_date?: string | undefined;
+  customer_id?: string | undefined;
+  transaction_id?: string | undefined;
   reseller: boolean;
-  FEIN?: string | null | undefined;
-  sales_tax_id?: string | null | undefined;
-  status?: string | null | undefined;
+  FEIN?: string | undefined;
+  sales_tax_id?: string | undefined;
+  status?: string | undefined;
   id: string;
-  customer_name?: string | null | undefined;
-  attachment_id?: string | null | undefined;
+  customer_name?: string | undefined;
+  attachment_id?: string | undefined;
 };
 
 /** @internal */
@@ -140,20 +131,19 @@ export const BackendSrcExemptionsModelsExemptionRead$outboundSchema: z.ZodType<
   BackendSrcExemptionsModelsExemptionRead
 > = z.object({
   exemptionType: ExemptionType$outboundSchema,
-  jurisdiction: z.nullable(z.string()).optional(),
-  countryCode: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+  jurisdiction: z.string().optional(),
+  countryCode: CountryCodeEnum$outboundSchema.optional(),
   startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-    .optional(),
-  customerId: z.nullable(z.string()).optional(),
-  transactionId: z.nullable(z.string()).optional(),
+  endDate: z.string().optional(),
+  customerId: z.string().optional(),
+  transactionId: z.string().optional(),
   reseller: z.boolean().default(false),
-  fein: z.nullable(z.string()).optional(),
-  salesTaxId: z.nullable(z.string()).optional(),
-  status: z.nullable(ExemptionStatus$outboundSchema).optional(),
+  fein: z.string().optional(),
+  salesTaxId: z.string().optional(),
+  status: ExemptionStatus$outboundSchema.optional(),
   id: z.string(),
-  customerName: z.nullable(z.string()).optional(),
-  attachmentId: z.nullable(z.string()).optional(),
+  customerName: z.string().optional(),
+  attachmentId: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     exemptionType: "exemption_type",

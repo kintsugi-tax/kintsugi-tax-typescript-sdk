@@ -8,12 +8,6 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity =
-  {
-    apiKeyHeader?: string | undefined;
-    httpBearer?: string | undefined;
-  };
-
 export type GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest =
   {
     /**
@@ -23,93 +17,7 @@ export type GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetReque
      *         whose attachments are being retrieved.
      */
     exemptionId: string;
-    /**
-     * The unique identifier for the organization making the request
-     */
-    xOrganizationId: string | null;
   };
-
-/** @internal */
-export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$inboundSchema:
-  z.ZodType<
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$Outbound =
-  {
-    APIKeyHeader?: string | undefined;
-    HTTPBearer?: string | undefined;
-  };
-
-/** @internal */
-export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$outboundSchema:
-  z.ZodType<
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$Outbound,
-    z.ZodTypeDef,
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$ {
-  /** @deprecated use `GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$inboundSchema;
-  /** @deprecated use `GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$outboundSchema;
-  /** @deprecated use `GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$Outbound` instead. */
-  export type Outbound =
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$Outbound;
-}
-
-export function getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurityToJSON(
-  getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity:
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity,
-): string {
-  return JSON.stringify(
-    GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$outboundSchema
-      .parse(
-        getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity,
-      ),
-  );
-}
-
-export function getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity$inboundSchema
-        .parse(JSON.parse(x)),
-    `Failed to parse 'GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest$inboundSchema:
@@ -119,11 +27,9 @@ export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     unknown
   > = z.object({
     exemption_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       "exemption_id": "exemptionId",
-      "x-organization-id": "xOrganizationId",
     });
   });
 
@@ -131,7 +37,6 @@ export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
 export type GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest$Outbound =
   {
     exemption_id: string;
-    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -142,11 +47,9 @@ export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest
   > = z.object({
     exemptionId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       exemptionId: "exemption_id",
-      xOrganizationId: "x-organization-id",
     });
   });
 

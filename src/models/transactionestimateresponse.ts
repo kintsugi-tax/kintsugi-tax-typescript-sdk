@@ -124,22 +124,14 @@ export type TransactionEstimateResponse = {
   /**
    * An optional description of the transaction.
    */
-  description?: string | null | undefined;
-  /**
-   * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-   *
-   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-   */
-  source?: SourceEnum | null | undefined;
+  description?: string | undefined;
+  source?: SourceEnum | undefined;
   /**
    * Indicates if the transaction involves a marketplace.
    */
-  marketplace?: boolean | null | undefined;
+  marketplace?: boolean | undefined;
   transactionItems: Array<TransactionItemEstimateResponse>;
-  /**
-   * Details about the customer. If the customer is not found, it will be ignored.
-   */
-  customer?: CustomerBase | null | undefined;
+  customer?: CustomerBase | undefined;
   /**
    * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
    */
@@ -306,11 +298,11 @@ export const TransactionEstimateResponse$inboundSchema: z.ZodType<
   external_id: z.string(),
   total_amount: z.string().default("0.0"),
   currency: CurrencyEnum$inboundSchema,
-  description: z.nullable(z.string()).optional(),
-  source: z.nullable(SourceEnum$inboundSchema).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
+  description: z.string().optional(),
+  source: SourceEnum$inboundSchema.optional(),
+  marketplace: z.boolean().default(false),
   transaction_items: z.array(TransactionItemEstimateResponse$inboundSchema),
-  customer: z.nullable(CustomerBase$inboundSchema).optional(),
+  customer: CustomerBase$inboundSchema.optional(),
   addresses: z.array(
     z.lazy(() => TransactionEstimateResponseAddress$inboundSchema),
   ),
@@ -338,11 +330,11 @@ export type TransactionEstimateResponse$Outbound = {
   external_id: string;
   total_amount: string;
   currency: string;
-  description?: string | null | undefined;
-  source?: string | null | undefined;
-  marketplace?: boolean | null | undefined;
+  description?: string | undefined;
+  source?: string | undefined;
+  marketplace: boolean;
   transaction_items: Array<TransactionItemEstimateResponse$Outbound>;
-  customer?: CustomerBase$Outbound | null | undefined;
+  customer?: CustomerBase$Outbound | undefined;
   addresses: Array<TransactionEstimateResponseAddress$Outbound>;
   total_tax_amount_calculated: string;
   taxable_amount: string;
@@ -361,11 +353,11 @@ export const TransactionEstimateResponse$outboundSchema: z.ZodType<
   externalId: z.string(),
   totalAmount: z.string().default("0.0"),
   currency: CurrencyEnum$outboundSchema,
-  description: z.nullable(z.string()).optional(),
-  source: z.nullable(SourceEnum$outboundSchema).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
+  description: z.string().optional(),
+  source: SourceEnum$outboundSchema.optional(),
+  marketplace: z.boolean().default(false),
   transactionItems: z.array(TransactionItemEstimateResponse$outboundSchema),
-  customer: z.nullable(CustomerBase$outboundSchema).optional(),
+  customer: CustomerBase$outboundSchema.optional(),
   addresses: z.array(
     z.lazy(() => TransactionEstimateResponseAddress$outboundSchema),
   ),

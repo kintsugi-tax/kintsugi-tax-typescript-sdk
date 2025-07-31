@@ -7,9 +7,9 @@ import { PageCustomerRead } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: PageCustomerRead = {
   items: [],
-  total: 212581,
-  page: null,
-  size: 802430,
+  total: 159865,
+  page: 212581,
+  size: 38756,
 };
 ```
 

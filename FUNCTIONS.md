@@ -24,9 +24,7 @@ import { addressValidationSearch } from "@kintsugi-tax/tax-platform-sdk/funcs/ad
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDKCore();
 
 async function run() {
   const res = await addressValidationSearch(sdk, {

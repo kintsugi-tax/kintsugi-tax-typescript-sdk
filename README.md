@@ -30,6 +30,7 @@ Developer-friendly & type-safe Typescript SDK specifically catered to leverage K
   * [File uploads](#file-uploads)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
+  * [Server Selection](#server-selection)
   * [Custom HTTP Client](#custom-http-client)
   * [Debugging](#debugging)
 * [Development](#development)
@@ -72,6 +73,92 @@ yarn add @kintsugi-tax/tax-platform-sdk zod
 
 > [!NOTE]
 > This package is published with CommonJS and ES Modules (ESM) support.
+
+
+### Model Context Protocol (MCP) Server
+
+This SDK is also an installable MCP server where the various SDK methods are
+exposed as tools that can be invoked by AI applications.
+
+> Node.js v20 or greater is required to run the MCP server from npm.
+
+<details>
+<summary>Claude installation steps</summary>
+
+Add the following server definition to your `claude_desktop_config.json` file:
+
+```json
+{
+  "mcpServers": {
+    "SDK": {
+      "command": "npx",
+      "args": [
+        "-y", "--package", "@kintsugi-tax/tax-platform-sdk",
+        "--",
+        "mcp", "start",
+        "--api-key-header", "...",
+        "--custom-header", "..."
+      ]
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Cursor installation steps</summary>
+
+Create a `.cursor/mcp.json` file in your project root with the following content:
+
+```json
+{
+  "mcpServers": {
+    "SDK": {
+      "command": "npx",
+      "args": [
+        "-y", "--package", "@kintsugi-tax/tax-platform-sdk",
+        "--",
+        "mcp", "start",
+        "--api-key-header", "...",
+        "--custom-header", "..."
+      ]
+    }
+  }
+}
+```
+
+</details>
+
+You can also run MCP servers as a standalone binary with no additional dependencies. You must pull these binaries from available Github releases:
+
+```bash
+curl -L -o mcp-server \
+    https://github.com/{org}/{repo}/releases/download/{tag}/mcp-server-bun-darwin-arm64 && \
+chmod +x mcp-server
+```
+
+If the repo is a private repo you must add your Github PAT to download a release `-H "Authorization: Bearer {GITHUB_PAT}"`.
+
+
+```json
+{
+  "mcpServers": {
+    "Todos": {
+      "command": "./DOWNLOAD/PATH/mcp-server",
+      "args": [
+        "start"
+      ]
+    }
+  }
+}
+```
+
+For a full list of server arguments, run:
+
+```sh
+npx -y --package @kintsugi-tax/tax-platform-sdk -- mcp start --help
+```
 <!-- End SDK Installation [installation] -->
 
 <!-- Start Requirements [requirements] -->
@@ -88,9 +175,7 @@ For supported JavaScript runtimes, please consult [RUNTIMES.md](RUNTIMES.md).
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDK();
 
 async function run() {
   const result = await sdk.addressValidation.search({
@@ -120,14 +205,43 @@ run();
 
 ### Per-Client Security Schemes
 
-This SDK supports the following security scheme globally:
+This SDK supports the following security schemes globally:
 
 | Name           | Type   | Scheme  |
 | -------------- | ------ | ------- |
 | `apiKeyHeader` | apiKey | API key |
+| `customHeader` | apiKey | API key |
 
-To authenticate with the API the `apiKeyHeader` parameter must be set when initializing the SDK client instance. For example:
+You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.addressValidation.suggestions({
+    line1: "1600 Amphitheatre Parkway",
+    line2: "",
+    line3: "",
+    city: "Mountain View",
+    state: "CA",
+    postalCode: "94043",
+    id: 215,
+    county: "",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+  });
+
+  console.log(result);
+}
+
+run();
+
+```
 
 ### Per-Operation Security Schemes
 
@@ -135,12 +249,12 @@ Some operations in this SDK require the security scheme to be specified at the r
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDK();
 
 async function run() {
-  const result = await sdk.addressValidation.search({}, {
+  const result = await sdk.addressValidation.search({
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",
@@ -287,15 +401,15 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import { openAsBlob } from "node:fs";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.exemptions.uploadCertificate({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     exemptionId: "<id>",
-    xOrganizationId: "org_12345",
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
       file: await openAsBlob("example.file"),
     },
@@ -318,9 +432,7 @@ To change the default retry strategy for a single API call, simply provide a ret
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDK();
 
 async function run() {
   const result = await sdk.addressValidation.search({
@@ -360,7 +472,6 @@ If you'd like to override the default retry strategy for all operations that sup
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
   retryConfig: {
     strategy: "backoff",
     backoff: {
@@ -415,9 +526,7 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import * as errors from "@kintsugi-tax/tax-platform-sdk/models/errors";
 
-const sdk = new SDK({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDK();
 
 async function run() {
   try {
@@ -487,6 +596,42 @@ run();
 
 \* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
 <!-- End Error Handling [errors] -->
+
+<!-- Start Server Selection [server] -->
+## Server Selection
+
+### Override Server URL Per-Client
+
+The default server can be overridden globally by passing a URL to the `serverURL: string` optional parameter when initializing the SDK client instance. For example:
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  serverURL: "https://api.trykintsugi.com",
+});
+
+async function run() {
+  const result = await sdk.addressValidation.search({
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+  }, {
+    phone: "555-123-4567",
+    street1: "1600 Amphitheatre Parkway",
+    street2: "Building 40",
+    city: "Mountain View",
+    county: "Santa Clara",
+    state: "CA",
+    postalCode: "94043",
+    country: "US",
+    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
+  });
+
+  console.log(result);
+}
+
+run();
+
+```
+<!-- End Server Selection [server] -->
 
 <!-- Start Custom HTTP Client [http-client] -->
 ## Custom HTTP Client

@@ -7,52 +7,11 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
-export type Loc = string | number;
-
 export type ValidationError = {
-  loc: Array<string | number>;
+  loc: Array<string>;
   msg: string;
   type: string;
 };
-
-/** @internal */
-export const Loc$inboundSchema: z.ZodType<Loc, z.ZodTypeDef, unknown> = z.union(
-  [z.string(), z.number().int()],
-);
-
-/** @internal */
-export type Loc$Outbound = string | number;
-
-/** @internal */
-export const Loc$outboundSchema: z.ZodType<Loc$Outbound, z.ZodTypeDef, Loc> = z
-  .union([z.string(), z.number().int()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Loc$ {
-  /** @deprecated use `Loc$inboundSchema` instead. */
-  export const inboundSchema = Loc$inboundSchema;
-  /** @deprecated use `Loc$outboundSchema` instead. */
-  export const outboundSchema = Loc$outboundSchema;
-  /** @deprecated use `Loc$Outbound` instead. */
-  export type Outbound = Loc$Outbound;
-}
-
-export function locToJSON(loc: Loc): string {
-  return JSON.stringify(Loc$outboundSchema.parse(loc));
-}
-
-export function locFromJSON(
-  jsonString: string,
-): SafeParseResult<Loc, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Loc$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Loc' from JSON`,
-  );
-}
 
 /** @internal */
 export const ValidationError$inboundSchema: z.ZodType<
@@ -60,14 +19,14 @@ export const ValidationError$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  loc: z.array(z.union([z.string(), z.number().int()])),
+  loc: z.array(z.string()),
   msg: z.string(),
   type: z.string(),
 });
 
 /** @internal */
 export type ValidationError$Outbound = {
-  loc: Array<string | number>;
+  loc: Array<string>;
   msg: string;
   type: string;
 };
@@ -78,7 +37,7 @@ export const ValidationError$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   ValidationError
 > = z.object({
-  loc: z.array(z.union([z.string(), z.number().int()])),
+  loc: z.array(z.string()),
   msg: z.string(),
   type: z.string(),
 });

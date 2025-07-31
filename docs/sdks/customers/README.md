@@ -26,22 +26,21 @@ The Get Customers API retrieves
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.customers.list({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     searchQuery: "John",
     country: [
-      "U",
-      "S",
+
     ],
     state: "CA",
     sourceIn: "SHOPIFY,API",
     orderBy: "created_at,street_1,street_2,city,state,postal_code,country,status",
-    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -61,22 +60,21 @@ import { customersList } from "@kintsugi-tax/tax-platform-sdk/funcs/customersLis
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await customersList(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     searchQuery: "John",
     country: [
-      "U",
-      "S",
+  
     ],
     state: "CA",
     sourceIn: "SHOPIFY,API",
     orderBy: "created_at,street_1,street_2,city,state,postal_code,country,status",
-    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -94,7 +92,6 @@ run();
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `request`                                                                                                                                                                      | [operations.GetCustomersV1Request](../../models/operations/getcustomersv1request.md)                                                                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetCustomersV1Security](../../models/operations/getcustomersv1security.md)                                                                                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -124,30 +121,28 @@ details like name, contact information, and address, along with optional metadat
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.customers.create({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    xOrganizationId: "org_12345",
-    customerCreate: {
-      phone: "987-654-3210",
-      street1: "456 Elm St",
-      street2: "Suite 202",
-      city: "Metropolis",
-      county: "Wayne",
-      state: "NY",
-      postalCode: "10001",
-      country: "US",
-      name: "Jane Smith",
-      externalId: "cust_002",
-      status: "ARCHIVED",
-      email: "jane.smith@example.com",
-      source: "SHOPIFY",
-      addressStatus: "PARTIALLY_VERIFIED",
-    },
+    phone: "987-654-3210",
+    street1: "456 Elm St",
+    street2: "Suite 202",
+    city: "Metropolis",
+    county: "Wayne",
+    state: "NY",
+    postalCode: "10001",
+    country: "US",
+    name: "Jane Smith",
+    externalId: "cust_002",
+    status: "ARCHIVED",
+    email: "jane.smith@example.com",
+    source: "SHOPIFY",
+    addressStatus: "PARTIALLY_VERIFIED",
   });
 
   console.log(result);
@@ -167,30 +162,28 @@ import { customersCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/customersC
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await customersCreate(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    xOrganizationId: "org_12345",
-    customerCreate: {
-      phone: "987-654-3210",
-      street1: "456 Elm St",
-      street2: "Suite 202",
-      city: "Metropolis",
-      county: "Wayne",
-      state: "NY",
-      postalCode: "10001",
-      country: "US",
-      name: "Jane Smith",
-      externalId: "cust_002",
-      status: "ARCHIVED",
-      email: "jane.smith@example.com",
-      source: "SHOPIFY",
-      addressStatus: "PARTIALLY_VERIFIED",
-    },
+    phone: "987-654-3210",
+    street1: "456 Elm St",
+    street2: "Suite 202",
+    city: "Metropolis",
+    county: "Wayne",
+    state: "NY",
+    postalCode: "10001",
+    country: "US",
+    name: "Jane Smith",
+    externalId: "cust_002",
+    status: "ARCHIVED",
+    email: "jane.smith@example.com",
+    source: "SHOPIFY",
+    addressStatus: "PARTIALLY_VERIFIED",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -207,8 +200,7 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CreateCustomerV1CustomersPostRequest](../../models/operations/createcustomerv1customerspostrequest.md)                                                             | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateCustomerV1CustomersPostSecurity](../../models/operations/createcustomerv1customerspostsecurity.md)                                                           | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `request`                                                                                                                                                                      | [models.CustomerCreate](../../models/customercreate.md)                                                                                                                        | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -239,15 +231,15 @@ The Get Customer By ID API retrieves the details of a single customer
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.customers.get({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "cust_abc123",
-    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -267,15 +259,15 @@ import { customersGet } from "@kintsugi-tax/tax-platform-sdk/funcs/customersGet.
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await customersGet(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "cust_abc123",
-    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -293,7 +285,6 @@ run();
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `request`                                                                                                                                                                      | [operations.GetCustomerByIdV1CustomersCustomerIdGetRequest](../../models/operations/getcustomerbyidv1customerscustomeridgetrequest.md)                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetCustomerByIdV1CustomersCustomerIdGetSecurity](../../models/operations/getcustomerbyidv1customerscustomeridgetsecurity.md)                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -322,15 +313,15 @@ The Update Customer API allows you to modify an existing customer's
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.customers.update({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "<id>",
-    xOrganizationId: "org_12345",
     customerUpdate: {
       phone: "987-654-3210",
       street1: "456 Elm St",
@@ -367,15 +358,15 @@ import { customersUpdate } from "@kintsugi-tax/tax-platform-sdk/funcs/customersU
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await customersUpdate(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "<id>",
-    xOrganizationId: "org_12345",
     customerUpdate: {
       phone: "987-654-3210",
       street1: "456 Elm St",
@@ -410,7 +401,6 @@ run();
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `request`                                                                                                                                                                      | [operations.UpdateCustomerV1CustomersCustomerIdPutRequest](../../models/operations/updatecustomerv1customerscustomeridputrequest.md)                                           | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.UpdateCustomerV1CustomersCustomerIdPutSecurity](../../models/operations/updatecustomerv1customerscustomeridputsecurity.md)                                         | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -441,15 +431,15 @@ an external ID is available.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.customers.getByExternalId({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     externalId: "external_12345",
-    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -469,15 +459,15 @@ import { customersGetByExternalId } from "@kintsugi-tax/tax-platform-sdk/funcs/c
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await customersGetByExternalId(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     externalId: "external_12345",
-    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -495,7 +485,6 @@ run();
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `request`                                                                                                                                                                      | [operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest](../../models/operations/getcustomerbyexternalidv1customersexternalexternalidgetrequest.md)         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity](../../models/operations/getcustomerbyexternalidv1customersexternalexternalidgetsecurity.md)       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -522,15 +511,15 @@ Get a list of transactions for a customer by their unique ID.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.customers.getTransactions({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "<id>",
-    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -550,15 +539,15 @@ import { customersGetTransactions } from "@kintsugi-tax/tax-platform-sdk/funcs/c
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await customersGetTransactions(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "<id>",
-    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -573,13 +562,12 @@ run();
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                | [operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest](../../models/operations/gettransactionsbycustomeridv1customerscustomeridtransactionsgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                       | The request object to use for the request.                                                                                                                                               |
-| `security`                                                                                                                                                                               | [operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity](../../models/operations/gettransactionsbycustomeridv1customerscustomeridtransactionsgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                        |
-| `options`                                                                                                                                                                                | RequestOptions                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                       | Used to set various options for making HTTP requests.                                                                                                                                    |
-| `options.fetchOptions`                                                                                                                                                                   | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                  | :heavy_minus_sign:                                                                                                                                                                       | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.           |
-| `options.retries`                                                                                                                                                                        | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | Enables retrying HTTP requests under certain failure conditions.                                                                                                                         |
+| Parameter                                                                                                                                                                              | Type                                                                                                                                                                                   | Required                                                                                                                                                                               | Description                                                                                                                                                                            |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                              | [operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest](../../models/operations/gettransactionsbycustomeridv1customerscustomeridtransactionsgetrequest.md) | :heavy_check_mark:                                                                                                                                                                     | The request object to use for the request.                                                                                                                                             |
+| `options`                                                                                                                                                                              | RequestOptions                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                     | Used to set various options for making HTTP requests.                                                                                                                                  |
+| `options.fetchOptions`                                                                                                                                                                 | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                | :heavy_minus_sign:                                                                                                                                                                     | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.         |
+| `options.retries`                                                                                                                                                                      | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                     | Enables retrying HTTP requests under certain failure conditions.                                                                                                                       |
 
 ### Response
 
@@ -603,25 +591,39 @@ Create a new transaction for a specific customer.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.customers.createTransaction({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "<id>",
-    xOrganizationId: "org_12345",
     transactionCreate: {
       organizationId: "<id>",
       externalId: "<id>",
       date: new Date("2023-02-16T04:36:50.697Z"),
+      totalAmount: 0,
+      totalTaxAmountImported: 0,
+      taxRateImported: 0,
+      totalTaxAmountCalculated: 0,
+      taxRateCalculated: 0,
+      totalTaxLiabilityAmount: 0,
+      taxableAmount: 0,
       addresses: [],
       transactionItems: [
         {
           organizationId: "<id>",
           date: new Date("2024-05-13T04:49:24.946Z"),
           externalProductId: "<id>",
+          quantity: 1,
+          amount: 0,
+          taxAmountImported: 0,
+          taxRateImported: 0,
+          taxAmountCalculated: 0,
+          taxRateCalculated: 0,
+          taxableAmount: 0,
         },
       ],
     },
@@ -644,25 +646,39 @@ import { customersCreateTransaction } from "@kintsugi-tax/tax-platform-sdk/funcs
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await customersCreateTransaction(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     customerId: "<id>",
-    xOrganizationId: "org_12345",
     transactionCreate: {
       organizationId: "<id>",
       externalId: "<id>",
       date: new Date("2023-02-16T04:36:50.697Z"),
+      totalAmount: 0,
+      totalTaxAmountImported: 0,
+      taxRateImported: 0,
+      totalTaxAmountCalculated: 0,
+      taxRateCalculated: 0,
+      totalTaxLiabilityAmount: 0,
+      taxableAmount: 0,
       addresses: [],
       transactionItems: [
         {
           organizationId: "<id>",
           date: new Date("2024-05-13T04:49:24.946Z"),
           externalProductId: "<id>",
+          quantity: 1,
+          amount: 0,
+          taxAmountImported: 0,
+          taxRateImported: 0,
+          taxAmountCalculated: 0,
+          taxRateCalculated: 0,
+          taxableAmount: 0,
         },
       ],
     },
@@ -680,13 +696,12 @@ run();
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                      | Type                                                                                                                                                                                           | Required                                                                                                                                                                                       | Description                                                                                                                                                                                    |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                      | [operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest](../../models/operations/createtransactionbycustomeridv1customerscustomeridtransactionspostrequest.md)   | :heavy_check_mark:                                                                                                                                                                             | The request object to use for the request.                                                                                                                                                     |
-| `security`                                                                                                                                                                                     | [operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity](../../models/operations/createtransactionbycustomeridv1customerscustomeridtransactionspostsecurity.md) | :heavy_check_mark:                                                                                                                                                                             | The security requirements to use for the request.                                                                                                                                              |
-| `options`                                                                                                                                                                                      | RequestOptions                                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                        | :heavy_minus_sign:                                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.                 |
-| `options.retries`                                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                                               |
+| Parameter                                                                                                                                                                                    | Type                                                                                                                                                                                         | Required                                                                                                                                                                                     | Description                                                                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                                    | [operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest](../../models/operations/createtransactionbycustomeridv1customerscustomeridtransactionspostrequest.md) | :heavy_check_mark:                                                                                                                                                                           | The request object to use for the request.                                                                                                                                                   |
+| `options`                                                                                                                                                                                    | RequestOptions                                                                                                                                                                               | :heavy_minus_sign:                                                                                                                                                                           | Used to set various options for making HTTP requests.                                                                                                                                        |
+| `options.fetchOptions`                                                                                                                                                                       | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                      | :heavy_minus_sign:                                                                                                                                                                           | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.               |
+| `options.retries`                                                                                                                                                                            | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                           | Enables retrying HTTP requests under certain failure conditions.                                                                                                                             |
 
 ### Response
 

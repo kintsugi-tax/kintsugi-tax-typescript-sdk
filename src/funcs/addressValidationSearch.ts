@@ -113,13 +113,6 @@ async function $do(
         value: security?.apiKeyHeader,
       },
     ],
-    [
-      {
-        fieldName: "Authorization",
-        type: "http:bearer",
-        value: security?.httpBearer,
-      },
-    ],
   );
 
   const context = {

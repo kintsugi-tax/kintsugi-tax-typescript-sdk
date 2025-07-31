@@ -3,12 +3,12 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery, encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery, encodeJSON } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
-import { resolveSecurity } from "../lib/security.js";
+import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
@@ -36,7 +36,6 @@ import { Result } from "../types/fp.js";
  */
 export function taxEstimationEstimateTax(
   client: SDKCore,
-  security: operations.EstimateTaxV1TaxEstimatePostSecurity,
   request: operations.EstimateTaxV1TaxEstimatePostRequest,
   options?: RequestOptions,
 ): APIPromise<
@@ -56,7 +55,6 @@ export function taxEstimationEstimateTax(
 > {
   return new APIPromise($do(
     client,
-    security,
     request,
     options,
   ));
@@ -64,7 +62,6 @@ export function taxEstimationEstimateTax(
 
 async function $do(
   client: SDKCore,
-  security: operations.EstimateTaxV1TaxEstimatePostSecurity,
   request: operations.EstimateTaxV1TaxEstimatePostRequest,
   options?: RequestOptions,
 ): Promise<
@@ -110,39 +107,20 @@ async function $do(
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
     Accept: "application/json",
-    "x-organization-id": encodeSimple(
-      "x-organization-id",
-      payload["x-organization-id"],
-      { explode: false, charEncoding: "none" },
-    ),
   }));
 
-  const requestSecurity = resolveSecurity(
-    [
-      {
-        fieldName: "X-API-KEY",
-        type: "apiKey:header",
-        value: security?.apiKeyHeader,
-      },
-    ],
-    [
-      {
-        fieldName: "Authorization",
-        type: "http:bearer",
-        value: security?.httpBearer,
-      },
-    ],
-  );
+  const securityInput = await extractSecurity(client._options.security);
+  const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID: "estimate_tax_v1_tax_estimate_post",
-    oAuth2Scopes: null,
+    oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: security,
+    securitySource: client._options.security,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },

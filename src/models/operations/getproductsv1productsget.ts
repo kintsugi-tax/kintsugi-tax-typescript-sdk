@@ -8,36 +8,31 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetProductsV1ProductsGetSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type GetProductsV1ProductsGetRequest = {
   /**
    * Search term to filter products by name or other details.
    */
-  query?: string | null | undefined;
+  query?: string | undefined;
   /**
    * Filter products by status (comma-separated)
    */
-  statusIn?: string | null | undefined;
+  statusIn?: string | undefined;
   /**
    * Filter products by category (comma-separated)
    */
-  productCategoryIn?: string | null | undefined;
+  productCategoryIn?: string | undefined;
   /**
    * Filter products by subcategory (comma-separated)
    */
-  productSubcategoryIn?: string | null | undefined;
+  productSubcategoryIn?: string | undefined;
   /**
    * Filter products by source (comma-separated)
    */
-  sourceIn?: string | null | undefined;
+  sourceIn?: string | undefined;
   /**
    * Order results by specified fields (comma-separated)
    */
-  orderBy?: string | null | undefined;
+  orderBy?: string | undefined;
   /**
    * Page number
    */
@@ -46,80 +41,7 @@ export type GetProductsV1ProductsGetRequest = {
    * Page size
    */
   size?: number | undefined;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetProductsV1ProductsGetSecurity$inboundSchema: z.ZodType<
-  GetProductsV1ProductsGetSecurity,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  APIKeyHeader: z.string().optional(),
-  HTTPBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "APIKeyHeader": "apiKeyHeader",
-    "HTTPBearer": "httpBearer",
-  });
-});
-
-/** @internal */
-export type GetProductsV1ProductsGetSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const GetProductsV1ProductsGetSecurity$outboundSchema: z.ZodType<
-  GetProductsV1ProductsGetSecurity$Outbound,
-  z.ZodTypeDef,
-  GetProductsV1ProductsGetSecurity
-> = z.object({
-  apiKeyHeader: z.string().optional(),
-  httpBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    apiKeyHeader: "APIKeyHeader",
-    httpBearer: "HTTPBearer",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetProductsV1ProductsGetSecurity$ {
-  /** @deprecated use `GetProductsV1ProductsGetSecurity$inboundSchema` instead. */
-  export const inboundSchema = GetProductsV1ProductsGetSecurity$inboundSchema;
-  /** @deprecated use `GetProductsV1ProductsGetSecurity$outboundSchema` instead. */
-  export const outboundSchema = GetProductsV1ProductsGetSecurity$outboundSchema;
-  /** @deprecated use `GetProductsV1ProductsGetSecurity$Outbound` instead. */
-  export type Outbound = GetProductsV1ProductsGetSecurity$Outbound;
-}
-
-export function getProductsV1ProductsGetSecurityToJSON(
-  getProductsV1ProductsGetSecurity: GetProductsV1ProductsGetSecurity,
-): string {
-  return JSON.stringify(
-    GetProductsV1ProductsGetSecurity$outboundSchema.parse(
-      getProductsV1ProductsGetSecurity,
-    ),
-  );
-}
-
-export function getProductsV1ProductsGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<GetProductsV1ProductsGetSecurity, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => GetProductsV1ProductsGetSecurity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'GetProductsV1ProductsGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetProductsV1ProductsGetRequest$inboundSchema: z.ZodType<
@@ -127,15 +49,14 @@ export const GetProductsV1ProductsGetRequest$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  query: z.nullable(z.string()).optional(),
-  status__in: z.nullable(z.string()).optional(),
-  product_category__in: z.nullable(z.string()).optional(),
-  product_subcategory__in: z.nullable(z.string()).optional(),
-  source__in: z.nullable(z.string()).optional(),
-  order_by: z.nullable(z.string()).optional(),
+  query: z.string().optional(),
+  status__in: z.string().optional(),
+  product_category__in: z.string().optional(),
+  product_subcategory__in: z.string().optional(),
+  source__in: z.string().optional(),
+  order_by: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  "x-organization-id": z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     "status__in": "statusIn",
@@ -143,21 +64,19 @@ export const GetProductsV1ProductsGetRequest$inboundSchema: z.ZodType<
     "product_subcategory__in": "productSubcategoryIn",
     "source__in": "sourceIn",
     "order_by": "orderBy",
-    "x-organization-id": "xOrganizationId",
   });
 });
 
 /** @internal */
 export type GetProductsV1ProductsGetRequest$Outbound = {
-  query?: string | null | undefined;
-  status__in?: string | null | undefined;
-  product_category__in?: string | null | undefined;
-  product_subcategory__in?: string | null | undefined;
-  source__in?: string | null | undefined;
-  order_by?: string | null | undefined;
+  query?: string | undefined;
+  status__in?: string | undefined;
+  product_category__in?: string | undefined;
+  product_subcategory__in?: string | undefined;
+  source__in?: string | undefined;
+  order_by?: string | undefined;
   page: number;
   size: number;
-  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -166,15 +85,14 @@ export const GetProductsV1ProductsGetRequest$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   GetProductsV1ProductsGetRequest
 > = z.object({
-  query: z.nullable(z.string()).optional(),
-  statusIn: z.nullable(z.string()).optional(),
-  productCategoryIn: z.nullable(z.string()).optional(),
-  productSubcategoryIn: z.nullable(z.string()).optional(),
-  sourceIn: z.nullable(z.string()).optional(),
-  orderBy: z.nullable(z.string()).optional(),
+  query: z.string().optional(),
+  statusIn: z.string().optional(),
+  productCategoryIn: z.string().optional(),
+  productSubcategoryIn: z.string().optional(),
+  sourceIn: z.string().optional(),
+  orderBy: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  xOrganizationId: z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     statusIn: "status__in",
@@ -182,7 +100,6 @@ export const GetProductsV1ProductsGetRequest$outboundSchema: z.ZodType<
     productSubcategoryIn: "product_subcategory__in",
     sourceIn: "source__in",
     orderBy: "order_by",
-    xOrganizationId: "x-organization-id",
   });
 });
 

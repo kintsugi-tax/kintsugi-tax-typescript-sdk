@@ -3,7 +3,6 @@
  */
 
 export * from "./addressbase.js";
-export * from "./addressinput.js";
 export * from "./addressresponsedata.js";
 export * from "./addresssearchresponse.js";
 export * from "./addressstatus.js";
@@ -58,7 +57,6 @@ export * from "./productstatusenum.js";
 export * from "./productsubcategory.js";
 export * from "./productsubcategoryenum.js";
 export * from "./productupdate.js";
-export * from "./productupdatev2.js";
 export * from "./registrationsregimeenum.js";
 export * from "./relatedentitytype.js";
 export * from "./salesortransactionsenum.js";
@@ -79,7 +77,6 @@ export * from "./transactioncreate.js";
 export * from "./transactionestimatepublicrequest.js";
 export * from "./transactionestimateresponse.js";
 export * from "./transactionexemptstatusenum.js";
-export * from "./transactionimportcustomer.js";
 export * from "./transactionitembuilder.js";
 export * from "./transactionitemcreateupdate.js";
 export * from "./transactionitemestimatebase.js";
