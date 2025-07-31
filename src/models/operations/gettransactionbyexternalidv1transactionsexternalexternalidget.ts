@@ -8,105 +8,13 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity =
-  {
-    apiKeyHeader?: string | undefined;
-    httpBearer?: string | undefined;
-  };
-
 export type GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest =
   {
     /**
      * The unique external identifier of the transaction.
      */
     externalId: string;
-    /**
-     * The unique identifier for the organization making the request
-     */
-    xOrganizationId: string | null;
   };
-
-/** @internal */
-export const GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$inboundSchema:
-  z.ZodType<
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$Outbound =
-  {
-    APIKeyHeader?: string | undefined;
-    HTTPBearer?: string | undefined;
-  };
-
-/** @internal */
-export const GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$outboundSchema:
-  z.ZodType<
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$Outbound,
-    z.ZodTypeDef,
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$ {
-  /** @deprecated use `GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$inboundSchema;
-  /** @deprecated use `GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$outboundSchema;
-  /** @deprecated use `GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$Outbound` instead. */
-  export type Outbound =
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$Outbound;
-}
-
-export function getTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurityToJSON(
-  getTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity:
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity,
-): string {
-  return JSON.stringify(
-    GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$outboundSchema
-      .parse(
-        getTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity,
-      ),
-  );
-}
-
-export function getTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity$inboundSchema
-        .parse(JSON.parse(x)),
-    `Failed to parse 'GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest$inboundSchema:
@@ -116,11 +24,9 @@ export const GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
     unknown
   > = z.object({
     external_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       "external_id": "externalId",
-      "x-organization-id": "xOrganizationId",
     });
   });
 
@@ -128,7 +34,6 @@ export const GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
 export type GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest$Outbound =
   {
     external_id: string;
-    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -139,11 +44,9 @@ export const GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
     GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
   > = z.object({
     externalId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       externalId: "external_id",
-      xOrganizationId: "x-organization-id",
     });
   });
 

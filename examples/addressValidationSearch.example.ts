@@ -13,9 +13,7 @@ dotenv.config();
 
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK({
-  serverURL: "https://api.example.com",
-});
+const sdk = new SDK();
 
 async function main() {
   const result = await sdk.search({

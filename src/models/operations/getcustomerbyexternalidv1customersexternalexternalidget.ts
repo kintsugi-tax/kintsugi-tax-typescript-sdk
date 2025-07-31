@@ -8,101 +8,12 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest = {
   /**
    * The external identifier of the customer to retrieve.
    */
   externalId: string;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$inboundSchema:
-  z.ZodType<
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$Outbound =
-  {
-    APIKeyHeader?: string | undefined;
-    HTTPBearer?: string | undefined;
-  };
-
-/** @internal */
-export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$outboundSchema:
-  z.ZodType<
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$Outbound,
-    z.ZodTypeDef,
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$ {
-  /** @deprecated use `GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$inboundSchema;
-  /** @deprecated use `GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$outboundSchema;
-  /** @deprecated use `GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$Outbound` instead. */
-  export type Outbound =
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$Outbound;
-}
-
-export function getCustomerByExternalIdV1CustomersExternalExternalIdGetSecurityToJSON(
-  getCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity:
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity,
-): string {
-  return JSON.stringify(
-    GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$outboundSchema
-      .parse(getCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity),
-  );
-}
-
-export function getCustomerByExternalIdV1CustomersExternalExternalIdGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity$inboundSchema
-        .parse(JSON.parse(x)),
-    `Failed to parse 'GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$inboundSchema:
@@ -112,11 +23,9 @@ export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$inbo
     unknown
   > = z.object({
     external_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       "external_id": "externalId",
-      "x-organization-id": "xOrganizationId",
     });
   });
 
@@ -124,7 +33,6 @@ export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$inbo
 export type GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$Outbound =
   {
     external_id: string;
-    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -135,11 +43,9 @@ export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$outb
     GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest
   > = z.object({
     externalId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       externalId: "external_id",
-      xOrganizationId: "x-organization-id",
     });
   });
 

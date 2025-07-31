@@ -27,15 +27,15 @@ export type ProductUpdate = {
   /**
    * The unique identifier of the product to be updated.
    */
-  id?: string | null | undefined;
+  id?: string | undefined;
   /**
    * External identifier provided for the product,
    *
    * @remarks
    *         typically by the source system.
    */
-  externalId?: string | null | undefined;
-  sku?: Array<string> | null | undefined;
+  externalId?: string | undefined;
+  sku?: Array<string> | undefined;
   /**
    * Name of the product.
    */
@@ -43,7 +43,7 @@ export type ProductUpdate = {
   /**
    * Description of the product.
    */
-  description?: string | null | undefined;
+  description?: string | undefined;
   status?: ProductStatusEnum | undefined;
   productCategory: ProductCategoryEnum;
   productSubcategory: ProductSubCategoryEnum;
@@ -54,7 +54,7 @@ export type ProductUpdate = {
   /**
    * Indicates if the product classification failed.
    */
-  classificationFailed?: boolean | null | undefined;
+  classificationFailed?: boolean | undefined;
 };
 
 /** @internal */
@@ -63,16 +63,16 @@ export const ProductUpdate$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  id: z.nullable(z.string()).optional(),
-  external_id: z.nullable(z.string()).optional(),
-  sku: z.nullable(z.array(z.string())).optional(),
+  id: z.string().optional(),
+  external_id: z.string().optional(),
+  sku: z.array(z.string()).optional(),
   name: z.string(),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   status: ProductStatusEnum$inboundSchema.optional(),
   product_category: ProductCategoryEnum$inboundSchema,
   product_subcategory: ProductSubCategoryEnum$inboundSchema,
   tax_exempt: z.boolean(),
-  classification_failed: z.nullable(z.boolean()).optional(),
+  classification_failed: z.boolean().default(false),
 }).transform((v) => {
   return remap$(v, {
     "external_id": "externalId",
@@ -85,16 +85,16 @@ export const ProductUpdate$inboundSchema: z.ZodType<
 
 /** @internal */
 export type ProductUpdate$Outbound = {
-  id?: string | null | undefined;
-  external_id?: string | null | undefined;
-  sku?: Array<string> | null | undefined;
+  id?: string | undefined;
+  external_id?: string | undefined;
+  sku?: Array<string> | undefined;
   name: string;
-  description?: string | null | undefined;
+  description?: string | undefined;
   status?: string | undefined;
   product_category: string;
   product_subcategory: string;
   tax_exempt: boolean;
-  classification_failed?: boolean | null | undefined;
+  classification_failed: boolean;
 };
 
 /** @internal */
@@ -103,16 +103,16 @@ export const ProductUpdate$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   ProductUpdate
 > = z.object({
-  id: z.nullable(z.string()).optional(),
-  externalId: z.nullable(z.string()).optional(),
-  sku: z.nullable(z.array(z.string())).optional(),
+  id: z.string().optional(),
+  externalId: z.string().optional(),
+  sku: z.array(z.string()).optional(),
   name: z.string(),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   status: ProductStatusEnum$outboundSchema.optional(),
   productCategory: ProductCategoryEnum$outboundSchema,
   productSubcategory: ProductSubCategoryEnum$outboundSchema,
   taxExempt: z.boolean(),
-  classificationFailed: z.nullable(z.boolean()).optional(),
+  classificationFailed: z.boolean().default(false),
 }).transform((v) => {
   return remap$(v, {
     externalId: "external_id",

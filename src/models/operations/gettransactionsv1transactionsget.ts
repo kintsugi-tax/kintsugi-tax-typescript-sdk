@@ -6,110 +6,100 @@ import * as z from "zod";
 import { remap as remap$ } from "../../lib/primitives.js";
 import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
-import { RFCDate } from "../../types/rfcdate.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
-
-export type GetTransactionsV1TransactionsGetSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
-export type GetTransactionsV1TransactionsGetCountry =
-  | models.CountryCodeEnum
-  | string;
 
 export type GetTransactionsV1TransactionsGetRequest = {
   /**
    * Filter transactions by state code.
    */
-  stateCode?: string | null | undefined;
+  stateCode?: string | undefined;
   /**
    * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
    *
    * @remarks
    *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
    */
-  transactionType?: string | null | undefined;
+  transactionType?: string | undefined;
   /**
    * Filter transactions based on the source.
    */
-  transactionSource?: string | null | undefined;
+  transactionSource?: string | undefined;
   /**
    * Search for transactions using a general query
    *
    * @remarks
    *         (e.g., order ID, customer name).
    */
-  searchQuery?: string | null | undefined;
+  searchQuery?: string | undefined;
   /**
    * Filter transactions by country code
    *
    * @remarks
    *         (ISO 3166-1 alpha-2 format, e.g., US).
    */
-  country?: Array<models.CountryCodeEnum | string> | null | undefined;
+  country?: Array<models.CountryCodeEnum> | undefined;
   /**
    * Filter by full state name (e.g., California).
    */
-  state?: string | null | undefined;
+  state?: string | undefined;
   /**
    * Filter by address status (e.g., UNVERIFIED, INVALID,
    *
    * @remarks
    *         PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
    */
-  addressStatusIn?: string | null | undefined;
+  addressStatusIn?: string | undefined;
   /**
    * Filter by transaction status (e.g., PENDING, COMMITTED,
    *
    * @remarks
    *         CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
    */
-  status?: models.TransactionStatusEnum | null | undefined;
+  status?: models.TransactionStatusEnum | undefined;
   /**
    * Retrieve transactions linked to a specific filing ID.
    */
-  filingId?: string | null | undefined;
+  filingId?: string | undefined;
   /**
    * Sort results based on specified fields.
    *
    * @remarks
    *         Prefix with - for descending order (e.g., -date for newest first).
    */
-  orderBy?: string | null | undefined;
+  orderBy?: string | undefined;
   /**
    * Retrieve transactions with a date
    *
    * @remarks
    *         greater than or equal to (YYYY-MM-DD).
    */
-  dateGte?: RFCDate | null | undefined;
+  dateGte?: string | undefined;
   /**
    * Retrieve transactions with a date
    *
    * @remarks
    *         less than or equal to (YYYY-MM-DD).
    */
-  dateLte?: RFCDate | null | undefined;
+  dateLte?: string | undefined;
   /**
    * Filter transactions based on processing status.
    *
    * @remarks
    *         Multiple values can be passed as a comma-separated list.
    */
-  processingStatusIn?: string | null | undefined;
+  processingStatusIn?: string | undefined;
   /**
    * Filter transactions by marketplace (e.g., AMAZON, EBAY).
    */
-  marketplace?: boolean | null | undefined;
+  marketplace?: boolean | undefined;
   /**
    * Filter transactions by exemption status.
    *
    * @remarks
    *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
    */
-  exemptIn?: string | null | undefined;
+  exemptIn?: string | undefined;
   /**
    * Page number
    */
@@ -118,148 +108,7 @@ export type GetTransactionsV1TransactionsGetRequest = {
    * Page size
    */
   size?: number | undefined;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetTransactionsV1TransactionsGetSecurity$inboundSchema: z.ZodType<
-  GetTransactionsV1TransactionsGetSecurity,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  APIKeyHeader: z.string().optional(),
-  HTTPBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "APIKeyHeader": "apiKeyHeader",
-    "HTTPBearer": "httpBearer",
-  });
-});
-
-/** @internal */
-export type GetTransactionsV1TransactionsGetSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const GetTransactionsV1TransactionsGetSecurity$outboundSchema: z.ZodType<
-  GetTransactionsV1TransactionsGetSecurity$Outbound,
-  z.ZodTypeDef,
-  GetTransactionsV1TransactionsGetSecurity
-> = z.object({
-  apiKeyHeader: z.string().optional(),
-  httpBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    apiKeyHeader: "APIKeyHeader",
-    httpBearer: "HTTPBearer",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetTransactionsV1TransactionsGetSecurity$ {
-  /** @deprecated use `GetTransactionsV1TransactionsGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetTransactionsV1TransactionsGetSecurity$inboundSchema;
-  /** @deprecated use `GetTransactionsV1TransactionsGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetTransactionsV1TransactionsGetSecurity$outboundSchema;
-  /** @deprecated use `GetTransactionsV1TransactionsGetSecurity$Outbound` instead. */
-  export type Outbound = GetTransactionsV1TransactionsGetSecurity$Outbound;
-}
-
-export function getTransactionsV1TransactionsGetSecurityToJSON(
-  getTransactionsV1TransactionsGetSecurity:
-    GetTransactionsV1TransactionsGetSecurity,
-): string {
-  return JSON.stringify(
-    GetTransactionsV1TransactionsGetSecurity$outboundSchema.parse(
-      getTransactionsV1TransactionsGetSecurity,
-    ),
-  );
-}
-
-export function getTransactionsV1TransactionsGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetTransactionsV1TransactionsGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetTransactionsV1TransactionsGetSecurity$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetTransactionsV1TransactionsGetSecurity' from JSON`,
-  );
-}
-
-/** @internal */
-export const GetTransactionsV1TransactionsGetCountry$inboundSchema: z.ZodType<
-  GetTransactionsV1TransactionsGetCountry,
-  z.ZodTypeDef,
-  unknown
-> = z.union([models.CountryCodeEnum$inboundSchema, z.string()]);
-
-/** @internal */
-export type GetTransactionsV1TransactionsGetCountry$Outbound = string | string;
-
-/** @internal */
-export const GetTransactionsV1TransactionsGetCountry$outboundSchema: z.ZodType<
-  GetTransactionsV1TransactionsGetCountry$Outbound,
-  z.ZodTypeDef,
-  GetTransactionsV1TransactionsGetCountry
-> = z.union([models.CountryCodeEnum$outboundSchema, z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetTransactionsV1TransactionsGetCountry$ {
-  /** @deprecated use `GetTransactionsV1TransactionsGetCountry$inboundSchema` instead. */
-  export const inboundSchema =
-    GetTransactionsV1TransactionsGetCountry$inboundSchema;
-  /** @deprecated use `GetTransactionsV1TransactionsGetCountry$outboundSchema` instead. */
-  export const outboundSchema =
-    GetTransactionsV1TransactionsGetCountry$outboundSchema;
-  /** @deprecated use `GetTransactionsV1TransactionsGetCountry$Outbound` instead. */
-  export type Outbound = GetTransactionsV1TransactionsGetCountry$Outbound;
-}
-
-export function getTransactionsV1TransactionsGetCountryToJSON(
-  getTransactionsV1TransactionsGetCountry:
-    GetTransactionsV1TransactionsGetCountry,
-): string {
-  return JSON.stringify(
-    GetTransactionsV1TransactionsGetCountry$outboundSchema.parse(
-      getTransactionsV1TransactionsGetCountry,
-    ),
-  );
-}
-
-export function getTransactionsV1TransactionsGetCountryFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetTransactionsV1TransactionsGetCountry,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetTransactionsV1TransactionsGetCountry$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetTransactionsV1TransactionsGetCountry' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetTransactionsV1TransactionsGetRequest$inboundSchema: z.ZodType<
@@ -267,26 +116,25 @@ export const GetTransactionsV1TransactionsGetRequest$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  state_code: z.nullable(z.string()).optional(),
-  transaction_type: z.nullable(z.string()).optional(),
-  transaction_source: z.nullable(z.string()).optional(),
-  search_query: z.nullable(z.string()).optional(),
-  country: z.nullable(
-    z.array(z.union([models.CountryCodeEnum$inboundSchema, z.string()])),
-  ).optional(),
-  state: z.nullable(z.string()).optional(),
-  address_status__in: z.nullable(z.string()).optional(),
-  status: z.nullable(models.TransactionStatusEnum$inboundSchema).optional(),
-  filing_id: z.nullable(z.string()).optional(),
-  order_by: z.nullable(z.string()).optional(),
-  date__gte: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
-  date__lte: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
-  processing_status__in: z.nullable(z.string()).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
-  exempt__in: z.nullable(z.string()).optional(),
+  state_code: z.string().optional(),
+  transaction_type: z.string().optional(),
+  transaction_source: z.string().optional(),
+  search_query: z.string().optional(),
+  country: z.array(models.CountryCodeEnum$inboundSchema).optional(),
+  state: z.string().optional(),
+  address_status__in: z.string().default(
+    "UNVERIFIED,INVALID,PARTIALLY_VERIFIED,VERIFIED,UNVERIFIABLE",
+  ),
+  status: models.TransactionStatusEnum$inboundSchema.optional(),
+  filing_id: z.string().optional(),
+  order_by: z.string().default("date,state,customer_name,status"),
+  date__gte: z.string().optional(),
+  date__lte: z.string().optional(),
+  processing_status__in: z.string().optional(),
+  marketplace: z.boolean().optional(),
+  exempt__in: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  "x-organization-id": z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     "state_code": "stateCode",
@@ -300,30 +148,28 @@ export const GetTransactionsV1TransactionsGetRequest$inboundSchema: z.ZodType<
     "date__lte": "dateLte",
     "processing_status__in": "processingStatusIn",
     "exempt__in": "exemptIn",
-    "x-organization-id": "xOrganizationId",
   });
 });
 
 /** @internal */
 export type GetTransactionsV1TransactionsGetRequest$Outbound = {
-  state_code?: string | null | undefined;
-  transaction_type?: string | null | undefined;
-  transaction_source?: string | null | undefined;
-  search_query?: string | null | undefined;
-  country?: Array<string | string> | null | undefined;
-  state?: string | null | undefined;
-  address_status__in?: string | null | undefined;
-  status?: string | null | undefined;
-  filing_id?: string | null | undefined;
-  order_by?: string | null | undefined;
-  date__gte?: string | null | undefined;
-  date__lte?: string | null | undefined;
-  processing_status__in?: string | null | undefined;
-  marketplace?: boolean | null | undefined;
-  exempt__in?: string | null | undefined;
+  state_code?: string | undefined;
+  transaction_type?: string | undefined;
+  transaction_source?: string | undefined;
+  search_query?: string | undefined;
+  country?: Array<string> | undefined;
+  state?: string | undefined;
+  address_status__in: string;
+  status?: string | undefined;
+  filing_id?: string | undefined;
+  order_by: string;
+  date__gte?: string | undefined;
+  date__lte?: string | undefined;
+  processing_status__in?: string | undefined;
+  marketplace?: boolean | undefined;
+  exempt__in?: string | undefined;
   page: number;
   size: number;
-  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -332,28 +178,25 @@ export const GetTransactionsV1TransactionsGetRequest$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   GetTransactionsV1TransactionsGetRequest
 > = z.object({
-  stateCode: z.nullable(z.string()).optional(),
-  transactionType: z.nullable(z.string()).optional(),
-  transactionSource: z.nullable(z.string()).optional(),
-  searchQuery: z.nullable(z.string()).optional(),
-  country: z.nullable(
-    z.array(z.union([models.CountryCodeEnum$outboundSchema, z.string()])),
-  ).optional(),
-  state: z.nullable(z.string()).optional(),
-  addressStatusIn: z.nullable(z.string()).optional(),
-  status: z.nullable(models.TransactionStatusEnum$outboundSchema).optional(),
-  filingId: z.nullable(z.string()).optional(),
-  orderBy: z.nullable(z.string()).optional(),
-  dateGte: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-    .optional(),
-  dateLte: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
-    .optional(),
-  processingStatusIn: z.nullable(z.string()).optional(),
-  marketplace: z.nullable(z.boolean()).optional(),
-  exemptIn: z.nullable(z.string()).optional(),
+  stateCode: z.string().optional(),
+  transactionType: z.string().optional(),
+  transactionSource: z.string().optional(),
+  searchQuery: z.string().optional(),
+  country: z.array(models.CountryCodeEnum$outboundSchema).optional(),
+  state: z.string().optional(),
+  addressStatusIn: z.string().default(
+    "UNVERIFIED,INVALID,PARTIALLY_VERIFIED,VERIFIED,UNVERIFIABLE",
+  ),
+  status: models.TransactionStatusEnum$outboundSchema.optional(),
+  filingId: z.string().optional(),
+  orderBy: z.string().default("date,state,customer_name,status"),
+  dateGte: z.string().optional(),
+  dateLte: z.string().optional(),
+  processingStatusIn: z.string().optional(),
+  marketplace: z.boolean().optional(),
+  exemptIn: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
-  xOrganizationId: z.nullable(z.string()),
 }).transform((v) => {
   return remap$(v, {
     stateCode: "state_code",
@@ -367,7 +210,6 @@ export const GetTransactionsV1TransactionsGetRequest$outboundSchema: z.ZodType<
     dateLte: "date__lte",
     processingStatusIn: "processing_status__in",
     exemptIn: "exempt__in",
-    xOrganizationId: "x-organization-id",
   });
 });
 

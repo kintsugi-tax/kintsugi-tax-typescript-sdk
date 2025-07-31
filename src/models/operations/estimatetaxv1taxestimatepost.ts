@@ -9,11 +9,6 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
-export type EstimateTaxV1TaxEstimatePostSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type EstimateTaxV1TaxEstimatePostRequest = {
   /**
    * **Deprecated:** Use `simulate_active_registration` in the request body instead.
@@ -21,84 +16,8 @@ export type EstimateTaxV1TaxEstimatePostRequest = {
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   simulateNexusMet?: boolean | undefined;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
   transactionEstimatePublicRequest: models.TransactionEstimatePublicRequest;
 };
-
-/** @internal */
-export const EstimateTaxV1TaxEstimatePostSecurity$inboundSchema: z.ZodType<
-  EstimateTaxV1TaxEstimatePostSecurity,
-  z.ZodTypeDef,
-  unknown
-> = z.object({
-  APIKeyHeader: z.string().optional(),
-  HTTPBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "APIKeyHeader": "apiKeyHeader",
-    "HTTPBearer": "httpBearer",
-  });
-});
-
-/** @internal */
-export type EstimateTaxV1TaxEstimatePostSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const EstimateTaxV1TaxEstimatePostSecurity$outboundSchema: z.ZodType<
-  EstimateTaxV1TaxEstimatePostSecurity$Outbound,
-  z.ZodTypeDef,
-  EstimateTaxV1TaxEstimatePostSecurity
-> = z.object({
-  apiKeyHeader: z.string().optional(),
-  httpBearer: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    apiKeyHeader: "APIKeyHeader",
-    httpBearer: "HTTPBearer",
-  });
-});
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace EstimateTaxV1TaxEstimatePostSecurity$ {
-  /** @deprecated use `EstimateTaxV1TaxEstimatePostSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    EstimateTaxV1TaxEstimatePostSecurity$inboundSchema;
-  /** @deprecated use `EstimateTaxV1TaxEstimatePostSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    EstimateTaxV1TaxEstimatePostSecurity$outboundSchema;
-  /** @deprecated use `EstimateTaxV1TaxEstimatePostSecurity$Outbound` instead. */
-  export type Outbound = EstimateTaxV1TaxEstimatePostSecurity$Outbound;
-}
-
-export function estimateTaxV1TaxEstimatePostSecurityToJSON(
-  estimateTaxV1TaxEstimatePostSecurity: EstimateTaxV1TaxEstimatePostSecurity,
-): string {
-  return JSON.stringify(
-    EstimateTaxV1TaxEstimatePostSecurity$outboundSchema.parse(
-      estimateTaxV1TaxEstimatePostSecurity,
-    ),
-  );
-}
-
-export function estimateTaxV1TaxEstimatePostSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<EstimateTaxV1TaxEstimatePostSecurity, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      EstimateTaxV1TaxEstimatePostSecurity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'EstimateTaxV1TaxEstimatePostSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const EstimateTaxV1TaxEstimatePostRequest$inboundSchema: z.ZodType<
@@ -107,13 +26,11 @@ export const EstimateTaxV1TaxEstimatePostRequest$inboundSchema: z.ZodType<
   unknown
 > = z.object({
   simulate_nexus_met: z.boolean().optional(),
-  "x-organization-id": z.nullable(z.string()),
   TransactionEstimatePublicRequest:
     models.TransactionEstimatePublicRequest$inboundSchema,
 }).transform((v) => {
   return remap$(v, {
     "simulate_nexus_met": "simulateNexusMet",
-    "x-organization-id": "xOrganizationId",
     "TransactionEstimatePublicRequest": "transactionEstimatePublicRequest",
   });
 });
@@ -121,7 +38,6 @@ export const EstimateTaxV1TaxEstimatePostRequest$inboundSchema: z.ZodType<
 /** @internal */
 export type EstimateTaxV1TaxEstimatePostRequest$Outbound = {
   simulate_nexus_met?: boolean | undefined;
-  "x-organization-id": string | null;
   TransactionEstimatePublicRequest:
     models.TransactionEstimatePublicRequest$Outbound;
 };
@@ -133,13 +49,11 @@ export const EstimateTaxV1TaxEstimatePostRequest$outboundSchema: z.ZodType<
   EstimateTaxV1TaxEstimatePostRequest
 > = z.object({
   simulateNexusMet: z.boolean().optional(),
-  xOrganizationId: z.nullable(z.string()),
   transactionEstimatePublicRequest:
     models.TransactionEstimatePublicRequest$outboundSchema,
 }).transform((v) => {
   return remap$(v, {
     simulateNexusMet: "simulate_nexus_met",
-    xOrganizationId: "x-organization-id",
     transactionEstimatePublicRequest: "TransactionEstimatePublicRequest",
   });
 });

@@ -32,62 +32,56 @@ export type CustomerBase = {
   /**
    * Phone number associated with the address.
    */
-  phone?: string | null | undefined;
+  phone?: string | undefined;
   /**
    * Primary street address.
    */
-  street1?: string | null | undefined;
+  street1?: string | undefined;
   /**
    * Additional street address details, such as an apartment or suite number.
    */
-  street2?: string | null | undefined;
+  street2?: string | undefined;
   /**
    * City where the customer resides.
    */
-  city?: string | null | undefined;
+  city?: string | undefined;
   /**
    * County or district of the customer.
    */
-  county?: string | null | undefined;
+  county?: string | undefined;
   /**
    * State or province of the customer.
    */
-  state?: string | null | undefined;
+  state?: string | undefined;
   /**
    * ZIP or Postal code of the customer.
    */
-  postalCode?: string | null | undefined;
-  /**
-   * Country code in ISO 3166-1 alpha-2 format
-   */
-  country?: CountryCodeEnum | null | undefined;
+  postalCode?: string | undefined;
+  country?: CountryCodeEnum | undefined;
   /**
    * Complete address string of the customer, which can be used as an alternative to individual fields.
    */
-  fullAddress?: string | null | undefined;
+  fullAddress?: string | undefined;
   /**
    * Name of the customer.
    */
-  name?: string | null | undefined;
+  name?: string | undefined;
   /**
    * A unique identifier for the customer.
    */
-  externalId?: string | null | undefined;
+  externalId?: string | undefined;
   status?: StatusEnum | undefined;
   /**
    * Email address of the customer.
    */
-  email?: string | null | undefined;
+  email?: string | undefined;
   addressStatus?: AddressStatus | undefined;
-  /**
-   * Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.).
-   */
-  source?: SourceEnum | null | undefined;
-  registrationNumber?: string | null | undefined;
+  source?: SourceEnum | undefined;
+  registrationNumber?: string | undefined;
   /**
    * Unique identifier of the connection related to the customer.
    */
-  connectionId?: string | null | undefined;
+  connectionId?: string | undefined;
 };
 
 /** @internal */
@@ -96,23 +90,23 @@ export const CustomerBase$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  phone: z.nullable(z.string()).optional(),
-  street_1: z.nullable(z.string()).optional(),
-  street_2: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  postal_code: z.nullable(z.string()).optional(),
-  country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
-  full_address: z.nullable(z.string()).optional(),
-  name: z.nullable(z.string()).optional(),
-  external_id: z.nullable(z.string()).optional(),
+  phone: z.string().optional(),
+  street_1: z.string().optional(),
+  street_2: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  postal_code: z.string().optional(),
+  country: CountryCodeEnum$inboundSchema.optional(),
+  full_address: z.string().optional(),
+  name: z.string().optional(),
+  external_id: z.string().optional(),
   status: StatusEnum$inboundSchema.optional(),
-  email: z.nullable(z.string()).optional(),
+  email: z.string().optional(),
   address_status: AddressStatus$inboundSchema.optional(),
-  source: z.nullable(SourceEnum$inboundSchema).optional(),
-  registration_number: z.nullable(z.string()).optional(),
-  connection_id: z.nullable(z.string()).optional(),
+  source: SourceEnum$inboundSchema.optional(),
+  registration_number: z.string().optional(),
+  connection_id: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
@@ -128,23 +122,23 @@ export const CustomerBase$inboundSchema: z.ZodType<
 
 /** @internal */
 export type CustomerBase$Outbound = {
-  phone?: string | null | undefined;
-  street_1?: string | null | undefined;
-  street_2?: string | null | undefined;
-  city?: string | null | undefined;
-  county?: string | null | undefined;
-  state?: string | null | undefined;
-  postal_code?: string | null | undefined;
-  country?: string | null | undefined;
-  full_address?: string | null | undefined;
-  name?: string | null | undefined;
-  external_id?: string | null | undefined;
+  phone?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | undefined;
+  city?: string | undefined;
+  county?: string | undefined;
+  state?: string | undefined;
+  postal_code?: string | undefined;
+  country?: string | undefined;
+  full_address?: string | undefined;
+  name?: string | undefined;
+  external_id?: string | undefined;
   status?: string | undefined;
-  email?: string | null | undefined;
+  email?: string | undefined;
   address_status?: string | undefined;
-  source?: string | null | undefined;
-  registration_number?: string | null | undefined;
-  connection_id?: string | null | undefined;
+  source?: string | undefined;
+  registration_number?: string | undefined;
+  connection_id?: string | undefined;
 };
 
 /** @internal */
@@ -153,23 +147,23 @@ export const CustomerBase$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   CustomerBase
 > = z.object({
-  phone: z.nullable(z.string()).optional(),
-  street1: z.nullable(z.string()).optional(),
-  street2: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  postalCode: z.nullable(z.string()).optional(),
-  country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
-  fullAddress: z.nullable(z.string()).optional(),
-  name: z.nullable(z.string()).optional(),
-  externalId: z.nullable(z.string()).optional(),
+  phone: z.string().optional(),
+  street1: z.string().optional(),
+  street2: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: CountryCodeEnum$outboundSchema.optional(),
+  fullAddress: z.string().optional(),
+  name: z.string().optional(),
+  externalId: z.string().optional(),
   status: StatusEnum$outboundSchema.optional(),
-  email: z.nullable(z.string()).optional(),
+  email: z.string().optional(),
   addressStatus: AddressStatus$outboundSchema.optional(),
-  source: z.nullable(SourceEnum$outboundSchema).optional(),
-  registrationNumber: z.nullable(z.string()).optional(),
-  connectionId: z.nullable(z.string()).optional(),
+  source: SourceEnum$outboundSchema.optional(),
+  registrationNumber: z.string().optional(),
+  connectionId: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",

@@ -6,8 +6,8 @@
 import { TaxItemBuilder } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: TaxItemBuilder = {
-  rate: "<value>",
-  amount: 1055.23,
+  rate: 8209.88,
+  amount: 2527.23,
   name: "<value>",
   organizationId: "<id>",
 };
@@ -18,9 +18,9 @@ let value: TaxItemBuilder = {
 | Field                                                    | Type                                                     | Required                                                 | Description                                              |
 | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
 | `ruleId`                                                 | *string*                                                 | :heavy_minus_sign:                                       | The rule ID of the tax item                              |
-| `rate`                                                   | *models.Rate*                                            | :heavy_check_mark:                                       | N/A                                                      |
-| `amount`                                                 | *models.TaxItemBuilderAmount*                            | :heavy_check_mark:                                       | N/A                                                      |
-| `convertedAmount`                                        | *models.TaxItemBuilderConvertedAmount*                   | :heavy_minus_sign:                                       | N/A                                                      |
+| `rate`                                                   | *number*                                                 | :heavy_check_mark:                                       | N/A                                                      |
+| `amount`                                                 | *number*                                                 | :heavy_check_mark:                                       | N/A                                                      |
+| `convertedAmount`                                        | *number*                                                 | :heavy_minus_sign:                                       | N/A                                                      |
 | `currency`                                               | [models.CurrencyEnum](../models/currencyenum.md)         | :heavy_minus_sign:                                       | N/A                                                      |
 | `destinationCurrency`                                    | [models.CurrencyEnum](../models/currencyenum.md)         | :heavy_minus_sign:                                       | N/A                                                      |
 | `externalId`                                             | *string*                                                 | :heavy_minus_sign:                                       | N/A                                                      |

@@ -7,10 +7,16 @@ import { TransactionItemRead } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: TransactionItemRead = {
   organizationId: "<id>",
-  date: new Date("2024-08-02T04:56:47.915Z"),
+  date: new Date("2024-04-06T17:51:35.076Z"),
   externalProductId: "<id>",
   id: "<id>",
-  taxItems: [],
+  taxItems: [
+    {
+      rate: "<value>",
+      amount: "42.43",
+      name: "<value>",
+    },
+  ],
 };
 ```
 
@@ -33,8 +39,8 @@ let value: TransactionItemRead = {
 | `taxRateImported`                                                                             | *string*                                                                                      | :heavy_minus_sign:                                                                            | Imported tax rate.                                                                            |
 | `taxAmountCalculated`                                                                         | *string*                                                                                      | :heavy_minus_sign:                                                                            | Calculated tax amount for the item.                                                           |
 | `taxRateCalculated`                                                                           | *string*                                                                                      | :heavy_minus_sign:                                                                            | Calculated tax rate.                                                                          |
-| `originalCurrency`                                                                            | [models.CurrencyEnum](../models/currencyenum.md)                                              | :heavy_minus_sign:                                                                            | Original currency code.                                                                       |
-| `destinationCurrency`                                                                         | [models.CurrencyEnum](../models/currencyenum.md)                                              | :heavy_minus_sign:                                                                            | Destination currency code.                                                                    |
+| `originalCurrency`                                                                            | [models.CurrencyEnum](../models/currencyenum.md)                                              | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `destinationCurrency`                                                                         | [models.CurrencyEnum](../models/currencyenum.md)                                              | :heavy_minus_sign:                                                                            | N/A                                                                                           |
 | `convertedAmount`                                                                             | *string*                                                                                      | :heavy_minus_sign:                                                                            | Converted item amount.                                                                        |
 | `convertedTaxableAmount`                                                                      | *string*                                                                                      | :heavy_minus_sign:                                                                            | Converted taxable amount.                                                                     |
 | `convertedTaxAmountImported`                                                                  | *string*                                                                                      | :heavy_minus_sign:                                                                            | Converted imported tax amount.                                                                |
@@ -42,7 +48,7 @@ let value: TransactionItemRead = {
 | `convertedTotalDiscount`                                                                      | *string*                                                                                      | :heavy_minus_sign:                                                                            | Converted total discount amount.                                                              |
 | `convertedSubtotal`                                                                           | *string*                                                                                      | :heavy_minus_sign:                                                                            | Converted subtotal amount.                                                                    |
 | `taxableAmount`                                                                               | *string*                                                                                      | :heavy_minus_sign:                                                                            | Taxable amount for the item.                                                                  |
-| `taxExemption`                                                                                | [models.TaxExemptionEnum](../models/taxexemptionenum.md)                                      | :heavy_minus_sign:                                                                            | Tax exemption status.                                                                         |
+| `taxExemption`                                                                                | [models.TaxExemptionEnum](../models/taxexemptionenum.md)                                      | :heavy_minus_sign:                                                                            | This enum is used to determine if a transaction is exempt from tax.                           |
 | `exempt`                                                                                      | *boolean*                                                                                     | :heavy_minus_sign:                                                                            | Indicates if the item is exempt.                                                              |
 | `id`                                                                                          | *string*                                                                                      | :heavy_check_mark:                                                                            | The unique transaction item identifier.                                                       |
 | `taxItems`                                                                                    | [models.TaxItemRead](../models/taxitemread.md)[]                                              | :heavy_check_mark:                                                                            | List of tax items associated with the transaction item.                                       |

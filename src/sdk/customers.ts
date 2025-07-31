@@ -24,13 +24,11 @@ export class Customers extends ClientSDK {
    *     This API allows searching, filtering by country and state, and sorting the results.
    */
   async list(
-    security: operations.GetCustomersV1Security,
-    request: operations.GetCustomersV1Request,
+    request?: operations.GetCustomersV1Request | undefined,
     options?: RequestOptions,
   ): Promise<models.PageCustomerRead> {
     return unwrapAsync(customersList(
       this,
-      security,
       request,
       options,
     ));
@@ -44,13 +42,11 @@ export class Customers extends ClientSDK {
    * details like name, contact information, and address, along with optional metadata.
    */
   async create(
-    security: operations.CreateCustomerV1CustomersPostSecurity,
-    request: operations.CreateCustomerV1CustomersPostRequest,
+    request: models.CustomerCreate,
     options?: RequestOptions,
   ): Promise<models.CustomerRead> {
     return unwrapAsync(customersCreate(
       this,
-      security,
       request,
       options,
     ));
@@ -65,13 +61,11 @@ export class Customers extends ClientSDK {
    *     including contact information, address, name and metadata, etc.
    */
   async get(
-    security: operations.GetCustomerByIdV1CustomersCustomerIdGetSecurity,
     request: operations.GetCustomerByIdV1CustomersCustomerIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.CustomerRead> {
     return unwrapAsync(customersGet(
       this,
-      security,
       request,
       options,
     ));
@@ -86,13 +80,11 @@ export class Customers extends ClientSDK {
    *     enabling updates to their details as needed.
    */
   async update(
-    security: operations.UpdateCustomerV1CustomersCustomerIdPutSecurity,
     request: operations.UpdateCustomerV1CustomersCustomerIdPutRequest,
     options?: RequestOptions,
   ): Promise<models.CustomerRead> {
     return unwrapAsync(customersUpdate(
       this,
-      security,
       request,
       options,
     ));
@@ -107,15 +99,12 @@ export class Customers extends ClientSDK {
    * an external ID is available.
    */
   async getByExternalId(
-    security:
-      operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity,
     request:
       operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.CustomerRead> {
     return unwrapAsync(customersGetByExternalId(
       this,
-      security,
       request,
       options,
     ));
@@ -128,15 +117,12 @@ export class Customers extends ClientSDK {
    * Get a list of transactions for a customer by their unique ID.
    */
   async getTransactions(
-    security:
-      operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity,
     request:
       operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest,
     options?: RequestOptions,
   ): Promise<Array<models.TransactionRead>> {
     return unwrapAsync(customersGetTransactions(
       this,
-      security,
       request,
       options,
     ));
@@ -149,15 +135,12 @@ export class Customers extends ClientSDK {
    * Create a new transaction for a specific customer.
    */
   async createTransaction(
-    security:
-      operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity,
     request:
       operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest,
     options?: RequestOptions,
   ): Promise<models.TransactionRead> {
     return unwrapAsync(customersCreateTransaction(
       this,
-      security,
       request,
       options,
     ));

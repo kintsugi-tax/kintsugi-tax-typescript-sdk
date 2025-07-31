@@ -43,13 +43,11 @@ export class AddressValidation extends ClientSDK {
    *     and streamlines the data entry process.
    */
   async suggestions(
-    security: operations.SuggestionsV1AddressValidationSuggestionsPostSecurity,
-    request: operations.SuggestionsV1AddressValidationSuggestionsPostRequest,
+    request: models.ValidationAddress,
     options?: RequestOptions,
   ): Promise<any> {
     return unwrapAsync(addressValidationSuggestions(
       this,
-      security,
       request,
       options,
     ));

@@ -28,18 +28,6 @@ import {
   SourceEnum$outboundSchema,
 } from "./sourceenum.js";
 
-/**
- * The high-level category of the product.
- */
-export type ProductCreateManualProductCategory = ProductCategoryEnum | string;
-
-/**
- * The subcategory of the product.
- */
-export type ProductCreateManualProductSubcategory =
-  | ProductSubCategoryEnum
-  | string;
-
 export type ProductCreateManual = {
   /**
    * A unique external identifier for the product.
@@ -52,127 +40,16 @@ export type ProductCreateManual = {
   /**
    * A description of the product.
    */
-  description?: string | null | undefined;
+  description?: string | undefined;
   status?: ProductStatusEnum | undefined;
-  /**
-   * The high-level category of the product.
-   */
-  productCategory: ProductCategoryEnum | string;
-  /**
-   * The subcategory of the product.
-   */
-  productSubcategory: ProductSubCategoryEnum | string;
+  productCategory: ProductCategoryEnum;
+  productSubcategory: ProductSubCategoryEnum;
   /**
    * Specifies whether the product is tax-exempt.
    */
   taxExempt: boolean;
   source?: SourceEnum | undefined;
 };
-
-/** @internal */
-export const ProductCreateManualProductCategory$inboundSchema: z.ZodType<
-  ProductCreateManualProductCategory,
-  z.ZodTypeDef,
-  unknown
-> = z.union([ProductCategoryEnum$inboundSchema, z.string()]);
-
-/** @internal */
-export type ProductCreateManualProductCategory$Outbound = string | string;
-
-/** @internal */
-export const ProductCreateManualProductCategory$outboundSchema: z.ZodType<
-  ProductCreateManualProductCategory$Outbound,
-  z.ZodTypeDef,
-  ProductCreateManualProductCategory
-> = z.union([ProductCategoryEnum$outboundSchema, z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ProductCreateManualProductCategory$ {
-  /** @deprecated use `ProductCreateManualProductCategory$inboundSchema` instead. */
-  export const inboundSchema = ProductCreateManualProductCategory$inboundSchema;
-  /** @deprecated use `ProductCreateManualProductCategory$outboundSchema` instead. */
-  export const outboundSchema =
-    ProductCreateManualProductCategory$outboundSchema;
-  /** @deprecated use `ProductCreateManualProductCategory$Outbound` instead. */
-  export type Outbound = ProductCreateManualProductCategory$Outbound;
-}
-
-export function productCreateManualProductCategoryToJSON(
-  productCreateManualProductCategory: ProductCreateManualProductCategory,
-): string {
-  return JSON.stringify(
-    ProductCreateManualProductCategory$outboundSchema.parse(
-      productCreateManualProductCategory,
-    ),
-  );
-}
-
-export function productCreateManualProductCategoryFromJSON(
-  jsonString: string,
-): SafeParseResult<ProductCreateManualProductCategory, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      ProductCreateManualProductCategory$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ProductCreateManualProductCategory' from JSON`,
-  );
-}
-
-/** @internal */
-export const ProductCreateManualProductSubcategory$inboundSchema: z.ZodType<
-  ProductCreateManualProductSubcategory,
-  z.ZodTypeDef,
-  unknown
-> = z.union([ProductSubCategoryEnum$inboundSchema, z.string()]);
-
-/** @internal */
-export type ProductCreateManualProductSubcategory$Outbound = string | string;
-
-/** @internal */
-export const ProductCreateManualProductSubcategory$outboundSchema: z.ZodType<
-  ProductCreateManualProductSubcategory$Outbound,
-  z.ZodTypeDef,
-  ProductCreateManualProductSubcategory
-> = z.union([ProductSubCategoryEnum$outboundSchema, z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ProductCreateManualProductSubcategory$ {
-  /** @deprecated use `ProductCreateManualProductSubcategory$inboundSchema` instead. */
-  export const inboundSchema =
-    ProductCreateManualProductSubcategory$inboundSchema;
-  /** @deprecated use `ProductCreateManualProductSubcategory$outboundSchema` instead. */
-  export const outboundSchema =
-    ProductCreateManualProductSubcategory$outboundSchema;
-  /** @deprecated use `ProductCreateManualProductSubcategory$Outbound` instead. */
-  export type Outbound = ProductCreateManualProductSubcategory$Outbound;
-}
-
-export function productCreateManualProductSubcategoryToJSON(
-  productCreateManualProductSubcategory: ProductCreateManualProductSubcategory,
-): string {
-  return JSON.stringify(
-    ProductCreateManualProductSubcategory$outboundSchema.parse(
-      productCreateManualProductSubcategory,
-    ),
-  );
-}
-
-export function productCreateManualProductSubcategoryFromJSON(
-  jsonString: string,
-): SafeParseResult<ProductCreateManualProductSubcategory, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      ProductCreateManualProductSubcategory$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ProductCreateManualProductSubcategory' from JSON`,
-  );
-}
 
 /** @internal */
 export const ProductCreateManual$inboundSchema: z.ZodType<
@@ -182,13 +59,10 @@ export const ProductCreateManual$inboundSchema: z.ZodType<
 > = z.object({
   external_id: z.string(),
   name: z.string(),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   status: ProductStatusEnum$inboundSchema.optional(),
-  product_category: z.union([ProductCategoryEnum$inboundSchema, z.string()]),
-  product_subcategory: z.union([
-    ProductSubCategoryEnum$inboundSchema,
-    z.string(),
-  ]),
+  product_category: ProductCategoryEnum$inboundSchema,
+  product_subcategory: ProductSubCategoryEnum$inboundSchema,
   tax_exempt: z.boolean(),
   source: SourceEnum$inboundSchema.optional(),
 }).transform((v) => {
@@ -204,10 +78,10 @@ export const ProductCreateManual$inboundSchema: z.ZodType<
 export type ProductCreateManual$Outbound = {
   external_id: string;
   name: string;
-  description?: string | null | undefined;
+  description?: string | undefined;
   status?: string | undefined;
-  product_category: string | string;
-  product_subcategory: string | string;
+  product_category: string;
+  product_subcategory: string;
   tax_exempt: boolean;
   source?: string | undefined;
 };
@@ -220,13 +94,10 @@ export const ProductCreateManual$outboundSchema: z.ZodType<
 > = z.object({
   externalId: z.string(),
   name: z.string(),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   status: ProductStatusEnum$outboundSchema.optional(),
-  productCategory: z.union([ProductCategoryEnum$outboundSchema, z.string()]),
-  productSubcategory: z.union([
-    ProductSubCategoryEnum$outboundSchema,
-    z.string(),
-  ]),
+  productCategory: ProductCategoryEnum$outboundSchema,
+  productSubcategory: ProductSubCategoryEnum$outboundSchema,
   taxExempt: z.boolean(),
   source: SourceEnum$outboundSchema.optional(),
 }).transform((v) => {

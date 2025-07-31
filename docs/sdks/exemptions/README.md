@@ -20,27 +20,25 @@ Retrieve a list of exemptions based on filters.
 <!-- UsageSnippet language="typescript" operationID="get_exemptions_v1_exemptions_get" method="get" path="/v1/exemptions" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
-import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.exemptions.list({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     searchQuery: "John",
     countryCode: [
-      "U",
-      "S",
+
     ],
     jurisdiction: "CA",
-    startDate: new RFCDate("2024-01-01"),
-    endDate: new RFCDate("2024-01-01"),
+    startDate: "2024-01-01",
+    endDate: "2024-01-01",
     customerId: "cust_1234",
     transactionId: "trans_1234",
-    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -56,29 +54,27 @@ The standalone function version of this method:
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
 import { exemptionsList } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsList.js";
-import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await exemptionsList(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     searchQuery: "John",
     countryCode: [
-      "U",
-      "S",
+  
     ],
     jurisdiction: "CA",
-    startDate: new RFCDate("2024-01-01"),
-    endDate: new RFCDate("2024-01-01"),
+    startDate: "2024-01-01",
+    endDate: "2024-01-01",
     customerId: "cust_1234",
     transactionId: "trans_1234",
-    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -96,7 +92,6 @@ run();
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `request`                                                                                                                                                                      | [operations.GetExemptionsV1ExemptionsGetRequest](../../models/operations/getexemptionsv1exemptionsgetrequest.md)                                                               | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetExemptionsV1ExemptionsGetSecurity](../../models/operations/getexemptionsv1exemptionsgetsecurity.md)                                                             | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -128,27 +123,25 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.exemptions.create({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    xOrganizationId: "org_12345",
-    exemptionCreate: {
-      exemptionType: "wholesale",
-      jurisdiction: "CA",
-      countryCode: "US",
-      startDate: new RFCDate("2024-01-01"),
-      endDate: new RFCDate("2026-01-01"),
-      customerId: "cust_001",
-      transactionId: "txn_123",
-      reseller: true,
-      fein: "12-3456789",
-      salesTaxId: "ST-98765",
-      status: "ACTIVE",
-    },
+    exemptionType: "wholesale",
+    jurisdiction: "CA",
+    countryCode: "US",
+    startDate: new RFCDate("2024-01-01"),
+    endDate: "2026-01-01",
+    customerId: "cust_001",
+    transactionId: "txn_123",
+    reseller: true,
+    fein: "12-3456789",
+    salesTaxId: "ST-98765",
+    status: "ACTIVE",
   });
 
   console.log(result);
@@ -169,27 +162,25 @@ import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await exemptionsCreate(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
-    xOrganizationId: "org_12345",
-    exemptionCreate: {
-      exemptionType: "wholesale",
-      jurisdiction: "CA",
-      countryCode: "US",
-      startDate: new RFCDate("2024-01-01"),
-      endDate: new RFCDate("2026-01-01"),
-      customerId: "cust_001",
-      transactionId: "txn_123",
-      reseller: true,
-      fein: "12-3456789",
-      salesTaxId: "ST-98765",
-      status: "ACTIVE",
-    },
+    exemptionType: "wholesale",
+    jurisdiction: "CA",
+    countryCode: "US",
+    startDate: new RFCDate("2024-01-01"),
+    endDate: "2026-01-01",
+    customerId: "cust_001",
+    transactionId: "txn_123",
+    reseller: true,
+    fein: "12-3456789",
+    salesTaxId: "ST-98765",
+    status: "ACTIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -206,8 +197,7 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.CreateExemptionV1ExemptionsPostRequest](../../models/operations/createexemptionv1exemptionspostrequest.md)                                                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.CreateExemptionV1ExemptionsPostSecurity](../../models/operations/createexemptionv1exemptionspostsecurity.md)                                                       | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
+| `request`                                                                                                                                                                      | [models.ExemptionCreate](../../models/exemptioncreate.md)                                                                                                                      | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -239,15 +229,15 @@ The Get Exemption By ID API retrieves a specific exemption record by
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.exemptions.get({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     exemptionId: "<id>",
-    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -267,15 +257,15 @@ import { exemptionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/exemptionsGe
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await exemptionsGet(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     exemptionId: "<id>",
-    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -293,7 +283,6 @@ run();
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `request`                                                                                                                                                                      | [operations.GetExemptionByIdV1ExemptionsExemptionIdGetRequest](../../models/operations/getexemptionbyidv1exemptionsexemptionidgetrequest.md)                                   | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `security`                                                                                                                                                                     | [operations.GetExemptionByIdV1ExemptionsExemptionIdGetSecurity](../../models/operations/getexemptionbyidv1exemptionsexemptionidgetsecurity.md)                                 | :heavy_check_mark:                                                                                                                                                             | The security requirements to use for the request.                                                                                                                              |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -326,15 +315,15 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import { openAsBlob } from "node:fs";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.exemptions.uploadCertificate({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     exemptionId: "<id>",
-    xOrganizationId: "org_12345",
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
       file: await openAsBlob("example.file"),
     },
@@ -358,15 +347,15 @@ import { openAsBlob } from "node:fs";
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await exemptionsUploadCertificate(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     exemptionId: "<id>",
-    xOrganizationId: "org_12345",
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
       file: await openAsBlob("example.file"),
     },
@@ -384,13 +373,12 @@ run();
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                  | Type                                                                                                                                                                                       | Required                                                                                                                                                                                   | Description                                                                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                                  | [operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest](../../models/operations/uploadexemptioncertificatev1exemptionsexemptionidattachmentspostrequest.md)   | :heavy_check_mark:                                                                                                                                                                         | The request object to use for the request.                                                                                                                                                 |
-| `security`                                                                                                                                                                                 | [operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity](../../models/operations/uploadexemptioncertificatev1exemptionsexemptionidattachmentspostsecurity.md) | :heavy_check_mark:                                                                                                                                                                         | The security requirements to use for the request.                                                                                                                                          |
-| `options`                                                                                                                                                                                  | RequestOptions                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                         | Used to set various options for making HTTP requests.                                                                                                                                      |
-| `options.fetchOptions`                                                                                                                                                                     | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                    | :heavy_minus_sign:                                                                                                                                                                         | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.             |
-| `options.retries`                                                                                                                                                                          | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                              | :heavy_minus_sign:                                                                                                                                                                         | Enables retrying HTTP requests under certain failure conditions.                                                                                                                           |
+| Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                                | [operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest](../../models/operations/uploadexemptioncertificatev1exemptionsexemptionidattachmentspostrequest.md) | :heavy_check_mark:                                                                                                                                                                       | The request object to use for the request.                                                                                                                                               |
+| `options`                                                                                                                                                                                | RequestOptions                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                       | Used to set various options for making HTTP requests.                                                                                                                                    |
+| `options.fetchOptions`                                                                                                                                                                   | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                  | :heavy_minus_sign:                                                                                                                                                                       | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.           |
+| `options.retries`                                                                                                                                                                        | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | Enables retrying HTTP requests under certain failure conditions.                                                                                                                         |
 
 ### Response
 
@@ -419,15 +407,15 @@ The Get Attachments for Exemption API retrieves all
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const result = await sdk.exemptions.getAttachments({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     exemptionId: "<id>",
-    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -447,15 +435,15 @@ import { exemptionsGetAttachments } from "@kintsugi-tax/tax-platform-sdk/funcs/e
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  serverURL: "https://api.example.com",
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
 });
 
 async function run() {
   const res = await exemptionsGetAttachments(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     exemptionId: "<id>",
-    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -470,13 +458,12 @@ run();
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                                                | [operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest](../../models/operations/getattachmentsforexemptionv1exemptionsexemptionidattachmentsgetrequest.md)   | :heavy_check_mark:                                                                                                                                                                       | The request object to use for the request.                                                                                                                                               |
-| `security`                                                                                                                                                                               | [operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity](../../models/operations/getattachmentsforexemptionv1exemptionsexemptionidattachmentsgetsecurity.md) | :heavy_check_mark:                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                        |
-| `options`                                                                                                                                                                                | RequestOptions                                                                                                                                                                           | :heavy_minus_sign:                                                                                                                                                                       | Used to set various options for making HTTP requests.                                                                                                                                    |
-| `options.fetchOptions`                                                                                                                                                                   | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                  | :heavy_minus_sign:                                                                                                                                                                       | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.           |
-| `options.retries`                                                                                                                                                                        | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                       | Enables retrying HTTP requests under certain failure conditions.                                                                                                                         |
+| Parameter                                                                                                                                                                              | Type                                                                                                                                                                                   | Required                                                                                                                                                                               | Description                                                                                                                                                                            |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                                                                                              | [operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest](../../models/operations/getattachmentsforexemptionv1exemptionsexemptionidattachmentsgetrequest.md) | :heavy_check_mark:                                                                                                                                                                     | The request object to use for the request.                                                                                                                                             |
+| `options`                                                                                                                                                                              | RequestOptions                                                                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                     | Used to set various options for making HTTP requests.                                                                                                                                  |
+| `options.fetchOptions`                                                                                                                                                                 | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                                | :heavy_minus_sign:                                                                                                                                                                     | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed.         |
+| `options.retries`                                                                                                                                                                      | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                          | :heavy_minus_sign:                                                                                                                                                                     | Enables retrying HTTP requests under certain failure conditions.                                                                                                                       |
 
 ### Response
 

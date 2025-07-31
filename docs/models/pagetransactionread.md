@@ -17,9 +17,9 @@ let value: PageTransactionRead = {
       type: "TAX_REFUND",
     },
   ],
-  total: 592293,
-  page: 314435,
-  size: null,
+  total: 467045,
+  page: 592293,
+  size: 693910,
 };
 ```
 

@@ -245,6 +245,11 @@ export function resolveGlobalSecurity(
         type: "apiKey:header",
         value: security?.apiKeyHeader,
       },
+      {
+        fieldName: "x-organization-id",
+        type: "apiKey:header",
+        value: security?.customHeader,
+      },
     ],
   );
 }

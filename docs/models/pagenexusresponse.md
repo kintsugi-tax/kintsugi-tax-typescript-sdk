@@ -7,9 +7,9 @@ import { PageNexusResponse } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: PageNexusResponse = {
   items: [],
-  total: 218544,
-  page: 189957,
-  size: 709967,
+  total: 715658,
+  page: 218544,
+  size: 772086,
 };
 ```
 

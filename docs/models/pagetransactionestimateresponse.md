@@ -27,9 +27,9 @@ let value: PageTransactionEstimateResponse = {
       ],
     },
   ],
-  total: 59419,
-  page: null,
-  size: null,
+  total: 161936,
+  page: 59419,
+  size: 8843,
 };
 ```
 

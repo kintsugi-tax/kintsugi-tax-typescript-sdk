@@ -3,12 +3,12 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
-import { resolveSecurity } from "../lib/security.js";
+import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
@@ -35,8 +35,7 @@ import { Result } from "../types/fp.js";
  */
 export function transactionsList(
   client: SDKCore,
-  security: operations.GetTransactionsV1TransactionsGetSecurity,
-  request: operations.GetTransactionsV1TransactionsGetRequest,
+  request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -55,7 +54,6 @@ export function transactionsList(
 > {
   return new APIPromise($do(
     client,
-    security,
     request,
     options,
   ));
@@ -63,8 +61,7 @@ export function transactionsList(
 
 async function $do(
   client: SDKCore,
-  security: operations.GetTransactionsV1TransactionsGetSecurity,
-  request: operations.GetTransactionsV1TransactionsGetRequest,
+  request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
   options?: RequestOptions,
 ): Promise<
   [
@@ -87,9 +84,8 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.GetTransactionsV1TransactionsGetRequest$outboundSchema.parse(
-        value,
-      ),
+      operations.GetTransactionsV1TransactionsGetRequest$outboundSchema
+        .optional().parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -101,60 +97,41 @@ async function $do(
   const path = pathToFunc("/v1/transactions")();
 
   const query = encodeFormQuery({
-    "address_status__in": payload.address_status__in,
-    "country": payload.country,
-    "date__gte": payload.date__gte,
-    "date__lte": payload.date__lte,
-    "exempt__in": payload.exempt__in,
-    "filing_id": payload.filing_id,
-    "marketplace": payload.marketplace,
-    "order_by": payload.order_by,
-    "page": payload.page,
-    "processing_status__in": payload.processing_status__in,
-    "search_query": payload.search_query,
-    "size": payload.size,
-    "state": payload.state,
-    "state_code": payload.state_code,
-    "status": payload.status,
-    "transaction_source": payload.transaction_source,
-    "transaction_type": payload.transaction_type,
+    "address_status__in": payload?.address_status__in,
+    "country": payload?.country,
+    "date__gte": payload?.date__gte,
+    "date__lte": payload?.date__lte,
+    "exempt__in": payload?.exempt__in,
+    "filing_id": payload?.filing_id,
+    "marketplace": payload?.marketplace,
+    "order_by": payload?.order_by,
+    "page": payload?.page,
+    "processing_status__in": payload?.processing_status__in,
+    "search_query": payload?.search_query,
+    "size": payload?.size,
+    "state": payload?.state,
+    "state_code": payload?.state_code,
+    "status": payload?.status,
+    "transaction_source": payload?.transaction_source,
+    "transaction_type": payload?.transaction_type,
   });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
-    "x-organization-id": encodeSimple(
-      "x-organization-id",
-      payload["x-organization-id"],
-      { explode: false, charEncoding: "none" },
-    ),
   }));
 
-  const requestSecurity = resolveSecurity(
-    [
-      {
-        fieldName: "X-API-KEY",
-        type: "apiKey:header",
-        value: security?.apiKeyHeader,
-      },
-    ],
-    [
-      {
-        fieldName: "Authorization",
-        type: "http:bearer",
-        value: security?.httpBearer,
-      },
-    ],
-  );
+  const securityInput = await extractSecurity(client._options.security);
+  const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID: "get_transactions_v1_transactions_get",
-    oAuth2Scopes: null,
+    oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: security,
+    securitySource: client._options.security,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },

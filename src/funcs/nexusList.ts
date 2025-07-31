@@ -3,12 +3,12 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { encodeFormQuery } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
-import { resolveSecurity } from "../lib/security.js";
+import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
@@ -34,8 +34,7 @@ import { Result } from "../types/fp.js";
  */
 export function nexusList(
   client: SDKCore,
-  security: operations.GetNexusForOrgV1NexusGetSecurity,
-  request: operations.GetNexusForOrgV1NexusGetRequest,
+  request?: operations.GetNexusForOrgV1NexusGetRequest | undefined,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -53,7 +52,6 @@ export function nexusList(
 > {
   return new APIPromise($do(
     client,
-    security,
     request,
     options,
   ));
@@ -61,8 +59,7 @@ export function nexusList(
 
 async function $do(
   client: SDKCore,
-  security: operations.GetNexusForOrgV1NexusGetSecurity,
-  request: operations.GetNexusForOrgV1NexusGetRequest,
+  request?: operations.GetNexusForOrgV1NexusGetRequest | undefined,
   options?: RequestOptions,
 ): Promise<
   [
@@ -84,7 +81,8 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.GetNexusForOrgV1NexusGetRequest$outboundSchema.parse(value),
+      operations.GetNexusForOrgV1NexusGetRequest$outboundSchema.optional()
+        .parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -96,50 +94,31 @@ async function $do(
   const path = pathToFunc("/v1/nexus")();
 
   const query = encodeFormQuery({
-    "collected_tax_nexus_met": payload.collected_tax_nexus_met,
-    "country_code__in": payload.country_code__in,
-    "order_by": payload.order_by,
-    "page": payload.page,
-    "size": payload.size,
-    "state_code": payload.state_code,
-    "status__in": payload.status__in,
+    "collected_tax_nexus_met": payload?.collected_tax_nexus_met,
+    "country_code__in": payload?.country_code__in,
+    "order_by": payload?.order_by,
+    "page": payload?.page,
+    "size": payload?.size,
+    "state_code": payload?.state_code,
+    "status__in": payload?.status__in,
   });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
-    "x-organization-id": encodeSimple(
-      "x-organization-id",
-      payload["x-organization-id"],
-      { explode: false, charEncoding: "none" },
-    ),
   }));
 
-  const requestSecurity = resolveSecurity(
-    [
-      {
-        fieldName: "X-API-KEY",
-        type: "apiKey:header",
-        value: security?.apiKeyHeader,
-      },
-    ],
-    [
-      {
-        fieldName: "Authorization",
-        type: "http:bearer",
-        value: security?.httpBearer,
-      },
-    ],
-  );
+  const securityInput = await extractSecurity(client._options.security);
+  const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID: "get_nexus_for_org_v1_nexus_get",
-    oAuth2Scopes: null,
+    oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: security,
+    securitySource: client._options.security,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },

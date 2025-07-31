@@ -33,163 +33,21 @@ import {
   SourceEnum$outboundSchema,
 } from "./sourceenum.js";
 
-export type Code = ProductCodeEnum | string;
-
-export type ProductReadProductCategory = ProductCategoryEnum | string;
-
-export type ProductReadProductSubcategory = ProductSubCategoryEnum | string;
-
 export type ProductRead = {
   id: string;
   externalId: string;
-  sku: Array<string> | null;
-  code: ProductCodeEnum | string;
+  sku: Array<string>;
+  code: ProductCodeEnum;
   name: string;
-  description: string | null;
+  description: string;
   status: ProductStatusEnum;
-  productCategory: ProductCategoryEnum | string;
-  productSubcategory: ProductSubCategoryEnum | string;
+  productCategory: ProductCategoryEnum;
+  productSubcategory: ProductSubCategoryEnum;
   taxExempt: boolean;
   source: SourceEnum;
-  connectionId: string | null;
-  classificationFailed: boolean | null;
+  connectionId: string;
+  classificationFailed: boolean;
 };
-
-/** @internal */
-export const Code$inboundSchema: z.ZodType<Code, z.ZodTypeDef, unknown> = z
-  .union([ProductCodeEnum$inboundSchema, z.string()]);
-
-/** @internal */
-export type Code$Outbound = string | string;
-
-/** @internal */
-export const Code$outboundSchema: z.ZodType<Code$Outbound, z.ZodTypeDef, Code> =
-  z.union([ProductCodeEnum$outboundSchema, z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace Code$ {
-  /** @deprecated use `Code$inboundSchema` instead. */
-  export const inboundSchema = Code$inboundSchema;
-  /** @deprecated use `Code$outboundSchema` instead. */
-  export const outboundSchema = Code$outboundSchema;
-  /** @deprecated use `Code$Outbound` instead. */
-  export type Outbound = Code$Outbound;
-}
-
-export function codeToJSON(code: Code): string {
-  return JSON.stringify(Code$outboundSchema.parse(code));
-}
-
-export function codeFromJSON(
-  jsonString: string,
-): SafeParseResult<Code, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Code$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Code' from JSON`,
-  );
-}
-
-/** @internal */
-export const ProductReadProductCategory$inboundSchema: z.ZodType<
-  ProductReadProductCategory,
-  z.ZodTypeDef,
-  unknown
-> = z.union([ProductCategoryEnum$inboundSchema, z.string()]);
-
-/** @internal */
-export type ProductReadProductCategory$Outbound = string | string;
-
-/** @internal */
-export const ProductReadProductCategory$outboundSchema: z.ZodType<
-  ProductReadProductCategory$Outbound,
-  z.ZodTypeDef,
-  ProductReadProductCategory
-> = z.union([ProductCategoryEnum$outboundSchema, z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ProductReadProductCategory$ {
-  /** @deprecated use `ProductReadProductCategory$inboundSchema` instead. */
-  export const inboundSchema = ProductReadProductCategory$inboundSchema;
-  /** @deprecated use `ProductReadProductCategory$outboundSchema` instead. */
-  export const outboundSchema = ProductReadProductCategory$outboundSchema;
-  /** @deprecated use `ProductReadProductCategory$Outbound` instead. */
-  export type Outbound = ProductReadProductCategory$Outbound;
-}
-
-export function productReadProductCategoryToJSON(
-  productReadProductCategory: ProductReadProductCategory,
-): string {
-  return JSON.stringify(
-    ProductReadProductCategory$outboundSchema.parse(productReadProductCategory),
-  );
-}
-
-export function productReadProductCategoryFromJSON(
-  jsonString: string,
-): SafeParseResult<ProductReadProductCategory, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ProductReadProductCategory$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ProductReadProductCategory' from JSON`,
-  );
-}
-
-/** @internal */
-export const ProductReadProductSubcategory$inboundSchema: z.ZodType<
-  ProductReadProductSubcategory,
-  z.ZodTypeDef,
-  unknown
-> = z.union([ProductSubCategoryEnum$inboundSchema, z.string()]);
-
-/** @internal */
-export type ProductReadProductSubcategory$Outbound = string | string;
-
-/** @internal */
-export const ProductReadProductSubcategory$outboundSchema: z.ZodType<
-  ProductReadProductSubcategory$Outbound,
-  z.ZodTypeDef,
-  ProductReadProductSubcategory
-> = z.union([ProductSubCategoryEnum$outboundSchema, z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace ProductReadProductSubcategory$ {
-  /** @deprecated use `ProductReadProductSubcategory$inboundSchema` instead. */
-  export const inboundSchema = ProductReadProductSubcategory$inboundSchema;
-  /** @deprecated use `ProductReadProductSubcategory$outboundSchema` instead. */
-  export const outboundSchema = ProductReadProductSubcategory$outboundSchema;
-  /** @deprecated use `ProductReadProductSubcategory$Outbound` instead. */
-  export type Outbound = ProductReadProductSubcategory$Outbound;
-}
-
-export function productReadProductSubcategoryToJSON(
-  productReadProductSubcategory: ProductReadProductSubcategory,
-): string {
-  return JSON.stringify(
-    ProductReadProductSubcategory$outboundSchema.parse(
-      productReadProductSubcategory,
-    ),
-  );
-}
-
-export function productReadProductSubcategoryFromJSON(
-  jsonString: string,
-): SafeParseResult<ProductReadProductSubcategory, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => ProductReadProductSubcategory$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'ProductReadProductSubcategory' from JSON`,
-  );
-}
 
 /** @internal */
 export const ProductRead$inboundSchema: z.ZodType<
@@ -199,20 +57,17 @@ export const ProductRead$inboundSchema: z.ZodType<
 > = z.object({
   id: z.string(),
   external_id: z.string(),
-  sku: z.nullable(z.array(z.string())),
-  code: z.union([ProductCodeEnum$inboundSchema, z.string()]),
+  sku: z.array(z.string()),
+  code: ProductCodeEnum$inboundSchema,
   name: z.string(),
-  description: z.nullable(z.string()),
+  description: z.string(),
   status: ProductStatusEnum$inboundSchema,
-  product_category: z.union([ProductCategoryEnum$inboundSchema, z.string()]),
-  product_subcategory: z.union([
-    ProductSubCategoryEnum$inboundSchema,
-    z.string(),
-  ]),
+  product_category: ProductCategoryEnum$inboundSchema,
+  product_subcategory: ProductSubCategoryEnum$inboundSchema,
   tax_exempt: z.boolean(),
   source: SourceEnum$inboundSchema,
-  connection_id: z.nullable(z.string()),
-  classification_failed: z.nullable(z.boolean()),
+  connection_id: z.string(),
+  classification_failed: z.boolean(),
 }).transform((v) => {
   return remap$(v, {
     "external_id": "externalId",
@@ -228,17 +83,17 @@ export const ProductRead$inboundSchema: z.ZodType<
 export type ProductRead$Outbound = {
   id: string;
   external_id: string;
-  sku: Array<string> | null;
-  code: string | string;
+  sku: Array<string>;
+  code: string;
   name: string;
-  description: string | null;
+  description: string;
   status: string;
-  product_category: string | string;
-  product_subcategory: string | string;
+  product_category: string;
+  product_subcategory: string;
   tax_exempt: boolean;
   source: string;
-  connection_id: string | null;
-  classification_failed: boolean | null;
+  connection_id: string;
+  classification_failed: boolean;
 };
 
 /** @internal */
@@ -249,20 +104,17 @@ export const ProductRead$outboundSchema: z.ZodType<
 > = z.object({
   id: z.string(),
   externalId: z.string(),
-  sku: z.nullable(z.array(z.string())),
-  code: z.union([ProductCodeEnum$outboundSchema, z.string()]),
+  sku: z.array(z.string()),
+  code: ProductCodeEnum$outboundSchema,
   name: z.string(),
-  description: z.nullable(z.string()),
+  description: z.string(),
   status: ProductStatusEnum$outboundSchema,
-  productCategory: z.union([ProductCategoryEnum$outboundSchema, z.string()]),
-  productSubcategory: z.union([
-    ProductSubCategoryEnum$outboundSchema,
-    z.string(),
-  ]),
+  productCategory: ProductCategoryEnum$outboundSchema,
+  productSubcategory: ProductSubCategoryEnum$outboundSchema,
   taxExempt: z.boolean(),
   source: SourceEnum$outboundSchema,
-  connectionId: z.nullable(z.string()),
-  classificationFailed: z.nullable(z.boolean()),
+  connectionId: z.string(),
+  classificationFailed: z.boolean(),
 }).transform((v) => {
   return remap$(v, {
     externalId: "external_id",

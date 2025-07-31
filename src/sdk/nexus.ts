@@ -16,13 +16,11 @@ export class Nexus extends ClientSDK {
    * Get a list of all nexuses for the organization.
    */
   async list(
-    security: operations.GetNexusForOrgV1NexusGetSecurity,
-    request: operations.GetNexusForOrgV1NexusGetRequest,
+    request?: operations.GetNexusForOrgV1NexusGetRequest | undefined,
     options?: RequestOptions,
   ): Promise<models.PageNexusResponse> {
     return unwrapAsync(nexusList(
       this,
-      security,
       request,
       options,
     ));

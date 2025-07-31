@@ -15,10 +15,10 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type FastapiPaginationDefaultPageExemptionRead2 = {
   items: Array<BackendSrcExemptionsModelsExemptionRead>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -26,19 +26,19 @@ export const FastapiPaginationDefaultPageExemptionRead2$inboundSchema:
   z.ZodType<FastapiPaginationDefaultPageExemptionRead2, z.ZodTypeDef, unknown> =
     z.object({
       items: z.array(BackendSrcExemptionsModelsExemptionRead$inboundSchema),
-      total: z.nullable(z.number().int()),
-      page: z.nullable(z.number().int()),
-      size: z.nullable(z.number().int()),
-      pages: z.nullable(z.number().int()).optional(),
+      total: z.number().int(),
+      page: z.number().int(),
+      size: z.number().int(),
+      pages: z.number().int().optional(),
     });
 
 /** @internal */
 export type FastapiPaginationDefaultPageExemptionRead2$Outbound = {
   items: Array<BackendSrcExemptionsModelsExemptionRead$Outbound>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -49,10 +49,10 @@ export const FastapiPaginationDefaultPageExemptionRead2$outboundSchema:
     FastapiPaginationDefaultPageExemptionRead2
   > = z.object({
     items: z.array(BackendSrcExemptionsModelsExemptionRead$outboundSchema),
-    total: z.nullable(z.number().int()),
-    page: z.nullable(z.number().int()),
-    size: z.nullable(z.number().int()),
-    pages: z.nullable(z.number().int()).optional(),
+    total: z.number().int(),
+    page: z.number().int(),
+    size: z.number().int(),
+    pages: z.number().int().optional(),
   });
 
 /**

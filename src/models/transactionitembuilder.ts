@@ -30,82 +30,15 @@ import {
   TaxItemBuilder$outboundSchema,
 } from "./taxitembuilder.js";
 
-/**
- * Quantity of item.
- */
-export type TransactionItemBuilderQuantity = number | string;
-
-/**
- * Item amount.
- */
-export type TransactionItemBuilderAmount = number | string;
-
-/**
- * Imported tax amount for the item.
- */
-export type TransactionItemBuilderTaxAmountImported = number | string;
-
-/**
- * Imported tax rate.
- */
-export type TransactionItemBuilderTaxRateImported = number | string;
-
-/**
- * Calculated tax amount for the item.
- */
-export type TransactionItemBuilderTaxAmountCalculated = number | string;
-
-/**
- * Calculated tax rate.
- */
-export type TransactionItemBuilderTaxRateCalculated = number | string;
-
-/**
- * Converted item amount.
- */
-export type TransactionItemBuilderConvertedAmount = number | string;
-
-/**
- * Converted taxable amount.
- */
-export type TransactionItemBuilderConvertedTaxableAmount = number | string;
-
-/**
- * Converted imported tax amount.
- */
-export type TransactionItemBuilderConvertedTaxAmountImported = number | string;
-
-/**
- * Converted calculated tax amount
- */
-export type TransactionItemBuilderConvertedTaxAmountCalculated =
-  | number
-  | string;
-
-/**
- * Converted total discount amount.
- */
-export type TransactionItemBuilderConvertedTotalDiscount = number | string;
-
-/**
- * Converted subtotal amount.
- */
-export type TransactionItemBuilderConvertedSubtotal = number | string;
-
-/**
- * Taxable amount for the item.
- */
-export type TransactionItemBuilderTaxableAmount = number | string;
-
 export type TransactionItemBuilder = {
   /**
    * External item identifier.
    */
-  externalId?: string | null | undefined;
+  externalId?: string | undefined;
   /**
    * Organization identifier.
    */
-  organizationId: string | null;
+  organizationId: string;
   /**
    * Date/time of item.
    */
@@ -113,7 +46,7 @@ export type TransactionItemBuilder = {
   /**
    * Item description
    */
-  description?: string | null | undefined;
+  description?: string | undefined;
   /**
    * External product identifier.
    */
@@ -121,842 +54,84 @@ export type TransactionItemBuilder = {
   /**
    * Product name
    */
-  product?: string | null | undefined;
+  product?: string | undefined;
   /**
    * Product identifier.
    */
-  productId?: string | null | undefined;
+  productId?: string | undefined;
   /**
    * Product name (detailed)
    */
-  productName?: string | null | undefined;
+  productName?: string | undefined;
   /**
    * Product description
    */
-  productDescription?: string | null | undefined;
+  productDescription?: string | undefined;
   /**
    * Quantity of item.
    */
-  quantity?: number | string | undefined;
+  quantity?: number | undefined;
   /**
    * Item amount.
    */
-  amount?: number | string | undefined;
+  amount?: number | undefined;
   /**
    * Imported tax amount for the item.
    */
-  taxAmountImported?: number | string | undefined;
+  taxAmountImported?: number | undefined;
   /**
    * Imported tax rate.
    */
-  taxRateImported?: number | string | undefined;
+  taxRateImported?: number | undefined;
   /**
    * Calculated tax amount for the item.
    */
-  taxAmountCalculated?: number | string | undefined;
+  taxAmountCalculated?: number | undefined;
   /**
    * Calculated tax rate.
    */
-  taxRateCalculated?: number | string | undefined;
-  /**
-   * Original currency code.
-   */
-  originalCurrency?: CurrencyEnum | null | undefined;
-  /**
-   * Destination currency code.
-   */
-  destinationCurrency?: CurrencyEnum | null | undefined;
+  taxRateCalculated?: number | undefined;
+  originalCurrency?: CurrencyEnum | undefined;
+  destinationCurrency?: CurrencyEnum | undefined;
   /**
    * Converted item amount.
    */
-  convertedAmount?: number | string | null | undefined;
+  convertedAmount?: number | undefined;
   /**
    * Converted taxable amount.
    */
-  convertedTaxableAmount?: number | string | null | undefined;
+  convertedTaxableAmount?: number | undefined;
   /**
    * Converted imported tax amount.
    */
-  convertedTaxAmountImported?: number | string | null | undefined;
+  convertedTaxAmountImported?: number | undefined;
   /**
    * Converted calculated tax amount
    */
-  convertedTaxAmountCalculated?: number | string | null | undefined;
+  convertedTaxAmountCalculated?: number | undefined;
   /**
    * Converted total discount amount.
    */
-  convertedTotalDiscount?: number | string | null | undefined;
+  convertedTotalDiscount?: number | undefined;
   /**
    * Converted subtotal amount.
    */
-  convertedSubtotal?: number | string | null | undefined;
+  convertedSubtotal?: number | undefined;
   /**
    * Taxable amount for the item.
    */
-  taxableAmount?: number | string | undefined;
+  taxableAmount?: number | undefined;
   /**
-   * Tax exemption status.
+   * This enum is used to determine if a transaction is exempt from tax.
    */
-  taxExemption?: TaxExemptionEnum | null | undefined;
+  taxExemption?: TaxExemptionEnum | undefined;
   /**
    * Indicates if the item is exempt.
    */
   exempt?: boolean | undefined;
   taxItems?: Array<TaxItemBuilder> | undefined;
-  discountBuilder?: DiscountBuilder | null | undefined;
+  discountBuilder?: DiscountBuilder | undefined;
 };
-
-/** @internal */
-export const TransactionItemBuilderQuantity$inboundSchema: z.ZodType<
-  TransactionItemBuilderQuantity,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderQuantity$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderQuantity$outboundSchema: z.ZodType<
-  TransactionItemBuilderQuantity$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderQuantity
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderQuantity$ {
-  /** @deprecated use `TransactionItemBuilderQuantity$inboundSchema` instead. */
-  export const inboundSchema = TransactionItemBuilderQuantity$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderQuantity$outboundSchema` instead. */
-  export const outboundSchema = TransactionItemBuilderQuantity$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderQuantity$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderQuantity$Outbound;
-}
-
-export function transactionItemBuilderQuantityToJSON(
-  transactionItemBuilderQuantity: TransactionItemBuilderQuantity,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderQuantity$outboundSchema.parse(
-      transactionItemBuilderQuantity,
-    ),
-  );
-}
-
-export function transactionItemBuilderQuantityFromJSON(
-  jsonString: string,
-): SafeParseResult<TransactionItemBuilderQuantity, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => TransactionItemBuilderQuantity$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionItemBuilderQuantity' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderAmount$inboundSchema: z.ZodType<
-  TransactionItemBuilderAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderAmount$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderAmount$outboundSchema: z.ZodType<
-  TransactionItemBuilderAmount$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderAmount$ {
-  /** @deprecated use `TransactionItemBuilderAmount$inboundSchema` instead. */
-  export const inboundSchema = TransactionItemBuilderAmount$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderAmount$outboundSchema` instead. */
-  export const outboundSchema = TransactionItemBuilderAmount$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderAmount$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderAmount$Outbound;
-}
-
-export function transactionItemBuilderAmountToJSON(
-  transactionItemBuilderAmount: TransactionItemBuilderAmount,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderAmount$outboundSchema.parse(
-      transactionItemBuilderAmount,
-    ),
-  );
-}
-
-export function transactionItemBuilderAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<TransactionItemBuilderAmount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => TransactionItemBuilderAmount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionItemBuilderAmount' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderTaxAmountImported$inboundSchema: z.ZodType<
-  TransactionItemBuilderTaxAmountImported,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderTaxAmountImported$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderTaxAmountImported$outboundSchema: z.ZodType<
-  TransactionItemBuilderTaxAmountImported$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderTaxAmountImported
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderTaxAmountImported$ {
-  /** @deprecated use `TransactionItemBuilderTaxAmountImported$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderTaxAmountImported$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxAmountImported$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderTaxAmountImported$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxAmountImported$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderTaxAmountImported$Outbound;
-}
-
-export function transactionItemBuilderTaxAmountImportedToJSON(
-  transactionItemBuilderTaxAmountImported:
-    TransactionItemBuilderTaxAmountImported,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderTaxAmountImported$outboundSchema.parse(
-      transactionItemBuilderTaxAmountImported,
-    ),
-  );
-}
-
-export function transactionItemBuilderTaxAmountImportedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderTaxAmountImported,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderTaxAmountImported$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderTaxAmountImported' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderTaxRateImported$inboundSchema: z.ZodType<
-  TransactionItemBuilderTaxRateImported,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderTaxRateImported$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderTaxRateImported$outboundSchema: z.ZodType<
-  TransactionItemBuilderTaxRateImported$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderTaxRateImported
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderTaxRateImported$ {
-  /** @deprecated use `TransactionItemBuilderTaxRateImported$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderTaxRateImported$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxRateImported$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderTaxRateImported$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxRateImported$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderTaxRateImported$Outbound;
-}
-
-export function transactionItemBuilderTaxRateImportedToJSON(
-  transactionItemBuilderTaxRateImported: TransactionItemBuilderTaxRateImported,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderTaxRateImported$outboundSchema.parse(
-      transactionItemBuilderTaxRateImported,
-    ),
-  );
-}
-
-export function transactionItemBuilderTaxRateImportedFromJSON(
-  jsonString: string,
-): SafeParseResult<TransactionItemBuilderTaxRateImported, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderTaxRateImported$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionItemBuilderTaxRateImported' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderTaxAmountCalculated$inboundSchema: z.ZodType<
-  TransactionItemBuilderTaxAmountCalculated,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderTaxAmountCalculated$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionItemBuilderTaxAmountCalculated$outboundSchema:
-  z.ZodType<
-    TransactionItemBuilderTaxAmountCalculated$Outbound,
-    z.ZodTypeDef,
-    TransactionItemBuilderTaxAmountCalculated
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderTaxAmountCalculated$ {
-  /** @deprecated use `TransactionItemBuilderTaxAmountCalculated$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderTaxAmountCalculated$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxAmountCalculated$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderTaxAmountCalculated$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxAmountCalculated$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderTaxAmountCalculated$Outbound;
-}
-
-export function transactionItemBuilderTaxAmountCalculatedToJSON(
-  transactionItemBuilderTaxAmountCalculated:
-    TransactionItemBuilderTaxAmountCalculated,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderTaxAmountCalculated$outboundSchema.parse(
-      transactionItemBuilderTaxAmountCalculated,
-    ),
-  );
-}
-
-export function transactionItemBuilderTaxAmountCalculatedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderTaxAmountCalculated,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderTaxAmountCalculated$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderTaxAmountCalculated' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderTaxRateCalculated$inboundSchema: z.ZodType<
-  TransactionItemBuilderTaxRateCalculated,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderTaxRateCalculated$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderTaxRateCalculated$outboundSchema: z.ZodType<
-  TransactionItemBuilderTaxRateCalculated$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderTaxRateCalculated
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderTaxRateCalculated$ {
-  /** @deprecated use `TransactionItemBuilderTaxRateCalculated$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderTaxRateCalculated$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxRateCalculated$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderTaxRateCalculated$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxRateCalculated$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderTaxRateCalculated$Outbound;
-}
-
-export function transactionItemBuilderTaxRateCalculatedToJSON(
-  transactionItemBuilderTaxRateCalculated:
-    TransactionItemBuilderTaxRateCalculated,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderTaxRateCalculated$outboundSchema.parse(
-      transactionItemBuilderTaxRateCalculated,
-    ),
-  );
-}
-
-export function transactionItemBuilderTaxRateCalculatedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderTaxRateCalculated,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderTaxRateCalculated$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderTaxRateCalculated' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderConvertedAmount$inboundSchema: z.ZodType<
-  TransactionItemBuilderConvertedAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderConvertedAmount$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderConvertedAmount$outboundSchema: z.ZodType<
-  TransactionItemBuilderConvertedAmount$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderConvertedAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderConvertedAmount$ {
-  /** @deprecated use `TransactionItemBuilderConvertedAmount$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderConvertedAmount$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedAmount$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderConvertedAmount$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedAmount$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderConvertedAmount$Outbound;
-}
-
-export function transactionItemBuilderConvertedAmountToJSON(
-  transactionItemBuilderConvertedAmount: TransactionItemBuilderConvertedAmount,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderConvertedAmount$outboundSchema.parse(
-      transactionItemBuilderConvertedAmount,
-    ),
-  );
-}
-
-export function transactionItemBuilderConvertedAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<TransactionItemBuilderConvertedAmount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderConvertedAmount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionItemBuilderConvertedAmount' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderConvertedTaxableAmount$inboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTaxableAmount,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderConvertedTaxableAmount$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionItemBuilderConvertedTaxableAmount$outboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTaxableAmount$Outbound,
-    z.ZodTypeDef,
-    TransactionItemBuilderConvertedTaxableAmount
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderConvertedTaxableAmount$ {
-  /** @deprecated use `TransactionItemBuilderConvertedTaxableAmount$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderConvertedTaxableAmount$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTaxableAmount$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderConvertedTaxableAmount$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTaxableAmount$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderConvertedTaxableAmount$Outbound;
-}
-
-export function transactionItemBuilderConvertedTaxableAmountToJSON(
-  transactionItemBuilderConvertedTaxableAmount:
-    TransactionItemBuilderConvertedTaxableAmount,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderConvertedTaxableAmount$outboundSchema.parse(
-      transactionItemBuilderConvertedTaxableAmount,
-    ),
-  );
-}
-
-export function transactionItemBuilderConvertedTaxableAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderConvertedTaxableAmount,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderConvertedTaxableAmount$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderConvertedTaxableAmount' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderConvertedTaxAmountImported$inboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTaxAmountImported,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderConvertedTaxAmountImported$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionItemBuilderConvertedTaxAmountImported$outboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTaxAmountImported$Outbound,
-    z.ZodTypeDef,
-    TransactionItemBuilderConvertedTaxAmountImported
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderConvertedTaxAmountImported$ {
-  /** @deprecated use `TransactionItemBuilderConvertedTaxAmountImported$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderConvertedTaxAmountImported$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTaxAmountImported$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderConvertedTaxAmountImported$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTaxAmountImported$Outbound` instead. */
-  export type Outbound =
-    TransactionItemBuilderConvertedTaxAmountImported$Outbound;
-}
-
-export function transactionItemBuilderConvertedTaxAmountImportedToJSON(
-  transactionItemBuilderConvertedTaxAmountImported:
-    TransactionItemBuilderConvertedTaxAmountImported,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderConvertedTaxAmountImported$outboundSchema.parse(
-      transactionItemBuilderConvertedTaxAmountImported,
-    ),
-  );
-}
-
-export function transactionItemBuilderConvertedTaxAmountImportedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderConvertedTaxAmountImported,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderConvertedTaxAmountImported$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderConvertedTaxAmountImported' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderConvertedTaxAmountCalculated$inboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTaxAmountCalculated,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderConvertedTaxAmountCalculated$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionItemBuilderConvertedTaxAmountCalculated$outboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTaxAmountCalculated$Outbound,
-    z.ZodTypeDef,
-    TransactionItemBuilderConvertedTaxAmountCalculated
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderConvertedTaxAmountCalculated$ {
-  /** @deprecated use `TransactionItemBuilderConvertedTaxAmountCalculated$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderConvertedTaxAmountCalculated$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTaxAmountCalculated$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderConvertedTaxAmountCalculated$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTaxAmountCalculated$Outbound` instead. */
-  export type Outbound =
-    TransactionItemBuilderConvertedTaxAmountCalculated$Outbound;
-}
-
-export function transactionItemBuilderConvertedTaxAmountCalculatedToJSON(
-  transactionItemBuilderConvertedTaxAmountCalculated:
-    TransactionItemBuilderConvertedTaxAmountCalculated,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderConvertedTaxAmountCalculated$outboundSchema.parse(
-      transactionItemBuilderConvertedTaxAmountCalculated,
-    ),
-  );
-}
-
-export function transactionItemBuilderConvertedTaxAmountCalculatedFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderConvertedTaxAmountCalculated,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderConvertedTaxAmountCalculated$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderConvertedTaxAmountCalculated' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderConvertedTotalDiscount$inboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTotalDiscount,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderConvertedTotalDiscount$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TransactionItemBuilderConvertedTotalDiscount$outboundSchema:
-  z.ZodType<
-    TransactionItemBuilderConvertedTotalDiscount$Outbound,
-    z.ZodTypeDef,
-    TransactionItemBuilderConvertedTotalDiscount
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderConvertedTotalDiscount$ {
-  /** @deprecated use `TransactionItemBuilderConvertedTotalDiscount$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderConvertedTotalDiscount$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTotalDiscount$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderConvertedTotalDiscount$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedTotalDiscount$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderConvertedTotalDiscount$Outbound;
-}
-
-export function transactionItemBuilderConvertedTotalDiscountToJSON(
-  transactionItemBuilderConvertedTotalDiscount:
-    TransactionItemBuilderConvertedTotalDiscount,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderConvertedTotalDiscount$outboundSchema.parse(
-      transactionItemBuilderConvertedTotalDiscount,
-    ),
-  );
-}
-
-export function transactionItemBuilderConvertedTotalDiscountFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderConvertedTotalDiscount,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderConvertedTotalDiscount$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderConvertedTotalDiscount' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderConvertedSubtotal$inboundSchema: z.ZodType<
-  TransactionItemBuilderConvertedSubtotal,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderConvertedSubtotal$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderConvertedSubtotal$outboundSchema: z.ZodType<
-  TransactionItemBuilderConvertedSubtotal$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderConvertedSubtotal
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderConvertedSubtotal$ {
-  /** @deprecated use `TransactionItemBuilderConvertedSubtotal$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderConvertedSubtotal$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedSubtotal$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderConvertedSubtotal$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderConvertedSubtotal$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderConvertedSubtotal$Outbound;
-}
-
-export function transactionItemBuilderConvertedSubtotalToJSON(
-  transactionItemBuilderConvertedSubtotal:
-    TransactionItemBuilderConvertedSubtotal,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderConvertedSubtotal$outboundSchema.parse(
-      transactionItemBuilderConvertedSubtotal,
-    ),
-  );
-}
-
-export function transactionItemBuilderConvertedSubtotalFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TransactionItemBuilderConvertedSubtotal,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderConvertedSubtotal$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TransactionItemBuilderConvertedSubtotal' from JSON`,
-  );
-}
-
-/** @internal */
-export const TransactionItemBuilderTaxableAmount$inboundSchema: z.ZodType<
-  TransactionItemBuilderTaxableAmount,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TransactionItemBuilderTaxableAmount$Outbound = number | string;
-
-/** @internal */
-export const TransactionItemBuilderTaxableAmount$outboundSchema: z.ZodType<
-  TransactionItemBuilderTaxableAmount$Outbound,
-  z.ZodTypeDef,
-  TransactionItemBuilderTaxableAmount
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TransactionItemBuilderTaxableAmount$ {
-  /** @deprecated use `TransactionItemBuilderTaxableAmount$inboundSchema` instead. */
-  export const inboundSchema =
-    TransactionItemBuilderTaxableAmount$inboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxableAmount$outboundSchema` instead. */
-  export const outboundSchema =
-    TransactionItemBuilderTaxableAmount$outboundSchema;
-  /** @deprecated use `TransactionItemBuilderTaxableAmount$Outbound` instead. */
-  export type Outbound = TransactionItemBuilderTaxableAmount$Outbound;
-}
-
-export function transactionItemBuilderTaxableAmountToJSON(
-  transactionItemBuilderTaxableAmount: TransactionItemBuilderTaxableAmount,
-): string {
-  return JSON.stringify(
-    TransactionItemBuilderTaxableAmount$outboundSchema.parse(
-      transactionItemBuilderTaxableAmount,
-    ),
-  );
-}
-
-export function transactionItemBuilderTaxableAmountFromJSON(
-  jsonString: string,
-): SafeParseResult<TransactionItemBuilderTaxableAmount, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TransactionItemBuilderTaxableAmount$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'TransactionItemBuilderTaxableAmount' from JSON`,
-  );
-}
 
 /** @internal */
 export const TransactionItemBuilder$inboundSchema: z.ZodType<
@@ -964,38 +139,34 @@ export const TransactionItemBuilder$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  external_id: z.nullable(z.string()).optional(),
-  organization_id: z.nullable(z.string()),
+  external_id: z.string().optional(),
+  organization_id: z.string(),
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   external_product_id: z.string(),
-  product: z.nullable(z.string()).optional(),
-  product_id: z.nullable(z.string()).optional(),
-  product_name: z.nullable(z.string()).optional(),
-  product_description: z.nullable(z.string()).optional(),
-  quantity: z.union([z.number(), z.string()]).optional(),
-  amount: z.union([z.number(), z.string()]).optional(),
-  tax_amount_imported: z.union([z.number(), z.string()]).optional(),
-  tax_rate_imported: z.union([z.number(), z.string()]).optional(),
-  tax_amount_calculated: z.union([z.number(), z.string()]).optional(),
-  tax_rate_calculated: z.union([z.number(), z.string()]).optional(),
-  original_currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
-  destination_currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
-  converted_amount: z.nullable(z.union([z.number(), z.string()])).optional(),
-  converted_taxable_amount: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  converted_tax_amount_imported: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  converted_tax_amount_calculated: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  converted_total_discount: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  converted_subtotal: z.nullable(z.union([z.number(), z.string()])).optional(),
-  taxable_amount: z.union([z.number(), z.string()]).optional(),
-  tax_exemption: z.nullable(TaxExemptionEnum$inboundSchema).optional(),
+  product: z.string().optional(),
+  product_id: z.string().optional(),
+  product_name: z.string().optional(),
+  product_description: z.string().optional(),
+  quantity: z.number().default(1.0),
+  amount: z.number().default(0.00),
+  tax_amount_imported: z.number().default(0.00),
+  tax_rate_imported: z.number().default(0.00),
+  tax_amount_calculated: z.number().default(0.00),
+  tax_rate_calculated: z.number().default(0.00),
+  original_currency: CurrencyEnum$inboundSchema.optional(),
+  destination_currency: CurrencyEnum$inboundSchema.optional(),
+  converted_amount: z.number().optional(),
+  converted_taxable_amount: z.number().optional(),
+  converted_tax_amount_imported: z.number().optional(),
+  converted_tax_amount_calculated: z.number().optional(),
+  converted_total_discount: z.number().optional(),
+  converted_subtotal: z.number().optional(),
+  taxable_amount: z.number().default(0.00),
+  tax_exemption: TaxExemptionEnum$inboundSchema.optional(),
   exempt: z.boolean().default(false),
   tax_items: z.array(TaxItemBuilder$inboundSchema).optional(),
-  discount_builder: z.nullable(DiscountBuilder$inboundSchema).optional(),
+  discount_builder: DiscountBuilder$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "external_id": "externalId",
@@ -1025,34 +196,34 @@ export const TransactionItemBuilder$inboundSchema: z.ZodType<
 
 /** @internal */
 export type TransactionItemBuilder$Outbound = {
-  external_id?: string | null | undefined;
-  organization_id: string | null;
+  external_id?: string | undefined;
+  organization_id: string;
   date: string;
-  description?: string | null | undefined;
+  description?: string | undefined;
   external_product_id: string;
-  product?: string | null | undefined;
-  product_id?: string | null | undefined;
-  product_name?: string | null | undefined;
-  product_description?: string | null | undefined;
-  quantity?: number | string | undefined;
-  amount?: number | string | undefined;
-  tax_amount_imported?: number | string | undefined;
-  tax_rate_imported?: number | string | undefined;
-  tax_amount_calculated?: number | string | undefined;
-  tax_rate_calculated?: number | string | undefined;
-  original_currency?: string | null | undefined;
-  destination_currency?: string | null | undefined;
-  converted_amount?: number | string | null | undefined;
-  converted_taxable_amount?: number | string | null | undefined;
-  converted_tax_amount_imported?: number | string | null | undefined;
-  converted_tax_amount_calculated?: number | string | null | undefined;
-  converted_total_discount?: number | string | null | undefined;
-  converted_subtotal?: number | string | null | undefined;
-  taxable_amount?: number | string | undefined;
-  tax_exemption?: string | null | undefined;
+  product?: string | undefined;
+  product_id?: string | undefined;
+  product_name?: string | undefined;
+  product_description?: string | undefined;
+  quantity: number;
+  amount: number;
+  tax_amount_imported: number;
+  tax_rate_imported: number;
+  tax_amount_calculated: number;
+  tax_rate_calculated: number;
+  original_currency?: string | undefined;
+  destination_currency?: string | undefined;
+  converted_amount?: number | undefined;
+  converted_taxable_amount?: number | undefined;
+  converted_tax_amount_imported?: number | undefined;
+  converted_tax_amount_calculated?: number | undefined;
+  converted_total_discount?: number | undefined;
+  converted_subtotal?: number | undefined;
+  taxable_amount: number;
+  tax_exemption?: string | undefined;
   exempt: boolean;
   tax_items?: Array<TaxItemBuilder$Outbound> | undefined;
-  discount_builder?: DiscountBuilder$Outbound | null | undefined;
+  discount_builder?: DiscountBuilder$Outbound | undefined;
 };
 
 /** @internal */
@@ -1061,38 +232,34 @@ export const TransactionItemBuilder$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   TransactionItemBuilder
 > = z.object({
-  externalId: z.nullable(z.string()).optional(),
-  organizationId: z.nullable(z.string()),
+  externalId: z.string().optional(),
+  organizationId: z.string(),
   date: z.date().transform(v => v.toISOString()),
-  description: z.nullable(z.string()).optional(),
+  description: z.string().optional(),
   externalProductId: z.string(),
-  product: z.nullable(z.string()).optional(),
-  productId: z.nullable(z.string()).optional(),
-  productName: z.nullable(z.string()).optional(),
-  productDescription: z.nullable(z.string()).optional(),
-  quantity: z.union([z.number(), z.string()]).optional(),
-  amount: z.union([z.number(), z.string()]).optional(),
-  taxAmountImported: z.union([z.number(), z.string()]).optional(),
-  taxRateImported: z.union([z.number(), z.string()]).optional(),
-  taxAmountCalculated: z.union([z.number(), z.string()]).optional(),
-  taxRateCalculated: z.union([z.number(), z.string()]).optional(),
-  originalCurrency: z.nullable(CurrencyEnum$outboundSchema).optional(),
-  destinationCurrency: z.nullable(CurrencyEnum$outboundSchema).optional(),
-  convertedAmount: z.nullable(z.union([z.number(), z.string()])).optional(),
-  convertedTaxableAmount: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  convertedTaxAmountImported: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  convertedTaxAmountCalculated: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  convertedTotalDiscount: z.nullable(z.union([z.number(), z.string()]))
-    .optional(),
-  convertedSubtotal: z.nullable(z.union([z.number(), z.string()])).optional(),
-  taxableAmount: z.union([z.number(), z.string()]).optional(),
-  taxExemption: z.nullable(TaxExemptionEnum$outboundSchema).optional(),
+  product: z.string().optional(),
+  productId: z.string().optional(),
+  productName: z.string().optional(),
+  productDescription: z.string().optional(),
+  quantity: z.number().default(1.0),
+  amount: z.number().default(0.00),
+  taxAmountImported: z.number().default(0.00),
+  taxRateImported: z.number().default(0.00),
+  taxAmountCalculated: z.number().default(0.00),
+  taxRateCalculated: z.number().default(0.00),
+  originalCurrency: CurrencyEnum$outboundSchema.optional(),
+  destinationCurrency: CurrencyEnum$outboundSchema.optional(),
+  convertedAmount: z.number().optional(),
+  convertedTaxableAmount: z.number().optional(),
+  convertedTaxAmountImported: z.number().optional(),
+  convertedTaxAmountCalculated: z.number().optional(),
+  convertedTotalDiscount: z.number().optional(),
+  convertedSubtotal: z.number().optional(),
+  taxableAmount: z.number().default(0.00),
+  taxExemption: TaxExemptionEnum$outboundSchema.optional(),
   exempt: z.boolean().default(false),
   taxItems: z.array(TaxItemBuilder$outboundSchema).optional(),
-  discountBuilder: z.nullable(DiscountBuilder$outboundSchema).optional(),
+  discountBuilder: DiscountBuilder$outboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     externalId: "external_id",

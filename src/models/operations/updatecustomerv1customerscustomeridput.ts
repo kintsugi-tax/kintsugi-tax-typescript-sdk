@@ -9,103 +9,13 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
-export type UpdateCustomerV1CustomersCustomerIdPutSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type UpdateCustomerV1CustomersCustomerIdPutRequest = {
   /**
    * Unique identifier of the customer to be retrieved.
    */
   customerId: string;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
   customerUpdate: models.CustomerUpdate;
 };
-
-/** @internal */
-export const UpdateCustomerV1CustomersCustomerIdPutSecurity$inboundSchema:
-  z.ZodType<
-    UpdateCustomerV1CustomersCustomerIdPutSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type UpdateCustomerV1CustomersCustomerIdPutSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const UpdateCustomerV1CustomersCustomerIdPutSecurity$outboundSchema:
-  z.ZodType<
-    UpdateCustomerV1CustomersCustomerIdPutSecurity$Outbound,
-    z.ZodTypeDef,
-    UpdateCustomerV1CustomersCustomerIdPutSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateCustomerV1CustomersCustomerIdPutSecurity$ {
-  /** @deprecated use `UpdateCustomerV1CustomersCustomerIdPutSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    UpdateCustomerV1CustomersCustomerIdPutSecurity$inboundSchema;
-  /** @deprecated use `UpdateCustomerV1CustomersCustomerIdPutSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    UpdateCustomerV1CustomersCustomerIdPutSecurity$outboundSchema;
-  /** @deprecated use `UpdateCustomerV1CustomersCustomerIdPutSecurity$Outbound` instead. */
-  export type Outbound =
-    UpdateCustomerV1CustomersCustomerIdPutSecurity$Outbound;
-}
-
-export function updateCustomerV1CustomersCustomerIdPutSecurityToJSON(
-  updateCustomerV1CustomersCustomerIdPutSecurity:
-    UpdateCustomerV1CustomersCustomerIdPutSecurity,
-): string {
-  return JSON.stringify(
-    UpdateCustomerV1CustomersCustomerIdPutSecurity$outboundSchema.parse(
-      updateCustomerV1CustomersCustomerIdPutSecurity,
-    ),
-  );
-}
-
-export function updateCustomerV1CustomersCustomerIdPutSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  UpdateCustomerV1CustomersCustomerIdPutSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      UpdateCustomerV1CustomersCustomerIdPutSecurity$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'UpdateCustomerV1CustomersCustomerIdPutSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const UpdateCustomerV1CustomersCustomerIdPutRequest$inboundSchema:
@@ -115,12 +25,10 @@ export const UpdateCustomerV1CustomersCustomerIdPutRequest$inboundSchema:
     unknown
   > = z.object({
     customer_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
     CustomerUpdate: models.CustomerUpdate$inboundSchema,
   }).transform((v) => {
     return remap$(v, {
       "customer_id": "customerId",
-      "x-organization-id": "xOrganizationId",
       "CustomerUpdate": "customerUpdate",
     });
   });
@@ -128,7 +36,6 @@ export const UpdateCustomerV1CustomersCustomerIdPutRequest$inboundSchema:
 /** @internal */
 export type UpdateCustomerV1CustomersCustomerIdPutRequest$Outbound = {
   customer_id: string;
-  "x-organization-id": string | null;
   CustomerUpdate: models.CustomerUpdate$Outbound;
 };
 
@@ -140,12 +47,10 @@ export const UpdateCustomerV1CustomersCustomerIdPutRequest$outboundSchema:
     UpdateCustomerV1CustomersCustomerIdPutRequest
   > = z.object({
     customerId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
     customerUpdate: models.CustomerUpdate$outboundSchema,
   }).transform((v) => {
     return remap$(v, {
       customerId: "customer_id",
-      xOrganizationId: "x-organization-id",
       customerUpdate: "CustomerUpdate",
     });
   });

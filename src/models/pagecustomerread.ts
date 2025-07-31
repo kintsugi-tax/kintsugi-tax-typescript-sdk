@@ -15,10 +15,10 @@ import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type PageCustomerRead = {
   items: Array<CustomerRead>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -28,19 +28,19 @@ export const PageCustomerRead$inboundSchema: z.ZodType<
   unknown
 > = z.object({
   items: z.array(CustomerRead$inboundSchema),
-  total: z.nullable(z.number().int()),
-  page: z.nullable(z.number().int()),
-  size: z.nullable(z.number().int()),
-  pages: z.nullable(z.number().int()).optional(),
+  total: z.number().int(),
+  page: z.number().int(),
+  size: z.number().int(),
+  pages: z.number().int().optional(),
 });
 
 /** @internal */
 export type PageCustomerRead$Outbound = {
   items: Array<CustomerRead$Outbound>;
-  total: number | null;
-  page: number | null;
-  size: number | null;
-  pages?: number | null | undefined;
+  total: number;
+  page: number;
+  size: number;
+  pages?: number | undefined;
 };
 
 /** @internal */
@@ -50,10 +50,10 @@ export const PageCustomerRead$outboundSchema: z.ZodType<
   PageCustomerRead
 > = z.object({
   items: z.array(CustomerRead$outboundSchema),
-  total: z.nullable(z.number().int()),
-  page: z.nullable(z.number().int()),
-  size: z.nullable(z.number().int()),
-  pages: z.nullable(z.number().int()).optional(),
+  total: z.number().int(),
+  page: z.number().int(),
+  size: z.number().int(),
+  pages: z.number().int().optional(),
 });
 
 /**

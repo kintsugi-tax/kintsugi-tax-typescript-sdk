@@ -27,46 +27,43 @@ export type TransactionAddressBuilder = {
   /**
    * Phone number associated with the address.
    */
-  phone?: string | null | undefined;
+  phone?: string | undefined;
   /**
    * Primary street address.
    */
-  street1?: string | null | undefined;
+  street1?: string | undefined;
   /**
    * Additional street address details, such as an apartment or suite number.
    */
-  street2?: string | null | undefined;
+  street2?: string | undefined;
   /**
    * City where the customer resides.
    */
-  city?: string | null | undefined;
+  city?: string | undefined;
   /**
    * County or district of the customer.
    */
-  county?: string | null | undefined;
+  county?: string | undefined;
   /**
    * State or province of the customer.
    */
-  state?: string | null | undefined;
+  state?: string | undefined;
   /**
    * ZIP or Postal code of the customer.
    */
-  postalCode?: string | null | undefined;
-  /**
-   * Country code in ISO 3166-1 alpha-2 format
-   */
-  country?: CountryCodeEnum | null | undefined;
+  postalCode?: string | undefined;
+  country?: CountryCodeEnum | undefined;
   /**
    * Complete address string of the customer, which can be used as an alternative to individual fields.
    */
-  fullAddress?: string | null | undefined;
+  fullAddress?: string | undefined;
   type: AddressType;
   /**
    * Optional additional enriched data for the address.
    */
-  enrichedFields?: string | null | undefined;
+  enrichedFields?: string | undefined;
   status?: AddressStatus | undefined;
-  organizationId?: string | null | undefined;
+  organizationId?: string | undefined;
 };
 
 /** @internal */
@@ -75,19 +72,19 @@ export const TransactionAddressBuilder$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  phone: z.nullable(z.string()).optional(),
-  street_1: z.nullable(z.string()).optional(),
-  street_2: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  postal_code: z.nullable(z.string()).optional(),
-  country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
-  full_address: z.nullable(z.string()).optional(),
+  phone: z.string().optional(),
+  street_1: z.string().optional(),
+  street_2: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  postal_code: z.string().optional(),
+  country: CountryCodeEnum$inboundSchema.optional(),
+  full_address: z.string().optional(),
   type: AddressType$inboundSchema,
-  enriched_fields: z.nullable(z.string()).optional(),
+  enriched_fields: z.string().optional(),
   status: AddressStatus$inboundSchema.optional(),
-  organization_id: z.nullable(z.string()).optional(),
+  organization_id: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
@@ -101,19 +98,19 @@ export const TransactionAddressBuilder$inboundSchema: z.ZodType<
 
 /** @internal */
 export type TransactionAddressBuilder$Outbound = {
-  phone?: string | null | undefined;
-  street_1?: string | null | undefined;
-  street_2?: string | null | undefined;
-  city?: string | null | undefined;
-  county?: string | null | undefined;
-  state?: string | null | undefined;
-  postal_code?: string | null | undefined;
-  country?: string | null | undefined;
-  full_address?: string | null | undefined;
+  phone?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | undefined;
+  city?: string | undefined;
+  county?: string | undefined;
+  state?: string | undefined;
+  postal_code?: string | undefined;
+  country?: string | undefined;
+  full_address?: string | undefined;
   type: string;
-  enriched_fields?: string | null | undefined;
+  enriched_fields?: string | undefined;
   status?: string | undefined;
-  organization_id?: string | null | undefined;
+  organization_id?: string | undefined;
 };
 
 /** @internal */
@@ -122,19 +119,19 @@ export const TransactionAddressBuilder$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   TransactionAddressBuilder
 > = z.object({
-  phone: z.nullable(z.string()).optional(),
-  street1: z.nullable(z.string()).optional(),
-  street2: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  county: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  postalCode: z.nullable(z.string()).optional(),
-  country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
-  fullAddress: z.nullable(z.string()).optional(),
+  phone: z.string().optional(),
+  street1: z.string().optional(),
+  street2: z.string().optional(),
+  city: z.string().optional(),
+  county: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: CountryCodeEnum$outboundSchema.optional(),
+  fullAddress: z.string().optional(),
   type: AddressType$outboundSchema,
-  enrichedFields: z.nullable(z.string()).optional(),
+  enrichedFields: z.string().optional(),
   status: AddressStatus$outboundSchema.optional(),
-  organizationId: z.nullable(z.string()).optional(),
+  organizationId: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",

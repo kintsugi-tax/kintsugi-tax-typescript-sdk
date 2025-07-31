@@ -9,97 +9,11 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
-export type PUTUpdateCreditNoteByTransactionIdSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type PUTUpdateCreditNoteByTransactionIdRequest = {
   originalTransactionId: string;
   creditNoteId: string;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
   creditNoteCreate: models.CreditNoteCreate;
 };
-
-/** @internal */
-export const PUTUpdateCreditNoteByTransactionIdSecurity$inboundSchema:
-  z.ZodType<PUTUpdateCreditNoteByTransactionIdSecurity, z.ZodTypeDef, unknown> =
-    z.object({
-      APIKeyHeader: z.string().optional(),
-      HTTPBearer: z.string().optional(),
-    }).transform((v) => {
-      return remap$(v, {
-        "APIKeyHeader": "apiKeyHeader",
-        "HTTPBearer": "httpBearer",
-      });
-    });
-
-/** @internal */
-export type PUTUpdateCreditNoteByTransactionIdSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const PUTUpdateCreditNoteByTransactionIdSecurity$outboundSchema:
-  z.ZodType<
-    PUTUpdateCreditNoteByTransactionIdSecurity$Outbound,
-    z.ZodTypeDef,
-    PUTUpdateCreditNoteByTransactionIdSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace PUTUpdateCreditNoteByTransactionIdSecurity$ {
-  /** @deprecated use `PUTUpdateCreditNoteByTransactionIdSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    PUTUpdateCreditNoteByTransactionIdSecurity$inboundSchema;
-  /** @deprecated use `PUTUpdateCreditNoteByTransactionIdSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    PUTUpdateCreditNoteByTransactionIdSecurity$outboundSchema;
-  /** @deprecated use `PUTUpdateCreditNoteByTransactionIdSecurity$Outbound` instead. */
-  export type Outbound = PUTUpdateCreditNoteByTransactionIdSecurity$Outbound;
-}
-
-export function putUpdateCreditNoteByTransactionIdSecurityToJSON(
-  putUpdateCreditNoteByTransactionIdSecurity:
-    PUTUpdateCreditNoteByTransactionIdSecurity,
-): string {
-  return JSON.stringify(
-    PUTUpdateCreditNoteByTransactionIdSecurity$outboundSchema.parse(
-      putUpdateCreditNoteByTransactionIdSecurity,
-    ),
-  );
-}
-
-export function putUpdateCreditNoteByTransactionIdSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  PUTUpdateCreditNoteByTransactionIdSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      PUTUpdateCreditNoteByTransactionIdSecurity$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'PUTUpdateCreditNoteByTransactionIdSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const PUTUpdateCreditNoteByTransactionIdRequest$inboundSchema: z.ZodType<
@@ -109,13 +23,11 @@ export const PUTUpdateCreditNoteByTransactionIdRequest$inboundSchema: z.ZodType<
 > = z.object({
   original_transaction_id: z.string(),
   credit_note_id: z.string(),
-  "x-organization-id": z.nullable(z.string()),
   CreditNoteCreate: models.CreditNoteCreate$inboundSchema,
 }).transform((v) => {
   return remap$(v, {
     "original_transaction_id": "originalTransactionId",
     "credit_note_id": "creditNoteId",
-    "x-organization-id": "xOrganizationId",
     "CreditNoteCreate": "creditNoteCreate",
   });
 });
@@ -124,7 +36,6 @@ export const PUTUpdateCreditNoteByTransactionIdRequest$inboundSchema: z.ZodType<
 export type PUTUpdateCreditNoteByTransactionIdRequest$Outbound = {
   original_transaction_id: string;
   credit_note_id: string;
-  "x-organization-id": string | null;
   CreditNoteCreate: models.CreditNoteCreate$Outbound;
 };
 
@@ -137,13 +48,11 @@ export const PUTUpdateCreditNoteByTransactionIdRequest$outboundSchema:
   > = z.object({
     originalTransactionId: z.string(),
     creditNoteId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
     creditNoteCreate: models.CreditNoteCreate$outboundSchema,
   }).transform((v) => {
     return remap$(v, {
       originalTransactionId: "original_transaction_id",
       creditNoteId: "credit_note_id",
-      xOrganizationId: "x-organization-id",
       creditNoteCreate: "CreditNoteCreate",
     });
   });

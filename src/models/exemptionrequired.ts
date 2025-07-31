@@ -19,8 +19,8 @@ import {
 } from "./exemptiontype.js";
 
 export type ExemptionRequired = {
-  jurisdiction?: string | null | undefined;
-  customerId?: string | null | undefined;
+  jurisdiction?: string | undefined;
+  customerId?: string | undefined;
   organizationId: string;
   exemptionType: ExemptionType;
   startDate: Date;
@@ -34,8 +34,8 @@ export const ExemptionRequired$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  jurisdiction: z.nullable(z.string()).optional(),
-  customer_id: z.nullable(z.string()).optional(),
+  jurisdiction: z.string().optional(),
+  customer_id: z.string().optional(),
   organization_id: z.string(),
   exemption_type: ExemptionType$inboundSchema,
   start_date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
@@ -52,8 +52,8 @@ export const ExemptionRequired$inboundSchema: z.ZodType<
 
 /** @internal */
 export type ExemptionRequired$Outbound = {
-  jurisdiction?: string | null | undefined;
-  customer_id?: string | null | undefined;
+  jurisdiction?: string | undefined;
+  customer_id?: string | undefined;
   organization_id: string;
   exemption_type: string;
   start_date: string;
@@ -67,8 +67,8 @@ export const ExemptionRequired$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   ExemptionRequired
 > = z.object({
-  jurisdiction: z.nullable(z.string()).optional(),
-  customerId: z.nullable(z.string()).optional(),
+  jurisdiction: z.string().optional(),
+  customerId: z.string().optional(),
   organizationId: z.string(),
   exemptionType: ExemptionType$outboundSchema,
   startDate: z.date().transform(v => v.toISOString()),

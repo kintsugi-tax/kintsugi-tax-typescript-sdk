@@ -9,98 +9,10 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
-export type UpdateTransactionV1TransactionsTransactionIdPutSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type UpdateTransactionV1TransactionsTransactionIdPutRequest = {
   transactionId: string;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
   transactionUpdate: models.TransactionUpdate;
 };
-
-/** @internal */
-export const UpdateTransactionV1TransactionsTransactionIdPutSecurity$inboundSchema:
-  z.ZodType<
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type UpdateTransactionV1TransactionsTransactionIdPutSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const UpdateTransactionV1TransactionsTransactionIdPutSecurity$outboundSchema:
-  z.ZodType<
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity$Outbound,
-    z.ZodTypeDef,
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UpdateTransactionV1TransactionsTransactionIdPutSecurity$ {
-  /** @deprecated use `UpdateTransactionV1TransactionsTransactionIdPutSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity$inboundSchema;
-  /** @deprecated use `UpdateTransactionV1TransactionsTransactionIdPutSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity$outboundSchema;
-  /** @deprecated use `UpdateTransactionV1TransactionsTransactionIdPutSecurity$Outbound` instead. */
-  export type Outbound =
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity$Outbound;
-}
-
-export function updateTransactionV1TransactionsTransactionIdPutSecurityToJSON(
-  updateTransactionV1TransactionsTransactionIdPutSecurity:
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity,
-): string {
-  return JSON.stringify(
-    UpdateTransactionV1TransactionsTransactionIdPutSecurity$outboundSchema
-      .parse(updateTransactionV1TransactionsTransactionIdPutSecurity),
-  );
-}
-
-export function updateTransactionV1TransactionsTransactionIdPutSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  UpdateTransactionV1TransactionsTransactionIdPutSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      UpdateTransactionV1TransactionsTransactionIdPutSecurity$inboundSchema
-        .parse(JSON.parse(x)),
-    `Failed to parse 'UpdateTransactionV1TransactionsTransactionIdPutSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const UpdateTransactionV1TransactionsTransactionIdPutRequest$inboundSchema:
@@ -110,12 +22,10 @@ export const UpdateTransactionV1TransactionsTransactionIdPutRequest$inboundSchem
     unknown
   > = z.object({
     transaction_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
     TransactionUpdate: models.TransactionUpdate$inboundSchema,
   }).transform((v) => {
     return remap$(v, {
       "transaction_id": "transactionId",
-      "x-organization-id": "xOrganizationId",
       "TransactionUpdate": "transactionUpdate",
     });
   });
@@ -123,7 +33,6 @@ export const UpdateTransactionV1TransactionsTransactionIdPutRequest$inboundSchem
 /** @internal */
 export type UpdateTransactionV1TransactionsTransactionIdPutRequest$Outbound = {
   transaction_id: string;
-  "x-organization-id": string | null;
   TransactionUpdate: models.TransactionUpdate$Outbound;
 };
 
@@ -135,12 +44,10 @@ export const UpdateTransactionV1TransactionsTransactionIdPutRequest$outboundSche
     UpdateTransactionV1TransactionsTransactionIdPutRequest
   > = z.object({
     transactionId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
     transactionUpdate: models.TransactionUpdate$outboundSchema,
   }).transform((v) => {
     return remap$(v, {
       transactionId: "transaction_id",
-      xOrganizationId: "x-organization-id",
       transactionUpdate: "TransactionUpdate",
     });
   });

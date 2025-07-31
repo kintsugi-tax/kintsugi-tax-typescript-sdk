@@ -12,23 +12,23 @@ export type ValidationAddress = {
   /**
    * Primary address line, such as street name and number
    */
-  line1?: string | null | undefined;
+  line1?: string | undefined;
   /**
    * Additional address details, such as an apartment or suite number
    */
-  line2?: string | null | undefined;
+  line2?: string | undefined;
   /**
    * Additional address details for complex addresses
    */
-  line3?: string | null | undefined;
+  line3?: string | undefined;
   /**
    * The city or town name for the address
    */
-  city?: string | null | undefined;
+  city?: string | undefined;
   /**
    * State, province, or region of the address
    */
-  state?: string | null | undefined;
+  state?: string | undefined;
   /**
    * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
    *
@@ -37,26 +37,26 @@ export type ValidationAddress = {
    *         should not be empty. Not validating here as the validation
    *         structure can be different for different providers
    */
-  country?: string | null | undefined;
+  country?: string | undefined;
   /**
    * ZIP or postal code for the address. Can be empty for some locales.
    *
    * @remarks
    *         Not validating here as the validation structure can be different for different providers
    */
-  postalCode?: string | null | undefined;
+  postalCode?: string | undefined;
   /**
    * Unique identifier for the request, if applicable
    */
-  id?: number | null | undefined;
+  id?: number | undefined;
   /**
    * County or district name for the address
    */
-  county?: string | null | undefined;
+  county?: string | undefined;
   /**
    * A complete address string that can be used as an alternative to providing individual fields.
    */
-  fullAddress?: string | null | undefined;
+  fullAddress?: string | undefined;
 };
 
 /** @internal */
@@ -65,16 +65,16 @@ export const ValidationAddress$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  line1: z.nullable(z.string()).optional(),
-  line2: z.nullable(z.string()).optional(),
-  line3: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  country: z.nullable(z.string()).optional(),
-  postalCode: z.nullable(z.string()).optional(),
-  id: z.nullable(z.number().int()).optional(),
-  county: z.nullable(z.string()).optional(),
-  full_address: z.nullable(z.string()).optional(),
+  line1: z.string().optional(),
+  line2: z.string().optional(),
+  line3: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  country: z.string().default("US"),
+  postalCode: z.string().default(""),
+  id: z.number().int().optional(),
+  county: z.string().optional(),
+  full_address: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "full_address": "fullAddress",
@@ -83,16 +83,16 @@ export const ValidationAddress$inboundSchema: z.ZodType<
 
 /** @internal */
 export type ValidationAddress$Outbound = {
-  line1?: string | null | undefined;
-  line2?: string | null | undefined;
-  line3?: string | null | undefined;
-  city?: string | null | undefined;
-  state?: string | null | undefined;
-  country?: string | null | undefined;
-  postalCode?: string | null | undefined;
-  id?: number | null | undefined;
-  county?: string | null | undefined;
-  full_address?: string | null | undefined;
+  line1?: string | undefined;
+  line2?: string | undefined;
+  line3?: string | undefined;
+  city?: string | undefined;
+  state?: string | undefined;
+  country: string;
+  postalCode: string;
+  id?: number | undefined;
+  county?: string | undefined;
+  full_address?: string | undefined;
 };
 
 /** @internal */
@@ -101,16 +101,16 @@ export const ValidationAddress$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   ValidationAddress
 > = z.object({
-  line1: z.nullable(z.string()).optional(),
-  line2: z.nullable(z.string()).optional(),
-  line3: z.nullable(z.string()).optional(),
-  city: z.nullable(z.string()).optional(),
-  state: z.nullable(z.string()).optional(),
-  country: z.nullable(z.string()).optional(),
-  postalCode: z.nullable(z.string()).optional(),
-  id: z.nullable(z.number().int()).optional(),
-  county: z.nullable(z.string()).optional(),
-  fullAddress: z.nullable(z.string()).optional(),
+  line1: z.string().optional(),
+  line2: z.string().optional(),
+  line3: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  country: z.string().default("US"),
+  postalCode: z.string().default(""),
+  id: z.number().int().optional(),
+  county: z.string().optional(),
+  fullAddress: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     fullAddress: "full_address",

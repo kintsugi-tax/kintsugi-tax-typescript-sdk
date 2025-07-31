@@ -18,8 +18,11 @@ export type TaxItemEstimate = {
   name: string;
   amount?: string | undefined;
   exempt?: boolean | undefined;
-  exemptReason?: TaxItemReturnReasonEnum | null | undefined;
-  rule?: string | null | undefined;
+  /**
+   * We use this to understand the response from get_tax_items
+   */
+  exemptReason?: TaxItemReturnReasonEnum | undefined;
+  rule?: string | undefined;
 };
 
 /** @internal */
@@ -32,8 +35,8 @@ export const TaxItemEstimate$inboundSchema: z.ZodType<
   name: z.string(),
   amount: z.string().default("0.0"),
   exempt: z.boolean().default(false),
-  exempt_reason: z.nullable(TaxItemReturnReasonEnum$inboundSchema).optional(),
-  rule: z.nullable(z.string()).optional(),
+  exempt_reason: TaxItemReturnReasonEnum$inboundSchema.optional(),
+  rule: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "exempt_reason": "exemptReason",
@@ -46,8 +49,8 @@ export type TaxItemEstimate$Outbound = {
   name: string;
   amount: string;
   exempt: boolean;
-  exempt_reason?: string | null | undefined;
-  rule?: string | null | undefined;
+  exempt_reason?: string | undefined;
+  rule?: string | undefined;
 };
 
 /** @internal */
@@ -60,8 +63,8 @@ export const TaxItemEstimate$outboundSchema: z.ZodType<
   name: z.string(),
   amount: z.string().default("0.0"),
   exempt: z.boolean().default(false),
-  exemptReason: z.nullable(TaxItemReturnReasonEnum$outboundSchema).optional(),
-  rule: z.nullable(z.string()).optional(),
+  exemptReason: TaxItemReturnReasonEnum$outboundSchema.optional(),
+  rule: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     exemptReason: "exempt_reason",

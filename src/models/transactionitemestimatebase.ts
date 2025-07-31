@@ -23,21 +23,11 @@ import {
   SourceEnum$outboundSchema,
 } from "./sourceenum.js";
 
-/**
- * Defaults to 1.0. The quantity of the item.
- */
-export type QuantityOfTheProduct = number | string;
-
-/**
- * The total amount of the item.
- */
-export type TotalAmountOfThisTransactionItemAfterDiscounts = number | string;
-
 export type TransactionItemEstimateBase = {
   /**
    * A unique identifier for the transaction item.
    */
-  externalId?: string | null | undefined;
+  externalId?: string | undefined;
   /**
    * The date of the transaction item.
    */
@@ -45,45 +35,33 @@ export type TransactionItemEstimateBase = {
   /**
    * A description of the item.
    */
-  description?: string | null | undefined;
+  description?: string | undefined;
   /**
    * External product identifier. If not found and product_subcategory
    *
    * @remarks
    *         and product_category are not provided, an error occurs.
    */
-  externalProductId?: string | null | undefined;
+  externalProductId?: string | undefined;
   /**
    * Name of the product. Used if creating a new product.
    */
-  productName?: string | null | undefined;
+  productName?: string | undefined;
   /**
    * Description of the product. Used if creating a new product.
    */
-  productDescription?: string | null | undefined;
-  productSource?: SourceEnum | null | undefined;
-  /**
-   * Subcategory of the product. Required if product_category is used
-   *
-   * @remarks
-   *         in place of external_product_id.
-   */
-  productSubcategory?: ProductSubCategoryEnum | null | undefined;
-  /**
-   * Category of the product. Required if product_subcategory is used
-   *
-   * @remarks
-   *         in place of external_product_id.
-   */
-  productCategory?: ProductCategoryEnum | null | undefined;
+  productDescription?: string | undefined;
+  productSource?: SourceEnum | undefined;
+  productSubcategory?: ProductSubCategoryEnum | undefined;
+  productCategory?: ProductCategoryEnum | undefined;
   /**
    * Defaults to 1.0. The quantity of the item.
    */
-  quantity?: number | string | undefined;
+  quantity?: number | undefined;
   /**
    * The total amount of the item.
    */
-  amount: number | string;
+  amount: number;
   /**
    * Defaults to false. Indicates whether the item is exempt from tax.
    */
@@ -91,135 +69,22 @@ export type TransactionItemEstimateBase = {
 };
 
 /** @internal */
-export const QuantityOfTheProduct$inboundSchema: z.ZodType<
-  QuantityOfTheProduct,
-  z.ZodTypeDef,
-  unknown
-> = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type QuantityOfTheProduct$Outbound = number | string;
-
-/** @internal */
-export const QuantityOfTheProduct$outboundSchema: z.ZodType<
-  QuantityOfTheProduct$Outbound,
-  z.ZodTypeDef,
-  QuantityOfTheProduct
-> = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace QuantityOfTheProduct$ {
-  /** @deprecated use `QuantityOfTheProduct$inboundSchema` instead. */
-  export const inboundSchema = QuantityOfTheProduct$inboundSchema;
-  /** @deprecated use `QuantityOfTheProduct$outboundSchema` instead. */
-  export const outboundSchema = QuantityOfTheProduct$outboundSchema;
-  /** @deprecated use `QuantityOfTheProduct$Outbound` instead. */
-  export type Outbound = QuantityOfTheProduct$Outbound;
-}
-
-export function quantityOfTheProductToJSON(
-  quantityOfTheProduct: QuantityOfTheProduct,
-): string {
-  return JSON.stringify(
-    QuantityOfTheProduct$outboundSchema.parse(quantityOfTheProduct),
-  );
-}
-
-export function quantityOfTheProductFromJSON(
-  jsonString: string,
-): SafeParseResult<QuantityOfTheProduct, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => QuantityOfTheProduct$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'QuantityOfTheProduct' from JSON`,
-  );
-}
-
-/** @internal */
-export const TotalAmountOfThisTransactionItemAfterDiscounts$inboundSchema:
-  z.ZodType<
-    TotalAmountOfThisTransactionItemAfterDiscounts,
-    z.ZodTypeDef,
-    unknown
-  > = z.union([z.number(), z.string()]);
-
-/** @internal */
-export type TotalAmountOfThisTransactionItemAfterDiscounts$Outbound =
-  | number
-  | string;
-
-/** @internal */
-export const TotalAmountOfThisTransactionItemAfterDiscounts$outboundSchema:
-  z.ZodType<
-    TotalAmountOfThisTransactionItemAfterDiscounts$Outbound,
-    z.ZodTypeDef,
-    TotalAmountOfThisTransactionItemAfterDiscounts
-  > = z.union([z.number(), z.string()]);
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace TotalAmountOfThisTransactionItemAfterDiscounts$ {
-  /** @deprecated use `TotalAmountOfThisTransactionItemAfterDiscounts$inboundSchema` instead. */
-  export const inboundSchema =
-    TotalAmountOfThisTransactionItemAfterDiscounts$inboundSchema;
-  /** @deprecated use `TotalAmountOfThisTransactionItemAfterDiscounts$outboundSchema` instead. */
-  export const outboundSchema =
-    TotalAmountOfThisTransactionItemAfterDiscounts$outboundSchema;
-  /** @deprecated use `TotalAmountOfThisTransactionItemAfterDiscounts$Outbound` instead. */
-  export type Outbound =
-    TotalAmountOfThisTransactionItemAfterDiscounts$Outbound;
-}
-
-export function totalAmountOfThisTransactionItemAfterDiscountsToJSON(
-  totalAmountOfThisTransactionItemAfterDiscounts:
-    TotalAmountOfThisTransactionItemAfterDiscounts,
-): string {
-  return JSON.stringify(
-    TotalAmountOfThisTransactionItemAfterDiscounts$outboundSchema.parse(
-      totalAmountOfThisTransactionItemAfterDiscounts,
-    ),
-  );
-}
-
-export function totalAmountOfThisTransactionItemAfterDiscountsFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  TotalAmountOfThisTransactionItemAfterDiscounts,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      TotalAmountOfThisTransactionItemAfterDiscounts$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'TotalAmountOfThisTransactionItemAfterDiscounts' from JSON`,
-  );
-}
-
-/** @internal */
 export const TransactionItemEstimateBase$inboundSchema: z.ZodType<
   TransactionItemEstimateBase,
   z.ZodTypeDef,
   unknown
 > = z.object({
-  external_id: z.nullable(z.string()).optional(),
+  external_id: z.string().optional(),
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.nullable(z.string()).optional(),
-  external_product_id: z.nullable(z.string()).optional(),
-  product_name: z.nullable(z.string()).optional(),
-  product_description: z.nullable(z.string()).optional(),
-  product_source: z.nullable(SourceEnum$inboundSchema).optional(),
-  product_subcategory: z.nullable(ProductSubCategoryEnum$inboundSchema)
-    .optional(),
-  product_category: z.nullable(ProductCategoryEnum$inboundSchema).optional(),
-  quantity: z.union([z.number(), z.string()]).optional(),
-  amount: z.union([z.number(), z.string()]),
+  description: z.string().optional(),
+  external_product_id: z.string().optional(),
+  product_name: z.string().optional(),
+  product_description: z.string().optional(),
+  product_source: SourceEnum$inboundSchema.optional(),
+  product_subcategory: ProductSubCategoryEnum$inboundSchema.optional(),
+  product_category: ProductCategoryEnum$inboundSchema.optional(),
+  quantity: z.number().default(1.0),
+  amount: z.number(),
   exempt: z.boolean().default(false),
 }).transform((v) => {
   return remap$(v, {
@@ -235,17 +100,17 @@ export const TransactionItemEstimateBase$inboundSchema: z.ZodType<
 
 /** @internal */
 export type TransactionItemEstimateBase$Outbound = {
-  external_id?: string | null | undefined;
+  external_id?: string | undefined;
   date: string;
-  description?: string | null | undefined;
-  external_product_id?: string | null | undefined;
-  product_name?: string | null | undefined;
-  product_description?: string | null | undefined;
-  product_source?: string | null | undefined;
-  product_subcategory?: string | null | undefined;
-  product_category?: string | null | undefined;
-  quantity?: number | string | undefined;
-  amount: number | string;
+  description?: string | undefined;
+  external_product_id?: string | undefined;
+  product_name?: string | undefined;
+  product_description?: string | undefined;
+  product_source?: string | undefined;
+  product_subcategory?: string | undefined;
+  product_category?: string | undefined;
+  quantity: number;
+  amount: number;
   exempt: boolean;
 };
 
@@ -255,18 +120,17 @@ export const TransactionItemEstimateBase$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   TransactionItemEstimateBase
 > = z.object({
-  externalId: z.nullable(z.string()).optional(),
+  externalId: z.string().optional(),
   date: z.date().transform(v => v.toISOString()),
-  description: z.nullable(z.string()).optional(),
-  externalProductId: z.nullable(z.string()).optional(),
-  productName: z.nullable(z.string()).optional(),
-  productDescription: z.nullable(z.string()).optional(),
-  productSource: z.nullable(SourceEnum$outboundSchema).optional(),
-  productSubcategory: z.nullable(ProductSubCategoryEnum$outboundSchema)
-    .optional(),
-  productCategory: z.nullable(ProductCategoryEnum$outboundSchema).optional(),
-  quantity: z.union([z.number(), z.string()]).optional(),
-  amount: z.union([z.number(), z.string()]),
+  description: z.string().optional(),
+  externalProductId: z.string().optional(),
+  productName: z.string().optional(),
+  productDescription: z.string().optional(),
+  productSource: SourceEnum$outboundSchema.optional(),
+  productSubcategory: ProductSubCategoryEnum$outboundSchema.optional(),
+  productCategory: ProductCategoryEnum$outboundSchema.optional(),
+  quantity: z.number().default(1.0),
+  amount: z.number(),
   exempt: z.boolean().default(false),
 }).transform((v) => {
   return remap$(v, {

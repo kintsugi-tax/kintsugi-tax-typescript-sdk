@@ -8,102 +8,12 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
-export type GetCustomerByIdV1CustomersCustomerIdGetSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
-};
-
 export type GetCustomerByIdV1CustomersCustomerIdGetRequest = {
   /**
    * Unique identifier of the customer
    */
   customerId: string;
-  /**
-   * The unique identifier for the organization making the request
-   */
-  xOrganizationId: string | null;
 };
-
-/** @internal */
-export const GetCustomerByIdV1CustomersCustomerIdGetSecurity$inboundSchema:
-  z.ZodType<
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type GetCustomerByIdV1CustomersCustomerIdGetSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
-};
-
-/** @internal */
-export const GetCustomerByIdV1CustomersCustomerIdGetSecurity$outboundSchema:
-  z.ZodType<
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity$Outbound,
-    z.ZodTypeDef,
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace GetCustomerByIdV1CustomersCustomerIdGetSecurity$ {
-  /** @deprecated use `GetCustomerByIdV1CustomersCustomerIdGetSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity$inboundSchema;
-  /** @deprecated use `GetCustomerByIdV1CustomersCustomerIdGetSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity$outboundSchema;
-  /** @deprecated use `GetCustomerByIdV1CustomersCustomerIdGetSecurity$Outbound` instead. */
-  export type Outbound =
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity$Outbound;
-}
-
-export function getCustomerByIdV1CustomersCustomerIdGetSecurityToJSON(
-  getCustomerByIdV1CustomersCustomerIdGetSecurity:
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity,
-): string {
-  return JSON.stringify(
-    GetCustomerByIdV1CustomersCustomerIdGetSecurity$outboundSchema.parse(
-      getCustomerByIdV1CustomersCustomerIdGetSecurity,
-    ),
-  );
-}
-
-export function getCustomerByIdV1CustomersCustomerIdGetSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  GetCustomerByIdV1CustomersCustomerIdGetSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      GetCustomerByIdV1CustomersCustomerIdGetSecurity$inboundSchema.parse(
-        JSON.parse(x),
-      ),
-    `Failed to parse 'GetCustomerByIdV1CustomersCustomerIdGetSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const GetCustomerByIdV1CustomersCustomerIdGetRequest$inboundSchema:
@@ -113,18 +23,15 @@ export const GetCustomerByIdV1CustomersCustomerIdGetRequest$inboundSchema:
     unknown
   > = z.object({
     customer_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       "customer_id": "customerId",
-      "x-organization-id": "xOrganizationId",
     });
   });
 
 /** @internal */
 export type GetCustomerByIdV1CustomersCustomerIdGetRequest$Outbound = {
   customer_id: string;
-  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -135,11 +42,9 @@ export const GetCustomerByIdV1CustomersCustomerIdGetRequest$outboundSchema:
     GetCustomerByIdV1CustomersCustomerIdGetRequest
   > = z.object({
     customerId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
   }).transform((v) => {
     return remap$(v, {
       customerId: "customer_id",
-      xOrganizationId: "x-organization-id",
     });
   });
 

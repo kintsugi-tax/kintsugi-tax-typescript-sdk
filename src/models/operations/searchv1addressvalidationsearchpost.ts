@@ -9,8 +9,7 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
 export type SearchV1AddressValidationSearchPostSecurity = {
-  apiKeyHeader?: string | undefined;
-  httpBearer?: string | undefined;
+  apiKeyHeader: string;
 };
 
 /** @internal */
@@ -20,19 +19,16 @@ export const SearchV1AddressValidationSearchPostSecurity$inboundSchema:
     z.ZodTypeDef,
     unknown
   > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
+    APIKeyHeader: z.string(),
   }).transform((v) => {
     return remap$(v, {
       "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
     });
   });
 
 /** @internal */
 export type SearchV1AddressValidationSearchPostSecurity$Outbound = {
-  APIKeyHeader?: string | undefined;
-  HTTPBearer?: string | undefined;
+  APIKeyHeader: string;
 };
 
 /** @internal */
@@ -42,12 +38,10 @@ export const SearchV1AddressValidationSearchPostSecurity$outboundSchema:
     z.ZodTypeDef,
     SearchV1AddressValidationSearchPostSecurity
   > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
+    apiKeyHeader: z.string(),
   }).transform((v) => {
     return remap$(v, {
       apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
     });
   });
 

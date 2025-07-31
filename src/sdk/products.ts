@@ -20,13 +20,11 @@ export class Products extends ClientSDK {
    * Retrieve a paginated list of products based on filters and search query.
    */
   async list(
-    security: operations.GetProductsV1ProductsGetSecurity,
-    request: operations.GetProductsV1ProductsGetRequest,
+    request?: operations.GetProductsV1ProductsGetRequest | undefined,
     options?: RequestOptions,
   ): Promise<models.PageProductRead> {
     return unwrapAsync(productsList(
       this,
-      security,
       request,
       options,
     ));
@@ -41,13 +39,11 @@ export class Products extends ClientSDK {
    *     subcategory, and tax exemption status, etc.
    */
   async create(
-    security: operations.CreateProductV1ProductsPostSecurity,
-    request: operations.CreateProductV1ProductsPostRequest,
+    request: models.ProductCreateManual,
     options?: RequestOptions,
   ): Promise<models.ProductRead> {
     return unwrapAsync(productsCreate(
       this,
-      security,
       request,
       options,
     ));
@@ -62,13 +58,11 @@ export class Products extends ClientSDK {
    *     of a product, including its attributes, status, and categorization.
    */
   async get(
-    security: operations.GetProductByIdV1ProductsProductIdGetSecurity,
     request: operations.GetProductByIdV1ProductsProductIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.ProductRead> {
     return unwrapAsync(productsGet(
       this,
-      security,
       request,
       options,
     ));
@@ -82,13 +76,11 @@ export class Products extends ClientSDK {
    *     an existing product identified by its unique product_id
    */
   async update(
-    security: operations.UpdateProductV1ProductsProductIdPutSecurity,
     request: operations.UpdateProductV1ProductsProductIdPutRequest,
     options?: RequestOptions,
   ): Promise<models.ProductRead> {
     return unwrapAsync(productsUpdate(
       this,
-      security,
       request,
       options,
     ));
@@ -103,14 +95,10 @@ export class Products extends ClientSDK {
    *     appropriate categories for their products.
    */
   async listCategories(
-    security: operations.GetProductCategoriesV1ProductsCategoriesGetSecurity,
-    request: operations.GetProductCategoriesV1ProductsCategoriesGetRequest,
     options?: RequestOptions,
   ): Promise<Array<models.ProductCategories>> {
     return unwrapAsync(productsListCategories(
       this,
-      security,
-      request,
       options,
     ));
   }

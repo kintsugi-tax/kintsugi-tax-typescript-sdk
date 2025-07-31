@@ -9,107 +9,15 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
-export type UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity =
-  {
-    apiKeyHeader?: string | undefined;
-    httpBearer?: string | undefined;
-  };
-
 export type UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest =
   {
     /**
      * The unique identifier for the exemption to which the attachment will be associated.
      */
     exemptionId: string;
-    /**
-     * The unique identifier for the organization making the request
-     */
-    xOrganizationId: string | null;
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:
       models.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
   };
-
-/** @internal */
-export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$inboundSchema:
-  z.ZodType<
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity,
-    z.ZodTypeDef,
-    unknown
-  > = z.object({
-    APIKeyHeader: z.string().optional(),
-    HTTPBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "APIKeyHeader": "apiKeyHeader",
-      "HTTPBearer": "httpBearer",
-    });
-  });
-
-/** @internal */
-export type UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$Outbound =
-  {
-    APIKeyHeader?: string | undefined;
-    HTTPBearer?: string | undefined;
-  };
-
-/** @internal */
-export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$outboundSchema:
-  z.ZodType<
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$Outbound,
-    z.ZodTypeDef,
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity
-  > = z.object({
-    apiKeyHeader: z.string().optional(),
-    httpBearer: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      apiKeyHeader: "APIKeyHeader",
-      httpBearer: "HTTPBearer",
-    });
-  });
-
-/**
- * @internal
- * @deprecated This namespace will be removed in future versions. Use schemas and types that are exported directly from this module.
- */
-export namespace UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$ {
-  /** @deprecated use `UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$inboundSchema` instead. */
-  export const inboundSchema =
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$inboundSchema;
-  /** @deprecated use `UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$outboundSchema` instead. */
-  export const outboundSchema =
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$outboundSchema;
-  /** @deprecated use `UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$Outbound` instead. */
-  export type Outbound =
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$Outbound;
-}
-
-export function uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurityToJSON(
-  uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity:
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity,
-): string {
-  return JSON.stringify(
-    UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$outboundSchema
-      .parse(
-        uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity,
-      ),
-  );
-}
-
-export function uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurityFromJSON(
-  jsonString: string,
-): SafeParseResult<
-  UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity,
-  SDKValidationError
-> {
-  return safeParse(
-    jsonString,
-    (x) =>
-      UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity$inboundSchema
-        .parse(JSON.parse(x)),
-    `Failed to parse 'UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity' from JSON`,
-  );
-}
 
 /** @internal */
 export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest$inboundSchema:
@@ -119,14 +27,12 @@ export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     unknown
   > = z.object({
     exemption_id: z.string(),
-    "x-organization-id": z.nullable(z.string()),
     Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post:
       models
         .BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$inboundSchema,
   }).transform((v) => {
     return remap$(v, {
       "exemption_id": "exemptionId",
-      "x-organization-id": "xOrganizationId",
       "Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post":
         "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost",
     });
@@ -136,7 +42,6 @@ export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
 export type UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest$Outbound =
   {
     exemption_id: string;
-    "x-organization-id": string | null;
     Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post:
       models.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$Outbound;
   };
@@ -149,14 +54,12 @@ export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest
   > = z.object({
     exemptionId: z.string(),
-    xOrganizationId: z.nullable(z.string()),
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:
       models
         .BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$outboundSchema,
   }).transform((v) => {
     return remap$(v, {
       exemptionId: "exemption_id",
-      xOrganizationId: "x-organization-id",
       bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:
         "Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post",
     });

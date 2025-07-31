@@ -20,13 +20,11 @@ export class Exemptions extends ClientSDK {
    * Retrieve a list of exemptions based on filters.
    */
   async list(
-    security: operations.GetExemptionsV1ExemptionsGetSecurity,
-    request: operations.GetExemptionsV1ExemptionsGetRequest,
+    request?: operations.GetExemptionsV1ExemptionsGetRequest | undefined,
     options?: RequestOptions,
   ): Promise<models.FastapiPaginationDefaultPageExemptionRead2> {
     return unwrapAsync(exemptionsList(
       this,
-      security,
       request,
       options,
     ));
@@ -41,13 +39,11 @@ export class Exemptions extends ClientSDK {
    *     Country, State, validity dates, etc.
    */
   async create(
-    security: operations.CreateExemptionV1ExemptionsPostSecurity,
-    request: operations.CreateExemptionV1ExemptionsPostRequest,
+    request: models.ExemptionCreate,
     options?: RequestOptions,
   ): Promise<models.BackendSrcExemptionsSerializersExemptionRead> {
     return unwrapAsync(exemptionsCreate(
       this,
-      security,
       request,
       options,
     ));
@@ -63,13 +59,11 @@ export class Exemptions extends ClientSDK {
    *     customer, organisation id, status, etc.
    */
   async get(
-    security: operations.GetExemptionByIdV1ExemptionsExemptionIdGetSecurity,
     request: operations.GetExemptionByIdV1ExemptionsExemptionIdGetRequest,
     options?: RequestOptions,
   ): Promise<models.BackendSrcExemptionsModelsExemptionRead> {
     return unwrapAsync(exemptionsGet(
       this,
-      security,
       request,
       options,
     ));
@@ -85,15 +79,12 @@ export class Exemptions extends ClientSDK {
    *     to ensure compliance and facilitate verification.
    */
   async uploadCertificate(
-    security:
-      operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity,
     request:
       operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest,
     options?: RequestOptions,
   ): Promise<models.AttachmentRead> {
     return unwrapAsync(exemptionsUploadCertificate(
       this,
-      security,
       request,
       options,
     ));
@@ -109,15 +100,12 @@ export class Exemptions extends ClientSDK {
    *     like exemption certificates uploaded for a particular exemption record.
    */
   async getAttachments(
-    security:
-      operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity,
     request:
       operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest,
     options?: RequestOptions,
   ): Promise<Array<models.AttachmentRead>> {
     return unwrapAsync(exemptionsGetAttachments(
       this,
-      security,
       request,
       options,
     ));
