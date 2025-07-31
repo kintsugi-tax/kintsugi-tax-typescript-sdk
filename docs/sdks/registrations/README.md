@@ -5,6 +5,7 @@
 
 ### Available Operations
 
+<<<<<<< HEAD
 * [get](#get) - Get Registrations
 * [create](#create) - Create Registration
 * [getById](#getbyid) - Get Registration By Id
@@ -12,6 +13,15 @@
 * [deregister](#deregister) - Deregister Registration
 
 ## get
+=======
+* [getRegistrationsV1RegistrationsGet](#getregistrationsv1registrationsget) - Get Registrations
+* [createRegistrationV1RegistrationsPost](#createregistrationv1registrationspost) - Create Registration
+* [getRegistrationByIdV1RegistrationsRegistrationIdGet](#getregistrationbyidv1registrationsregistrationidget) - Get Registration By Id
+* [updateRegistrationV1RegistrationsRegistrationIdPut](#updateregistrationv1registrationsregistrationidput) - Update Registration
+* [deregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost](#deregisterregistrationv1registrationsregistrationidderegisterpost) - Deregister Registration
+
+## getRegistrationsV1RegistrationsGet
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Registrations API retrieves a
     paginated list of registrations.
@@ -32,7 +42,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.registrations.get({});
+=======
+  const result = await sdk.registrations.getRegistrationsV1RegistrationsGet({});
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
   console.log(result);
 }
@@ -46,7 +60,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { registrationsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsGet.js";
+=======
+import { registrationsGetRegistrationsV1RegistrationsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsGetRegistrationsV1RegistrationsGet.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -58,12 +76,20 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await registrationsGet(sdk, {});
+=======
+  const res = await registrationsGetRegistrationsV1RegistrationsGet(sdk, {});
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("registrationsGet failed:", res.error);
+=======
+    console.log("registrationsGetRegistrationsV1RegistrationsGet failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -92,7 +118,11 @@ run();
 | errors.ErrorResponse                                           | 500                                                            | application/json                                               |
 | errors.SDKDefaultError                                         | 4XX, 5XX                                                       | \*/\*                                                          |
 
+<<<<<<< HEAD
 ## create
+=======
+## createRegistrationV1RegistrationsPost
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Create Registration API allows users to create a new registration
     for tracking and managing tax filings efficiently across multiple jurisdictions.
@@ -111,7 +141,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.registrations.create({
+=======
+  const result = await sdk.registrations.createRegistrationV1RegistrationsPost({
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationImportType: "OSS",
     imported: false,
   });
@@ -128,7 +162,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { registrationsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsCreate.js";
+=======
+import { registrationsCreateRegistrationV1RegistrationsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsCreateRegistrationV1RegistrationsPost.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -140,7 +178,11 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await registrationsCreate(sdk, {
+=======
+  const res = await registrationsCreateRegistrationV1RegistrationsPost(sdk, {
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationImportType: "OSS",
     imported: false,
   });
@@ -148,7 +190,11 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("registrationsCreate failed:", res.error);
+=======
+    console.log("registrationsCreateRegistrationV1RegistrationsPost failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -177,7 +223,11 @@ run();
 | errors.ErrorResponse                                           | 500                                                            | application/json                                               |
 | errors.SDKDefaultError                                         | 4XX, 5XX                                                       | \*/\*                                                          |
 
+<<<<<<< HEAD
 ## getById
+=======
+## getRegistrationByIdV1RegistrationsRegistrationIdGet
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Registration By ID API retrieves a single registration record
     based on its unique identifier.
@@ -196,7 +246,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.registrations.getById({
+=======
+  const result = await sdk.registrations.getRegistrationByIdV1RegistrationsRegistrationIdGet({
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "<id>",
   });
 
@@ -212,7 +266,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { registrationsGetById } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsGetById.js";
+=======
+import { registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -224,14 +282,22 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await registrationsGetById(sdk, {
+=======
+  const res = await registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet(sdk, {
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("registrationsGetById failed:", res.error);
+=======
+    console.log("registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -260,7 +326,11 @@ run();
 | errors.ErrorResponse                                           | 500                                                            | application/json                                               |
 | errors.SDKDefaultError                                         | 4XX, 5XX                                                       | \*/\*                                                          |
 
+<<<<<<< HEAD
 ## update
+=======
+## updateRegistrationV1RegistrationsRegistrationIdPut
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Update Registration API allows you to modify
     an existing registration using its unique registration_id.
@@ -279,7 +349,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.registrations.update({
+=======
+  const result = await sdk.registrations.updateRegistrationV1RegistrationsRegistrationIdPut({
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "<id>",
     registrationUpdateAPI: {
       registrationDate: "2025-03-01",
@@ -310,7 +384,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { registrationsUpdate } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsUpdate.js";
+=======
+import { registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -322,7 +400,11 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await registrationsUpdate(sdk, {
+=======
+  const res = await registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut(sdk, {
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "<id>",
     registrationUpdateAPI: {
       registrationDate: "2025-03-01",
@@ -344,7 +426,11 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("registrationsUpdate failed:", res.error);
+=======
+    console.log("registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -373,7 +459,11 @@ run();
 | errors.ErrorResponse                                           | 500                                                            | application/json                                               |
 | errors.SDKDefaultError                                         | 4XX, 5XX                                                       | \*/\*                                                          |
 
+<<<<<<< HEAD
 ## deregister
+=======
+## deregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 Deregister an existing registration.
 
@@ -391,7 +481,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.registrations.deregister({
+=======
+  const result = await sdk.registrations.deregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost({
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "regs_123456",
   });
 
@@ -407,7 +501,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { registrationsDeregister } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsDeregister.js";
+=======
+import { registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -419,14 +517,22 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await registrationsDeregister(sdk, {
+=======
+  const res = await registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost(sdk, {
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "regs_123456",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("registrationsDeregister failed:", res.error);
+=======
+    console.log("registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 

@@ -5,6 +5,7 @@
 
 ### Available Operations
 
+<<<<<<< HEAD
 * [get](#get) - Get Transactions
 * [create](#create) - Create Transaction
 * [getByExternalId](#getbyexternalid) - Get Transaction By External Id
@@ -15,6 +16,18 @@
 * [updateCreditNote](#updatecreditnote) - Update Credit Note By Transaction Id
 
 ## get
+=======
+* [getTransactionsV1TransactionsGet](#gettransactionsv1transactionsget) - Get Transactions
+* [createTransactionV1TransactionsPost](#createtransactionv1transactionspost) - Create Transaction
+* [getTransactionByExternalIdV1TransactionsExternalExternalIdGet](#gettransactionbyexternalidv1transactionsexternalexternalidget) - Get Transaction By External Id
+* [updateTransactionV1TransactionsTransactionIdPut](#updatetransactionv1transactionstransactionidput) - Update Transaction
+* [getTransactionByIdV1TransactionsTransactionIdGet](#gettransactionbyidv1transactionstransactionidget) - Get Transaction By Id
+* [getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet](#gettransactionsbyfilingidv1transactionsfilingsfilingidget) - Get Transactions By Filing Id
+* [postCreateCreditNoteByTransactionId](#postcreatecreditnotebytransactionid) - Create Credit Note By Transaction Id
+* [putUpdateCreditNoteByTransactionId](#putupdatecreditnotebytransactionid) - Update Credit Note By Transaction Id
+
+## getTransactionsV1TransactionsGet
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Transactions API retrieves a list of transactions with
     optional filtering, sorting, and pagination.
@@ -33,7 +46,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.transactions.get({});
+=======
+  const result = await sdk.transactions.getTransactionsV1TransactionsGet({});
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
   console.log(result);
 }
@@ -47,7 +64,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { transactionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGet.js";
+=======
+import { transactionsGetTransactionsV1TransactionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetTransactionsV1TransactionsGet.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -59,12 +80,20 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await transactionsGet(sdk, {});
+=======
+  const res = await transactionsGetTransactionsV1TransactionsGet(sdk, {});
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("transactionsGet failed:", res.error);
+=======
+    console.log("transactionsGetTransactionsV1TransactionsGet failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -93,7 +122,7 @@ run();
 | errors.ErrorResponse                                          | 500                                                           | application/json                                              |
 | errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
 
-## create
+## createTransactionV1TransactionsPost
 
 Create a transaction.
 
@@ -111,7 +140,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.create({
+  const result = await sdk.transactions.createTransactionV1TransactionsPost({
     organizationId: "orgn_YourOrgIdHere",
     externalId: "YourUniqueOrder123",
     date: new Date("2024-01-15T14:30:00Z"),
@@ -157,7 +186,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+import { transactionsCreateTransactionV1TransactionsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreateTransactionV1TransactionsPost.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -169,7 +198,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsCreate(sdk, {
+  const res = await transactionsCreateTransactionV1TransactionsPost(sdk, {
     organizationId: "orgn_YourOrgIdHere",
     externalId: "YourUniqueOrder123",
     date: new Date("2024-01-15T14:30:00Z"),
@@ -206,7 +235,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsCreate failed:", res.error);
+    console.log("transactionsCreateTransactionV1TransactionsPost failed:", res.error);
   }
 }
 
@@ -235,7 +264,7 @@ run();
 | errors.ErrorResponse                                          | 500                                                           | application/json                                              |
 | errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
 
-## getByExternalId
+## getTransactionByExternalIdV1TransactionsExternalExternalIdGet
 
 Retrieves a specific transaction based on its external ID.
     This allows users to fetch transaction details using an identifier from an external system.
@@ -254,7 +283,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.getByExternalId({
+  const result = await sdk.transactions.getTransactionByExternalIdV1TransactionsExternalExternalIdGet({
     externalId: "<id>",
   });
 
@@ -270,7 +299,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsGetByExternalId } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetByExternalId.js";
+import { transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -282,14 +311,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsGetByExternalId(sdk, {
+  const res = await transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet(sdk, {
     externalId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsGetByExternalId failed:", res.error);
+    console.log("transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet failed:", res.error);
   }
 }
 
@@ -318,7 +347,7 @@ run();
 | errors.ErrorResponse                                          | 500                                                           | application/json                                              |
 | errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
 
-## update
+## updateTransactionV1TransactionsTransactionIdPut
 
 Update a specific transaction by its ID.
 
@@ -336,7 +365,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.update({
+  const result = await sdk.transactions.updateTransactionV1TransactionsTransactionIdPut({
     transactionId: "<id>",
     transactionUpdate: {
       organizationId: "orgn_argaLQwMy2fJc",
@@ -370,7 +399,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsUpdate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsUpdate.js";
+import { transactionsUpdateTransactionV1TransactionsTransactionIdPut } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsUpdateTransactionV1TransactionsTransactionIdPut.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -382,7 +411,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsUpdate(sdk, {
+  const res = await transactionsUpdateTransactionV1TransactionsTransactionIdPut(sdk, {
     transactionId: "<id>",
     transactionUpdate: {
       organizationId: "orgn_argaLQwMy2fJc",
@@ -407,7 +436,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsUpdate failed:", res.error);
+    console.log("transactionsUpdateTransactionV1TransactionsTransactionIdPut failed:", res.error);
   }
 }
 
@@ -434,7 +463,7 @@ run();
 | errors.HTTPValidationError | 422                        | application/json           |
 | errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
 
-## getById
+## getTransactionByIdV1TransactionsTransactionIdGet
 
 The Get Transaction By Id API retrieves detailed information
     about a specific transaction by providing its unique transaction ID.
@@ -453,7 +482,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.getById({
+  const result = await sdk.transactions.getTransactionByIdV1TransactionsTransactionIdGet({
     transactionId: "<id>",
   });
 
@@ -469,7 +498,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsGetById } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetById.js";
+import { transactionsGetTransactionByIdV1TransactionsTransactionIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetTransactionByIdV1TransactionsTransactionIdGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -481,14 +510,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsGetById(sdk, {
+  const res = await transactionsGetTransactionByIdV1TransactionsTransactionIdGet(sdk, {
     transactionId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsGetById failed:", res.error);
+    console.log("transactionsGetTransactionByIdV1TransactionsTransactionIdGet failed:", res.error);
   }
 }
 
@@ -517,7 +546,7 @@ run();
 | errors.ErrorResponse                                          | 500                                                           | application/json                                              |
 | errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
 
-## getByFilingId
+## getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet
 
 Retrieve transactions by filing ID.
 
@@ -535,7 +564,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.getByFilingId({
+  const result = await sdk.transactions.getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet({
     filingId: "<id>",
   });
 
@@ -551,7 +580,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsGetByFilingId } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetByFilingId.js";
+import { transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -563,14 +592,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsGetByFilingId(sdk, {
+  const res = await transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet(sdk, {
     filingId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsGetByFilingId failed:", res.error);
+    console.log("transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet failed:", res.error);
   }
 }
 
@@ -599,7 +628,7 @@ run();
 | errors.ErrorResponse                                          | 500                                                           | application/json                                              |
 | errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
 
-## createCreditNote
+## postCreateCreditNoteByTransactionId
 
 Create a new credit note for a specific transaction.
 
@@ -617,7 +646,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.createCreditNote({
+  const result = await sdk.transactions.postCreateCreditNoteByTransactionId({
     originalTransactionId: "<id>",
     creditNoteCreate: {
       externalId: "CN-12345",
@@ -650,7 +679,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsCreateCreditNote } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreateCreditNote.js";
+import { transactionsPOSTCreateCreditNoteByTransactionId } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsPOSTCreateCreditNoteByTransactionId.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -662,7 +691,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsCreateCreditNote(sdk, {
+  const res = await transactionsPOSTCreateCreditNoteByTransactionId(sdk, {
     originalTransactionId: "<id>",
     creditNoteCreate: {
       externalId: "CN-12345",
@@ -686,7 +715,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsCreateCreditNote failed:", res.error);
+    console.log("transactionsPOSTCreateCreditNoteByTransactionId failed:", res.error);
   }
 }
 
@@ -713,7 +742,7 @@ run();
 | errors.HTTPValidationError | 422                        | application/json           |
 | errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
 
-## updateCreditNote
+## putUpdateCreditNoteByTransactionId
 
 Update an existing credit note for a specific transaction.
 
@@ -731,7 +760,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.updateCreditNote({
+  const result = await sdk.transactions.putUpdateCreditNoteByTransactionId({
     originalTransactionId: "<id>",
     creditNoteId: "<id>",
     creditNoteCreate: {
@@ -764,7 +793,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsUpdateCreditNote } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsUpdateCreditNote.js";
+import { transactionsPUTUpdateCreditNoteByTransactionId } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsPUTUpdateCreditNoteByTransactionId.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -776,7 +805,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsUpdateCreditNote(sdk, {
+  const res = await transactionsPUTUpdateCreditNoteByTransactionId(sdk, {
     originalTransactionId: "<id>",
     creditNoteId: "<id>",
     creditNoteCreate: {
@@ -800,7 +829,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsUpdateCreditNote failed:", res.error);
+    console.log("transactionsPUTUpdateCreditNoteByTransactionId failed:", res.error);
   }
 }
 

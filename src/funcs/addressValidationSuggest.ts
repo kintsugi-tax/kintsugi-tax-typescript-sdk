@@ -36,7 +36,11 @@ import { Result } from "../types/fp.js";
  *     This improves accuracy, increases speed, reduces errors,
  *     and streamlines the data entry process.
  */
+<<<<<<<< HEAD:src/funcs/addressValidationSuggest.ts
 export function addressValidationSuggest(
+========
+export function addressValidationSuggestionsV1AddressValidationSuggestionsPost(
+>>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7:src/funcs/addressValidationSuggestionsV1AddressValidationSuggestionsPost.ts
   client: SDKCore,
   request: models.ValidationAddress,
   options?: RequestOptions,

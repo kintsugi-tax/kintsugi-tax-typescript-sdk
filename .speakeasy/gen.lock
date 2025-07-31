@@ -1,12 +1,21 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
+<<<<<<< HEAD
   docChecksum: 17abe8cd77d161f2228d8e0ec535d424
   docVersion: 1.0.0
   speakeasyVersion: 1.595.0
   generationVersion: 2.670.1
   releaseVersion: 0.7.3
   configChecksum: c802b7f4ae8498920eeb08110657c45c
+=======
+  docChecksum: 993aaaeadcd5feaf3f4253f6b8e3c101
+  docVersion: 1.0.0
+  speakeasyVersion: 1.595.0
+  generationVersion: 2.670.1
+  releaseVersion: 0.6.0
+  configChecksum: 6b84726375dac6bbe37dad72ade91cae
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -23,11 +32,9 @@ features:
     globalSecurity: 2.82.13
     globalSecurityCallbacks: 0.1.0
     globalServerURLs: 2.82.5
-    groups: 2.81.2
     mcpServer: 0.9.3
     methodArguments: 0.1.2
     methodSecurity: 2.82.6
-    nameOverrides: 2.81.2
     responseFormat: 0.2.3
     retries: 2.83.0
     sdkHooks: 0.3.0
@@ -220,11 +227,12 @@ generatedFiles:
   - eslint.config.mjs
   - examples/.env.template
   - examples/README.md
-  - examples/addressValidationSearch.example.ts
+  - examples/addressValidationSearchV1AddressValidationSearchPost.example.ts
   - examples/package.json
   - jsr.json
   - package.json
   - src/core.ts
+<<<<<<< HEAD
   - src/funcs/addressValidationSearch.ts
   - src/funcs/addressValidationSuggest.ts
   - src/funcs/customersCreate.ts
@@ -266,6 +274,49 @@ generatedFiles:
   - src/funcs/transactionsGetById.ts
   - src/funcs/transactionsUpdate.ts
   - src/funcs/transactionsUpdateCreditNote.ts
+=======
+  - src/funcs/addressValidationSearchV1AddressValidationSearchPost.ts
+  - src/funcs/addressValidationSuggestionsV1AddressValidationSuggestionsPost.ts
+  - src/funcs/customersCreateCustomerV1CustomersPost.ts
+  - src/funcs/customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.ts
+  - src/funcs/customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet.ts
+  - src/funcs/customersGetCustomerByIdV1CustomersCustomerIdGet.ts
+  - src/funcs/customersGetCustomersV1.ts
+  - src/funcs/customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.ts
+  - src/funcs/customersUpdateCustomerV1CustomersCustomerIdPut.ts
+  - src/funcs/exemptionsCreateExemptionV1ExemptionsPost.ts
+  - src/funcs/exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.ts
+  - src/funcs/exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet.ts
+  - src/funcs/exemptionsGetExemptionsV1ExemptionsGet.ts
+  - src/funcs/exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.ts
+  - src/funcs/filingsGetFilingByIdV1FilingsFilingIdGet.ts
+  - src/funcs/filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.ts
+  - src/funcs/filingsGetFilingsV1FilingsGet.ts
+  - src/funcs/nexusCreatePhysicalNexusV1NexusPhysicalNexusPost.ts
+  - src/funcs/nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.ts
+  - src/funcs/nexusGetNexusForOrgV1NexusGet.ts
+  - src/funcs/nexusGetPhysicalNexusV1NexusPhysicalNexusGet.ts
+  - src/funcs/nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.ts
+  - src/funcs/productsCreateProductV1ProductsPost.ts
+  - src/funcs/productsGetProductByIdV1ProductsProductIdGet.ts
+  - src/funcs/productsGetProductCategoriesV1ProductsCategoriesGet.ts
+  - src/funcs/productsGetProductsV1ProductsGet.ts
+  - src/funcs/productsUpdateProductV1ProductsProductIdPut.ts
+  - src/funcs/registrationsCreateRegistrationV1RegistrationsPost.ts
+  - src/funcs/registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.ts
+  - src/funcs/registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet.ts
+  - src/funcs/registrationsGetRegistrationsV1RegistrationsGet.ts
+  - src/funcs/registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut.ts
+  - src/funcs/taxEstimationEstimateTaxV1TaxEstimatePost.ts
+  - src/funcs/transactionsCreateTransactionV1TransactionsPost.ts
+  - src/funcs/transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet.ts
+  - src/funcs/transactionsGetTransactionByIdV1TransactionsTransactionIdGet.ts
+  - src/funcs/transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.ts
+  - src/funcs/transactionsGetTransactionsV1TransactionsGet.ts
+  - src/funcs/transactionsPOSTCreateCreditNoteByTransactionId.ts
+  - src/funcs/transactionsPUTUpdateCreditNoteByTransactionId.ts
+  - src/funcs/transactionsUpdateTransactionV1TransactionsTransactionIdPut.ts
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   - src/hooks/hooks.ts
   - src/hooks/index.ts
   - src/hooks/types.ts
@@ -298,6 +349,7 @@ generatedFiles:
   - src/mcp-server/server.ts
   - src/mcp-server/shared.ts
   - src/mcp-server/tools.ts
+<<<<<<< HEAD
   - src/mcp-server/tools/addressValidationSuggest.ts
   - src/mcp-server/tools/customersCreate.ts
   - src/mcp-server/tools/customersCreateTransaction.ts
@@ -338,6 +390,48 @@ generatedFiles:
   - src/mcp-server/tools/transactionsGetById.ts
   - src/mcp-server/tools/transactionsUpdate.ts
   - src/mcp-server/tools/transactionsUpdateCreditNote.ts
+=======
+  - src/mcp-server/tools/addressValidationSuggestionsV1AddressValidationSuggestionsPost.ts
+  - src/mcp-server/tools/customersCreateCustomerV1CustomersPost.ts
+  - src/mcp-server/tools/customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.ts
+  - src/mcp-server/tools/customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet.ts
+  - src/mcp-server/tools/customersGetCustomerByIdV1CustomersCustomerIdGet.ts
+  - src/mcp-server/tools/customersGetCustomersV1.ts
+  - src/mcp-server/tools/customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.ts
+  - src/mcp-server/tools/customersUpdateCustomerV1CustomersCustomerIdPut.ts
+  - src/mcp-server/tools/exemptionsCreateExemptionV1ExemptionsPost.ts
+  - src/mcp-server/tools/exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.ts
+  - src/mcp-server/tools/exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet.ts
+  - src/mcp-server/tools/exemptionsGetExemptionsV1ExemptionsGet.ts
+  - src/mcp-server/tools/exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.ts
+  - src/mcp-server/tools/filingsGetFilingByIdV1FilingsFilingIdGet.ts
+  - src/mcp-server/tools/filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.ts
+  - src/mcp-server/tools/filingsGetFilingsV1FilingsGet.ts
+  - src/mcp-server/tools/nexusCreatePhysicalNexusV1NexusPhysicalNexusPost.ts
+  - src/mcp-server/tools/nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.ts
+  - src/mcp-server/tools/nexusGetNexusForOrgV1NexusGet.ts
+  - src/mcp-server/tools/nexusGetPhysicalNexusV1NexusPhysicalNexusGet.ts
+  - src/mcp-server/tools/nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.ts
+  - src/mcp-server/tools/productsCreateProductV1ProductsPost.ts
+  - src/mcp-server/tools/productsGetProductByIdV1ProductsProductIdGet.ts
+  - src/mcp-server/tools/productsGetProductCategoriesV1ProductsCategoriesGet.ts
+  - src/mcp-server/tools/productsGetProductsV1ProductsGet.ts
+  - src/mcp-server/tools/productsUpdateProductV1ProductsProductIdPut.ts
+  - src/mcp-server/tools/registrationsCreateRegistrationV1RegistrationsPost.ts
+  - src/mcp-server/tools/registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.ts
+  - src/mcp-server/tools/registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet.ts
+  - src/mcp-server/tools/registrationsGetRegistrationsV1RegistrationsGet.ts
+  - src/mcp-server/tools/registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut.ts
+  - src/mcp-server/tools/taxEstimationEstimateTaxV1TaxEstimatePost.ts
+  - src/mcp-server/tools/transactionsCreateTransactionV1TransactionsPost.ts
+  - src/mcp-server/tools/transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet.ts
+  - src/mcp-server/tools/transactionsGetTransactionByIdV1TransactionsTransactionIdGet.ts
+  - src/mcp-server/tools/transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.ts
+  - src/mcp-server/tools/transactionsGetTransactionsV1TransactionsGet.ts
+  - src/mcp-server/tools/transactionsPOSTCreateCreditNoteByTransactionId.ts
+  - src/mcp-server/tools/transactionsPUTUpdateCreditNoteByTransactionId.ts
+  - src/mcp-server/tools/transactionsUpdateTransactionV1TransactionsTransactionIdPut.ts
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   - src/models/addressbase.ts
   - src/models/addressresponsedata.ts
   - src/models/addresssearchresponse.ts

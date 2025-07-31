@@ -5,6 +5,7 @@
 
 ### Available Operations
 
+<<<<<<< HEAD
 * [listPhysical](#listphysical) - Get Physical Nexus
 * [createPhysical](#createphysical) - Create Physical Nexus
 * [updatePhysical](#updatephysical) - Update Physical Nexus
@@ -12,6 +13,15 @@
 * [list](#list) - Get Nexus For Org
 
 ## listPhysical
+=======
+* [getPhysicalNexusV1NexusPhysicalNexusGet](#getphysicalnexusv1nexusphysicalnexusget) - Get Physical Nexus
+* [createPhysicalNexusV1NexusPhysicalNexusPost](#createphysicalnexusv1nexusphysicalnexuspost) - Create Physical Nexus
+* [updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut](#updatephysicalnexusv1nexusphysicalnexusphysicalnexusidput) - Update Physical Nexus
+* [deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete](#deletephysicalnexusv1nexusphysicalnexusphysicalnexusiddelete) - Delete Physical Nexus
+* [getNexusForOrgV1NexusGet](#getnexusfororgv1nexusget) - Get Nexus For Org
+
+## getPhysicalNexusV1NexusPhysicalNexusGet
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 Retrieve a paginated list of
     physical nexuses for a specific organization.
@@ -30,7 +40,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.nexus.listPhysical({});
+=======
+  const result = await sdk.nexus.getPhysicalNexusV1NexusPhysicalNexusGet({});
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
   console.log(result);
 }
@@ -44,7 +58,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { nexusListPhysical } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusListPhysical.js";
+=======
+import { nexusGetPhysicalNexusV1NexusPhysicalNexusGet } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusGetPhysicalNexusV1NexusPhysicalNexusGet.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -56,12 +74,20 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await nexusListPhysical(sdk, {});
+=======
+  const res = await nexusGetPhysicalNexusV1NexusPhysicalNexusGet(sdk, {});
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("nexusListPhysical failed:", res.error);
+=======
+    console.log("nexusGetPhysicalNexusV1NexusPhysicalNexusGet failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -90,7 +116,11 @@ run();
 | errors.ErrorResponse                                   | 500                                                    | application/json                                       |
 | errors.SDKDefaultError                                 | 4XX, 5XX                                               | \*/\*                                                  |
 
+<<<<<<< HEAD
 ## createPhysical
+=======
+## createPhysicalNexusV1NexusPhysicalNexusPost
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Create Physical Nexus API allows you to create a new physical
     nexus by specifying its attributes, including the location,
@@ -111,7 +141,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.nexus.createPhysical({
+=======
+  const result = await sdk.nexus.createPhysicalNexusV1NexusPhysicalNexusPost({
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     countryCode: "US",
     stateCode: "CA",
     startDate: new RFCDate("2024-01-01"),
@@ -132,7 +166,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { nexusCreatePhysical } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusCreatePhysical.js";
+=======
+import { nexusCreatePhysicalNexusV1NexusPhysicalNexusPost } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusCreatePhysicalNexusV1NexusPhysicalNexusPost.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 // Use `SDKCore` for best tree-shaking performance.
@@ -145,7 +183,11 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await nexusCreatePhysical(sdk, {
+=======
+  const res = await nexusCreatePhysicalNexusV1NexusPhysicalNexusPost(sdk, {
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     countryCode: "US",
     stateCode: "CA",
     startDate: new RFCDate("2024-01-01"),
@@ -157,7 +199,11 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("nexusCreatePhysical failed:", res.error);
+=======
+    console.log("nexusCreatePhysicalNexusV1NexusPhysicalNexusPost failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -186,7 +232,11 @@ run();
 | errors.ErrorResponse                                   | 500                                                    | application/json                                       |
 | errors.SDKDefaultError                                 | 4XX, 5XX                                               | \*/\*                                                  |
 
+<<<<<<< HEAD
 ## updatePhysical
+=======
+## updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Update Physical Nexus API allows you to modify the details of
     an existing physical nexus by its unique ID.
@@ -206,7 +256,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.nexus.updatePhysical({
+=======
+  const result = await sdk.nexus.updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut({
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     physicalNexusId: "<id>",
     physicalNexusUpdate: {
       startDate: new RFCDate("2024-01-01"),
@@ -227,7 +281,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { nexusUpdatePhysical } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusUpdatePhysical.js";
+=======
+import { nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 // Use `SDKCore` for best tree-shaking performance.
@@ -240,7 +298,11 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await nexusUpdatePhysical(sdk, {
+=======
+  const res = await nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut(sdk, {
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     physicalNexusId: "<id>",
     physicalNexusUpdate: {
       startDate: new RFCDate("2024-01-01"),
@@ -252,7 +314,11 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("nexusUpdatePhysical failed:", res.error);
+=======
+    console.log("nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -281,7 +347,11 @@ run();
 | errors.ErrorResponse                                   | 500                                                    | application/json                                       |
 | errors.SDKDefaultError                                 | 4XX, 5XX                                               | \*/\*                                                  |
 
+<<<<<<< HEAD
 ## deletePhysical
+=======
+## deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Delete Physical Nexus API allows you to remove an existing
     physical nexus by its unique ID.
@@ -300,7 +370,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.nexus.deletePhysical({
+=======
+  const result = await sdk.nexus.deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete({
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     physicalNexusId: "<id>",
   });
 
@@ -316,7 +390,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { nexusDeletePhysical } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusDeletePhysical.js";
+=======
+import { nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -328,14 +406,22 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await nexusDeletePhysical(sdk, {
+=======
+  const res = await nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete(sdk, {
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     physicalNexusId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("nexusDeletePhysical failed:", res.error);
+=======
+    console.log("nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -364,7 +450,11 @@ run();
 | errors.ErrorResponse                                   | 500                                                    | application/json                                       |
 | errors.SDKDefaultError                                 | 4XX, 5XX                                               | \*/\*                                                  |
 
+<<<<<<< HEAD
 ## list
+=======
+## getNexusForOrgV1NexusGet
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 Get a list of all nexuses for the organization.
 
@@ -382,7 +472,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.nexus.list({});
+  const result = await sdk.nexus.getNexusForOrgV1NexusGet({});
 
   console.log(result);
 }
@@ -396,7 +486,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { nexusList } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusList.js";
+import { nexusGetNexusForOrgV1NexusGet } from "@kintsugi-tax/tax-platform-sdk/funcs/nexusGetNexusForOrgV1NexusGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -408,12 +498,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await nexusList(sdk, {});
+  const res = await nexusGetNexusForOrgV1NexusGet(sdk, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("nexusList failed:", res.error);
+    console.log("nexusGetNexusForOrgV1NexusGet failed:", res.error);
   }
 }
 

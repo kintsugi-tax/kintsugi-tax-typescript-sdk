@@ -2,19 +2,34 @@ speakeasyVersion: 1.595.0
 sources:
     kintsugi-overlay:
         sourceNamespace: kintsugi-overlay
+<<<<<<< HEAD
         sourceRevisionDigest: sha256:bf7abaaa7c7706b8b8ac015e5fbb48046a10e0b156d02df87e55e715c0a35079
         sourceBlobDigest: sha256:de53091019ad704844bfc7684ba80b35d48c4afa91ad7c39edbf3c8c79b5e8aa
         tags:
             - latest
+=======
+        sourceRevisionDigest: sha256:b9a7cdc2474ed5e6f35fad54200eba152e4fb5d5188452813e706db4f4a94a5e
+        sourceBlobDigest: sha256:41781e8ea7912208224ac15909dcbc1e673548ea634a635040bb96b2d98718d8
+        tags:
+            - latest
+            - speakeasy-sdk-regen-1753995463
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
             - 1.0.0
 targets:
     typescript:
         source: kintsugi-overlay
         sourceNamespace: kintsugi-overlay
+<<<<<<< HEAD
         sourceRevisionDigest: sha256:bf7abaaa7c7706b8b8ac015e5fbb48046a10e0b156d02df87e55e715c0a35079
         sourceBlobDigest: sha256:de53091019ad704844bfc7684ba80b35d48c4afa91ad7c39edbf3c8c79b5e8aa
         codeSamplesNamespace: kintsugi-overlay-typescript-code-samples
         codeSamplesRevisionDigest: sha256:ff383010c7e3a045e2aea2a27e552888d803d8d7c663f5a53c972f4d77562843
+=======
+        sourceRevisionDigest: sha256:b9a7cdc2474ed5e6f35fad54200eba152e4fb5d5188452813e706db4f4a94a5e
+        sourceBlobDigest: sha256:41781e8ea7912208224ac15909dcbc1e673548ea634a635040bb96b2d98718d8
+        codeSamplesNamespace: kintsugi-overlay-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:0b615540daa612a9aaec9854d47b36c7b067adcd23643ebcceef88f1c5428fca
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
@@ -22,8 +37,11 @@ workflow:
         kintsugi-overlay:
             inputs:
                 - location: https://api-doc.trykintsugi.com/openapi.json
+<<<<<<< HEAD
             overlays:
                 - location: .speakeasy/speakeasy-modifications-overlay-1.yaml
+=======
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
             output: output.yaml
             registry:
                 location: registry.speakeasyapi.dev/kintsugi-ai/tax-platform/kintsugi-overlay

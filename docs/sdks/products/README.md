@@ -5,13 +5,21 @@
 
 ### Available Operations
 
+<<<<<<< HEAD
 * [list](#list) - Get Products
 * [create](#create) - Create Product
 * [get](#get) - Get Product By Id
 * [update](#update) - Update Product
 * [getCategories](#getcategories) - Get Product Categories
+=======
+* [getProductsV1ProductsGet](#getproductsv1productsget) - Get Products
+* [createProductV1ProductsPost](#createproductv1productspost) - Create Product
+* [getProductByIdV1ProductsProductIdGet](#getproductbyidv1productsproductidget) - Get Product By Id
+* [updateProductV1ProductsProductIdPut](#updateproductv1productsproductidput) - Update Product
+* [getProductCategoriesV1ProductsCategoriesGet](#getproductcategoriesv1productscategoriesget) - Get Product Categories
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
-## list
+## getProductsV1ProductsGet
 
 Retrieve a paginated list of products based on filters and search query.
 
@@ -29,7 +37,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.products.list({});
+  const result = await sdk.products.getProductsV1ProductsGet({});
 
   console.log(result);
 }
@@ -43,7 +51,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsList } from "@kintsugi-tax/tax-platform-sdk/funcs/productsList.js";
+import { productsGetProductsV1ProductsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetProductsV1ProductsGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -55,12 +63,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await productsList(sdk, {});
+  const res = await productsGetProductsV1ProductsGet(sdk, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("productsList failed:", res.error);
+    console.log("productsGetProductsV1ProductsGet failed:", res.error);
   }
 }
 
@@ -89,7 +97,7 @@ run();
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
 
-## create
+## createProductV1ProductsPost
 
 The Create Product API allows users to manually create a new product
     in the system. This includes specifying product details such as category,
@@ -109,7 +117,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.products.create({
+  const result = await sdk.products.createProductV1ProductsPost({
     externalId: "prod_001",
     name: "Sample Product",
     description: "A description of the product",
@@ -132,7 +140,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/productsCreate.js";
+import { productsCreateProductV1ProductsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/productsCreateProductV1ProductsPost.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -144,7 +152,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await productsCreate(sdk, {
+  const res = await productsCreateProductV1ProductsPost(sdk, {
     externalId: "prod_001",
     name: "Sample Product",
     description: "A description of the product",
@@ -158,7 +166,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("productsCreate failed:", res.error);
+    console.log("productsCreateProductV1ProductsPost failed:", res.error);
   }
 }
 
@@ -187,7 +195,7 @@ run();
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
 
-## get
+## getProductByIdV1ProductsProductIdGet
 
 The Get Product By ID API retrieves detailed information about
     a single product by its unique ID. This API helps in viewing the specific details
@@ -207,7 +215,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.products.get({
+  const result = await sdk.products.getProductByIdV1ProductsProductIdGet({
     productId: "<id>",
   });
 
@@ -223,7 +231,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGet.js";
+import { productsGetProductByIdV1ProductsProductIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetProductByIdV1ProductsProductIdGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -235,14 +243,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await productsGet(sdk, {
+  const res = await productsGetProductByIdV1ProductsProductIdGet(sdk, {
     productId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("productsGet failed:", res.error);
+    console.log("productsGetProductByIdV1ProductsProductIdGet failed:", res.error);
   }
 }
 
@@ -271,7 +279,7 @@ run();
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
 
-## update
+## updateProductV1ProductsProductIdPut
 
 The Update Product API allows users to modify the details of
     an existing product identified by its unique product_id
@@ -290,7 +298,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.products.update({
+  const result = await sdk.products.updateProductV1ProductsProductIdPut({
     productId: "<id>",
     productUpdate: {
       externalId: "prod_001",
@@ -315,7 +323,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsUpdate } from "@kintsugi-tax/tax-platform-sdk/funcs/productsUpdate.js";
+import { productsUpdateProductV1ProductsProductIdPut } from "@kintsugi-tax/tax-platform-sdk/funcs/productsUpdateProductV1ProductsProductIdPut.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -327,7 +335,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await productsUpdate(sdk, {
+  const res = await productsUpdateProductV1ProductsProductIdPut(sdk, {
     productId: "<id>",
     productUpdate: {
       externalId: "prod_001",
@@ -343,7 +351,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("productsUpdate failed:", res.error);
+    console.log("productsUpdateProductV1ProductsProductIdPut failed:", res.error);
   }
 }
 
@@ -372,7 +380,11 @@ run();
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
 
+<<<<<<< HEAD
 ## getCategories
+=======
+## getProductCategoriesV1ProductsCategoriesGet
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Product Categories API retrieves all
     product categories.  This endpoint helps users understand and select the
@@ -392,7 +404,11 @@ const sdk = new SDK({
 });
 
 async function run() {
+<<<<<<< HEAD
   const result = await sdk.products.getCategories();
+=======
+  const result = await sdk.products.getProductCategoriesV1ProductsCategoriesGet();
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
   console.log(result);
 }
@@ -406,7 +422,11 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+<<<<<<< HEAD
 import { productsGetCategories } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetCategories.js";
+=======
+import { productsGetProductCategoriesV1ProductsCategoriesGet } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetProductCategoriesV1ProductsCategoriesGet.js";
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -418,12 +438,20 @@ const sdk = new SDKCore({
 });
 
 async function run() {
+<<<<<<< HEAD
   const res = await productsGetCategories(sdk);
+=======
+  const res = await productsGetProductCategoriesV1ProductsCategoriesGet(sdk);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
+<<<<<<< HEAD
     console.log("productsGetCategories failed:", res.error);
+=======
+    console.log("productsGetProductCategoriesV1ProductsCategoriesGet failed:", res.error);
+>>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
