@@ -20,14 +20,14 @@ specific category of applications.
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { addressValidationSearch } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSearch.js";
+import { addressValidationSearchV1AddressValidationSearchPost } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSearchV1AddressValidationSearchPost.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore();
 
 async function run() {
-  const res = await addressValidationSearch(sdk, {
+  const res = await addressValidationSearchV1AddressValidationSearchPost(sdk, {
     apiKeyHeader: "<YOUR_API_KEY_HERE>",
   }, {
     phone: "555-123-4567",
@@ -44,7 +44,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("addressValidationSearch failed:", res.error);
+    console.log("addressValidationSearchV1AddressValidationSearchPost failed:", res.error);
   }
 }
 
