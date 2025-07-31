@@ -1,0 +1,3784 @@
+lockVersion: 2.0.0
+id: c3850712-337b-4121-95cc-c2e17a4391b9
+management:
+  docChecksum: 17abe8cd77d161f2228d8e0ec535d424
+  docVersion: 1.0.0
+  speakeasyVersion: 1.595.0
+  generationVersion: 2.670.1
+  releaseVersion: 0.7.3
+  configChecksum: c802b7f4ae8498920eeb08110657c45c
+  repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
+  repoSubDirectory: ./
+  installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
+  published: true
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.1.12
+    core: 3.21.17
+    defaultEnabledRetries: 0.1.0
+    deprecations: 2.81.1
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurity: 2.82.13
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.5
+    mcpServer: 0.9.3
+    methodArguments: 0.1.2
+    methodSecurity: 2.82.6
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.3.0
+    unions: 2.85.11
+    uploadStreams: 0.1.0
+generatedFiles:
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/addressbase.md
+  - docs/models/addressresponsedata.md
+  - docs/models/addresssearchresponse.md
+  - docs/models/addressstatus.md
+  - docs/models/addresssubmittedresponse.md
+  - docs/models/addresstype.md
+  - docs/models/appliedto.md
+  - docs/models/attachmentread.md
+  - docs/models/attachments.md
+  - docs/models/backendsrcaddressvalidationresponsesvalidationerroritem.md
+  - docs/models/backendsrccustomersresponsesvalidationerroritem.md
+  - docs/models/backendsrcexemptionsmodelsexemptionread.md
+  - docs/models/backendsrcexemptionsresponsesvalidationerroritem.md
+  - docs/models/backendsrcexemptionsserializersexemptionread.md
+  - docs/models/backendsrcfilingsresponsesvalidationerroritem.md
+  - docs/models/backendsrcnexusresponsesvalidationerroritem.md
+  - docs/models/backendsrcproductsresponsesvalidationerroritem.md
+  - docs/models/backendsrcregistrationsresponsesvalidationerroritem.md
+  - docs/models/backendsrctaxestimationresponsesvalidationerroritem.md
+  - docs/models/backendsrctransactionsresponsesvalidationerroritem.md
+  - docs/models/bodyuploadexemptioncertificatev1exemptionsexemptionidattachmentspost.md
+  - docs/models/changeregimestatusenum.md
+  - docs/models/countrycodeenum.md
+  - docs/models/creditnotecreate.md
+  - docs/models/creditnoteitemcreateupdate.md
+  - docs/models/currencyenum.md
+  - docs/models/customerbase.md
+  - docs/models/customerbasebase.md
+  - docs/models/customerbasepublic.md
+  - docs/models/customercreate.md
+  - docs/models/customerread.md
+  - docs/models/customerupdate.md
+  - docs/models/discountbuilder.md
+  - docs/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrccustomersresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcnexusresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcproductsresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.md
+  - docs/models/errors/errorresponse.md
+  - docs/models/errors/httpvalidationerror.md
+  - docs/models/exemption.md
+  - docs/models/exemptioncreate.md
+  - docs/models/exemptionrequired.md
+  - docs/models/exemptionstatus.md
+  - docs/models/exemptiontype.md
+  - docs/models/fastapipaginationdefaultpageexemptionread2.md
+  - docs/models/filet.md
+  - docs/models/filingdetailsread.md
+  - docs/models/filingfrequencyenum.md
+  - docs/models/filingread.md
+  - docs/models/filingstatusenum.md
+  - docs/models/jurisdictiontype.md
+  - docs/models/nexusresponse.md
+  - docs/models/nexusstateenum.md
+  - docs/models/nexusstatusenum.md
+  - docs/models/nexustypeenum.md
+  - docs/models/operations/createregistration.md
+  - docs/models/operations/createtransactionbycustomeridv1customerscustomeridtransactionspostrequest.md
+  - docs/models/operations/deletephysicalnexusv1nexusphysicalnexusphysicalnexusiddeleterequest.md
+  - docs/models/operations/deregisterregistrationv1registrationsregistrationidderegisterpostrequest.md
+  - docs/models/operations/estimatetaxv1taxestimatepostrequest.md
+  - docs/models/operations/getattachmentsforexemptionv1exemptionsexemptionidattachmentsgetrequest.md
+  - docs/models/operations/getcustomerbyexternalidv1customersexternalexternalidgetrequest.md
+  - docs/models/operations/getcustomerbyidv1customerscustomeridgetrequest.md
+  - docs/models/operations/getcustomersv1request.md
+  - docs/models/operations/getexemptionbyidv1exemptionsexemptionidgetrequest.md
+  - docs/models/operations/getexemptionsv1exemptionsgetrequest.md
+  - docs/models/operations/getfilingbyidv1filingsfilingidgetrequest.md
+  - docs/models/operations/getfilingsbyregistrationidv1filingsregistrationregistrationidgetrequest.md
+  - docs/models/operations/getfilingsv1filingsgetrequest.md
+  - docs/models/operations/getnexusfororgv1nexusgetrequest.md
+  - docs/models/operations/getphysicalnexusv1nexusphysicalnexusgetrequest.md
+  - docs/models/operations/getproductbyidv1productsproductidgetrequest.md
+  - docs/models/operations/getproductsv1productsgetrequest.md
+  - docs/models/operations/getregistrationbyidv1registrationsregistrationidgetrequest.md
+  - docs/models/operations/getregistrationsv1registrationsgetrequest.md
+  - docs/models/operations/gettransactionbyexternalidv1transactionsexternalexternalidgetrequest.md
+  - docs/models/operations/gettransactionbyidv1transactionstransactionidgetrequest.md
+  - docs/models/operations/gettransactionsbycustomeridv1customerscustomeridtransactionsgetrequest.md
+  - docs/models/operations/gettransactionsbyfilingidv1transactionsfilingsfilingidgetrequest.md
+  - docs/models/operations/gettransactionsv1transactionsgetrequest.md
+  - docs/models/operations/postcreatecreditnotebytransactionidrequest.md
+  - docs/models/operations/putupdatecreditnotebytransactionidrequest.md
+  - docs/models/operations/searchv1addressvalidationsearchpostsecurity.md
+  - docs/models/operations/updatecustomerv1customerscustomeridputrequest.md
+  - docs/models/operations/updatephysicalnexusv1nexusphysicalnexusphysicalnexusidputrequest.md
+  - docs/models/operations/updateproductv1productsproductidputrequest.md
+  - docs/models/operations/updateregistrationv1registrationsregistrationidputrequest.md
+  - docs/models/operations/updatetransactionv1transactionstransactionidputrequest.md
+  - docs/models/operations/uploadexemptioncertificatev1exemptionsexemptionidattachmentspostrequest.md
+  - docs/models/ossregistrationcreatepayload.md
+  - docs/models/osstypeenum.md
+  - docs/models/pagecustomerread.md
+  - docs/models/pagefilingread.md
+  - docs/models/pagenexusresponse.md
+  - docs/models/pagephysicalnexusread.md
+  - docs/models/pageproductread.md
+  - docs/models/pageregistrationreadwithpassword.md
+  - docs/models/pagetransactionestimateresponse.md
+  - docs/models/pagetransactionread.md
+  - docs/models/periodmodelenum.md
+  - docs/models/physicalnexuscategory.md
+  - docs/models/physicalnexuscreate.md
+  - docs/models/physicalnexusread.md
+  - docs/models/physicalnexusupdate.md
+  - docs/models/processingstatusenum.md
+  - docs/models/productcategories.md
+  - docs/models/productcategoryenum.md
+  - docs/models/productcodeenum.md
+  - docs/models/productcreatemanual.md
+  - docs/models/productread.md
+  - docs/models/productstatusenum.md
+  - docs/models/productsubcategory.md
+  - docs/models/productsubcategoryenum.md
+  - docs/models/productupdate.md
+  - docs/models/registration.md
+  - docs/models/registrationcreatepayload.md
+  - docs/models/registrationread.md
+  - docs/models/registrationreadwithpassword.md
+  - docs/models/registrationsregimeenum.md
+  - docs/models/registrationstatusenum.md
+  - docs/models/registrationtypeenum.md
+  - docs/models/registrationupdateapi.md
+  - docs/models/relatedentitytype.md
+  - docs/models/salesortransactionsenum.md
+  - docs/models/security.md
+  - docs/models/sourceenum.md
+  - docs/models/sstregistrationcreatepayload.md
+  - docs/models/status.md
+  - docs/models/statusenum.md
+  - docs/models/taxexemptionenum.md
+  - docs/models/taxitembuilder.md
+  - docs/models/taxitemestimate.md
+  - docs/models/taxitemread.md
+  - docs/models/taxitemreturnreasonenum.md
+  - docs/models/taxitemtypeenum.md
+  - docs/models/taxliabilitysourceenum.md
+  - docs/models/transactionaddressbuilder.md
+  - docs/models/transactionaddresspublic.md
+  - docs/models/transactionaddressreadoutput.md
+  - docs/models/transactioncreate.md
+  - docs/models/transactionestimatepublicrequest.md
+  - docs/models/transactionestimatepublicrequestaddress.md
+  - docs/models/transactionestimatepublicrequesttype.md
+  - docs/models/transactionestimateresponse.md
+  - docs/models/transactionestimateresponseaddress.md
+  - docs/models/transactionestimateresponsetype.md
+  - docs/models/transactionexemptstatusenum.md
+  - docs/models/transactionitembuilder.md
+  - docs/models/transactionitemcreateupdate.md
+  - docs/models/transactionitemestimatebase.md
+  - docs/models/transactionitemestimateresponse.md
+  - docs/models/transactionitemread.md
+  - docs/models/transactionpublicrequest.md
+  - docs/models/transactionread.md
+  - docs/models/transactionrefundstatus.md
+  - docs/models/transactionstatusenum.md
+  - docs/models/transactiontypeenum.md
+  - docs/models/transactionupdate.md
+  - docs/models/treatmentenum.md
+  - docs/models/validationaddress.md
+  - docs/models/validationerror.md
+  - docs/sdks/addressvalidation/README.md
+  - docs/sdks/customers/README.md
+  - docs/sdks/exemptions/README.md
+  - docs/sdks/filings/README.md
+  - docs/sdks/nexus/README.md
+  - docs/sdks/products/README.md
+  - docs/sdks/registrations/README.md
+  - docs/sdks/sdk/README.md
+  - docs/sdks/taxestimation/README.md
+  - docs/sdks/transactions/README.md
+  - docs/types/rfcdate.md
+  - eslint.config.mjs
+  - examples/.env.template
+  - examples/README.md
+  - examples/addressValidationSearchV1AddressValidationSearchPost.example.ts
+  - examples/package.json
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/addressValidationSearch.ts
+  - src/funcs/addressValidationSuggest.ts
+  - src/funcs/customersCreate.ts
+  - src/funcs/customersCreateTransaction.ts
+  - src/funcs/customersGet.ts
+  - src/funcs/customersGetByExternalId.ts
+  - src/funcs/customersGetTransactions.ts
+  - src/funcs/customersList.ts
+  - src/funcs/customersUpdate.ts
+  - src/funcs/exemptionsCreate.ts
+  - src/funcs/exemptionsGet.ts
+  - src/funcs/exemptionsGetAttachments.ts
+  - src/funcs/exemptionsList.ts
+  - src/funcs/exemptionsUploadCertificate.ts
+  - src/funcs/filingsGet.ts
+  - src/funcs/filingsGetByRegistrationId.ts
+  - src/funcs/filingsList.ts
+  - src/funcs/nexusCreatePhysical.ts
+  - src/funcs/nexusDeletePhysical.ts
+  - src/funcs/nexusList.ts
+  - src/funcs/nexusListPhysical.ts
+  - src/funcs/nexusUpdatePhysical.ts
+  - src/funcs/productsCreate.ts
+  - src/funcs/productsGet.ts
+  - src/funcs/productsGetCategories.ts
+  - src/funcs/productsList.ts
+  - src/funcs/productsUpdate.ts
+  - src/funcs/registrationsCreate.ts
+  - src/funcs/registrationsDeregister.ts
+  - src/funcs/registrationsGet.ts
+  - src/funcs/registrationsGetById.ts
+  - src/funcs/registrationsUpdate.ts
+  - src/funcs/taxEstimationEstimate.ts
+  - src/funcs/transactionsCreate.ts
+  - src/funcs/transactionsCreateCreditNote.ts
+  - src/funcs/transactionsGet.ts
+  - src/funcs/transactionsGetByExternalId.ts
+  - src/funcs/transactionsGetByFilingId.ts
+  - src/funcs/transactionsGetById.ts
+  - src/funcs/transactionsUpdate.ts
+  - src/funcs/transactionsUpdateCreditNote.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/mcp-server/build.mts
+  - src/mcp-server/cli.ts
+  - src/mcp-server/cli/start/command.ts
+  - src/mcp-server/cli/start/impl.ts
+  - src/mcp-server/console-logger.ts
+  - src/mcp-server/extensions.ts
+  - src/mcp-server/mcp-server.ts
+  - src/mcp-server/prompts.ts
+  - src/mcp-server/resources.ts
+  - src/mcp-server/scopes.ts
+  - src/mcp-server/server.ts
+  - src/mcp-server/shared.ts
+  - src/mcp-server/tools.ts
+  - src/mcp-server/tools/addressValidationSuggest.ts
+  - src/mcp-server/tools/customersCreate.ts
+  - src/mcp-server/tools/customersCreateTransaction.ts
+  - src/mcp-server/tools/customersGet.ts
+  - src/mcp-server/tools/customersGetByExternalId.ts
+  - src/mcp-server/tools/customersGetTransactions.ts
+  - src/mcp-server/tools/customersList.ts
+  - src/mcp-server/tools/customersUpdate.ts
+  - src/mcp-server/tools/exemptionsCreate.ts
+  - src/mcp-server/tools/exemptionsGet.ts
+  - src/mcp-server/tools/exemptionsGetAttachments.ts
+  - src/mcp-server/tools/exemptionsList.ts
+  - src/mcp-server/tools/exemptionsUploadCertificate.ts
+  - src/mcp-server/tools/filingsGet.ts
+  - src/mcp-server/tools/filingsGetByRegistrationId.ts
+  - src/mcp-server/tools/filingsList.ts
+  - src/mcp-server/tools/nexusCreatePhysical.ts
+  - src/mcp-server/tools/nexusDeletePhysical.ts
+  - src/mcp-server/tools/nexusList.ts
+  - src/mcp-server/tools/nexusListPhysical.ts
+  - src/mcp-server/tools/nexusUpdatePhysical.ts
+  - src/mcp-server/tools/productsCreate.ts
+  - src/mcp-server/tools/productsGet.ts
+  - src/mcp-server/tools/productsGetCategories.ts
+  - src/mcp-server/tools/productsList.ts
+  - src/mcp-server/tools/productsUpdate.ts
+  - src/mcp-server/tools/registrationsCreate.ts
+  - src/mcp-server/tools/registrationsDeregister.ts
+  - src/mcp-server/tools/registrationsGet.ts
+  - src/mcp-server/tools/registrationsGetById.ts
+  - src/mcp-server/tools/registrationsUpdate.ts
+  - src/mcp-server/tools/taxEstimationEstimate.ts
+  - src/mcp-server/tools/transactionsCreate.ts
+  - src/mcp-server/tools/transactionsCreateCreditNote.ts
+  - src/mcp-server/tools/transactionsGet.ts
+  - src/mcp-server/tools/transactionsGetByExternalId.ts
+  - src/mcp-server/tools/transactionsGetByFilingId.ts
+  - src/mcp-server/tools/transactionsGetById.ts
+  - src/mcp-server/tools/transactionsUpdate.ts
+  - src/mcp-server/tools/transactionsUpdateCreditNote.ts
+  - src/models/addressbase.ts
+  - src/models/addressresponsedata.ts
+  - src/models/addresssearchresponse.ts
+  - src/models/addressstatus.ts
+  - src/models/addresssubmittedresponse.ts
+  - src/models/addresstype.ts
+  - src/models/appliedto.ts
+  - src/models/attachmentread.ts
+  - src/models/backendsrcaddressvalidationresponsesvalidationerroritem.ts
+  - src/models/backendsrccustomersresponsesvalidationerroritem.ts
+  - src/models/backendsrcexemptionsmodelsexemptionread.ts
+  - src/models/backendsrcexemptionsresponsesvalidationerroritem.ts
+  - src/models/backendsrcexemptionsserializersexemptionread.ts
+  - src/models/backendsrcfilingsresponsesvalidationerroritem.ts
+  - src/models/backendsrcnexusresponsesvalidationerroritem.ts
+  - src/models/backendsrcproductsresponsesvalidationerroritem.ts
+  - src/models/backendsrcregistrationsresponsesvalidationerroritem.ts
+  - src/models/backendsrctaxestimationresponsesvalidationerroritem.ts
+  - src/models/backendsrctransactionsresponsesvalidationerroritem.ts
+  - src/models/bodyuploadexemptioncertificatev1exemptionsexemptionidattachmentspost.ts
+  - src/models/changeregimestatusenum.ts
+  - src/models/countrycodeenum.ts
+  - src/models/creditnotecreate.ts
+  - src/models/creditnoteitemcreateupdate.ts
+  - src/models/currencyenum.ts
+  - src/models/customerbase.ts
+  - src/models/customerbasebase.ts
+  - src/models/customerbasepublic.ts
+  - src/models/customercreate.ts
+  - src/models/customerread.ts
+  - src/models/customerupdate.ts
+  - src/models/discountbuilder.ts
+  - src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcnexusresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcproductsresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts
+  - src/models/errors/errorresponse.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/httpvalidationerror.ts
+  - src/models/errors/index.ts
+  - src/models/errors/responsevalidationerror.ts
+  - src/models/errors/sdkdefaulterror.ts
+  - src/models/errors/sdkerror.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/exemption.ts
+  - src/models/exemptioncreate.ts
+  - src/models/exemptionrequired.ts
+  - src/models/exemptionstatus.ts
+  - src/models/exemptiontype.ts
+  - src/models/fastapipaginationdefaultpageexemptionread2.ts
+  - src/models/filingdetailsread.ts
+  - src/models/filingfrequencyenum.ts
+  - src/models/filingread.ts
+  - src/models/filingstatusenum.ts
+  - src/models/index.ts
+  - src/models/jurisdictiontype.ts
+  - src/models/nexusresponse.ts
+  - src/models/nexusstateenum.ts
+  - src/models/nexusstatusenum.ts
+  - src/models/nexustypeenum.ts
+  - src/models/operations/createregistrationv1registrationspost.ts
+  - src/models/operations/createtransactionbycustomeridv1customerscustomeridtransactionspost.ts
+  - src/models/operations/deletephysicalnexusv1nexusphysicalnexusphysicalnexusiddelete.ts
+  - src/models/operations/deregisterregistrationv1registrationsregistrationidderegisterpost.ts
+  - src/models/operations/estimatetaxv1taxestimatepost.ts
+  - src/models/operations/getattachmentsforexemptionv1exemptionsexemptionidattachmentsget.ts
+  - src/models/operations/getcustomerbyexternalidv1customersexternalexternalidget.ts
+  - src/models/operations/getcustomerbyidv1customerscustomeridget.ts
+  - src/models/operations/getcustomersv1.ts
+  - src/models/operations/getexemptionbyidv1exemptionsexemptionidget.ts
+  - src/models/operations/getexemptionsv1exemptionsget.ts
+  - src/models/operations/getfilingbyidv1filingsfilingidget.ts
+  - src/models/operations/getfilingsbyregistrationidv1filingsregistrationregistrationidget.ts
+  - src/models/operations/getfilingsv1filingsget.ts
+  - src/models/operations/getnexusfororgv1nexusget.ts
+  - src/models/operations/getphysicalnexusv1nexusphysicalnexusget.ts
+  - src/models/operations/getproductbyidv1productsproductidget.ts
+  - src/models/operations/getproductsv1productsget.ts
+  - src/models/operations/getregistrationbyidv1registrationsregistrationidget.ts
+  - src/models/operations/getregistrationsv1registrationsget.ts
+  - src/models/operations/gettransactionbyexternalidv1transactionsexternalexternalidget.ts
+  - src/models/operations/gettransactionbyidv1transactionstransactionidget.ts
+  - src/models/operations/gettransactionsbycustomeridv1customerscustomeridtransactionsget.ts
+  - src/models/operations/gettransactionsbyfilingidv1transactionsfilingsfilingidget.ts
+  - src/models/operations/gettransactionsv1transactionsget.ts
+  - src/models/operations/index.ts
+  - src/models/operations/postcreatecreditnotebytransactionid.ts
+  - src/models/operations/putupdatecreditnotebytransactionid.ts
+  - src/models/operations/searchv1addressvalidationsearchpost.ts
+  - src/models/operations/updatecustomerv1customerscustomeridput.ts
+  - src/models/operations/updatephysicalnexusv1nexusphysicalnexusphysicalnexusidput.ts
+  - src/models/operations/updateproductv1productsproductidput.ts
+  - src/models/operations/updateregistrationv1registrationsregistrationidput.ts
+  - src/models/operations/updatetransactionv1transactionstransactionidput.ts
+  - src/models/operations/uploadexemptioncertificatev1exemptionsexemptionidattachmentspost.ts
+  - src/models/ossregistrationcreatepayload.ts
+  - src/models/osstypeenum.ts
+  - src/models/pagecustomerread.ts
+  - src/models/pagefilingread.ts
+  - src/models/pagenexusresponse.ts
+  - src/models/pagephysicalnexusread.ts
+  - src/models/pageproductread.ts
+  - src/models/pageregistrationreadwithpassword.ts
+  - src/models/pagetransactionestimateresponse.ts
+  - src/models/pagetransactionread.ts
+  - src/models/periodmodelenum.ts
+  - src/models/physicalnexuscategory.ts
+  - src/models/physicalnexuscreate.ts
+  - src/models/physicalnexusread.ts
+  - src/models/physicalnexusupdate.ts
+  - src/models/processingstatusenum.ts
+  - src/models/productcategories.ts
+  - src/models/productcategoryenum.ts
+  - src/models/productcodeenum.ts
+  - src/models/productcreatemanual.ts
+  - src/models/productread.ts
+  - src/models/productstatusenum.ts
+  - src/models/productsubcategory.ts
+  - src/models/productsubcategoryenum.ts
+  - src/models/productupdate.ts
+  - src/models/registrationcreatepayload.ts
+  - src/models/registrationread.ts
+  - src/models/registrationreadwithpassword.ts
+  - src/models/registrationsregimeenum.ts
+  - src/models/registrationstatusenum.ts
+  - src/models/registrationtypeenum.ts
+  - src/models/registrationupdateapi.ts
+  - src/models/relatedentitytype.ts
+  - src/models/salesortransactionsenum.ts
+  - src/models/security.ts
+  - src/models/sourceenum.ts
+  - src/models/sstregistrationcreatepayload.ts
+  - src/models/statusenum.ts
+  - src/models/taxexemptionenum.ts
+  - src/models/taxitembuilder.ts
+  - src/models/taxitemestimate.ts
+  - src/models/taxitemread.ts
+  - src/models/taxitemreturnreasonenum.ts
+  - src/models/taxitemtypeenum.ts
+  - src/models/taxliabilitysourceenum.ts
+  - src/models/transactionaddressbuilder.ts
+  - src/models/transactionaddresspublic.ts
+  - src/models/transactionaddressreadoutput.ts
+  - src/models/transactioncreate.ts
+  - src/models/transactionestimatepublicrequest.ts
+  - src/models/transactionestimateresponse.ts
+  - src/models/transactionexemptstatusenum.ts
+  - src/models/transactionitembuilder.ts
+  - src/models/transactionitemcreateupdate.ts
+  - src/models/transactionitemestimatebase.ts
+  - src/models/transactionitemestimateresponse.ts
+  - src/models/transactionitemread.ts
+  - src/models/transactionpublicrequest.ts
+  - src/models/transactionread.ts
+  - src/models/transactionrefundstatus.ts
+  - src/models/transactionstatusenum.ts
+  - src/models/transactiontypeenum.ts
+  - src/models/transactionupdate.ts
+  - src/models/treatmentenum.ts
+  - src/models/validationaddress.ts
+  - src/models/validationerror.ts
+  - src/sdk/addressvalidation.ts
+  - src/sdk/customers.ts
+  - src/sdk/exemptions.ts
+  - src/sdk/filings.ts
+  - src/sdk/index.ts
+  - src/sdk/nexus.ts
+  - src/sdk/products.ts
+  - src/sdk/registrations.ts
+  - src/sdk/sdk.ts
+  - src/sdk/taxestimation.ts
+  - src/sdk/transactions.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  search_v1_address_validation_search_post:
+    speakeasy-default-search-v1-address-validation-search-post:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: [{"address_submitted": {}, "response_address": {}, "verification_status": "<value>", "enrich_fields": ["<value 1>", "<value 2>"]}]
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  suggestions_v1_address_validation_suggestions_post:
+    speakeasy-default-suggestions-v1-address-validation-suggestions-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"country": "US", "postalCode": ""}
+      responses:
+        "200":
+          application/json: "<value>"
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>", "key2": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_customers_v1:
+    speakeasy-default-get-customers-v1:
+      parameters:
+        query:
+          search_query: "John"
+          country: ["US"]
+          state: "CA"
+          source__in: "SHOPIFY,API"
+          order_by: "created_at,street_1,street_2,city,state,postal_code,country,status"
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"id": "<id>", "organization_id": "<id>"}], "total": 719000, "page": 273955, "size": 335750}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_customer_v1_customers_post:
+    speakeasy-default-create-customer-v1-customers-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "organization_id": "<id>"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_customer_by_id_v1_customers__customer_id__get:
+    speakeasy-default-get-customer-by-id-v1-customers-customer-id-get:
+      parameters:
+        path:
+          customer_id: "cust_abc123"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "organization_id": "<id>"}
+        "422":
+          application/json: {}
+  update_customer_v1_customers__customer_id__put:
+    speakeasy-default-update-customer-v1-customers-customer-id-put:
+      parameters:
+        path:
+          customer_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "organization_id": "<id>"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_customer_by_external_id_v1_customers_external__external_id__get:
+    speakeasy-default-get-customer-by-external-id-v1-customers-external-external-id-get:
+      parameters:
+        path:
+          external_id: "external_12345"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "organization_id": "<id>"}
+        "422":
+          application/json: {}
+  get_transactions_by_customer_id_v1_customers__customer_id__transactions_get:
+    speakeasy-default-get-transactions-by-customer-id-v1-customers-customer-id-transactions-get:
+      parameters:
+        path:
+          customer_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"organization_id": "<id>", "external_id": "<id>", "date": "2023-02-17T13:13:59.050Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "SHIP_TO"}], "transaction_items": [{"organization_id": "<id>", "date": "2024-01-20T22:07:20.889Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": [{"rule_id": "0000", "rate": "<value>", "amount": "954.69", "name": "<value>"}]}], "type": "ARCHIVE"}]
+        "422":
+          application/json: {}
+  create_transaction_by_customer_id_v1_customers__customer_id__transactions_post:
+    speakeasy-default-create-transaction-by-customer-id-v1-customers-customer-id-transactions-post:
+      parameters:
+        path:
+          customer_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2023-02-16T04:36:50.697Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2024-05-13T04:49:24.946Z", "external_product_id": "<id>", "quantity": 1, "amount": 0, "tax_amount_imported": 0, "tax_rate_imported": 0, "tax_amount_calculated": 0, "tax_rate_calculated": 0, "taxable_amount": 0, "exempt": false}]}
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-03-26T21:54:40.067Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2025-07-02T12:31:43.127Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": [{"rule_id": "0000", "rate": "<value>", "amount": "817.28", "name": "<value>"}]}], "type": "PARTIAL_CREDIT_NOTE"}
+        "422":
+          application/json: {}
+  get_exemptions_v1_exemptions_get:
+    speakeasy-default-get-exemptions-v1-exemptions-get:
+      parameters:
+        query:
+          country_code: ["US"]
+          jurisdiction: "CA"
+          start_date: "2024-01-01"
+          end_date: "2024-01-01"
+          customer_id: "cust_1234"
+          transaction_id: "trans_1234"
+          page: 1
+          size: 50
+          search_query: "John"
+          status__in: "ACTIVE,INACTIVE,EXPIRED"
+          order_by: "end_date,FEIN,sales_tax_id,status"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 809509, "page": 948427, "size": 281800}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_exemption_v1_exemptions_post:
+    speakeasy-default-create-exemption-v1-exemptions-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"exemption_type": "customer", "start_date": "2023-03-27", "customer_id": "<id>", "reseller": false, "FEIN": "<value>", "sales_tax_id": "<id>", "status": "ACTIVE"}
+      responses:
+        "200":
+          application/json: {"start_date": "2025-05-21", "reseller": false, "id": "<id>", "exemption_type": "transaction", "status": "ARCHIVED"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_exemption_by_id_v1_exemptions__exemption_id__get:
+    speakeasy-default-get-exemption-by-id-v1-exemptions-exemption-id-get:
+      parameters:
+        path:
+          exemption_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"exemption_type": "transaction", "start_date": "2024-02-13", "reseller": false, "id": "<id>"}
+        "404":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post:
+    speakeasy-default-upload-exemption-certificate-v1-exemptions-exemption-id-attachments-post:
+      parameters:
+        path:
+          exemption_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        multipart/form-data: {"file": "x-file: example.file"}
+      responses:
+        "200":
+          application/json: {"related_entity_id": "<id>", "related_entity_type": "EXEMPTION", "id": "<id>"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_attachments_for_exemption_v1_exemptions__exemption_id__attachments_get:
+    speakeasy-default-get-attachments-for-exemption-v1-exemptions-exemption-id-attachments-get:
+      parameters:
+        path:
+          exemption_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"related_entity_id": "<id>", "related_entity_type": "EXEMPTION", "id": "<id>"}]
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+  create_filing_v1_filings_post:
+    speakeasy-default-create-filing-v1-filings-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"registration_id": "<id>", "status": "UNFILED", "start_date": "2025-06-06", "end_date": "2025-04-25", "state_code": "<value>", "state_name": "<value>", "country_code": "VN"}
+      responses:
+        "200":
+          application/json: {"start_date": "2023-09-23", "end_date": "2023-02-26", "country_code": "AW", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>"}
+        "422":
+          application/json: {}
+  get_filings_v1_filings_get:
+    speakeasy-default-get-filings-v1-filings-get:
+      parameters:
+        query:
+          status__in: "FILED,FILING,UNFILED"
+          start_date: "2024-01-01"
+          end_date: "2024-12-31"
+          date_filed__gte: "2024-01-01"
+          date_filed__lte: "2024-12-31"
+          order_by: "status,start_date,end_date,amount"
+          state_code: "CA"
+          country_code: ["US"]
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 564163, "page": 176308, "size": 805006}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_filing_by_id_v1_filings__filing_id__get:
+    speakeasy-default-get-filing-by-id-v1-filings-filing-id-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"start_date": "2024-05-22", "end_date": "2023-08-31", "country_code": "GL", "auto_approved": false, "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "total_taxable_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_filing_v1_filings__filing_id__put:
+    speakeasy-default-update-filing-v1-filings-filing-id-put:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"start_date": "2024-12-13", "end_date": "2025-12-14", "country_code": "CN", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_filings_by_registration_id_v1_filings_registration__registration_id__get:
+    speakeasy-default-get-filings-by-registration-id-v1-filings-registration-registration-id-get:
+      parameters:
+        path:
+          registration_id: "<id>"
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 610421, "page": 173962, "size": 725367}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_physical_nexus_v1_nexus_physical_nexus_get:
+    speakeasy-default-get-physical-nexus-v1-nexus-physical-nexus-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+          order_by: "country_code,state_code,start_date,end_date"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"country_code": "JO", "state_code": "<value>", "start_date": "2024-03-23", "category": "TRADE_SHOW_PRESENCE", "id": "<id>"}], "total": 913277, "page": 586032, "size": 725434}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_physical_nexus_v1_nexus_physical_nexus_post:
+    speakeasy-default-create-physical-nexus-v1-nexus-physical-nexus-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"country_code": "HK", "state_code": "<value>", "start_date": "2023-03-25", "category": "FREQUENT_PARTICIPATION_IN_TRADE_SHOWS_EVENTS"}
+      responses:
+        "200":
+          application/json: {"country_code": "AW", "state_code": "<value>", "start_date": "2023-01-29", "category": "PERFORMING_SERVICES_IN_THE_JURISDICTION", "id": "<id>"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_physical_nexus_v1_nexus_physical_nexus__physical_nexus_id__put:
+    speakeasy-default-update-physical-nexus-v1-nexus-physical-nexus-physical-nexus-id-put:
+      parameters:
+        path:
+          physical_nexus_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"start_date": "2023-07-29", "category": "WAREHOUSE_AND_INVENTORY_PRESENCE"}
+      responses:
+        "200":
+          application/json: {"country_code": "KR", "state_code": "<value>", "start_date": "2024-12-18", "category": "TELECOMMUTING_OR_REMOTE_EMPLOYEE", "id": "<id>"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  delete_physical_nexus_v1_nexus_physical_nexus__physical_nexus_id__delete:
+    speakeasy-default-delete-physical-nexus-v1-nexus-physical-nexus-physical-nexus-id-delete:
+      parameters:
+        path:
+          physical_nexus_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_nexus_for_org_v1_nexus_get:
+    speakeasy-default-get-nexus-for-org-v1-nexus-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+          status__in: "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED"
+          order_by: "state_code,country_code"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"country_code": "CN", "state_code": "<value>", "state_name": "<value>", "treatment_of_exempt_transactions": "YES_SALES_NO_TRANSACTIONS", "trigger": "<value>", "sales_or_transactions": "SALES", "threshold_sales": 476092, "threshold_transactions": 144398, "start_date": "2025-03-09", "transaction_count": 0, "transactions_amount": "0.00", "previous_transaction_count": 0, "previous_transactions_amount": "0.00", "calculated_tax_liability": "0.00", "imported_tax_liability": "0.00", "tax_liability": "0.00", "nexus_met": false, "economic_nexus_met": false, "physical_nexus_met": false, "collected_tax_nexus_met": false, "collected_tax_enabled": false, "period_model": "PRECEDING_YEAR_QUARTERLY_OFFSET", "period_start_date": "2024-12-20", "period_end_date": "2023-10-25", "previous_period_start_date": "2023-02-23", "previous_period_end_date": "2023-05-08", "earliest_collected_date": "2018-01-01T00:00:00", "vda_eligible": false, "id": "<id>", "created_at": "2025-07-27T10:58:50.049Z", "updated_at": "2024-12-31T08:38:28.993Z", "organization_id": "<id>", "is_vda_eligible": false, "nexus_type": "STATE", "total_transactions": 218796, "total_transactions_included": 800733, "total_transactions_exempted": 990975, "total_transactions_marketplace": 980208, "marketplace_included": true}], "total": 825206, "page": 886833, "size": 272984}
+        "422":
+          application/json: {}
+  get_product_by_id_v1_products__product_id__get:
+    speakeasy-default-get-product-by-id-v1-products-product-id-get:
+      parameters:
+        path:
+          product_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "external_id": "<id>", "sku": [], "code": "CODE_3012", "name": "<value>", "description": "once unnaturally unlike pulverize", "status": "PARTIALLY_APPROVED", "product_category": "SERVICE", "product_subcategory": "CATERING", "tax_exempt": true, "source": "RECURLY", "connection_id": "<id>", "classification_failed": true}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>", "<value 3>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_product_v1_products__product_id__put:
+    speakeasy-default-update-product-v1-products-product-id-put:
+      parameters:
+        path:
+          product_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"name": "<value>", "product_category": "PHYSICAL", "product_subcategory": "CATERING", "tax_exempt": true, "classification_failed": false}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "external_id": "<id>", "sku": ["<value 1>"], "code": "CODE_3018", "name": "<value>", "description": "how emerge once after sway why nocturnal obediently", "status": "PENDING", "product_category": "MISCELLANEOUS", "product_subcategory": "FEMININE_HYGIENE", "tax_exempt": false, "source": "ETSY", "connection_id": "<id>", "classification_failed": true}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_registrations_v1_registrations_get:
+    speakeasy-default-get-registrations-v1-registrations-get:
+      parameters:
+        query:
+          status__in: "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,VALIDATING,AWAITING_CLARIFICATION"
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 460128, "page": 173091, "size": 82859}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_registration_v1_registrations_post:
+    regular_legacy:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"registration_import_type": "OSS", "imported": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    regular_new:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"registration_import_type": "REGULAR", "registration_date": "2025-02-01", "registration_email": "example@domain.com", "auto_registered": true, "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": 100, "vda": false, "sst_import": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    oss:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"registration_import_type": "OSS", "password_plain_text": "oss_pass_fr", "password_metadata_plain_text": "{\"q\":\"a\"}", "member_state_of_identification_code": "FR", "imported": true}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    sst:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"registration_import_type": "SST", "password_plain_text": "sst_pass", "password_metadata_plain_text": "{\"q\":\"a\"}", "username": "sst_user"}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    speakeasy-default-create-registration-v1-registrations-post:
+      parameters:
+        header:
+          x-organization-id: null
+      requestBody:
+        application/json: {"registration_import_type": "OSS", "imported": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_registration_by_id_v1_registrations__registration_id__get:
+    speakeasy-default-get-registration-by-id-v1-registrations-registration-id-get:
+      parameters:
+        path:
+          registration_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "AWAITING_CLARIFICATION", "country_code": "BO", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "UNKNOWN", "filing_days": 607962, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>", "<value 3>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_registration_v1_registrations__registration_id__put:
+    speakeasy-default-update-registration-v1-registrations-registration-id-put:
+      parameters:
+        path:
+          registration_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"auto_registered": false, "third_party_enabled": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "DEREGISTERING", "country_code": "GL", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "ANNUALLY", "filing_days": 43389, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_transactions_v1_transactions_get:
+    speakeasy-default-get-transactions-v1-transactions-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+          address_status__in: "UNVERIFIED,INVALID,PARTIALLY_VERIFIED,VERIFIED,UNVERIFIABLE"
+          order_by: "date,state,customer_name,status"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 416441, "page": 659955, "size": 969694}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_transaction_v1_transactions_post:
+    speakeasy-default-create-transaction-v1-transactions-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "202":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-09-02T23:33:30.843Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "SHIP_FROM"}], "transaction_items": [{"organization_id": "<id>", "date": "2023-08-29T15:50:05.795Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": []}], "type": "FULL_CREDIT_NOTE"}
+        "400":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    duplicate_external_id:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "400":
+          application/json: {"detail": "Duplicate external id (ORDER_XYZ_789) for the given transaction not allowed."}
+        "500":
+          application/json: {"detail": "Duplicate external id (ORDER_XYZ_789) for the given transaction not allowed."}
+    missing_product_external_id:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "400":
+          application/json: {"detail": "[orgn_YourOrgIdHere] Product does not have an external id"}
+        "500":
+          application/json: {"detail": "[orgn_YourOrgIdHere] Product does not have an external id"}
+    connection_mismatch:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "400":
+          application/json: {"detail": "Connection mismatch between transaction and customer"}
+        "500":
+          application/json: {"detail": "Connection mismatch between transaction and customer"}
+    invalid_address:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "400":
+          application/json: {"detail": "Address validation failed: missing required fields"}
+        "500":
+          application/json: {"detail": "Address validation failed: missing required fields"}
+    missing_org_id:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "422":
+          application/json: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required", "input": "<value>", "ctx": {"key": "<value>"}}]}
+    missing_required_field:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "422":
+          application/json: {"detail": [{"type": "missing", "loc": ["body", "external_id"], "msg": "Field required", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>", "key2": "<value>"}}]}
+    invalid_enum_value:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "422":
+          application/json: {"detail": [{"type": "enum", "loc": ["body", "currency"], "msg": "Input should be 'USD', 'CAD', 'EUR'...", "input": "INVALID", "ctx": {"expected": "one of USD, CAD, EUR..."}}]}
+    invalid_date_format:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-11-05T23:48:53.053Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "ARCHIVE"}
+      responses:
+        "422":
+          application/json: {"detail": [{"type": "datetime_parsing", "loc": ["body", "date"], "msg": "Input should be a valid datetime, invalid format", "input": "2023-13-45", "ctx": {}}]}
+  get_transaction_by_external_id_v1_transactions_external__external_id__get:
+    speakeasy-default-get-transaction-by-external-id-v1-transactions-external-external-id-get:
+      parameters:
+        path:
+          external_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-07-02T09:59:25.499Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2025-02-10T16:56:41.984Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": [{"rule_id": "0000", "rate": "<value>", "amount": "530.73", "name": "<value>"}]}], "type": "PARTIAL_CREDIT_NOTE"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>", "<value 3>"], "msg": "<value>", "input": "<value>", "ctx": {}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_transaction_v1_transactions__transaction_id__put:
+    speakeasy-default-update-transaction-v1-transactions-transaction-id-put:
+      parameters:
+        path:
+          transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-09-25T05:56:56.167Z", "total_amount": 0, "marketplace": false, "total_tax_amount_imported": 0, "tax_rate_imported": 0, "total_tax_amount_calculated": 0, "tax_rate_calculated": 0, "total_tax_liability_amount": 0, "taxable_amount": 0, "locked": false, "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2024-12-29T19:13:48.302Z", "external_product_id": "<id>", "quantity": 1, "amount": 0, "tax_amount_imported": 0, "tax_rate_imported": 0, "tax_amount_calculated": 0, "tax_rate_calculated": 0, "taxable_amount": 0, "exempt": false}], "customer": {}}
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-09-25T16:52:09.866Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "SHIP_FROM"}], "transaction_items": [{"organization_id": "<id>", "date": "2025-08-27T16:42:02.917Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": [{"rule_id": "0000", "rate": "<value>", "amount": "391.29", "name": "<value>"}]}], "type": "FULL_CREDIT_NOTE"}
+        "422":
+          application/json: {}
+  get_transaction_by_id_v1_transactions__transaction_id__get:
+    speakeasy-default-get-transaction-by-id-v1-transactions-transaction-id-get:
+      parameters:
+        path:
+          transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-08-13T05:12:45.031Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "BILL_TO"}], "transaction_items": [], "type": "ARCHIVE"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": [], "msg": "<value>", "input": "<value>", "ctx": {}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_transactions_by_filing_id_v1_transactions_filings__filing_id__get:
+    speakeasy-default-get-transactions-by-filing-id-v1-transactions-filings-filing-id-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"organization_id": "<id>", "external_id": "<id>", "date": "2023-04-06T23:55:54.854Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "SHIP_FROM"}], "transaction_items": [], "type": "SALE"}]
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes_post:
+    speakeasy-default-create-credit-note-by-transaction-id-v1-transactions-original-transaction-id-credit-notes-post:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2023-02-14T16:33:11.373Z", "status": "COMMITTED", "currency": "SAR", "transaction_items": [{"external_id": "<id>", "date": "2025-10-23T02:20:00.049Z", "external_product_id": "<id>"}]}
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2025-04-11T07:36:34.923Z", "total_amount": "0.00", "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "BILL_FROM"}], "transaction_items": [{"organization_id": "<id>", "date": "2025-03-22T02:57:08.436Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": [{"rule_id": "0000", "rate": "<value>", "amount": "927.80", "name": "<value>"}]}], "type": "ARCHIVE"}
+        "422":
+          application/json: {}
+  update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put:
+    speakeasy-default-update-credit-note-by-transaction-id-v1-transactions-original-transaction-id-credit-notes-credit-note-id-put:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+          credit_note_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2023-04-03T14:25:55.241Z", "status": "PENDING", "currency": "JOD", "transaction_items": [{"external_id": "<id>", "date": "2024-04-29T01:52:56.740Z", "external_product_id": "<id>"}]}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  estimate_tax_v1_tax_estimate_post:
+    speakeasy-default-estimate-tax-v1-tax-estimate-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"date": "2025-10-15T06:09:56.760Z", "external_id": "<id>", "total_amount": 0, "currency": "WST", "marketplace": false, "transaction_items": [{"date": "2023-10-09T10:49:19.753Z", "quantity": 1, "amount": 612.37, "exempt": false}], "addresses": [{"type": "BILL_TO", "state": "Virginia", "postal_code": "53776-2466", "country": "Wallis and Futuna"}]}
+      responses:
+        "200":
+          application/json: {"items": [], "total": 610767, "page": 61497, "size": 435684}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>", "key2": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  validate_address_chargebee_address_validate_post:
+    speakeasy-default-validate-address-chargebee-address-validate-post:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"status": "VALID"}
+        "400":
+          application/json: {"code": "MISSING_REQUIRED_DATA", "message": "<value>", "entity": "<value>"}
+        "422":
+          application/json: {}
+        "500":
+          application/json: {"description": "Unexpected error while processing request."}
+  check_address_taxability_chargebee_address_check_taxability_post:
+    speakeasy-default-check-address-taxability-chargebee-address-check-taxability-post:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"isTaxable": true}
+        "400":
+          application/json: {"code": "INVALID_DATA", "message": "<value>", "entity": "<value>"}
+        "422":
+          application/json: {}
+        "500":
+          application/json: {"description": "Unexpected error while processing request."}
+  estimate_tax_chargebee_tax_estimate_post:
+    speakeasy-default-estimate-tax-chargebee-tax-estimate-post:
+      requestBody:
+        application/json: {"seller": {"address": {}}, "customer": {"customerCode": "<value>", "address": {}}, "estimateDateTime": "2025-05-29T07:26:55.854Z", "currency": "Euro", "lineItems": []}
+      responses:
+        "200":
+          application/json: {"seller": {"address": {}}, "customer": {"customerCode": "<value>", "address": {}}, "estimateDateTime": "2023-05-10T20:19:15.114Z", "currency": "Belarusian Ruble", "subtotal": 3963.85, "exemptAmount": 5539.98, "discountAmount": 4999.48, "taxableAmount": 4144.08, "taxAmount": 6034.62, "total": 8644.81, "lineItems": [{"number": 316234, "amount": 6316.69, "isTaxInclusive": true, "subtotal": 2128.55, "isTaxable": false, "exemptAmount": 5126.05, "taxableAmount": 36.59, "taxAmount": 3381.7, "total": 8096.02, "taxes": [{"number": 765203, "jurisdiction": {"code": "<value>", "type": "CITY", "name": "<value>"}, "name": "<value>", "rate": 65.31, "taxableAmount": 7052.11, "taxAmount": 1584.21}]}]}
+        "400":
+          application/json: {"code": "MISSING_REQUIRED_DATA", "message": "<value>", "entity": "<value>"}
+        "422":
+          application/json: {}
+        "500":
+          application/json: {"description": "Unexpected error while processing request."}
+  create_invoice_chargebee_invoices_post:
+    speakeasy-default-create-invoice-chargebee-invoices-post:
+      requestBody:
+        application/json: {"invoiceCode": "<value>", "documentDateTime": "2025-07-07T10:37:36.685Z", "currency": "Lebanese Pound", "seller": {"address": {}}, "customer": {"customerCode": "<value>", "address": {}}, "subtotal": 5008.42, "exemptAmount": 9651.63, "discountAmount": 1157.5, "taxableAmount": 1087.79, "taxAmount": 4113.93, "total": 1921.88, "lineItems": [{"number": 584222, "amount": 7031.2, "isTaxInclusive": true, "isTaxable": true, "exemptAmount": 5357.99, "discountAmount": 4516.03, "subtotal": 7909.2, "taxableAmount": 5251.39, "taxAmount": 800.25, "total": 8192.41, "taxes": [{"number": 364672, "jurisdiction": {"code": "<value>", "type": "FEDERAL", "name": "<value>"}, "name": "<value>", "rate": 257.58, "taxableAmount": 3878.16, "taxAmount": 4335.67}]}]}
+      responses:
+        "201":
+          application/json: {"invoiceCode": "<value>", "documentDateTime": "2023-11-19T20:39:03.780Z", "currency": "Ethiopian Birr", "seller": {"address": {}}, "customer": {"customerCode": "<value>", "address": {}}, "subtotal": 3793.66, "exemptAmount": 462.9, "discountAmount": 2933.11, "taxableAmount": 603.33, "taxAmount": 6177.38, "total": 5797.17, "lineItems": [], "invoiceId": "<id>", "status": "COMMITTED"}
+        "422":
+          application/json: {}
+  commit_invoice_chargebee_invoices__invoice_id__commit_post:
+    speakeasy-default-commit-invoice-chargebee-invoices-invoice-id-commit-post:
+      parameters:
+        path:
+          invoice_id: "<id>"
+      responses:
+        "422":
+          application/json: {}
+  void_invoice_chargebee_invoices__invoice_id__void_post:
+    speakeasy-default-void-invoice-chargebee-invoices-invoice-id-void-post:
+      parameters:
+        path:
+          invoice_id: "<id>"
+      responses:
+        "422":
+          application/json: {}
+  create_credit_note_chargebee_credit_notes_post:
+    speakeasy-default-create-credit-note-chargebee-credit-notes-post:
+      requestBody:
+        application/json: {"creditNoteCode": "<value>", "invoiceCode": "<value>", "creditNoteType": "FULL", "documentDateTime": "2023-09-15T17:05:00.070Z", "currency": "Guinea Franc", "seller": {"address": {}}, "customer": {"customerCode": "<value>", "address": {}}, "total": 5854.48, "exemptAmount": 6628.97, "discountAmount": 8349.07, "taxableAmount": 7193.9, "taxAmount": 9986.41}
+      responses:
+        "201":
+          application/json: {"creditNoteCode": "<value>", "invoiceCode": "<value>", "creditNoteType": "FULL", "documentDateTime": "2024-09-30T01:39:18.488Z", "currency": "Saudi Riyal", "seller": {"address": {}}, "customer": {"customerCode": "<value>", "address": {}}, "total": 7707.7, "exemptAmount": 4597.9, "discountAmount": 8428.76, "taxableAmount": 4154.1, "taxAmount": 7963.66, "creditNoteId": "<id>", "status": "VOIDED"}
+        "422":
+          application/json: {}
+  commit_credit_note_chargebee_credit_notes__credit_note_id__commit_post:
+    speakeasy-default-commit-credit-note-chargebee-credit-notes-credit-note-id-commit-post:
+      parameters:
+        path:
+          credit_note_id: "<id>"
+      responses:
+        "422":
+          application/json: {}
+  void_credit_note_chargebee_credit_notes__credit_note_id__void_post:
+    speakeasy-default-void-credit-note-chargebee-credit-notes-credit-note-id-void-post:
+      parameters:
+        path:
+          credit_note_id: "<id>"
+      responses:
+        "422":
+          application/json: {}
+  validate_credentials_chargebee_credentials_validate_post:
+    speakeasy-default-validate-credentials-chargebee-credentials-validate-post:
+      responses:
+        "200":
+          application/json: {"status": "VALID"}
+        "401":
+          application/json: {"status": "VALID"}
+        "422":
+          application/json: {}
+        "500":
+          application/json: {"description": "Unexpected error while processing request."}
+  connect_bigcommerce_bigcommerce_connect_post:
+    speakeasy-default-connect-bigcommerce-bigcommerce-connect-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"store_hash": "<value>", "api_key": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  enable_tax_calculation_bigcommerce_enable_tax_calculation_post:
+    speakeasy-default-enable-tax-calculation-bigcommerce-enable-tax-calculation-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"store_hash": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  disable_tax_calculation_bigcommerce_disable_tax_calculation_post:
+    speakeasy-default-disable-tax-calculation-bigcommerce-disable-tax-calculation-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"store_hash": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  deactivate_connection_bigcommerce_deactivate_post:
+    speakeasy-default-deactivate-connection-bigcommerce-deactivate-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"store_hash": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  estimate_tax_bigcommerce_estimate_post:
+    speakeasy-default-estimate-tax-bigcommerce-estimate-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"id": "<id>", "currency_code": "DJF", "customer": {"customer_id": "<id>", "customer_group_id": "<id>"}, "transaction_date": "<value>", "documents": [{"id": "<id>", "billing_address": {"type": "<value>"}, "destination_address": {"type": "<value>"}, "origin_address": {"type": "<value>"}, "shipping": {"id": "<id>", "price": {"amount": "476.17", "tax_inclusive": false}, "quantity": 575245, "type": "<value>"}, "handling": {"id": "<id>", "price": {"amount": "476.17", "tax_inclusive": false}, "quantity": 387909, "type": "<value>"}, "items": [{"id": "<id>", "price": {"amount": "476.17", "tax_inclusive": false}, "quantity": 361311, "type": "<value>"}]}]}
+      responses:
+        "200":
+          application/json: {"documents": [], "id": "<id>"}
+        "422":
+          application/json: {}
+  commit_tax_bigcommerce_commit_post:
+    speakeasy-default-commit-tax-bigcommerce-commit-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"id": "<id>", "currency_code": "MGA", "customer": {"customer_id": "<id>", "customer_group_id": "<id>"}, "transaction_date": "<value>", "documents": [{"id": "<id>", "billing_address": {"type": "<value>"}, "destination_address": {"type": "<value>"}, "origin_address": {"type": "<value>"}, "shipping": {"id": "<id>", "price": {"amount": "165.47", "tax_inclusive": false}, "quantity": 715830, "type": "<value>"}, "handling": {"id": "<id>", "price": {"amount": "165.47", "tax_inclusive": false}, "quantity": 183261, "type": "<value>"}, "items": []}]}
+      responses:
+        "200":
+          application/json: {"documents": [], "id": "<id>"}
+        "422":
+          application/json: {}
+  estimate_tax_magento_estimate_post:
+    speakeasy-default-estimate-tax-magento-estimate-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"id": "<id>", "currency_code": "BGN", "customer": {"customer_id": "<id>"}, "transaction_date": "<value>", "documents": []}
+      responses:
+        "200":
+          application/json: {"documents": [{"id": "<id>", "items": [{"id": "<id>", "price_response": {"amount_inclusive": "<value>", "amount_exclusive": "<value>", "total_tax": "<value>", "tax_rate": "<value>", "sales_tax_summary": []}, "type": "<value>"}]}], "id": "<id>"}
+        "422":
+          application/json: {}
+  commit_tax_magento_commit_post:
+    speakeasy-default-commit-tax-magento-commit-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"id": "<id>", "currency_code": "THB", "customer": {"customer_id": "<id>"}, "transaction_date": "<value>", "documents": [{"id": "<id>", "shipping_address": {"type": "<value>"}, "items": []}]}
+      responses:
+        "200":
+          application/json: {"documents": [{"id": "<id>", "items": []}], "id": "<id>"}
+        "422":
+          application/json: {}
+  registration_shopware_registration_get:
+    speakeasy-default-registration-shopware-registration-get:
+      parameters:
+        query:
+          shop-id: "<id>"
+          shop-url: "https://untried-birdcage.info/"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  confirmation_shopware_confirmation_post:
+    speakeasy-default-confirmation-shopware-confirmation-post:
+      requestBody:
+        application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  activate_shopware_activate_post:
+    speakeasy-default-activate-shopware-activate-post:
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  deactivate_shopware_deactivate_post:
+    speakeasy-default-deactivate-shopware-deactivate-post:
+      requestBody:
+        application/json: {"key": "<value>", "key1": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  uninstall_shopware_uninstall_post:
+    speakeasy-default-uninstall-shopware-uninstall-post:
+      requestBody:
+        application/json: {"key": "<value>", "key1": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_attachments_for_admin_panel_v1_admin_attachments_get:
+    speakeasy-default-get-attachments-for-admin-panel-v1-admin-attachments-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"related_entity_id": "<id>", "related_entity_type": "FILING_PAYMENT", "organization_id": "<id>", "file_name": "example.file", "mime_type": "<value>", "file_size_bytes": 465547, "file_location": "<value>", "file_location_type": "LOCAL"}], "total": 973583, "page": 379374, "size": 601163}
+        "422":
+          application/json: {}
+  download_attachment_for_admin_panel_v1_admin_attachments__attachment_id__download_get:
+    speakeasy-default-download-attachment-for-admin-panel-v1-admin-attachments-attachment-id-download-get:
+      parameters:
+        path:
+          attachment_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_connections_for_admin_panel_v1_admin_connections_get:
+    speakeasy-default-get-connections-for-admin-panel-v1-admin-connections-get:
+      parameters:
+        query:
+          status: ""
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 543453, "page": 761854, "size": 14708}
+        "422":
+          application/json: {}
+  get_filings_admin_v1_admin_filings_get:
+    speakeasy-default-get-filings-admin-v1-admin-filings-get:
+      parameters:
+        query:
+          status__in: "FILED,FILING,UNFILED"
+          start_date: "2024-01-01"
+          end_date: "2024-12-31"
+          date_filed__gte: "2024-01-01"
+          date_filed__lte: "2024-12-31"
+          order_by: "status,start_date,end_date,amount"
+          state_code: "CA"
+          country_code: ["US"]
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 63151, "page": 190348, "size": 927730}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_filing_for_admin_panel_v1_admin_filings_post:
+    speakeasy-default-create-filing-for-admin-panel-v1-admin-filings-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"registration_id": "<id>", "status": "FILING", "start_date": "2023-08-26", "end_date": "2024-10-01", "state_code": "<value>", "state_name": "<value>", "country_code": "KY"}
+      responses:
+        "200":
+          application/json: {"start_date": "2024-12-14", "end_date": "2024-09-30", "country_code": "NI", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>"}
+        "422":
+          application/json: {}
+  get_filing_counts_by_jurisdiction_v1_admin_filings_count_get:
+    speakeasy-default-get-filing-counts-by-jurisdiction-v1-admin-filings-count-get:
+      parameters:
+        header:
+          x-organization-id: "orgn_12345"
+      responses:
+        "200":
+          application/json: [{"country_code": "GF", "state_code": "<value>", "filing_count": 5814}]
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>", "<value 3>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_filing_for_admin_panel_v1_admin_filings__filing_id__put:
+    speakeasy-default-update-filing-for-admin-panel-v1-admin-filings-filing-id-put:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"start_date": "2024-05-25", "end_date": "2024-05-25", "country_code": "MD", "transaction_count": 0, "needs_manual_review": false}
+      responses:
+        "200":
+          application/json: {"start_date": "2024-07-28", "end_date": "2024-01-02", "country_code": "CF", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>"}
+        "422":
+          application/json: {}
+  upload_filing_attachment_for_admin_panel_v1_admin_filings__filing_id__attachments_post:
+    speakeasy-default-upload-filing-attachment-for-admin-panel-v1-admin-filings-filing-id-attachments-post:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        multipart/form-data: {"file": "x-file: example.file"}
+      responses:
+        "200":
+          application/json: {"related_entity_id": "<id>", "related_entity_type": "REGISTRATION", "id": "<id>"}
+        "422":
+          application/json: {}
+  get_filing_attachments_for_admin_panel_v1_admin_filings__filing_id__attachments_get:
+    speakeasy-default-get-filing-attachments-for-admin-panel-v1-admin-filings-filing-id-attachments-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"related_entity_id": "<id>", "related_entity_type": "FILING_PAYMENT", "organization_id": "<id>", "file_name": "example.file", "mime_type": "<value>", "file_size_bytes": 247189, "file_location": "<value>", "file_location_type": "LOCAL"}]
+        "422":
+          application/json: {}
+  get_imports_for_admin_panel_v1_admin_imports_get:
+    speakeasy-default-get-imports-for-admin-panel-v1-admin-imports-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"user_id": "<id>", "organization_id": "<id>", "num_rows_total": 0, "num_transactions_imported": 0, "num_transactions_skipped": 0}], "total": 757586, "page": 990921, "size": 466530}
+        "422":
+          application/json: {}
+  search_organizations_v1_admin_organizations_search_get:
+    speakeasy-default-search-organizations-v1-admin-organizations-search-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [], "total": 400113, "page": 283808, "size": 976424}
+        "422":
+          application/json: {}
+  get_organization_details_for_admin_panel_v1_admin_organization_details_get:
+    speakeasy-default-get-organization-details-for-admin-panel-v1-admin-organization-details-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: null
+        "422":
+          application/json: {}
+  get_bank_details_for_admin_panel_v1_admin_bank_details_get:
+    speakeasy-default-get-bank-details-for-admin-panel-v1-admin-bank-details-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: null
+        "422":
+          application/json: {}
+  get_registration_by_id_for_admin_v1_admin_registrations__registration_id__get:
+    speakeasy-default-get-registration-by-id-for-admin-v1-admin-registrations-registration-id-get:
+      parameters:
+        path:
+          registration_id: "<id>"
+        header:
+          x-organization-id: "orgn_12345"
+      responses:
+        "200":
+          application/json: {"status": "REGISTERED", "country_code": "TM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "ANNUALLY", "filing_days": 427180, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_registrations_for_admin_panel_v1_admin_registrations_get:
+    speakeasy-default-get-registrations-for-admin-panel-v1-admin-registrations-get:
+      parameters:
+        query:
+          status__in: "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,VALIDATING,AWAITING_CLARIFICATION"
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 729248, "page": 848267, "size": 619917}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>", "<value 3>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>", "key2": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_filing_by_id_admin_v1_admin_filings__filing_id__get:
+    speakeasy-default-get-filing-by-id-admin-v1-admin-filings-filing-id-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"start_date": "2023-08-23", "end_date": "2025-07-30", "country_code": "OM", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>", "key2": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  bulk_download_filing_reports_v1_filings_reports_bulk_download_post:
+    speakeasy-default-bulk-download-filing-reports-v1-filings-reports-bulk-download-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"filing_ids": ["<value 1>", "<value 2>"]}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  deregister_registration_v1_registrations__registration_id__deregister_post:
+    speakeasy-default-deregister-registration-v1-registrations-registration-id-deregister-post:
+      parameters:
+        path:
+          registration_id: "regs_123456"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "DEREGISTERED", "country_code": "PW", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 352449, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_marketplace_v1_marketplaces__marketplace_id__put:
+    speakeasy-default-update-marketplace-v1-marketplaces-marketplace-id-put:
+      parameters:
+        path:
+          marketplace_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"marketplace": "NEEDS_REVIEW"}
+      responses:
+        "200":
+          application/json: {"version": 1}
+        "422":
+          application/json: {}
+  handle_magento_webhook_magento_webhook_listener_post:
+    speakeasy-default-handle-magento-webhook-magento-webhook-listener-post:
+      responses:
+        "202":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  validate_connection_magento_validate_get:
+    speakeasy-default-validate-connection-magento-validate-get:
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  handle_shopware_webhook_shopware_webhooks_post:
+    speakeasy-default-handle-shopware-webhook-shopware-webhooks-post:
+      requestBody:
+        application/json: {"data": {"payload": [{"entity": "<value>", "operation": "<value>", "primaryKey": "<value>"}], "event": "<value>"}, "source": {"url": "https://cloudy-spear.com", "shopId": "<id>"}, "timestamp": "2023-08-27T04:44:37.558Z"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  health_check_health_get:
+    speakeasy-default-health-check-health-get:
+      responses:
+        "200":
+          application/json: "<value>"
+  integration_test_integration_get:
+    speakeasy-default-integration-test-integration-get:
+      responses:
+        "200":
+          application/json: "<value>"
+  metrics_metrics_get:
+    speakeasy-default-metrics-metrics-get:
+      responses:
+        "200":
+          application/json: "<value>"
+  proxy_address_validation_bulk_suggestions_v1_address_validation_bulk_suggestions_post:
+    speakeasy-default-proxy-address-validation-bulk-suggestions-v1-address-validation-bulk-suggestions-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: []
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  run_all_batches_v1_internal_batches_run_post:
+    speakeasy-default-run-all-batches-v1-internal-batches-run-post:
+      responses:
+        "200":
+          application/json: {"message": "<value>"}
+  run_organization_batch_v1_internal_batches_run__organization_id__post:
+    speakeasy-default-run-organization-batch-v1-internal-batches-run-organization-id-post:
+      parameters:
+        path:
+          organization_id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  run_batch_stage_for_org_v1_internal_batches_run__organization_id___batch_stage__post:
+    speakeasy-default-run-batch-stage-for-org-v1-internal-batches-run-organization-id-batch-stage-post:
+      parameters:
+        path:
+          organization_id: "<id>"
+          batch_stage: "DETERMINE_TAX_ITEMS"
+      responses:
+        "200":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  reset_connection_v1_connections__connection_id__reset_post:
+    speakeasy-default-reset-connection-v1-connections-connection-id-reset-post:
+      parameters:
+        path:
+          connection_id: "<id>"
+        query:
+          auth_code: "<value>"
+          organization_id: "<id>"
+          update_mode: true
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  run_single_connection_sync_api_v1_internal_connections_run__organization_id___connection_id__post:
+    speakeasy-default-run-single-connection-sync-api-v1-internal-connections-run-organization-id-connection-id-post:
+      parameters:
+        path:
+          organization_id: "<id>"
+          connection_id: "<id>"
+      responses:
+        "202":
+          application/json: {"message": "<value>"}
+        "422":
+          application/json: {}
+  create_apideck_webhook_subscription_v1_connections_apideck_webhooks_post:
+    speakeasy-default-create-apideck-webhook-subscription-v1-connections-apideck-webhooks-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"unified_api": "<value>", "delivery_url": "https://deserted-waist.biz", "events": ["accounting.customer.created"]}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  send_internal_email_v1_internal_email_send_post:
+    speakeasy-default-send-internal-email-v1-internal-email-send-post:
+      requestBody:
+        application/json: {"to_email": "<value>", "subject": "<value>", "content": "<value>", "link": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  update_filing_internal_v1_internal_filings__filing_id__put:
+    speakeasy-default-update-filing-internal-v1-internal-filings-filing-id-put:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"start_date": "2024-10-22", "end_date": "2024-12-22", "country_code": "TH", "transaction_count": 0, "needs_manual_review": false}
+      responses:
+        "200":
+          application/json: {"start_date": "2025-08-03", "end_date": "2024-05-14", "country_code": "WF", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>"}
+        "422":
+          application/json: {}
+  get_organizations_v1_internal_organizations__get:
+    speakeasy-default-get-organizations-v1-internal-organizations-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [], "total": 617949, "page": null, "size": 34954}
+        "422":
+          application/json: {}
+  migrate_v1_internal_migrate_post:
+    speakeasy-default-migrate-v1-internal-migrate-post:
+      requestBody:
+        application/json: {"migration_name": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  handle_hris_webhook_v1_internal_hris_webhook_listener_post:
+    speakeasy-default-handle-hris-webhook-v1-internal-hris-webhook-listener-post:
+      responses:
+        "200":
+          application/json: "<value>"
+  get_attachments_v1_attachments_get:
+    speakeasy-default-get-attachments-v1-attachments-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"related_entity_id": "<id>", "related_entity_type": "FILING_PAYMENT", "id": "<id>"}], "total": 537871, "page": 330245, "size": 848165}
+        "422":
+          application/json: {}
+  upload_attachment_v1_attachments_post:
+    speakeasy-default-upload-attachment-v1-attachments-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        multipart/form-data: {"related_entity_id": "<id>", "related_entity_type": "<value>", "file": "x-file: example.file"}
+      responses:
+        "200":
+          application/json: {"related_entity_id": "<id>", "related_entity_type": "REGISTRATION", "id": "<id>"}
+        "422":
+          application/json: {}
+  get_attachment_by_id_v1_attachments__attachment_id__get:
+    speakeasy-default-get-attachment-by-id-v1-attachments-attachment-id-get:
+      parameters:
+        path:
+          attachment_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"related_entity_id": "<id>", "related_entity_type": "FILING_PAYMENT", "organization_id": "<id>", "file_name": "example.file", "mime_type": "<value>", "file_size_bytes": 123624, "file_location": "<value>", "file_location_type": "LOCAL"}
+        "422":
+          application/json: {}
+  download_attachment_v1_attachments__attachment_id__download_get:
+    speakeasy-default-download-attachment-v1-attachments-attachment-id-download-get:
+      parameters:
+        path:
+          attachment_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_connections_v1_connections_get:
+    speakeasy-default-get-connections-v1-connections-get:
+      parameters:
+        query:
+          status: ""
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"id": "<id>", "updated_at": "2025-07-22T21:48:17.738Z", "created_at": "2024-02-10T00:03:16.301Z", "last_synced": "2023-09-21T23:40:58.014Z", "source": "IMPORT", "external_id": "<id>", "status": "INACTIVE", "records_synced": 581125}], "total": null, "page": 997697, "size": null}
+        "422":
+          application/json: {}
+  get_connection_by_id_v1_connections__connection_id__get:
+    speakeasy-default-get-connection-by-id-v1-connections-connection-id-get:
+      parameters:
+        path:
+          connection_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "updated_at": "2023-10-02T12:21:08.880Z", "created_at": "2025-07-09T06:55:07.545Z", "last_synced": "2023-02-08T04:02:02.642Z", "source": "RIPPLING", "external_id": "<id>", "status": "INACTIVE", "records_synced": 629379}
+        "422":
+          application/json: {}
+  update_connection_v1_connections__connection_id__put:
+    speakeasy-default-update-connection-v1-connections-connection-id-put:
+      parameters:
+        path:
+          connection_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "updated_at": "2024-04-25T19:56:13.618Z", "created_at": "2025-04-04T22:55:30.726Z", "last_synced": "2025-04-28T00:17:36.344Z", "source": "XERO", "external_id": "<id>", "status": "CONNECTION_ERROR", "records_synced": 624296}
+        "422":
+          application/json: {}
+  create_or_update_shopify_connection_v1_connections_shopify__shop_id__put:
+    speakeasy-default-create-or-update-shopify-connection-v1-connections-shopify-shop-id-put:
+      parameters:
+        path:
+          shop_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"url": "https://neat-creature.biz", "secret": "<value>"}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "updated_at": "2024-02-15T13:10:11.919Z", "created_at": "2023-05-05T13:41:47.688Z", "last_synced": "2025-04-11T12:18:07.136Z", "source": "NEWEGG", "external_id": "<id>", "status": "INACTIVE", "records_synced": 159631}
+        "422":
+          application/json: {}
+  create_or_update_shopify_connection_from_oauth_v1_connections_shopify_oauth__shop_id__put:
+    speakeasy-default-create-or-update-shopify-connection-from-oauth-v1-connections-shopify-oauth-shop-id-put:
+      parameters:
+        path:
+          shop_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"url": "https://mindless-in-joke.info/", "secret": "<value>"}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "updated_at": "2023-12-31T21:58:24.907Z", "created_at": "2025-01-05T07:39:55.528Z", "last_synced": "2024-10-27T04:32:09.448Z", "source": "MAXIO", "external_id": "<id>", "status": "ACTIVE", "records_synced": 44687}
+        "422":
+          application/json: {}
+  create_or_update_chargebee_connection_v1_connections_chargebee__site_id__put:
+    speakeasy-default-create-or-update-chargebee-connection-v1-connections-chargebee-site-id-put:
+      parameters:
+        path:
+          site_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"url": "https://rich-teriyaki.com/", "api_key": "<value>"}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "updated_at": "2023-02-13T14:10:08.441Z", "created_at": "2023-04-22T01:23:29.511Z", "last_synced": "2025-04-28T08:46:33.630Z", "source": "GOOGLE_EXPRESS", "external_id": "<id>", "status": "ACTIVE", "records_synced": 828541}
+        "422":
+          application/json: {}
+  create_or_update_stripe_connection_v1_connections_stripe__publishable_key__put:
+    speakeasy-default-create-or-update-stripe-connection-v1-connections-stripe-publishable-key-put:
+      parameters:
+        path:
+          publishable_key: "<value>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"api_key": "<value>"}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "updated_at": "2025-04-05T08:04:50.263Z", "created_at": "2024-11-10T02:36:25.625Z", "last_synced": "2025-06-05T15:39:56.634Z", "source": "SHOPIFY", "external_id": "<id>", "status": "ARCHIVED", "records_synced": 563295}
+        "422":
+          application/json: {}
+  sync_connection_v1_connections__connection_id__sync_post:
+    speakeasy-default-sync-connection-v1-connections-connection-id-sync-post:
+      parameters:
+        path:
+          connection_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  update_connection_status_v1_connections__connection_id__status_put:
+    speakeasy-default-update-connection-status-v1-connections-connection-id-status-put:
+      parameters:
+        path:
+          connection_id: "<id>"
+        query:
+          new_connection_status: "<value>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "updated_at": "2025-01-04T14:33:34.510Z", "created_at": "2025-11-13T22:37:58.699Z", "last_synced": "2024-02-05T06:02:03.494Z", "source": "POS", "external_id": "<id>", "status": "ARCHIVED", "records_synced": 183325}
+        "422":
+          application/json: {}
+  create_apideck_connection_v1_connections_apideck__service_id__put:
+    speakeasy-default-create-apideck-connection-v1-connections-apideck-service-id-put:
+      parameters:
+        path:
+          service_id: "rippling"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  create_apideck_session_v1_connections_apideck_session__connection_id__get:
+    speakeasy-default-create-apideck-session-v1-connections-apideck-session-connection-id-get:
+      parameters:
+        path:
+          connection_id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  delete_connection_v1_connections__connection_id__delete_delete:
+    speakeasy-default-delete-connection-v1-connections-connection-id-delete-delete:
+      parameters:
+        path:
+          connection_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  import_authorized_connection_to_apideck_consumer_v1_connections_apideck__consumer_id__import_post:
+    speakeasy-default-import-authorized-connection-to-apideck-consumer-v1-connections-apideck-consumer-id-import-post:
+      parameters:
+        path:
+          consumer_id: "<id>"
+        query:
+          service_id: "<id>"
+          unified_api: "<value>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"access_token": "<value>", "expires_in": 410381, "refresh_token": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  set_tax_collection_v1_connections__connection_id__set_tax_collection_put:
+    speakeasy-default-set-tax-collection-v1-connections-connection-id-set-tax-collection-put:
+      parameters:
+        path:
+          connection_id: "<id>"
+        query:
+          set_enable: false
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  archive_transactions_for_archived_connections_v1_connections__connection_id__transactions_delete:
+    speakeasy-default-archive-transactions-for-archived-connections-v1-connections-connection-id-transactions-delete:
+      parameters:
+        path:
+          connection_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_addresses_v1_transactions_addresses_get:
+    speakeasy-default-get-addresses-v1-transactions-addresses-get:
+      parameters:
+        query:
+          status: "INVALID"
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"type": "SHIP_FROM"}], "total": 876420, "page": 37340, "size": null}
+        "422":
+          application/json: {}
+  update_addresses_v1_transactions_addresses_put:
+    speakeasy-default-update-addresses-v1-transactions-addresses-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: [{"type": "SHIP_TO"}]
+      responses:
+        "200":
+          application/json: "<value>"
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_transaction_sources_v1_transactions_sources_get:
+    speakeasy-default-get-transaction-sources-v1-transactions-sources-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  import_transactions_v1_transactions_import_post:
+    speakeasy-default-import-transactions-v1-transactions-import-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: [{"organization_id": "<id>", "external_id": "<id>", "date": "2023-08-26T11:43:45.497Z", "locked": false, "addresses": [{"type": "SHIP_TO"}], "transaction_items": [], "customer": {"organization_id": "<id>", "is_test_data": false}, "type": "FULL_CREDIT_NOTE"}]
+      responses:
+        "202":
+          application/json: {"created_count": 460022, "created_items": [], "skipped_count": 443028, "skipped_items": [], "updated_count": 827174, "updated_items": ["<value 1>"], "existing_count": 119096, "existing_items": {"key": "<value>", "key1": "<value>"}, "triggered_by": "<value>"}
+        "422":
+          application/json: {}
+  export_transactions_summary_report_v1_transactions_reports_summary_post:
+    speakeasy-default-export-transactions-summary-report-v1-transactions-reports-summary-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  export_collected_transactions_by_nexus_id_report_v1_transactions_reports_collected_post:
+    speakeasy-default-export-collected-transactions-by-nexus-id-report-v1-transactions-reports-collected-post:
+      parameters:
+        query:
+          nexus_id: "<id>"
+          include_refunds: false
+          respect_earliest_collected_date: false
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  resubmit_addresses_for_validation_v1_transactions_addresses_revalidation_put:
+    speakeasy-default-resubmit-addresses-for-validation-v1-transactions-addresses-revalidation-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  replace_transaction_addresses_v1_transactions__transaction_id__addresses_put:
+    speakeasy-default-replace-transaction-addresses-v1-transactions-transaction-id-addresses-put:
+      parameters:
+        path:
+          transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: []
+      responses:
+        "200":
+          application/json: [{"type": "SHIP_TO"}]
+        "422":
+          application/json: {}
+  get_related_transactions_v1_transactions__transaction_id__related_transactions_get:
+    speakeasy-default-get-related-transactions-v1-transactions-transaction-id-related-transactions-get:
+      parameters:
+        path:
+          transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"organization_id": "<id>", "external_id": "<id>", "date": "2025-05-27T08:27:32.528Z", "total_amount": "0.00", "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "BILL_FROM"}], "transaction_items": [], "type": "TAX_REFUND"}]
+        "422":
+          application/json: {}
+  export_transactions_to_csv_v1_transactions_export_csv_get:
+    speakeasy-default-export-transactions-to-csv-v1-transactions-export-csv-get:
+      parameters:
+        query:
+          limit_transactions: 0
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  export_transactions_details_report_v1_transactions_reports_details_post:
+    speakeasy-default-export-transactions-details-report-v1-transactions-reports-details-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  bulk_cleanup_v1_transactions_addresses_fill_blank_post:
+    speakeasy-default-bulk-cleanup-v1-transactions-addresses-fill-blank-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  archive_transactions_v1_transactions_archive_by_date_post:
+    speakeasy-default-archive-transactions-v1-transactions-archive-by-date-post:
+      parameters:
+        query:
+          date: "2024-01-21"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_blank_address_transactions_v1_transactions_addresses_blank_get:
+    speakeasy-default-get-blank-address-transactions-v1-transactions-addresses-blank-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"organization_id": "<id>", "external_id": "<id>", "date": "2024-11-07T21:15:57.917Z", "total_amount": "0.00", "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [], "transaction_items": [], "type": "PARTIAL_CREDIT_NOTE"}], "total": 389595, "page": 610462, "size": 883820}
+        "422":
+          application/json: {}
+  suggest_address_details_for_blank_address_v1_transactions_addresses_blank_suggestion_get:
+    speakeasy-default-suggest-address-details-for-blank-address-v1-transactions-addresses-blank-suggestion-get:
+      parameters:
+        query:
+          address_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_transaction_metrics_v1_metrics_transactions_get:
+    speakeasy-default-get-transaction-metrics-v1-metrics-transactions-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"total_transactions_count": 0, "total_sales": "0.00", "total_taxable_sales": "0.00", "total_incomplete_address": 0}
+        "422":
+          application/json: {}
+  archive_transaction_by_id_v1_transactions_archive_post:
+    speakeasy-default-archive-transaction-by-id-v1-transactions-archive-post:
+      parameters:
+        query:
+          transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_invalid_address_transactions_v1_transactions_addresses_invalid_get:
+    speakeasy-default-get-invalid-address-transactions-v1-transactions-addresses-invalid-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"organization_id": "<id>", "external_id": "<id>", "date": "2023-07-09T14:25:57.619Z", "total_amount": "0.00", "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [{"type": "BILL_TO"}], "transaction_items": [], "type": "ARCHIVE"}], "total": null, "page": 988531, "size": 530745}
+        "422":
+          application/json: {}
+  handle_quickbooks_webhook_v1_quickbooks_webhook_listener_post:
+    speakeasy-default-handle-quickbooks-webhook-v1-quickbooks-webhook-listener-post:
+      responses:
+        "200":
+          application/json: "<value>"
+  handle_stripe_connect_webhook_v1_webhooks_stripe__mode__connect_post:
+    speakeasy-default-handle-stripe-connect-webhook-v1-webhooks-stripe-mode-connect-post:
+      parameters:
+        path:
+          mode: "live"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  stripe_connection_webhook_v1_webhooks_stripe_organizations__organization_id__connections__connection_id__post:
+    speakeasy-default-stripe-connection-webhook-v1-webhooks-stripe-organizations-organization-id-connections-connection-id-post:
+      parameters:
+        path:
+          organization_id: "<id>"
+          connection_id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_stripe_authorization_v1_stripe_apps_oauth_authorize_get:
+    speakeasy-default-get-stripe-authorization-v1-stripe-apps-oauth-authorize-get:
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_propelauth_authorization_v1_stripe_apps_oauth_callback_get:
+    speakeasy-default-get-propelauth-authorization-v1-stripe-apps-oauth-callback-get:
+      parameters:
+        query:
+          code: "<value>"
+          state: "Illinois"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  oauth_exchange_token_v1_stripe_apps_oauth_exchange_token_post:
+    speakeasy-default-oauth-exchange-token-v1-stripe-apps-oauth-exchange-token-post:
+      requestBody:
+        application/json: {"refresh_token": "<value>"}
+      responses:
+        "200":
+          application/json: {"token_type": "<value>", "access_token": "<value>", "refresh_token": "<value>", "expires_in": 979914}
+        "422":
+          application/json: {}
+  oauth_logout_v1_stripe_apps_oauth_logout_post:
+    speakeasy-default-oauth-logout-v1-stripe-apps-oauth-logout-post:
+      requestBody:
+        application/json: {"refresh_token": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  create_stripe_app_connection_v1_stripe_apps_connections_post:
+    speakeasy-default-create-stripe-app-connection-v1-stripe-apps-connections-post:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"account_id": "<id>", "mode": "live", "reuse_existing_connection": false}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_email_group_v1_email_groups_get:
+    speakeasy-default-get-email-group-v1-email-groups-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_email_group_list_v1_email_groups_list_members_get:
+    speakeasy-default-get-email-group-list-v1-email-groups-list-members-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  add_member_to_email_group_v1_email_groups__post:
+    speakeasy-default-add-member-to-email-group-v1-email-groups-post:
+      parameters:
+        query:
+          email_group: "<value>"
+          member: "<value>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  remove_member_from_email_group_v1_email_groups__delete:
+    speakeasy-default-remove-member-from-email-group-v1-email-groups-delete:
+      parameters:
+        query:
+          email_group: "<value>"
+          member: "<value>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  handle_email_group_webhook_v1_stable_webhook_post:
+    speakeasy-default-handle-email-group-webhook-v1-stable-webhook-post:
+      responses:
+        "200":
+          application/json: "<value>"
+  get_org_physical_mail_addresses_v1_organizations_physical_mail_get:
+    speakeasy-default-get-org-physical-mail-addresses-v1-organizations-physical-mail-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_physical_mail_address_external_id_v1_organizations_physical_mail_external_id_get:
+    speakeasy-default-get-physical-mail-address-external-id-v1-organizations-physical-mail-external-id-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  create_physical_mail_address_onboarding_status_v1_organizations_physical_mail_onboard_get:
+    speakeasy-default-create-physical-mail-address-onboarding-status-v1-organizations-physical-mail-onboard-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  check_organization_name_v1_organizations_is_valid_get:
+    speakeasy-default-check-organization-name-v1-organizations-is-valid-get:
+      parameters:
+        query:
+          name: "<value>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_users_by_organization_id_v1_organizations_users_get:
+    speakeasy-default-get-users-by-organization-id-v1-organizations-users-get:
+      parameters:
+        query:
+          page_size: 20
+          page_number: 0
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: {"users": [], "total_users": 441533, "current_page": 963206, "page_size": 622774, "has_more_results": true}
+        "422":
+          application/json: {}
+  get_pending_invites_by_organization_id_v1_organizations_users_invites_get:
+    speakeasy-default-get-pending-invites-by-organization-id-v1-organizations-users-invites-get:
+      parameters:
+        query:
+          page_size: 20
+          page_number: 0
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: {"invites": [{"invitee_email": "Mayra82@yahoo.com", "org_id": "<id>", "org_name": "<value>", "role_in_org": "<value>", "created_at": 182976, "expires_at": 598361}], "total_invites": 394117, "page_size": 918390, "current_page": 843219, "has_more_results": false}
+        "422":
+          application/json: {}
+  invite_user_to_organization_v1_organizations_users_invites_post:
+    speakeasy-default-invite-user-to-organization-v1-organizations-users-invites-post:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"email": "Mia_Bahringer@gmail.com", "role": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_api_keys_v1_organizations_api_keys_get:
+    speakeasy-default-get-api-keys-v1-organizations-api-keys-get:
+      parameters:
+        query:
+          active: true
+          page_size: 20
+          page_number: 0
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  create_api_key_v1_organizations_api_keys_post:
+    speakeasy-default-create-api-key-v1-organizations-api-keys-post:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  update_api_key_v1_organizations_api_keys__api_key_id__put:
+    speakeasy-default-update-api-key-v1-organizations-api-keys-api-key-id-put:
+      parameters:
+        path:
+          api_key_id: "<id>"
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  delete_api_key_v1_organizations_api_keys__api_key_id__delete:
+    speakeasy-default-delete-api-key-v1-organizations-api-keys-api-key-id-delete:
+      parameters:
+        path:
+          api_key_id: "<id>"
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  update_user_role_in_organization_v1_organizations_users__user_id__role_put:
+    speakeasy-default-update-user-role-in-organization-v1-organizations-users-user-id-role-put:
+      parameters:
+        path:
+          user_id: "<id>"
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"role": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  remove_user_from_organization_v1_organizations_users__user_id__delete:
+    speakeasy-default-remove-user-from-organization-v1-organizations-users-user-id-delete:
+      parameters:
+        path:
+          user_id: "<id>"
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_organizations_by_user_v1_organizations__get:
+    speakeasy-default-get-organizations-by-user-v1-organizations-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [{"name": "<value>", "external_id": "<id>", "is_test": true, "source": "UNKNOWN", "promo": "<value>", "disable_emails": false, "collected_tax_enabled": false, "id": "<id>"}], "total": null, "page": 433671, "size": 245244}
+        "422":
+          application/json: {}
+  create_update_bank_details_v1_bank_details__put:
+    speakeasy-default-create-update-bank-details-v1-bank-details-put:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"bank_name": "<value>", "account_number": "<value>", "account_type": "CHECKING", "account_holder_name": "<value>", "routing_number": "<value>"}
+      responses:
+        "200":
+          application/json: {"bank_name": null, "account_number": "<value>", "account_type": "SAVINGS", "account_holder_name": "<value>", "routing_number": "<value>", "id": "<id>"}
+        "422":
+          application/json: {}
+  get_bank_details_v1_bank_details__get:
+    speakeasy-default-get-bank-details-v1-bank-details-get:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: {"bank_name": "<value>", "account_number": "<value>", "account_type": "SAVINGS", "account_holder_name": "<value>", "routing_number": "<value>", "id": "<id>"}
+        "422":
+          application/json: {}
+  create_update_business_details_v1_organization_details_business_details__put:
+    speakeasy-default-create-update-business-details-v1-organization-details-business-details-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"business_name": "<value>", "entity_type": "LIMITED_PARTNERSHIP", "dba": "<value>", "incorporation_state": "<value>", "incorporation_country": "EH", "ein": "<value>", "company_address_1": "<value>", "company_city": "<value>", "company_state": "<value>", "company_postal_code": "<value>", "company_country_code": "AL", "business_description": "<value>", "home_state_registration": "<value>", "first_operations_date": "2024-12-28"}
+      responses:
+        "200":
+          application/json: {"id": "<id>"}
+        "422":
+          application/json: {}
+  create_update_business_address_v1_organization_details_business_address__put:
+    speakeasy-default-create-update-business-address-v1-organization-details-business-address-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"business_name": "<value>", "company_city": "<value>", "company_state": "<value>", "company_postal_code": "<value>"}
+      responses:
+        "200":
+          application/json: {"id": "<id>"}
+        "422":
+          application/json: {}
+  create_update_business_information_v1_organization_details_business_information__put:
+    speakeasy-default-create-update-business-information-v1-organization-details-business-information-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"business_phone": "<value>", "business_email": "<value>", "business_address_1": "<value>", "business_address_2": "<value>", "business_city": "<value>", "business_state": "<value>", "business_postal_code": "<value>", "business_country_code": "PM", "business_mailing_address_1": "<value>", "business_mailing_address_2": "<value>", "business_mailing_city": "<value>", "business_mailing_state": "<value>", "business_mailing_postal_code": "<value>", "business_mailing_country_code": "CR", "business_fiscal_year_end": "2023-04-29"}
+      responses:
+        "200":
+          application/json: {"id": "<id>"}
+        "422":
+          application/json: {}
+  create_update_business_contact_v1_organization_details_business_contact__put:
+    speakeasy-default-create-update-business-contact-v1-organization-details-business-contact-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"business_contact_name": "<value>", "business_contact_phone": "<value>", "business_contact_email": "<value>", "business_contact_dob": "2023-01-31", "business_contact_title": "<value>", "business_contact_address_1": "<value>", "business_contact_address_2": "<value>", "business_contact_city": "<value>", "business_contact_state": "<value>", "business_contact_postal_code": "<value>", "business_contact_country_code": "PH", "business_contact_ssn": "<value>", "business_contact_dl": "<value>"}
+      responses:
+        "200":
+          application/json: {"id": "<id>"}
+        "422":
+          application/json: {}
+  create_update_business_owners_v1_organization_details_business_owners__put:
+    speakeasy-default-create-update-business-owners-v1-organization-details-business-owners-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"business_owner1_name": "<value>", "business_owner1_phone": "<value>", "business_owner1_email": "<value>", "business_owner1_dob": "2025-11-21", "business_owner1_title": "<value>", "business_owner1_address_1": "<value>", "business_owner1_address_2": "<value>", "business_owner1_city": "<value>", "business_owner1_state": "<value>", "business_owner1_postal_code": "<value>", "business_owner1_country_code": "TR", "business_owner1_ssn": "<value>", "business_owner1_dl": "<value>", "business_owner1_percent_ownership": "<value>", "business_owner2_name": "<value>", "business_owner2_phone": "<value>", "business_owner2_email": "<value>", "business_owner2_dob": null, "business_owner2_title": null, "business_owner2_address_1": "<value>", "business_owner2_address_2": "<value>", "business_owner2_city": "<value>", "business_owner2_state": "<value>", "business_owner2_postal_code": "<value>", "business_owner2_country_code": "MV", "business_owner2_ssn": "<value>", "business_owner2_dl": "<value>", "business_owner2_percent_ownership": "<value>", "business_owner3_name": "<value>", "business_owner3_phone": "<value>", "business_owner3_email": "<value>", "business_owner3_dob": "2024-01-10", "business_owner3_title": "<value>", "business_owner3_address_1": "<value>", "business_owner3_address_2": "<value>", "business_owner3_city": "<value>", "business_owner3_state": "<value>", "business_owner3_postal_code": "<value>", "business_owner3_country_code": "TO", "business_owner3_ssn": "<value>", "business_owner3_dl": "<value>", "business_owner3_percent_ownership": "<value>"}
+      responses:
+        "200":
+          application/json: {"id": "<id>"}
+        "422":
+          application/json: {}
+  get_organization_details_v1_organization_details_get:
+    speakeasy-default-get-organization-details-v1-organization-details-get:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: {"business_name": "<value>", "entity_type": null, "dba": "<value>", "incorporation_state": "<value>", "ein": null, "company_address_1": "<value>", "company_address_2": "<value>", "company_city": "<value>", "company_state": "<value>", "company_postal_code": "<value>", "company_country_code": "KZ", "business_description": "<value>", "home_state_registration": "<value>", "first_operations_date": "2025-08-30", "business_phone": "<value>", "business_email": "<value>", "business_address_1": "<value>", "business_address_2": "<value>", "business_city": "<value>", "business_state": "<value>", "business_postal_code": "<value>", "business_country_code": "CR", "business_mailing_address_1": "<value>", "business_mailing_address_2": "<value>", "business_mailing_city": null, "business_mailing_state": "<value>", "business_mailing_postal_code": "<value>", "business_mailing_country_code": "TO", "business_fiscal_year_end": null, "business_contact_name": "<value>", "business_contact_phone": "<value>", "business_contact_email": "<value>", "business_contact_dob": "2023-07-26", "business_contact_title": "<value>", "business_contact_address_1": "<value>", "business_contact_address_2": "<value>", "business_contact_city": "<value>", "business_contact_state": "<value>", "business_contact_postal_code": "<value>", "business_contact_country_code": "VU", "business_contact_ssn": "<value>", "business_contact_dl": "<value>", "business_owner1_name": "<value>", "business_owner1_phone": "<value>", "business_owner1_email": "<value>", "business_owner1_dob": "2023-08-23", "business_owner1_title": "<value>", "business_owner1_address_1": "<value>", "business_owner1_address_2": "<value>", "business_owner1_city": "<value>", "business_owner1_state": "<value>", "business_owner1_postal_code": "<value>", "business_owner1_country_code": null, "business_owner1_ssn": "<value>", "business_owner1_dl": "<value>", "business_owner1_percent_ownership": "<value>", "business_owner2_name": "<value>", "business_owner2_phone": "<value>", "business_owner2_email": "<value>", "business_owner2_dob": "2023-05-30", "business_owner2_title": "<value>", "business_owner2_address_1": "<value>", "business_owner2_address_2": "<value>", "business_owner2_city": "<value>", "business_owner2_state": "<value>", "business_owner2_postal_code": "<value>", "business_owner2_country_code": "BS", "business_owner2_ssn": "<value>", "business_owner2_dl": "<value>", "business_owner2_percent_ownership": null, "business_owner3_name": "<value>", "business_owner3_phone": "<value>", "business_owner3_email": "<value>", "business_owner3_dob": "2025-06-15", "business_owner3_title": "<value>", "business_owner3_address_1": "<value>", "business_owner3_address_2": "<value>", "business_owner3_city": "<value>", "business_owner3_state": "<value>", "business_owner3_postal_code": "<value>", "business_owner3_country_code": "GG", "business_owner3_ssn": "<value>", "business_owner3_dl": "<value>", "business_owner3_percent_ownership": "<value>", "physical_mail_address_line1": "<value>", "physical_mail_address_line2": "<value>", "physical_mail_address_city": "<value>", "physical_mail_address_state": "<value>", "physical_mail_address_postal_code": "<value>", "physical_mail_address_status": "<value>", "physical_mail_address_external_id": "<id>", "email_group": "<value>", "accounting_model": "ACCRUAL", "auto_register": false, "auto_file": true, "incorporation_country": "NC", "target_archive_date": null, "id": "<id>"}
+        "422":
+          application/json: {}
+  create_organization_v1_organizations_post:
+    speakeasy-default-create-organization-v1-organizations-post:
+      requestBody:
+        application/json: {"name": "<value>", "is_test": true}
+      responses:
+        "200":
+          application/json: {"name": "<value>", "external_id": "<id>", "is_test": true, "source": "LINKEDIN_AD", "promo": "<value>", "disable_emails": false, "collected_tax_enabled": false, "id": "<id>"}
+        "422":
+          application/json: {}
+  get_organization_details_auto_file_auto_register_v1_organization_details_auto_file_auto_register_get:
+    speakeasy-default-get-organization-details-auto-file-auto-register-v1-organization-details-auto-file-auto-register-get:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+        "422":
+          application/json: {}
+  update_organization_details_auto_file_auto_register_v1_organization_details_auto_file_auto_register_put:
+    speakeasy-default-update-organization-details-auto-file-auto-register-v1-organization-details-auto-file-auto-register-put:
+      parameters:
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "422":
+          application/json: {}
+  get_partner_organizations_v1_partner_organizations_get:
+    speakeasy-default-get-partner-organizations-v1-partner-organizations-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [{"is_test": true, "pending_tasks": 54189}], "total": null, "page": 50930, "size": 572036}
+        "422":
+          application/json: {}
+  update_exemption_v1_exemption__exemption_id__put:
+    speakeasy-default-update-exemption-v1-exemption-exemption-id-put:
+      parameters:
+        path:
+          exemption_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"start_date": "2024-01-10", "reseller": false}
+      responses:
+        "200":
+          application/json: {"start_date": "2023-04-29", "reseller": false, "id": "<id>", "exemption_type": "wholesale", "status": "DEACTIVATED"}
+        "422":
+          application/json: {}
+  update_onboarding_status_route_v1_onboarding_put:
+    speakeasy-default-update-onboarding-status-route-v1-onboarding-put:
+      requestBody:
+        application/json: {"status": "NOT_STARTED"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_onboarding_steps_status_v1_onboarding_steps_status_get:
+    speakeasy-default-get-onboarding-steps-status-v1-onboarding-steps-status-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"transactions_status": true, "physical_nexus_status": false, "organization_details_status": false, "bank_details_status": true, "onboarding_steps_status": false, "auto_register": false, "auto_file": false, "physical_mail_address_status": "<value>"}
+        "422":
+          application/json: {}
+  get_initial_import_status_v1_initial_import_status_get:
+    speakeasy-default-get-initial-import-status-v1-initial-import-status-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"initial_import_complete_status": true}
+        "422":
+          application/json: {}
+  get_dashboard_charts_v1_dashboard_charts__type__get:
+    speakeasy-default-get-dashboard-charts-v1-dashboard-charts-type-get:
+      parameters:
+        path:
+          type: "filings"
+        query:
+          country: "US"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"key": "<value>"}
+        "422":
+          application/json: {}
+  get_dashboard_stats_v1_dashboard_stats_get:
+    speakeasy-default-get-dashboard-stats-v1-dashboard-stats-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"total_sales": 1088.65, "total_transactions": 830817, "total_tax_amount_imported": 8757.98, "outstanding_total_liability": 9055.17, "total_tax_remitted": 8045.45, "currency": "XCD"}
+        "422":
+          application/json: {}
+  get_dashboard_tasks_v1_dashboard_tasks_get:
+    speakeasy-default-get-dashboard-tasks-v1-dashboard-tasks-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"registrations_regime_to_change": 11617, "registrations_regime_to_acknowledge": 523853, "registrations_to_finish": 487528, "filings_to_approve": 449521, "pending_product": 808881, "invalid_addresses": 650416, "blank_addresses": 248138, "needs_update_connections_count": 663805, "expired_exemptions_count": 15399, "needs_tax_collection_enable_connections_count": 166147, "needs_mark_as_tax_collecting_count": 903486}
+        "422":
+          application/json: {}
+  get_approval_stats_v1_filings_approval_stats_post:
+    speakeasy-default-get-approval-stats-v1-filings-approval-stats-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: ["<value 1>", "<value 2>"]
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  bulk_approve_filings_v1_filings_bulk_approve_put:
+    speakeasy-default-bulk-approve-filings-v1-filings-bulk-approve-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"filing_ids": ["<value 1>", "<value 2>", "<value 3>"]}
+      responses:
+        "200":
+          application/json: [{"start_date": "2024-11-24", "end_date": "2023-09-04", "country_code": "IR", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>"}]
+        "422":
+          application/json: {}
+  export_filings_v1_filings_reports_export_post:
+    speakeasy-default-export-filings-v1-filings-reports-export-post:
+      parameters:
+        query:
+          unpaid_only: false
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_filing_details_report_by_id_v1_filings__filing_id__reports_export_get:
+    speakeasy-default-get-filing-details-report-by-id-v1-filings-filing-id-reports-export-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  download_filings_report_v1_filings__filing_id__reports_download_get:
+    speakeasy-default-download-filings-report-v1-filings-filing-id-reports-download-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  upload_filing_attachment_v1_filings__filing_id__attachments_post:
+    speakeasy-default-upload-filing-attachment-v1-filings-filing-id-attachments-post:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        multipart/form-data: {"file": "x-file: example.file"}
+      responses:
+        "200":
+          application/json: {"related_entity_id": "<id>", "related_entity_type": "FILING", "id": "<id>"}
+        "422":
+          application/json: {}
+  export_filings_summary_report_v1_filings_reports_summary_get:
+    speakeasy-default-export-filings-summary-report-v1-filings-reports-summary-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_filing_attachments_download_v1_filings_attachments__filing_id__get:
+    speakeasy-default-get-filing-attachments-download-v1-filings-attachments-filing-id-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_filing_note_v1_filings_notes__filing_id__get:
+    speakeasy-default-get-filing-note-v1-filings-notes-filing-id-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  approve_filing_v1_filings__filing_id__approve_put:
+    speakeasy-default-approve-filing-v1-filings-filing-id-approve-put:
+      parameters:
+        path:
+          filing_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"start_date": "2024-12-05", "end_date": "2023-03-11", "country_code": "EG", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>"}
+        "422":
+          application/json: {}
+  get_filing_metrics_v1_metrics_filings_get:
+    speakeasy-default-get-filing-metrics-v1-metrics-filings-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"total_collected_tax": "0.00", "total_remitted_tax": "0.00", "total_calculated_tax": "0.00", "total_tax_liability": "0.00"}
+        "422":
+          application/json: {}
+  validate_import_data_v1_import_validate_post:
+    speakeasy-default-validate-import-data-v1-import-validate-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"file_name": "example.file", "data": "<value>", "source": "APIDECK"}
+      responses:
+        "200":
+          application/json: {"is_valid": false, "file_name": "example.file", "rows": 141976, "errors": "<value>", "encoding": "utf-8"}
+        "422":
+          application/json: {}
+  import_upload_urls_v1_import_upload_urls_post:
+    speakeasy-default-import-upload-urls-v1-import-upload-urls-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"files": [], "source": "GOOGLE_APP_STORE", "user_id": "<id>", "manual": false}
+      responses:
+        "200":
+          application/json: [{"file_name": "example.file", "is_local": true, "upload_url_config": {}}]
+        "422":
+          application/json: {}
+  internal_import_v1_import_internal_upload_post:
+    speakeasy-default-internal-import-v1-import-internal-upload-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        multipart/form-data: {"file": "x-file: example.file", "user_id": "<id>", "source": "PAYPAL"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  manual_internal_import_v1_import_internal_manual_upload_post:
+    speakeasy-default-manual-internal-import-v1-import-internal-manual-upload-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        multipart/form-data: {"files": ["x-file: example.file"]}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_imports_v1_imports_get:
+    speakeasy-default-get-imports-v1-imports-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"user_id": "<id>", "organization_id": "<id>", "num_rows_total": 0, "num_transactions_imported": 0, "num_transactions_skipped": 0}], "total": 542514, "page": 415835, "size": 286713}
+        "422":
+          application/json: {}
+  get_import_status_v1_import__import_id__get:
+    speakeasy-default-get-import-status-v1-import-import-id-get:
+      parameters:
+        path:
+          import_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  jira_webhook_v1_webhooks_jira_post:
+    speakeasy-default-jira-webhook-v1-webhooks-jira-post:
+      responses:
+        "200":
+          application/json: "<value>"
+  get_physical_nexus_categories_v1_nexus_physical_nexus_categories_get:
+    speakeasy-default-get-physical-nexus-categories-v1-nexus-physical-nexus-categories-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"name": "<value>", "title": "<value>", "description": "instance for yuck recede sun handful blah drag as", "example": "<value>", "is_category_assigned": true}]
+        "422":
+          application/json: {}
+  register_nexus_v1_nexus__nexus_id__register_put:
+    speakeasy-default-register-nexus-v1-nexus-nexus-id-register-put:
+      parameters:
+        path:
+          nexus_id: "<id>"
+        header:
+          x-organization-id: "<id>"
+      requestBody:
+        application/json: {"status": "UNREGISTERED"}
+      responses:
+        "200":
+          application/json: {"status": "REGISTERED", "country_code": "PR", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "QUARTERLY", "filing_days": 934924, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "422":
+          application/json: {}
+  get_nexus_report_v1_nexus_export_get:
+    speakeasy-default-get-nexus-report-v1-nexus-export-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_nexus_details_for_id_v1_nexus__nexus_id__get:
+    speakeasy-default-get-nexus-details-for-id-v1-nexus-nexus-id-get:
+      parameters:
+        path:
+          nexus_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"country_code": "UA", "state_code": "<value>", "state_name": "<value>", "treatment_of_exempt_transactions": "YES_SALES_NO_TRANSACTIONS", "trigger": "<value>", "sales_or_transactions": "BOTH", "threshold_sales": 646150, "threshold_transactions": 727428, "start_date": "2025-02-11", "transaction_count": 0, "transactions_amount": "0.00", "previous_transaction_count": 0, "previous_transactions_amount": "0.00", "tax_liability": "0.00", "nexus_met": false, "economic_nexus_met": false, "physical_nexus_met": false, "collected_tax_enabled": false, "period_model": "CURRENT_OR_PREVIOUS", "period_start_date": "2023-10-13", "period_end_date": "2023-01-08", "previous_period_start_date": "2023-01-24", "previous_period_end_date": "2023-09-08", "earliest_collected_date": "2018-01-01T00:00:00", "id": "<id>", "created_at": "2024-08-09T18:21:57.726Z", "updated_at": "2023-07-07T15:36:14.286Z", "organization_id": "<id>", "is_vda_eligible": false, "nexus_type": "EU_MEMBER_STATE", "total_transactions": 994301, "total_transactions_included": 794209, "total_transactions_exempted": 741446, "total_transactions_marketplace": 188063}
+        "422":
+          application/json: {}
+  enable_collected_tax_v1_nexus__nexus_id__enable_collected_tax_post:
+    speakeasy-default-enable-collected-tax-v1-nexus-nexus-id-enable-collected-tax-post:
+      parameters:
+        path:
+          nexus_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"country_code": "MA", "state_code": "<value>", "state_name": "<value>", "treatment_of_exempt_transactions": "YES_SALES_NO_TRANSACTIONS", "trigger": "<value>", "sales_or_transactions": "SALES", "threshold_sales": 422129, "threshold_transactions": 707977, "start_date": "2024-06-13", "transaction_count": 0, "transactions_amount": "0.00", "previous_transaction_count": 0, "previous_transactions_amount": "0.00", "tax_liability": "0.00", "nexus_met": false, "economic_nexus_met": false, "physical_nexus_met": false, "collected_tax_enabled": false, "period_model": "PRECEDING_YEAR_FROM_OCTOBER", "period_start_date": "2025-05-06", "period_end_date": "2025-04-30", "previous_period_start_date": "2025-02-13", "previous_period_end_date": "2023-06-05", "earliest_collected_date": "2018-01-01T00:00:00", "id": "<id>", "created_at": "2024-07-27T22:48:39.413Z", "updated_at": "2023-07-16T10:14:06.669Z", "organization_id": "<id>", "is_vda_eligible": false, "nexus_type": "CANADA_FEDERAL", "total_transactions": 768098, "total_transactions_included": 772420, "total_transactions_exempted": 211513, "total_transactions_marketplace": 912386}
+        "422":
+          application/json: {}
+  disable_collected_tax_v1_nexus__nexus_id__disable_collected_tax_post:
+    speakeasy-default-disable-collected-tax-v1-nexus-nexus-id-disable-collected-tax-post:
+      parameters:
+        path:
+          nexus_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"country_code": "SJ", "state_code": "<value>", "state_name": "<value>", "treatment_of_exempt_transactions": "YES_SALES_NO_TRANSACTIONS", "trigger": "<value>", "sales_or_transactions": "BOTH", "threshold_sales": 241812, "threshold_transactions": 547835, "start_date": "2023-06-23", "transaction_count": 0, "transactions_amount": "0.00", "previous_transaction_count": 0, "previous_transactions_amount": "0.00", "tax_liability": "0.00", "nexus_met": false, "economic_nexus_met": false, "physical_nexus_met": false, "collected_tax_enabled": false, "period_model": "PRECEDING_YEAR", "period_start_date": "2024-08-17", "period_end_date": "2024-01-30", "previous_period_start_date": "2024-04-25", "previous_period_end_date": "2023-01-05", "earliest_collected_date": "2018-01-01T00:00:00", "id": "<id>", "created_at": "2025-09-27T15:00:17.808Z", "updated_at": "2023-02-09T03:50:37.708Z", "organization_id": "<id>", "is_vda_eligible": true, "nexus_type": "EU_MEMBER_STATE", "total_transactions": 760025, "total_transactions_included": 285519, "total_transactions_exempted": 910526, "total_transactions_marketplace": 556126}
+        "422":
+          application/json: {}
+  get_collected_transactions_for_nexus_v1_nexus__nexus_id__collected_transactions_get:
+    speakeasy-default-get-collected-transactions-for-nexus-v1-nexus-nexus-id-collected-transactions-get:
+      parameters:
+        path:
+          nexus_id: "<id>"
+        query:
+          include_refunds: false
+          respect_earliest_collected_date: false
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 930960, "page": null, "size": 192304}
+        "422":
+          application/json: {}
+  resolve_collected_transactions_v1_nexus__nexus_id__resolve_collected_transactions_post:
+    speakeasy-default-resolve-collected-transactions-v1-nexus-nexus-id-resolve-collected-transactions-post:
+      parameters:
+        path:
+          nexus_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"country_code": "TN", "state_code": "<value>", "state_name": "<value>", "treatment_of_exempt_transactions": "YES_SALES_NO_TRANSACTIONS", "trigger": "<value>", "sales_or_transactions": "SALES", "threshold_sales": 18032, "threshold_transactions": 199743, "start_date": "2024-07-17", "transaction_count": 0, "transactions_amount": "0.00", "previous_transaction_count": 0, "previous_transactions_amount": "0.00", "tax_liability": "0.00", "nexus_met": false, "economic_nexus_met": false, "physical_nexus_met": false, "collected_tax_enabled": false, "period_model": "CALENDAR_YEAR", "period_start_date": "2025-10-05", "period_end_date": "2024-11-23", "previous_period_start_date": "2023-11-15", "previous_period_end_date": null, "earliest_collected_date": "2018-01-01T00:00:00", "id": "<id>", "created_at": "2024-02-04T00:53:04.361Z", "updated_at": "2024-10-27T13:45:51.856Z", "organization_id": "<id>", "is_vda_eligible": true, "nexus_type": "EU_MEMBER_STATE", "total_transactions": 528603, "total_transactions_included": 879705, "total_transactions_exempted": 156131, "total_transactions_marketplace": 125944}
+        "422":
+          application/json: {}
+  auth_webhook_v1_webhooks_auth__post:
+    speakeasy-default-auth-webhook-v1-webhooks-auth-post:
+      requestBody:
+        application/json: {"event_type": "<value>", "org_id": "<id>"}
+      responses:
+        "202":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_current_user_v1_users_me_get:
+    speakeasy-default-get-current-user-v1-users-me-get:
+      responses:
+        "200":
+          application/json: {"user_id": "<id>", "org_id_to_org_member_info": {"key": "<value>", "key1": "<value>", "key2": "<value>"}, "email": "Malcolm_VonRueden@yahoo.com", "first_name": "Valentine", "last_name": "Lehner", "username": "Vada_Ritchie", "legacy_user_id": "<id>", "impersonator_user_id": "<id>", "metadata": "<value>", "properties": {"key": "<value>", "key1": "<value>", "key2": "<value>"}}
+  get_user_signup_query_params_v1_users_signup_query_params_get:
+    speakeasy-default-get-user-signup-query-params-v1-users-signup-query-params-get:
+      responses:
+        "200":
+          application/json: "<value>"
+  oauth_exchange_token_v1_oauth_exchange_token_post:
+    speakeasy-default-oauth-exchange-token-v1-oauth-exchange-token-post:
+      requestBody:
+        application/json: {"refresh_token": "<value>"}
+      responses:
+        "200":
+          application/json: {"token_type": "<value>", "access_token": "<value>", "refresh_token": "<value>", "expires_in": 876910}
+        "422":
+          application/json: {}
+  oauth_logout_v1_oauth_logout_post:
+    speakeasy-default-oauth-logout-v1-oauth-logout-post:
+      requestBody:
+        application/json: {"refresh_token": "<value>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_products_v1_products__get:
+    speakeasy-default-get-products-v1-products-get:
+      parameters:
+        query:
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [{"id": "<id>", "external_id": "<id>", "sku": ["<value 1>"], "code": "CODE_3006", "name": "<value>", "description": "furthermore suckle whose", "status": "APPROVED", "product_category": "MISCELLANEOUS", "product_subcategory": "COMMERCIAL_CONSTRUCTION_EXISTING_BUILDINGS_LABOR", "tax_exempt": true, "source": "RECURLY", "connection_id": "<id>", "classification_failed": true}], "total": 158694, "page": 578852, "size": 727379}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_product_v1_products__post:
+    speakeasy-default-create-product-v1-products-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "name": "<value>", "product_category": "UNKNOWN", "product_subcategory": "MERCHANDISE_VENDING_MACHINE", "tax_exempt": true}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "external_id": "<id>", "sku": ["<value 1>", "<value 2>"], "code": "CODE_3009", "name": "<value>", "description": "huzzah incidentally below pfft under stitcher", "status": "PARTIALLY_APPROVED", "product_category": "DIGITAL", "product_subcategory": "FOOD_VENDING_MACHINE", "tax_exempt": true, "source": "OTHER", "connection_id": "<id>", "classification_failed": false}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": [], "msg": "<value>", "input": "<value>", "ctx": {}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_products_summary_v1_products_summary_get:
+    speakeasy-default-get-products-summary-v1-products-summary-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"key": "<value>"}
+        "422":
+          application/json: {}
+  get_products_overview_v1_products_overview_get:
+    speakeasy-default-get-products-overview-v1-products-overview-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"category": "<value>", "subcategory": "<value>", "total_products": 155271}]
+        "422":
+          application/json: {}
+  create_product_configs_v1_products_configs_post:
+    speakeasy-default-create-product-configs-v1-products-configs-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"product_configs": [{"primary_product_category": "DIGITAL", "primary_product_subcategory": "MEDICINES", "ai_enabled": false}]}
+      responses:
+        "200":
+          application/json: [{"primary_product_category": "UNKNOWN", "primary_product_subcategory": "SERVICE_GENERAL", "ai_enabled": false, "id": "<id>"}]
+        "422":
+          application/json: {}
+  update_product_configs_v1_products_configs_put:
+    speakeasy-default-update-product-configs-v1-products-configs-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"product_configs": []}
+      responses:
+        "200":
+          application/json: [{"primary_product_category": "SERVICE", "primary_product_subcategory": "REAL_PROPERTY_SERVICE", "ai_enabled": false, "id": "<id>"}]
+        "422":
+          application/json: {}
+  get_product_configs_v1_products_configs_get:
+    speakeasy-default-get-product-configs-v1-products-configs-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"primary_product_category": "MISCELLANEOUS", "primary_product_subcategory": "CUSTOM_SOFTWARE_DOWNLOADED", "ai_enabled": false, "id": "<id>"}]
+        "422":
+          application/json: {}
+  delete_product_config_v1_products_configs__config_id__delete:
+    speakeasy-default-delete-product-config-v1-products-configs-config-id-delete:
+      parameters:
+        path:
+          config_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "422":
+          application/json: {}
+  get_product_categories_v1_products_categories__get:
+    speakeasy-default-get-product-categories-v1-products-categories-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"name": "<value>", "subcategories": []}]
+        "422":
+          application/json: {}
+  create_update_product_categories_v1_products_categories__put:
+    speakeasy-default-create-update-product-categories-v1-products-categories-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"name": "<value>", "description": "drag outrageous next until drat hm fleck", "product_category": "PHYSICAL", "product_subcategory": "PHYSICAL_GENERAL", "product_code": "CODE_3030", "product_example": "<value>"}
+      responses:
+        "200":
+          application/json: {}
+        "422":
+          application/json: {}
+  bulk_approve_v1_products_bulk_approve__put:
+    speakeasy-default-bulk-approve-v1-products-bulk-approve-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  bulk_classify_v1_products_bulk_classify__post:
+    speakeasy-default-bulk-classify-v1-products-bulk-classify-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  bulk_approve_v2_v1_products_bulk_approve_v2_post:
+    speakeasy-default-bulk-approve-v2-v1-products-bulk-approve-v2-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"products": [{"id": "<id>", "product_category": "MISCELLANEOUS", "product_subcategory": "DIGITAL_GENERAL"}]}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  create_update_product_config_v1_products_config__put:
+    speakeasy-default-create-update-product-config-v1-products-config-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"primary_product_category": "MISCELLANEOUS", "primary_product_subcategory": "SHIPPING", "ai_enabled": false}
+      responses:
+        "200":
+          application/json: {"primary_product_category": "PHYSICAL", "primary_product_subcategory": "SECURITY_SERVICES_ELECTRONIC_MONITORING", "ai_enabled": false, "id": "<id>"}
+        "422":
+          application/json: {}
+  get_product_config_v1_products_config__get:
+    speakeasy-default-get-product-config-v1-products-config-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"primary_product_category": "MISCELLANEOUS", "primary_product_subcategory": "PROFESSIONAL_SERVICE", "ai_enabled": false, "id": "<id>"}
+        "422":
+          application/json: {}
+  get_product_classification_status_v1_products_classification_status__get:
+    speakeasy-default-get-product-classification-status-v1-products-classification-status-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  modify_products_category_subcategory_v1_internal_products_categories_put:
+    speakeasy-default-modify-products-category-subcategory-v1-internal-products-categories-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"existing_category": "DIGITAL", "existing_subcategory": "DIGITAL_GENERAL", "new_category": "MISCELLANEOUS", "new_subcategory": "DANCE_LESSONS"}
+      responses:
+        "422":
+          application/json: {}
+  export_products_v1_products_reports_export_post:
+    speakeasy-default-export-products-v1-products-reports-export-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  upload_registration_attachment_v1_registrations__registration_id__attachments_post:
+    speakeasy-default-upload-registration-attachment-v1-registrations-registration-id-attachments-post:
+      parameters:
+        path:
+          registration_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        multipart/form-data: {"file": "x-file: example.file"}
+      responses:
+        "200":
+          application/json: {"related_entity_id": "<id>", "related_entity_type": "FILING_PAYMENT", "organization_id": "<id>", "file_name": "example.file", "mime_type": "<value>", "file_size_bytes": 22109, "file_location": "<value>", "file_location_type": "LOCAL"}
+        "422":
+          application/json: {}
+  send_registration_password_v1_registrations__registration_id__send_password_post:
+    speakeasy-default-send-registration-password-v1-registrations-registration-id-send-password-post:
+      parameters:
+        path:
+          registration_id: "<id>"
+        header:
+          x-organization-id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_oss_countries_for_registration_v1_registrations__registration_id__oss_countries_get:
+    speakeasy-default-get-oss-countries-for-registration-v1-registrations-registration-id-oss-countries-get:
+      parameters:
+        path:
+          registration_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"id": "<id>", "country_code": "AE", "effective_date": "2024-12-17", "status": "REMOVED"}]
+        "422":
+          application/json: {}
+  get_rule_by_address_v1_rules_lookup_address_get:
+    speakeasy-default-get-rule-by-address-v1-rules-lookup-address-get:
+      parameters:
+        query:
+          product_code: "<value>"
+          date: "2025-01-31T00:38:04.243Z"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "product_code": "map[category:Physical subcategory:Solar Retail AC Cable & Conduit (Transmission)]", "start_date": "2025-10-02", "end_date": "2025-10-03", "state": ""}
+        "422":
+          application/json: {}
+  get_rule_by_id_v1_rules__rule_id__get:
+    speakeasy-default-get-rule-by-id-v1-rules-rule-id-get:
+      parameters:
+        path:
+          rule_id: "<id>"
+      responses:
+        "200":
+          application/json: {"id": "<id>", "product_code": "map[category:Physical subcategory:Nutrition Labeled Liquid Concentrate (Sweetened, 0% Juice)]", "start_date": "2024-08-26", "end_date": "2025-04-02", "state": "South Dakota", "postal_code": "94078", "city": "Buffalo Grove", "combined_rate": "<value>", "state_rate": "<value>", "county_rate": "<value>", "city_rate": "<value>", "special_rate": "<value>", "threshold": "0.0", "taxable_rate": "<value>"}
+        "422":
+          application/json: {}
+  proxy_taxbot_v1_taxgpt_get:
+    speakeasy-default-proxy-taxbot-v1-taxgpt-get:
+      parameters:
+        query:
+          text: "<value>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_organization_billing_info_from_chargebee_v1_billing_get:
+    speakeasy-default-get-organization-billing-info-from-chargebee-v1-billing-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"billing_plan": "<value>"}
+        "422":
+          application/json: {}
+  get_organization_billing_details_v1_billing_details_get:
+    speakeasy-default-get-organization-billing-details-v1-billing-details-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"billing_plan": "FREE", "subscription_status": "ACTIVE"}
+        "422":
+          application/json: {}
+  get_invoices_from_chargebee_v1_billing_invoices_get:
+    speakeasy-default-get-invoices-from-chargebee-v1-billing-invoices-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"id": "<id>", "customer_id": "<id>", "recurring": true, "status": "<value>", "price_type": "<value>", "deleted": false, "first_invoice": false, "has_advance_charges": false, "is_gifted": true, "term_finalized": true}]
+        "422":
+          application/json: {}
+  create_checkout_new_url_v1_billing_checkout_new_url_post:
+    speakeasy-default-create-checkout-new-url-v1-billing-checkout-new-url-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"billing_plan": "GROWTH"}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "type": "<value>", "url": "https://immediate-median.org/", "state": "Utah", "embed": true, "created_at": 455946, "expires_at": 451453, "object": "<value>", "updated_at": 697018, "resource_version": 301036}
+        "422":
+          application/json: {}
+  generate_portal_session_v1_billing_generate_portal_session_post:
+    speakeasy-default-generate-portal-session-v1-billing-generate-portal-session-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"access_url": "https://soulful-cannon.org/", "created_at": 764121, "customer_id": "<id>", "expires_at": 9311, "id": "<id>", "linked_customers": [], "object": "<value>", "status": "<value>", "token": "<value>"}
+        "422":
+          application/json: {}
+  listen_chargebee_checkout_webhook_v1_billing_chargebee_checkout_post:
+    speakeasy-default-listen-chargebee-checkout-webhook-v1-billing-chargebee-checkout-post:
+      responses:
+        "200":
+          application/json: {"key": "<value>", "key1": "<value>", "key2": "<value>"}
+  update_billing_plan_v1_billing_update_billing_plan_post:
+    speakeasy-default-update-billing-plan-v1-billing-update-billing-plan-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"billing_plan": "PREMIUM"}
+      responses:
+        "200":
+          application/json: {"id": "<id>", "billing_period": 31584, "billing_period_unit": "<value>", "customer_id": "<id>", "status": "<value>", "has_scheduled_changes": true, "channel": "<value>", "resource_version": 926043, "deleted": false, "object": "<value>", "currency_code": "NOK", "subscription_items": [], "due_invoices_count": 606238, "cf_orgId": "<id>", "has_scheduled_advance_invoices": false, "create_pending_invoices": true, "auto_close_invoices": false}
+        "422":
+          application/json: {}
+  get_organization_billing_matrix_v1_billing_matrices_get:
+    speakeasy-default-get-organization-billing-matrix-v1-billing-matrices-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"used_states": 0, "used_tax_questions": 0}
+        "422":
+          application/json: {}
+  upset_organization_billing_matrix_v1_billing_matrices_put:
+    speakeasy-default-upset-organization-billing-matrix-v1-billing-matrices-put:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {}
+      responses:
+        "200":
+          application/json: {"used_states": 0, "used_tax_questions": 0}
+        "422":
+          application/json: {}
+  download_invoice_pdf_v1_billing_invoices__invoice_id__pdf_get:
+    speakeasy-default-download-invoice-pdf-v1-billing-invoices-invoice-id-pdf-get:
+      parameters:
+        path:
+          invoice_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "422":
+          application/json: {}
+  get_billing_analytics_v1_billing_analytics_get:
+    speakeasy-default-get-billing-analytics-v1-billing-analytics-get:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_invoice_usage_v1_billing_invoices__invoice_id__usage_get:
+    speakeasy-default-get-invoice-usage-v1-billing-invoices-invoice-id-usage-get:
+      parameters:
+        path:
+          invoice_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: [{"completion_date": "<value>"}]
+        "422":
+          application/json: {}
+  handle_chargebee_webhook_v1_webhooks_chargebee__organization_id__post:
+    speakeasy-default-handle-chargebee-webhook-v1-webhooks-chargebee-organization-id-post:
+      parameters:
+        path:
+          organization_id: "<id>"
+      requestBody:
+        application/json: {}
+      responses:
+        "422":
+          application/json: {}
+  send_filing_approval_notification_v1_notifications_filing_approval_reminder_post:
+    speakeasy-default-send-filing-approval-notification-v1-notifications-filing-approval-reminder-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  run_batch_stage_for_org_v1_notification_batches_post:
+    speakeasy-default-run-batch-stage-for-org-v1-notification-batches-post:
+      parameters:
+        query:
+          batch_stage: "REGISTRATION_START"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  get_partner_by_id_v1_partner__partner_id__get:
+    speakeasy-default-get-partner-by-id-v1-partner-partner-id-get:
+      parameters:
+        path:
+          partner_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"name": "<value>"}
+        "422":
+          application/json: {}
+  get_credits_v1_credits_get:
+    speakeasy-default-get-credits-v1-credits-get:
+      parameters:
+        query:
+          registration_id: "<id>"
+          page: 1
+          size: 50
+        header:
+          x-organization-id: "org_12345"
+      responses:
+        "200":
+          application/json: {"items": [], "total": 790376, "page": 339273, "size": 573013}
+        "422":
+          application/json: {}
+  create_credit_v1_credits_post:
+    speakeasy-default-create-credit-v1-credits-post:
+      parameters:
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"type": "ITC", "start_date": "2025-06-30", "registration_id": "<id>"}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  PUT_update_credit_note_by_transaction_id:
+    speakeasy-default-PUT-update-credit-note-by-transaction-id:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+          credit_note_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2023-07-25T11:01:44.924Z", "status": "CANCELLED", "total_amount": 0, "marketplace": false, "currency": "SPL", "transaction_items": [{"external_id": "<id>", "date": "2024-09-15T23:01:02.880Z", "external_product_id": "<id>", "quantity": 1, "amount": 0}]}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
+  POST_create_credit_note_by_transaction_id:
+    speakeasy-default-POST-create-credit-note-by-transaction-id:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2024-01-17T09:54:06.459Z", "status": "PENDING", "total_amount": 0, "marketplace": false, "currency": "GEL", "transaction_items": [{"external_id": "<id>", "date": "2023-07-11T07:57:04.867Z", "external_product_id": "<id>", "quantity": 1, "amount": 0}]}
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-03-08T14:51:43.874Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2025-04-01T04:49:49.945Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": []}], "type": "SALE"}
+        "422":
+          application/json: {}
+examplesVersion: 1.0.2

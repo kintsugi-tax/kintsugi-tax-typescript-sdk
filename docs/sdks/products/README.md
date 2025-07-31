@@ -5,19 +5,11 @@
 
 ### Available Operations
 
-<<<<<<< HEAD
 * [list](#list) - Get Products
 * [create](#create) - Create Product
 * [get](#get) - Get Product By Id
 * [update](#update) - Update Product
 * [getCategories](#getcategories) - Get Product Categories
-=======
-* [getProductsV1ProductsGet](#getproductsv1productsget) - Get Products
-* [createProductV1ProductsPost](#createproductv1productspost) - Create Product
-* [getProductByIdV1ProductsProductIdGet](#getproductbyidv1productsproductidget) - Get Product By Id
-* [updateProductV1ProductsProductIdPut](#updateproductv1productsproductidput) - Update Product
-* [getProductCategoriesV1ProductsCategoriesGet](#getproductcategoriesv1productscategoriesget) - Get Product Categories
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 ## getProductsV1ProductsGet
 
@@ -380,11 +372,7 @@ run();
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
 
-<<<<<<< HEAD
 ## getCategories
-=======
-## getProductCategoriesV1ProductsCategoriesGet
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Product Categories API retrieves all
     product categories.  This endpoint helps users understand and select the
@@ -404,11 +392,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-<<<<<<< HEAD
   const result = await sdk.products.getCategories();
-=======
-  const result = await sdk.products.getProductCategoriesV1ProductsCategoriesGet();
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
   console.log(result);
 }
@@ -422,11 +406,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-<<<<<<< HEAD
 import { productsGetCategories } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetCategories.js";
-=======
-import { productsGetProductCategoriesV1ProductsCategoriesGet } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetProductCategoriesV1ProductsCategoriesGet.js";
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -438,20 +418,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-<<<<<<< HEAD
   const res = await productsGetCategories(sdk);
-=======
-  const res = await productsGetProductCategoriesV1ProductsCategoriesGet(sdk);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-<<<<<<< HEAD
     console.log("productsGetCategories failed:", res.error);
-=======
-    console.log("productsGetProductCategoriesV1ProductsCategoriesGet failed:", res.error);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 

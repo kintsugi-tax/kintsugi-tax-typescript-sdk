@@ -5,19 +5,11 @@
 
 ### Available Operations
 
-<<<<<<< HEAD
 * [list](#list) - Get Filings
 * [get](#get) - Get Filing By Id
 * [getByRegistrationId](#getbyregistrationid) - Get Filings By Registration Id
 
 ## list
-=======
-* [getFilingsV1FilingsGet](#getfilingsv1filingsget) - Get Filings
-* [getFilingByIdV1FilingsFilingIdGet](#getfilingbyidv1filingsfilingidget) - Get Filing By Id
-* [getFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet](#getfilingsbyregistrationidv1filingsregistrationregistrationidget) - Get Filings By Registration Id
-
-## getFilingsV1FilingsGet
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Filings API retrieves a paginated list of filings based on
     filters such as dates, jurisdiction, Country, status, etc. This helps track
@@ -37,11 +29,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-<<<<<<< HEAD
   const result = await sdk.filings.list({
-=======
-  const result = await sdk.filings.getFilingsV1FilingsGet({
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     startDate: "2024-01-01",
     endDate: "2024-12-31",
     dateFiledGte: "2024-01-01",
@@ -65,11 +53,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-<<<<<<< HEAD
 import { filingsList } from "@kintsugi-tax/tax-platform-sdk/funcs/filingsList.js";
-=======
-import { filingsGetFilingsV1FilingsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/filingsGetFilingsV1FilingsGet.js";
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -81,11 +65,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-<<<<<<< HEAD
   const res = await filingsList(sdk, {
-=======
-  const res = await filingsGetFilingsV1FilingsGet(sdk, {
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     startDate: "2024-01-01",
     endDate: "2024-12-31",
     dateFiledGte: "2024-01-01",
@@ -100,11 +80,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-<<<<<<< HEAD
     console.log("filingsList failed:", res.error);
-=======
-    console.log("filingsGetFilingsV1FilingsGet failed:", res.error);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -133,11 +109,7 @@ run();
 | errors.ErrorResponse                                     | 500                                                      | application/json                                         |
 | errors.SDKDefaultError                                   | 4XX, 5XX                                                 | \*/\*                                                    |
 
-<<<<<<< HEAD
 ## get
-=======
-## getFilingByIdV1FilingsFilingIdGet
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 This API retrieves detailed information about a specific
     filing using its unique identifier (filing_id).
@@ -156,11 +128,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-<<<<<<< HEAD
   const result = await sdk.filings.get({
-=======
-  const result = await sdk.filings.getFilingByIdV1FilingsFilingIdGet({
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     filingId: "<id>",
   });
 
@@ -176,11 +144,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-<<<<<<< HEAD
 import { filingsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/filingsGet.js";
-=======
-import { filingsGetFilingByIdV1FilingsFilingIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/filingsGetFilingByIdV1FilingsFilingIdGet.js";
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -192,22 +156,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-<<<<<<< HEAD
   const res = await filingsGet(sdk, {
-=======
-  const res = await filingsGetFilingByIdV1FilingsFilingIdGet(sdk, {
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     filingId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-<<<<<<< HEAD
     console.log("filingsGet failed:", res.error);
-=======
-    console.log("filingsGetFilingByIdV1FilingsFilingIdGet failed:", res.error);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 
@@ -236,11 +192,7 @@ run();
 | errors.ErrorResponse                                     | 500                                                      | application/json                                         |
 | errors.SDKDefaultError                                   | 4XX, 5XX                                                 | \*/\*                                                    |
 
-<<<<<<< HEAD
 ## getByRegistrationId
-=======
-## getFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Filings By Registration ID API
     retrieves all filings
@@ -262,11 +214,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-<<<<<<< HEAD
   const result = await sdk.filings.getByRegistrationId({
-=======
-  const result = await sdk.filings.getFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet({
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "<id>",
   });
 
@@ -282,11 +230,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-<<<<<<< HEAD
 import { filingsGetByRegistrationId } from "@kintsugi-tax/tax-platform-sdk/funcs/filingsGetByRegistrationId.js";
-=======
-import { filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet } from "@kintsugi-tax/tax-platform-sdk/funcs/filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.js";
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -298,22 +242,14 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-<<<<<<< HEAD
   const res = await filingsGetByRegistrationId(sdk, {
-=======
-  const res = await filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet(sdk, {
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     registrationId: "<id>",
   });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-<<<<<<< HEAD
     console.log("filingsGetByRegistrationId failed:", res.error);
-=======
-    console.log("filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet failed:", res.error);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 

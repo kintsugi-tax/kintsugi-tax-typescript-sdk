@@ -5,15 +5,9 @@
 
 ### Available Operations
 
-<<<<<<< HEAD
 * [estimate](#estimate) - Estimate Tax
 
 ## estimate
-=======
-* [estimateTaxV1TaxEstimatePost](#estimatetaxv1taxestimatepost) - Estimate Tax
-
-## estimateTaxV1TaxEstimatePost
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Estimate Tax API calculates the estimated tax for a specific
     transaction based on the provided details, including organization nexus,
@@ -33,11 +27,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-<<<<<<< HEAD
   const result = await sdk.taxEstimation.estimate({
-=======
-  const result = await sdk.taxEstimation.estimateTaxV1TaxEstimatePost({
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
@@ -83,11 +73,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-<<<<<<< HEAD
 import { taxEstimationEstimate } from "@kintsugi-tax/tax-platform-sdk/funcs/taxEstimationEstimate.js";
-=======
-import { taxEstimationEstimateTaxV1TaxEstimatePost } from "@kintsugi-tax/tax-platform-sdk/funcs/taxEstimationEstimateTaxV1TaxEstimatePost.js";
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -99,11 +85,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-<<<<<<< HEAD
   const res = await taxEstimationEstimate(sdk, {
-=======
-  const res = await taxEstimationEstimateTaxV1TaxEstimatePost(sdk, {
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
     transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
@@ -140,11 +122,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-<<<<<<< HEAD
     console.log("taxEstimationEstimate failed:", res.error);
-=======
-    console.log("taxEstimationEstimateTaxV1TaxEstimatePost failed:", res.error);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 

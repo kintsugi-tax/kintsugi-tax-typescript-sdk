@@ -5,7 +5,6 @@
 
 ### Available Operations
 
-<<<<<<< HEAD
 * [get](#get) - Get Transactions
 * [create](#create) - Create Transaction
 * [getByExternalId](#getbyexternalid) - Get Transaction By External Id
@@ -16,18 +15,6 @@
 * [updateCreditNote](#updatecreditnote) - Update Credit Note By Transaction Id
 
 ## get
-=======
-* [getTransactionsV1TransactionsGet](#gettransactionsv1transactionsget) - Get Transactions
-* [createTransactionV1TransactionsPost](#createtransactionv1transactionspost) - Create Transaction
-* [getTransactionByExternalIdV1TransactionsExternalExternalIdGet](#gettransactionbyexternalidv1transactionsexternalexternalidget) - Get Transaction By External Id
-* [updateTransactionV1TransactionsTransactionIdPut](#updatetransactionv1transactionstransactionidput) - Update Transaction
-* [getTransactionByIdV1TransactionsTransactionIdGet](#gettransactionbyidv1transactionstransactionidget) - Get Transaction By Id
-* [getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet](#gettransactionsbyfilingidv1transactionsfilingsfilingidget) - Get Transactions By Filing Id
-* [postCreateCreditNoteByTransactionId](#postcreatecreditnotebytransactionid) - Create Credit Note By Transaction Id
-* [putUpdateCreditNoteByTransactionId](#putupdatecreditnotebytransactionid) - Update Credit Note By Transaction Id
-
-## getTransactionsV1TransactionsGet
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 The Get Transactions API retrieves a list of transactions with
     optional filtering, sorting, and pagination.
@@ -46,11 +33,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-<<<<<<< HEAD
   const result = await sdk.transactions.get({});
-=======
-  const result = await sdk.transactions.getTransactionsV1TransactionsGet({});
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
   console.log(result);
 }
@@ -64,11 +47,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-<<<<<<< HEAD
 import { transactionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGet.js";
-=======
-import { transactionsGetTransactionsV1TransactionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetTransactionsV1TransactionsGet.js";
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -80,20 +59,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-<<<<<<< HEAD
   const res = await transactionsGet(sdk, {});
-=======
-  const res = await transactionsGetTransactionsV1TransactionsGet(sdk, {});
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-<<<<<<< HEAD
     console.log("transactionsGet failed:", res.error);
-=======
-    console.log("transactionsGetTransactionsV1TransactionsGet failed:", res.error);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   }
 }
 

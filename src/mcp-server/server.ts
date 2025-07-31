@@ -13,7 +13,6 @@ import {
 } from "./resources.js";
 import { MCPScope } from "./scopes.js";
 import { createRegisterTool } from "./tools.js";
-<<<<<<< HEAD
 import { tool$addressValidationSuggest } from "./tools/addressValidationSuggest.js";
 import { tool$customersCreate } from "./tools/customersCreate.js";
 import { tool$customersCreateTransaction } from "./tools/customersCreateTransaction.js";
@@ -54,50 +53,6 @@ import { tool$transactionsGetByFilingId } from "./tools/transactionsGetByFilingI
 import { tool$transactionsGetById } from "./tools/transactionsGetById.js";
 import { tool$transactionsUpdate } from "./tools/transactionsUpdate.js";
 import { tool$transactionsUpdateCreditNote } from "./tools/transactionsUpdateCreditNote.js";
-=======
-import { tool$addressValidationSuggestionsV1AddressValidationSuggestionsPost } from "./tools/addressValidationSuggestionsV1AddressValidationSuggestionsPost.js";
-import { tool$customersCreateCustomerV1CustomersPost } from "./tools/customersCreateCustomerV1CustomersPost.js";
-import { tool$customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost } from "./tools/customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.js";
-import { tool$customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet } from "./tools/customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet.js";
-import { tool$customersGetCustomerByIdV1CustomersCustomerIdGet } from "./tools/customersGetCustomerByIdV1CustomersCustomerIdGet.js";
-import { tool$customersGetCustomersV1 } from "./tools/customersGetCustomersV1.js";
-import { tool$customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet } from "./tools/customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.js";
-import { tool$customersUpdateCustomerV1CustomersCustomerIdPut } from "./tools/customersUpdateCustomerV1CustomersCustomerIdPut.js";
-import { tool$exemptionsCreateExemptionV1ExemptionsPost } from "./tools/exemptionsCreateExemptionV1ExemptionsPost.js";
-import { tool$exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet } from "./tools/exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.js";
-import { tool$exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet } from "./tools/exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet.js";
-import { tool$exemptionsGetExemptionsV1ExemptionsGet } from "./tools/exemptionsGetExemptionsV1ExemptionsGet.js";
-import { tool$exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost } from "./tools/exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.js";
-import { tool$filingsGetFilingByIdV1FilingsFilingIdGet } from "./tools/filingsGetFilingByIdV1FilingsFilingIdGet.js";
-import { tool$filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet } from "./tools/filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.js";
-import { tool$filingsGetFilingsV1FilingsGet } from "./tools/filingsGetFilingsV1FilingsGet.js";
-import { tool$nexusCreatePhysicalNexusV1NexusPhysicalNexusPost } from "./tools/nexusCreatePhysicalNexusV1NexusPhysicalNexusPost.js";
-import { tool$nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete } from "./tools/nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.js";
-import { tool$nexusGetNexusForOrgV1NexusGet } from "./tools/nexusGetNexusForOrgV1NexusGet.js";
-import { tool$nexusGetPhysicalNexusV1NexusPhysicalNexusGet } from "./tools/nexusGetPhysicalNexusV1NexusPhysicalNexusGet.js";
-import { tool$nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut } from "./tools/nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.js";
-import { tool$productsCreateProductV1ProductsPost } from "./tools/productsCreateProductV1ProductsPost.js";
-import { tool$productsGetProductByIdV1ProductsProductIdGet } from "./tools/productsGetProductByIdV1ProductsProductIdGet.js";
-import { tool$productsGetProductCategoriesV1ProductsCategoriesGet } from "./tools/productsGetProductCategoriesV1ProductsCategoriesGet.js";
-import { tool$productsGetProductsV1ProductsGet } from "./tools/productsGetProductsV1ProductsGet.js";
-import { tool$productsUpdateProductV1ProductsProductIdPut } from "./tools/productsUpdateProductV1ProductsProductIdPut.js";
-import { tool$registrationsCreateRegistrationV1RegistrationsPost } from "./tools/registrationsCreateRegistrationV1RegistrationsPost.js";
-import {
-  tool$registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost,
-} from "./tools/registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.js";
-import { tool$registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet } from "./tools/registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet.js";
-import { tool$registrationsGetRegistrationsV1RegistrationsGet } from "./tools/registrationsGetRegistrationsV1RegistrationsGet.js";
-import { tool$registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut } from "./tools/registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut.js";
-import { tool$taxEstimationEstimateTaxV1TaxEstimatePost } from "./tools/taxEstimationEstimateTaxV1TaxEstimatePost.js";
-import { tool$transactionsCreateTransactionV1TransactionsPost } from "./tools/transactionsCreateTransactionV1TransactionsPost.js";
-import { tool$transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet } from "./tools/transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet.js";
-import { tool$transactionsGetTransactionByIdV1TransactionsTransactionIdGet } from "./tools/transactionsGetTransactionByIdV1TransactionsTransactionIdGet.js";
-import { tool$transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet } from "./tools/transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.js";
-import { tool$transactionsGetTransactionsV1TransactionsGet } from "./tools/transactionsGetTransactionsV1TransactionsGet.js";
-import { tool$transactionsPOSTCreateCreditNoteByTransactionId } from "./tools/transactionsPOSTCreateCreditNoteByTransactionId.js";
-import { tool$transactionsPUTUpdateCreditNoteByTransactionId } from "./tools/transactionsPUTUpdateCreditNoteByTransactionId.js";
-import { tool$transactionsUpdateTransactionV1TransactionsTransactionIdPut } from "./tools/transactionsUpdateTransactionV1TransactionsTransactionIdPut.js";
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
 export function createMCPServer(deps: {
   logger: ConsoleLogger;
@@ -109,11 +64,7 @@ export function createMCPServer(deps: {
 }) {
   const server = new McpServer({
     name: "SDK",
-<<<<<<< HEAD
     version: "0.7.3",
-=======
-    version: "0.6.0",
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
   });
 
   const client = new SDKCore({
@@ -143,7 +94,6 @@ export function createMCPServer(deps: {
   const register = { tool, resource, resourceTemplate, prompt };
   void register; // suppress unused warnings
 
-<<<<<<< HEAD
   tool(tool$addressValidationSuggest);
   tool(tool$customersList);
   tool(tool$customersCreate);
@@ -184,64 +134,6 @@ export function createMCPServer(deps: {
   tool(tool$transactionsCreateCreditNote);
   tool(tool$transactionsUpdateCreditNote);
   tool(tool$taxEstimationEstimate);
-=======
-  tool(tool$addressValidationSuggestionsV1AddressValidationSuggestionsPost);
-  tool(tool$customersGetCustomersV1);
-  tool(tool$customersCreateCustomerV1CustomersPost);
-  tool(tool$customersGetCustomerByIdV1CustomersCustomerIdGet);
-  tool(tool$customersUpdateCustomerV1CustomersCustomerIdPut);
-  tool(tool$customersGetCustomerByExternalIdV1CustomersExternalExternalIdGet);
-  tool(
-    tool$customersGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet,
-  );
-  tool(
-    tool$customersCreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost,
-  );
-  tool(tool$exemptionsGetExemptionsV1ExemptionsGet);
-  tool(tool$exemptionsCreateExemptionV1ExemptionsPost);
-  tool(tool$exemptionsGetExemptionByIdV1ExemptionsExemptionIdGet);
-  tool(
-    tool$exemptionsUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost,
-  );
-  tool(
-    tool$exemptionsGetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet,
-  );
-  tool(tool$filingsGetFilingsV1FilingsGet);
-  tool(tool$filingsGetFilingByIdV1FilingsFilingIdGet);
-  tool(
-    tool$filingsGetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet,
-  );
-  tool(tool$nexusGetPhysicalNexusV1NexusPhysicalNexusGet);
-  tool(tool$nexusCreatePhysicalNexusV1NexusPhysicalNexusPost);
-  tool(tool$nexusUpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut);
-  tool(tool$nexusDeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete);
-  tool(tool$nexusGetNexusForOrgV1NexusGet);
-  tool(tool$productsGetProductsV1ProductsGet);
-  tool(tool$productsCreateProductV1ProductsPost);
-  tool(tool$productsGetProductByIdV1ProductsProductIdGet);
-  tool(tool$productsUpdateProductV1ProductsProductIdPut);
-  tool(tool$productsGetProductCategoriesV1ProductsCategoriesGet);
-  tool(tool$registrationsGetRegistrationsV1RegistrationsGet);
-  tool(tool$registrationsCreateRegistrationV1RegistrationsPost);
-  tool(tool$registrationsGetRegistrationByIdV1RegistrationsRegistrationIdGet);
-  tool(tool$registrationsUpdateRegistrationV1RegistrationsRegistrationIdPut);
-  tool(
-    tool$registrationsDeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost,
-  );
-  tool(tool$transactionsGetTransactionsV1TransactionsGet);
-  tool(tool$transactionsCreateTransactionV1TransactionsPost);
-  tool(
-    tool$transactionsGetTransactionByExternalIdV1TransactionsExternalExternalIdGet,
-  );
-  tool(tool$transactionsUpdateTransactionV1TransactionsTransactionIdPut);
-  tool(tool$transactionsGetTransactionByIdV1TransactionsTransactionIdGet);
-  tool(
-    tool$transactionsGetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet,
-  );
-  tool(tool$transactionsPOSTCreateCreditNoteByTransactionId);
-  tool(tool$transactionsPUTUpdateCreditNoteByTransactionId);
-  tool(tool$taxEstimationEstimateTaxV1TaxEstimatePost);
->>>>>>> 68f5712d768e774ab185da2f28d4e8cecdd8bee7
 
   return server;
 }
