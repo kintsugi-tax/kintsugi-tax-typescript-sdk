@@ -5,7 +5,7 @@
 
 ### Available Operations
 
-* [list](#list) - Get Transactions
+* [get](#get) - Get Transactions
 * [create](#create) - Create Transaction
 * [getByExternalId](#getbyexternalid) - Get Transaction By External Id
 * [update](#update) - Update Transaction
@@ -14,7 +14,7 @@
 * [createCreditNote](#createcreditnote) - Create Credit Note By Transaction Id
 * [updateCreditNote](#updatecreditnote) - Update Credit Note By Transaction Id
 
-## list
+## get
 
 The Get Transactions API retrieves a list of transactions with
     optional filtering, sorting, and pagination.
@@ -33,7 +33,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.transactions.list({});
+  const result = await sdk.transactions.get({});
 
   console.log(result);
 }
@@ -47,7 +47,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsList } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsList.js";
+import { transactionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -59,12 +59,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await transactionsList(sdk, {});
+  const res = await transactionsGet(sdk, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("transactionsList failed:", res.error);
+    console.log("transactionsGet failed:", res.error);
   }
 }
 

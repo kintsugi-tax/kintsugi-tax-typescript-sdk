@@ -224,7 +224,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation.suggestions({
+  const result = await sdk.addressValidation.suggest({
     line1: "1600 Amphitheatre Parkway",
     line2: "",
     line3: "",
@@ -283,7 +283,7 @@ run();
 ### [addressValidation](docs/sdks/addressvalidation/README.md)
 
 * [search](docs/sdks/addressvalidation/README.md#search) - Search
-* [suggestions](docs/sdks/addressvalidation/README.md#suggestions) - Suggestions
+* [suggest](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
 
 ### [customers](docs/sdks/customers/README.md)
 
@@ -303,8 +303,18 @@ run();
 * [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
 * [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
 
+### [filings](docs/sdks/filings/README.md)
+
+* [list](docs/sdks/filings/README.md#list) - Get Filings
+* [get](docs/sdks/filings/README.md#get) - Get Filing By Id
+* [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
+
 ### [nexus](docs/sdks/nexus/README.md)
 
+* [listPhysical](docs/sdks/nexus/README.md#listphysical) - Get Physical Nexus
+* [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
+* [updatePhysical](docs/sdks/nexus/README.md#updatephysical) - Update Physical Nexus
+* [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
 * [list](docs/sdks/nexus/README.md#list) - Get Nexus For Org
 
 ### [products](docs/sdks/products/README.md)
@@ -313,16 +323,24 @@ run();
 * [create](docs/sdks/products/README.md#create) - Create Product
 * [get](docs/sdks/products/README.md#get) - Get Product By Id
 * [update](docs/sdks/products/README.md#update) - Update Product
-* [listCategories](docs/sdks/products/README.md#listcategories) - Get Product Categories
+* [getCategories](docs/sdks/products/README.md#getcategories) - Get Product Categories
+
+### [registrations](docs/sdks/registrations/README.md)
+
+* [get](docs/sdks/registrations/README.md#get) - Get Registrations
+* [create](docs/sdks/registrations/README.md#create) - Create Registration
+* [getById](docs/sdks/registrations/README.md#getbyid) - Get Registration By Id
+* [update](docs/sdks/registrations/README.md#update) - Update Registration
+* [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
 
 
 ### [taxEstimation](docs/sdks/taxestimation/README.md)
 
-* [estimateTax](docs/sdks/taxestimation/README.md#estimatetax) - Estimate Tax
+* [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
 
 ### [transactions](docs/sdks/transactions/README.md)
 
-* [list](docs/sdks/transactions/README.md#list) - Get Transactions
+* [get](docs/sdks/transactions/README.md#get) - Get Transactions
 * [create](docs/sdks/transactions/README.md#create) - Create Transaction
 * [getByExternalId](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
 * [update](docs/sdks/transactions/README.md#update) - Update Transaction
@@ -350,7 +368,7 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 <summary>Available standalone functions</summary>
 
 - [`addressValidationSearch`](docs/sdks/addressvalidation/README.md#search) - Search
-- [`addressValidationSuggestions`](docs/sdks/addressvalidation/README.md#suggestions) - Suggestions
+- [`addressValidationSuggest`](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
 - [`customersCreate`](docs/sdks/customers/README.md#create) - Create Customer
 - [`customersCreateTransaction`](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
 - [`customersGet`](docs/sdks/customers/README.md#get) - Get Customer By Id
@@ -363,19 +381,31 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 - [`exemptionsGetAttachments`](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
 - [`exemptionsList`](docs/sdks/exemptions/README.md#list) - Get Exemptions
 - [`exemptionsUploadCertificate`](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
+- [`filingsGet`](docs/sdks/filings/README.md#get) - Get Filing By Id
+- [`filingsGetByRegistrationId`](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
+- [`filingsList`](docs/sdks/filings/README.md#list) - Get Filings
+- [`nexusCreatePhysical`](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
+- [`nexusDeletePhysical`](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
 - [`nexusList`](docs/sdks/nexus/README.md#list) - Get Nexus For Org
+- [`nexusListPhysical`](docs/sdks/nexus/README.md#listphysical) - Get Physical Nexus
+- [`nexusUpdatePhysical`](docs/sdks/nexus/README.md#updatephysical) - Update Physical Nexus
 - [`productsCreate`](docs/sdks/products/README.md#create) - Create Product
 - [`productsGet`](docs/sdks/products/README.md#get) - Get Product By Id
+- [`productsGetCategories`](docs/sdks/products/README.md#getcategories) - Get Product Categories
 - [`productsList`](docs/sdks/products/README.md#list) - Get Products
-- [`productsListCategories`](docs/sdks/products/README.md#listcategories) - Get Product Categories
 - [`productsUpdate`](docs/sdks/products/README.md#update) - Update Product
-- [`taxEstimationEstimateTax`](docs/sdks/taxestimation/README.md#estimatetax) - Estimate Tax
+- [`registrationsCreate`](docs/sdks/registrations/README.md#create) - Create Registration
+- [`registrationsDeregister`](docs/sdks/registrations/README.md#deregister) - Deregister Registration
+- [`registrationsGet`](docs/sdks/registrations/README.md#get) - Get Registrations
+- [`registrationsGetById`](docs/sdks/registrations/README.md#getbyid) - Get Registration By Id
+- [`registrationsUpdate`](docs/sdks/registrations/README.md#update) - Update Registration
+- [`taxEstimationEstimate`](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
 - [`transactionsCreate`](docs/sdks/transactions/README.md#create) - Create Transaction
 - [`transactionsCreateCreditNote`](docs/sdks/transactions/README.md#createcreditnote) - Create Credit Note By Transaction Id
+- [`transactionsGet`](docs/sdks/transactions/README.md#get) - Get Transactions
 - [`transactionsGetByExternalId`](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
 - [`transactionsGetByFilingId`](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
 - [`transactionsGetById`](docs/sdks/transactions/README.md#getbyid) - Get Transaction By Id
-- [`transactionsList`](docs/sdks/transactions/README.md#list) - Get Transactions
 - [`transactionsUpdate`](docs/sdks/transactions/README.md#update) - Update Transaction
 - [`transactionsUpdateCreditNote`](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
 
@@ -569,7 +599,7 @@ run();
 **Primary error:**
 * [`SDKError`](./src/models/errors/sdkerror.ts): The base class for HTTP error responses.
 
-<details><summary>Less common errors (14)</summary>
+<details><summary>Less common errors (17)</summary>
 
 <br />
 
@@ -582,14 +612,17 @@ run();
 
 
 **Inherit from [`SDKError`](./src/models/errors/sdkerror.ts)**:
-* [`ErrorResponse`](./src/models/errors/errorresponse.ts): Applicable to 20 of 29 methods.*
-* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Validation Error. Status code `422`. Applicable to 9 of 29 methods.*
-* [`BackendSrcExemptionsResponsesValidationErrorResponse`](./src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 29 methods.*
-* [`BackendSrcTransactionsResponsesValidationErrorResponse`](./src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts): Status code `422`. Applicable to 5 of 29 methods.*
-* [`BackendSrcProductsResponsesValidationErrorResponse`](./src/models/errors/backendsrcproductsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 29 methods.*
-* [`BackendSrcCustomersResponsesValidationErrorResponse`](./src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 29 methods.*
-* [`BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 29 methods.*
-* [`BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts): Validation Error. Status code `422`. Applicable to 1 of 29 methods.*
+* [`ErrorResponse`](./src/models/errors/errorresponse.ts): Applicable to 32 of 41 methods.*
+* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Validation Error. Status code `422`. Applicable to 9 of 41 methods.*
+* [`BackendSrcExemptionsResponsesValidationErrorResponse`](./src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 41 methods.*
+* [`BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
+* [`BackendSrcTransactionsResponsesValidationErrorResponse`](./src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts): Status code `422`. Applicable to 5 of 41 methods.*
+* [`BackendSrcNexusResponsesValidationErrorResponse`](./src/models/errors/backendsrcnexusresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
+* [`BackendSrcProductsResponsesValidationErrorResponse`](./src/models/errors/backendsrcproductsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
+* [`BackendSrcCustomersResponsesValidationErrorResponse`](./src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 41 methods.*
+* [`BackendSrcFilingsResponsesValidationErrorResponse`](./src/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 3 of 41 methods.*
+* [`BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 41 methods.*
+* [`BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts): Validation Error. Status code `422`. Applicable to 1 of 41 methods.*
 * [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>

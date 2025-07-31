@@ -5,9 +5,9 @@
 
 ### Available Operations
 
-* [estimateTax](#estimatetax) - Estimate Tax
+* [estimate](#estimate) - Estimate Tax
 
-## estimateTax
+## estimate
 
 The Estimate Tax API calculates the estimated tax for a specific
     transaction based on the provided details, including organization nexus,
@@ -27,7 +27,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.taxEstimation.estimateTax({
+  const result = await sdk.taxEstimation.estimate({
     transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
@@ -73,7 +73,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { taxEstimationEstimateTax } from "@kintsugi-tax/tax-platform-sdk/funcs/taxEstimationEstimateTax.js";
+import { taxEstimationEstimate } from "@kintsugi-tax/tax-platform-sdk/funcs/taxEstimationEstimate.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -85,7 +85,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await taxEstimationEstimateTax(sdk, {
+  const res = await taxEstimationEstimate(sdk, {
     transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
@@ -122,7 +122,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("taxEstimationEstimateTax failed:", res.error);
+    console.log("taxEstimationEstimate failed:", res.error);
   }
 }
 

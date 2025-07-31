@@ -4,10 +4,10 @@
 
 import { transactionsCreate } from "../funcs/transactionsCreate.js";
 import { transactionsCreateCreditNote } from "../funcs/transactionsCreateCreditNote.js";
+import { transactionsGet } from "../funcs/transactionsGet.js";
 import { transactionsGetByExternalId } from "../funcs/transactionsGetByExternalId.js";
 import { transactionsGetByFilingId } from "../funcs/transactionsGetByFilingId.js";
 import { transactionsGetById } from "../funcs/transactionsGetById.js";
-import { transactionsList } from "../funcs/transactionsList.js";
 import { transactionsUpdate } from "../funcs/transactionsUpdate.js";
 import { transactionsUpdateCreditNote } from "../funcs/transactionsUpdateCreditNote.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
@@ -23,11 +23,11 @@ export class Transactions extends ClientSDK {
    * The Get Transactions API retrieves a list of transactions with
    *     optional filtering, sorting, and pagination.
    */
-  async list(
+  async get(
     request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
     options?: RequestOptions,
   ): Promise<models.PageTransactionRead> {
-    return unwrapAsync(transactionsList(
+    return unwrapAsync(transactionsGet(
       this,
       request,
       options,

@@ -6,7 +6,7 @@
 ### Available Operations
 
 * [search](#search) - Search
-* [suggestions](#suggestions) - Suggestions
+* [suggest](#suggest) - Suggestions
 
 ## search
 
@@ -104,7 +104,7 @@ run();
 | errors.ErrorResponse                                               | 500                                                                | application/json                                                   |
 | errors.SDKDefaultError                                             | 4XX, 5XX                                                           | \*/\*                                                              |
 
-## suggestions
+## suggest
 
 This API endpoint provides address suggestions based on
     partial input data. It helps users auto-complete and validate addresses efficiently
@@ -126,7 +126,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.addressValidation.suggestions({
+  const result = await sdk.addressValidation.suggest({
     line1: "1600 Amphitheatre Parkway",
     line2: "",
     line3: "",
@@ -150,7 +150,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { addressValidationSuggestions } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSuggestions.js";
+import { addressValidationSuggest } from "@kintsugi-tax/tax-platform-sdk/funcs/addressValidationSuggest.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -162,7 +162,7 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await addressValidationSuggestions(sdk, {
+  const res = await addressValidationSuggest(sdk, {
     line1: "1600 Amphitheatre Parkway",
     line2: "",
     line3: "",
@@ -177,7 +177,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("addressValidationSuggestions failed:", res.error);
+    console.log("addressValidationSuggest failed:", res.error);
   }
 }
 

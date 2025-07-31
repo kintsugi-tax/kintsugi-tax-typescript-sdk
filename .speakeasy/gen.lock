@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: 05be7a6ce0f40d1f7e41b1dd0493dbfd
+  docChecksum: 17abe8cd77d161f2228d8e0ec535d424
   docVersion: 1.0.0
-  speakeasyVersion: 1.594.0
+  speakeasyVersion: 1.595.0
   generationVersion: 2.670.1
-  releaseVersion: 0.5.0
-  configChecksum: 2b1f54ddd343d4eb3543d83d09530601
+  releaseVersion: 0.7.3
+  configChecksum: c802b7f4ae8498920eeb08110657c45c
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -31,6 +31,7 @@ features:
     responseFormat: 0.2.3
     retries: 2.83.0
     sdkHooks: 0.3.0
+    unions: 2.85.11
     uploadStreams: 0.1.0
 generatedFiles:
   - .gitattributes
@@ -47,15 +48,20 @@ generatedFiles:
   - docs/models/addresstype.md
   - docs/models/appliedto.md
   - docs/models/attachmentread.md
+  - docs/models/attachments.md
   - docs/models/backendsrcaddressvalidationresponsesvalidationerroritem.md
   - docs/models/backendsrccustomersresponsesvalidationerroritem.md
   - docs/models/backendsrcexemptionsmodelsexemptionread.md
   - docs/models/backendsrcexemptionsresponsesvalidationerroritem.md
   - docs/models/backendsrcexemptionsserializersexemptionread.md
+  - docs/models/backendsrcfilingsresponsesvalidationerroritem.md
+  - docs/models/backendsrcnexusresponsesvalidationerroritem.md
   - docs/models/backendsrcproductsresponsesvalidationerroritem.md
+  - docs/models/backendsrcregistrationsresponsesvalidationerroritem.md
   - docs/models/backendsrctaxestimationresponsesvalidationerroritem.md
   - docs/models/backendsrctransactionsresponsesvalidationerroritem.md
   - docs/models/bodyuploadexemptioncertificatev1exemptionsexemptionidattachmentspost.md
+  - docs/models/changeregimestatusenum.md
   - docs/models/countrycodeenum.md
   - docs/models/creditnotecreate.md
   - docs/models/creditnoteitemcreateupdate.md
@@ -70,7 +76,10 @@ generatedFiles:
   - docs/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.md
   - docs/models/errors/backendsrccustomersresponsesvalidationerrorresponse.md
   - docs/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcnexusresponsesvalidationerrorresponse.md
   - docs/models/errors/backendsrcproductsresponsesvalidationerrorresponse.md
+  - docs/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.md
   - docs/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.md
   - docs/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.md
   - docs/models/errors/errorresponse.md
@@ -82,12 +91,19 @@ generatedFiles:
   - docs/models/exemptiontype.md
   - docs/models/fastapipaginationdefaultpageexemptionread2.md
   - docs/models/filet.md
+  - docs/models/filingdetailsread.md
+  - docs/models/filingfrequencyenum.md
+  - docs/models/filingread.md
+  - docs/models/filingstatusenum.md
   - docs/models/jurisdictiontype.md
   - docs/models/nexusresponse.md
   - docs/models/nexusstateenum.md
   - docs/models/nexusstatusenum.md
   - docs/models/nexustypeenum.md
+  - docs/models/operations/createregistration.md
   - docs/models/operations/createtransactionbycustomeridv1customerscustomeridtransactionspostrequest.md
+  - docs/models/operations/deletephysicalnexusv1nexusphysicalnexusphysicalnexusiddeleterequest.md
+  - docs/models/operations/deregisterregistrationv1registrationsregistrationidderegisterpostrequest.md
   - docs/models/operations/estimatetaxv1taxestimatepostrequest.md
   - docs/models/operations/getattachmentsforexemptionv1exemptionsexemptionidattachmentsgetrequest.md
   - docs/models/operations/getcustomerbyexternalidv1customersexternalexternalidgetrequest.md
@@ -95,9 +111,15 @@ generatedFiles:
   - docs/models/operations/getcustomersv1request.md
   - docs/models/operations/getexemptionbyidv1exemptionsexemptionidgetrequest.md
   - docs/models/operations/getexemptionsv1exemptionsgetrequest.md
+  - docs/models/operations/getfilingbyidv1filingsfilingidgetrequest.md
+  - docs/models/operations/getfilingsbyregistrationidv1filingsregistrationregistrationidgetrequest.md
+  - docs/models/operations/getfilingsv1filingsgetrequest.md
   - docs/models/operations/getnexusfororgv1nexusgetrequest.md
+  - docs/models/operations/getphysicalnexusv1nexusphysicalnexusgetrequest.md
   - docs/models/operations/getproductbyidv1productsproductidgetrequest.md
   - docs/models/operations/getproductsv1productsgetrequest.md
+  - docs/models/operations/getregistrationbyidv1registrationsregistrationidgetrequest.md
+  - docs/models/operations/getregistrationsv1registrationsgetrequest.md
   - docs/models/operations/gettransactionbyexternalidv1transactionsexternalexternalidgetrequest.md
   - docs/models/operations/gettransactionbyidv1transactionstransactionidgetrequest.md
   - docs/models/operations/gettransactionsbycustomeridv1customerscustomeridtransactionsgetrequest.md
@@ -107,15 +129,26 @@ generatedFiles:
   - docs/models/operations/putupdatecreditnotebytransactionidrequest.md
   - docs/models/operations/searchv1addressvalidationsearchpostsecurity.md
   - docs/models/operations/updatecustomerv1customerscustomeridputrequest.md
+  - docs/models/operations/updatephysicalnexusv1nexusphysicalnexusphysicalnexusidputrequest.md
   - docs/models/operations/updateproductv1productsproductidputrequest.md
+  - docs/models/operations/updateregistrationv1registrationsregistrationidputrequest.md
   - docs/models/operations/updatetransactionv1transactionstransactionidputrequest.md
   - docs/models/operations/uploadexemptioncertificatev1exemptionsexemptionidattachmentspostrequest.md
+  - docs/models/ossregistrationcreatepayload.md
+  - docs/models/osstypeenum.md
   - docs/models/pagecustomerread.md
+  - docs/models/pagefilingread.md
   - docs/models/pagenexusresponse.md
+  - docs/models/pagephysicalnexusread.md
   - docs/models/pageproductread.md
+  - docs/models/pageregistrationreadwithpassword.md
   - docs/models/pagetransactionestimateresponse.md
   - docs/models/pagetransactionread.md
   - docs/models/periodmodelenum.md
+  - docs/models/physicalnexuscategory.md
+  - docs/models/physicalnexuscreate.md
+  - docs/models/physicalnexusread.md
+  - docs/models/physicalnexusupdate.md
   - docs/models/processingstatusenum.md
   - docs/models/productcategories.md
   - docs/models/productcategoryenum.md
@@ -127,11 +160,18 @@ generatedFiles:
   - docs/models/productsubcategoryenum.md
   - docs/models/productupdate.md
   - docs/models/registration.md
+  - docs/models/registrationcreatepayload.md
+  - docs/models/registrationread.md
+  - docs/models/registrationreadwithpassword.md
   - docs/models/registrationsregimeenum.md
+  - docs/models/registrationstatusenum.md
+  - docs/models/registrationtypeenum.md
+  - docs/models/registrationupdateapi.md
   - docs/models/relatedentitytype.md
   - docs/models/salesortransactionsenum.md
   - docs/models/security.md
   - docs/models/sourceenum.md
+  - docs/models/sstregistrationcreatepayload.md
   - docs/models/status.md
   - docs/models/statusenum.md
   - docs/models/taxexemptionenum.md
@@ -169,8 +209,10 @@ generatedFiles:
   - docs/sdks/addressvalidation/README.md
   - docs/sdks/customers/README.md
   - docs/sdks/exemptions/README.md
+  - docs/sdks/filings/README.md
   - docs/sdks/nexus/README.md
   - docs/sdks/products/README.md
+  - docs/sdks/registrations/README.md
   - docs/sdks/sdk/README.md
   - docs/sdks/taxestimation/README.md
   - docs/sdks/transactions/README.md
@@ -184,7 +226,7 @@ generatedFiles:
   - package.json
   - src/core.ts
   - src/funcs/addressValidationSearch.ts
-  - src/funcs/addressValidationSuggestions.ts
+  - src/funcs/addressValidationSuggest.ts
   - src/funcs/customersCreate.ts
   - src/funcs/customersCreateTransaction.ts
   - src/funcs/customersGet.ts
@@ -197,19 +239,31 @@ generatedFiles:
   - src/funcs/exemptionsGetAttachments.ts
   - src/funcs/exemptionsList.ts
   - src/funcs/exemptionsUploadCertificate.ts
+  - src/funcs/filingsGet.ts
+  - src/funcs/filingsGetByRegistrationId.ts
+  - src/funcs/filingsList.ts
+  - src/funcs/nexusCreatePhysical.ts
+  - src/funcs/nexusDeletePhysical.ts
   - src/funcs/nexusList.ts
+  - src/funcs/nexusListPhysical.ts
+  - src/funcs/nexusUpdatePhysical.ts
   - src/funcs/productsCreate.ts
   - src/funcs/productsGet.ts
+  - src/funcs/productsGetCategories.ts
   - src/funcs/productsList.ts
-  - src/funcs/productsListCategories.ts
   - src/funcs/productsUpdate.ts
-  - src/funcs/taxEstimationEstimateTax.ts
+  - src/funcs/registrationsCreate.ts
+  - src/funcs/registrationsDeregister.ts
+  - src/funcs/registrationsGet.ts
+  - src/funcs/registrationsGetById.ts
+  - src/funcs/registrationsUpdate.ts
+  - src/funcs/taxEstimationEstimate.ts
   - src/funcs/transactionsCreate.ts
   - src/funcs/transactionsCreateCreditNote.ts
+  - src/funcs/transactionsGet.ts
   - src/funcs/transactionsGetByExternalId.ts
   - src/funcs/transactionsGetByFilingId.ts
   - src/funcs/transactionsGetById.ts
-  - src/funcs/transactionsList.ts
   - src/funcs/transactionsUpdate.ts
   - src/funcs/transactionsUpdateCreditNote.ts
   - src/hooks/hooks.ts
@@ -244,7 +298,7 @@ generatedFiles:
   - src/mcp-server/server.ts
   - src/mcp-server/shared.ts
   - src/mcp-server/tools.ts
-  - src/mcp-server/tools/addressValidationSuggestions.ts
+  - src/mcp-server/tools/addressValidationSuggest.ts
   - src/mcp-server/tools/customersCreate.ts
   - src/mcp-server/tools/customersCreateTransaction.ts
   - src/mcp-server/tools/customersGet.ts
@@ -257,19 +311,31 @@ generatedFiles:
   - src/mcp-server/tools/exemptionsGetAttachments.ts
   - src/mcp-server/tools/exemptionsList.ts
   - src/mcp-server/tools/exemptionsUploadCertificate.ts
+  - src/mcp-server/tools/filingsGet.ts
+  - src/mcp-server/tools/filingsGetByRegistrationId.ts
+  - src/mcp-server/tools/filingsList.ts
+  - src/mcp-server/tools/nexusCreatePhysical.ts
+  - src/mcp-server/tools/nexusDeletePhysical.ts
   - src/mcp-server/tools/nexusList.ts
+  - src/mcp-server/tools/nexusListPhysical.ts
+  - src/mcp-server/tools/nexusUpdatePhysical.ts
   - src/mcp-server/tools/productsCreate.ts
   - src/mcp-server/tools/productsGet.ts
+  - src/mcp-server/tools/productsGetCategories.ts
   - src/mcp-server/tools/productsList.ts
-  - src/mcp-server/tools/productsListCategories.ts
   - src/mcp-server/tools/productsUpdate.ts
-  - src/mcp-server/tools/taxEstimationEstimateTax.ts
+  - src/mcp-server/tools/registrationsCreate.ts
+  - src/mcp-server/tools/registrationsDeregister.ts
+  - src/mcp-server/tools/registrationsGet.ts
+  - src/mcp-server/tools/registrationsGetById.ts
+  - src/mcp-server/tools/registrationsUpdate.ts
+  - src/mcp-server/tools/taxEstimationEstimate.ts
   - src/mcp-server/tools/transactionsCreate.ts
   - src/mcp-server/tools/transactionsCreateCreditNote.ts
+  - src/mcp-server/tools/transactionsGet.ts
   - src/mcp-server/tools/transactionsGetByExternalId.ts
   - src/mcp-server/tools/transactionsGetByFilingId.ts
   - src/mcp-server/tools/transactionsGetById.ts
-  - src/mcp-server/tools/transactionsList.ts
   - src/mcp-server/tools/transactionsUpdate.ts
   - src/mcp-server/tools/transactionsUpdateCreditNote.ts
   - src/models/addressbase.ts
@@ -285,10 +351,14 @@ generatedFiles:
   - src/models/backendsrcexemptionsmodelsexemptionread.ts
   - src/models/backendsrcexemptionsresponsesvalidationerroritem.ts
   - src/models/backendsrcexemptionsserializersexemptionread.ts
+  - src/models/backendsrcfilingsresponsesvalidationerroritem.ts
+  - src/models/backendsrcnexusresponsesvalidationerroritem.ts
   - src/models/backendsrcproductsresponsesvalidationerroritem.ts
+  - src/models/backendsrcregistrationsresponsesvalidationerroritem.ts
   - src/models/backendsrctaxestimationresponsesvalidationerroritem.ts
   - src/models/backendsrctransactionsresponsesvalidationerroritem.ts
   - src/models/bodyuploadexemptioncertificatev1exemptionsexemptionidattachmentspost.ts
+  - src/models/changeregimestatusenum.ts
   - src/models/countrycodeenum.ts
   - src/models/creditnotecreate.ts
   - src/models/creditnoteitemcreateupdate.ts
@@ -303,7 +373,10 @@ generatedFiles:
   - src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts
   - src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts
   - src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcnexusresponsesvalidationerrorresponse.ts
   - src/models/errors/backendsrcproductsresponsesvalidationerrorresponse.ts
+  - src/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.ts
   - src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts
   - src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts
   - src/models/errors/errorresponse.ts
@@ -320,13 +393,20 @@ generatedFiles:
   - src/models/exemptionstatus.ts
   - src/models/exemptiontype.ts
   - src/models/fastapipaginationdefaultpageexemptionread2.ts
+  - src/models/filingdetailsread.ts
+  - src/models/filingfrequencyenum.ts
+  - src/models/filingread.ts
+  - src/models/filingstatusenum.ts
   - src/models/index.ts
   - src/models/jurisdictiontype.ts
   - src/models/nexusresponse.ts
   - src/models/nexusstateenum.ts
   - src/models/nexusstatusenum.ts
   - src/models/nexustypeenum.ts
+  - src/models/operations/createregistrationv1registrationspost.ts
   - src/models/operations/createtransactionbycustomeridv1customerscustomeridtransactionspost.ts
+  - src/models/operations/deletephysicalnexusv1nexusphysicalnexusphysicalnexusiddelete.ts
+  - src/models/operations/deregisterregistrationv1registrationsregistrationidderegisterpost.ts
   - src/models/operations/estimatetaxv1taxestimatepost.ts
   - src/models/operations/getattachmentsforexemptionv1exemptionsexemptionidattachmentsget.ts
   - src/models/operations/getcustomerbyexternalidv1customersexternalexternalidget.ts
@@ -334,9 +414,15 @@ generatedFiles:
   - src/models/operations/getcustomersv1.ts
   - src/models/operations/getexemptionbyidv1exemptionsexemptionidget.ts
   - src/models/operations/getexemptionsv1exemptionsget.ts
+  - src/models/operations/getfilingbyidv1filingsfilingidget.ts
+  - src/models/operations/getfilingsbyregistrationidv1filingsregistrationregistrationidget.ts
+  - src/models/operations/getfilingsv1filingsget.ts
   - src/models/operations/getnexusfororgv1nexusget.ts
+  - src/models/operations/getphysicalnexusv1nexusphysicalnexusget.ts
   - src/models/operations/getproductbyidv1productsproductidget.ts
   - src/models/operations/getproductsv1productsget.ts
+  - src/models/operations/getregistrationbyidv1registrationsregistrationidget.ts
+  - src/models/operations/getregistrationsv1registrationsget.ts
   - src/models/operations/gettransactionbyexternalidv1transactionsexternalexternalidget.ts
   - src/models/operations/gettransactionbyidv1transactionstransactionidget.ts
   - src/models/operations/gettransactionsbycustomeridv1customerscustomeridtransactionsget.ts
@@ -347,15 +433,26 @@ generatedFiles:
   - src/models/operations/putupdatecreditnotebytransactionid.ts
   - src/models/operations/searchv1addressvalidationsearchpost.ts
   - src/models/operations/updatecustomerv1customerscustomeridput.ts
+  - src/models/operations/updatephysicalnexusv1nexusphysicalnexusphysicalnexusidput.ts
   - src/models/operations/updateproductv1productsproductidput.ts
+  - src/models/operations/updateregistrationv1registrationsregistrationidput.ts
   - src/models/operations/updatetransactionv1transactionstransactionidput.ts
   - src/models/operations/uploadexemptioncertificatev1exemptionsexemptionidattachmentspost.ts
+  - src/models/ossregistrationcreatepayload.ts
+  - src/models/osstypeenum.ts
   - src/models/pagecustomerread.ts
+  - src/models/pagefilingread.ts
   - src/models/pagenexusresponse.ts
+  - src/models/pagephysicalnexusread.ts
   - src/models/pageproductread.ts
+  - src/models/pageregistrationreadwithpassword.ts
   - src/models/pagetransactionestimateresponse.ts
   - src/models/pagetransactionread.ts
   - src/models/periodmodelenum.ts
+  - src/models/physicalnexuscategory.ts
+  - src/models/physicalnexuscreate.ts
+  - src/models/physicalnexusread.ts
+  - src/models/physicalnexusupdate.ts
   - src/models/processingstatusenum.ts
   - src/models/productcategories.ts
   - src/models/productcategoryenum.ts
@@ -366,11 +463,18 @@ generatedFiles:
   - src/models/productsubcategory.ts
   - src/models/productsubcategoryenum.ts
   - src/models/productupdate.ts
+  - src/models/registrationcreatepayload.ts
+  - src/models/registrationread.ts
+  - src/models/registrationreadwithpassword.ts
   - src/models/registrationsregimeenum.ts
+  - src/models/registrationstatusenum.ts
+  - src/models/registrationtypeenum.ts
+  - src/models/registrationupdateapi.ts
   - src/models/relatedentitytype.ts
   - src/models/salesortransactionsenum.ts
   - src/models/security.ts
   - src/models/sourceenum.ts
+  - src/models/sstregistrationcreatepayload.ts
   - src/models/statusenum.ts
   - src/models/taxexemptionenum.ts
   - src/models/taxitembuilder.ts
@@ -403,9 +507,11 @@ generatedFiles:
   - src/sdk/addressvalidation.ts
   - src/sdk/customers.ts
   - src/sdk/exemptions.ts
+  - src/sdk/filings.ts
   - src/sdk/index.ts
   - src/sdk/nexus.ts
   - src/sdk/products.ts
+  - src/sdk/registrations.ts
   - src/sdk/sdk.ts
   - src/sdk/taxestimation.ts
   - src/sdk/transactions.ts
@@ -691,7 +797,7 @@ examples:
           x-organization-id: "org_12345"
       responses:
         "200":
-          application/json: {"start_date": "2024-05-22", "end_date": "2023-08-31", "country_code": "GL", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00"}
+          application/json: {"start_date": "2024-05-22", "end_date": "2023-08-31", "country_code": "GL", "auto_approved": false, "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "total_taxable_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -726,7 +832,7 @@ examples:
           x-organization-id: "org_12345"
       responses:
         "200":
-          application/json: {"items": [], "total": 610421, "page": null, "size": 725367}
+          application/json: {"items": [], "total": 610421, "page": 173962, "size": 725367}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -739,6 +845,7 @@ examples:
         query:
           page: 1
           size: 50
+          order_by: "country_code,state_code,start_date,end_date"
         header:
           x-organization-id: "org_12345"
       responses:
@@ -876,7 +983,7 @@ examples:
         application/json: {"registration_import_type": "OSS", "imported": false}
       responses:
         "200":
-          application/json: {"status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -888,10 +995,10 @@ examples:
         header:
           x-organization-id: "<id>"
       requestBody:
-        application/json: {"registration_import_type": "REGULAR", "registration_date": "2025-02-01", "registration_email": "example@domain.com", "auto_registered": true, "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": 100}
+        application/json: {"registration_import_type": "REGULAR", "registration_date": "2025-02-01", "registration_email": "example@domain.com", "auto_registered": true, "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": 100, "vda": false, "sst_import": false}
       responses:
         "200":
-          application/json: {"status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -906,7 +1013,7 @@ examples:
         application/json: {"registration_import_type": "OSS", "password_plain_text": "oss_pass_fr", "password_metadata_plain_text": "{\"q\":\"a\"}", "member_state_of_identification_code": "FR", "imported": true}
       responses:
         "200":
-          application/json: {"status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -921,7 +1028,7 @@ examples:
         application/json: {"registration_import_type": "SST", "password_plain_text": "sst_pass", "password_metadata_plain_text": "{\"q\":\"a\"}", "username": "sst_user"}
       responses:
         "200":
-          application/json: {"status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -936,7 +1043,7 @@ examples:
         application/json: {"registration_import_type": "OSS", "imported": false}
       responses:
         "200":
-          application/json: {"status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "REGISTERED", "country_code": "HM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 449164, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -952,7 +1059,7 @@ examples:
           x-organization-id: "org_12345"
       responses:
         "200":
-          application/json: {"status": "AWAITING_CLARIFICATION", "country_code": "BO", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "UNKNOWN", "filing_days": 607962, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "AWAITING_CLARIFICATION", "country_code": "BO", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "UNKNOWN", "filing_days": 607962, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -967,10 +1074,10 @@ examples:
         header:
           x-organization-id: "org_12345"
       requestBody:
-        application/json: {}
+        application/json: {"auto_registered": false, "third_party_enabled": false}
       responses:
         "200":
-          application/json: {"status": "DEREGISTERING", "country_code": "GL", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "ANNUALLY", "filing_days": 43389, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "DEREGISTERING", "country_code": "GL", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "ANNUALLY", "filing_days": 43389, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -1687,7 +1794,7 @@ examples:
           x-organization-id: "org_12345"
       responses:
         "200":
-          application/json: {"status": "DEREGISTERED", "country_code": "PW", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 352449, "amount_fees": "0.00", "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "DEREGISTERED", "country_code": "PW", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 352449, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
         "401":
           application/json: {"detail": "<value>"}
         "422":

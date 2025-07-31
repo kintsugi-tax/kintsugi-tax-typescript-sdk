@@ -9,7 +9,7 @@
 * [create](#create) - Create Product
 * [get](#get) - Get Product By Id
 * [update](#update) - Update Product
-* [listCategories](#listcategories) - Get Product Categories
+* [getCategories](#getcategories) - Get Product Categories
 
 ## list
 
@@ -372,7 +372,7 @@ run();
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
 
-## listCategories
+## getCategories
 
 The Get Product Categories API retrieves all
     product categories.  This endpoint helps users understand and select the
@@ -392,7 +392,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.products.listCategories();
+  const result = await sdk.products.getCategories();
 
   console.log(result);
 }
@@ -406,7 +406,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsListCategories } from "@kintsugi-tax/tax-platform-sdk/funcs/productsListCategories.js";
+import { productsGetCategories } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetCategories.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -418,12 +418,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await productsListCategories(sdk);
+  const res = await productsGetCategories(sdk);
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("productsListCategories failed:", res.error);
+    console.log("productsGetCategories failed:", res.error);
   }
 }
 

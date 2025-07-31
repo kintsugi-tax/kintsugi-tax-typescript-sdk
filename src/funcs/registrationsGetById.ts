@@ -3,7 +3,7 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery, encodeJSON } from "../lib/encodings.js";
+import { encodeSimple } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -27,22 +27,22 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Estimate Tax
+ * Get Registration By Id
  *
  * @remarks
- * The Estimate Tax API calculates the estimated tax for a specific
- *     transaction based on the provided details, including organization nexus,
- *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
+ * The Get Registration By ID API retrieves a single registration record
+ *     based on its unique identifier.
  */
-export function taxEstimationEstimateTax(
+export function registrationsGetById(
   client: SDKCore,
-  request: operations.EstimateTaxV1TaxEstimatePostRequest,
+  request:
+    operations.GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    models.PageTransactionEstimateResponse,
+    models.RegistrationRead,
     | errors.ErrorResponse
-    | errors.BackendSrcTaxEstimationResponsesValidationErrorResponse
+    | errors.BackendSrcRegistrationsResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -62,14 +62,15 @@ export function taxEstimationEstimateTax(
 
 async function $do(
   client: SDKCore,
-  request: operations.EstimateTaxV1TaxEstimatePostRequest,
+  request:
+    operations.GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      models.PageTransactionEstimateResponse,
+      models.RegistrationRead,
       | errors.ErrorResponse
-      | errors.BackendSrcTaxEstimationResponsesValidationErrorResponse
+      | errors.BackendSrcRegistrationsResponsesValidationErrorResponse
       | SDKError
       | ResponseValidationError
       | ConnectionError
@@ -85,27 +86,27 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.EstimateTaxV1TaxEstimatePostRequest$outboundSchema.parse(
-        value,
-      ),
+      operations
+        .GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$outboundSchema
+        .parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = encodeJSON("body", payload.TransactionEstimatePublicRequest, {
-    explode: true,
-  });
+  const body = null;
 
-  const path = pathToFunc("/v1/tax/estimate")();
+  const pathParams = {
+    registration_id: encodeSimple("registration_id", payload.registration_id, {
+      explode: false,
+      charEncoding: "percent",
+    }),
+  };
 
-  const query = encodeFormQuery({
-    "simulate_nexus_met": payload.simulate_nexus_met,
-  });
+  const path = pathToFunc("/v1/registrations/{registration_id}")(pathParams);
 
   const headers = new Headers(compactMap({
-    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 
@@ -115,7 +116,8 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "estimate_tax_v1_tax_estimate_post",
+    operationID:
+      "get_registration_by_id_v1_registrations__registration_id__get",
     oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
@@ -129,11 +131,10 @@ async function $do(
 
   const requestRes = client._createRequest(context, {
     security: requestSecurity,
-    method: "POST",
+    method: "GET",
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
-    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
@@ -159,9 +160,9 @@ async function $do(
   };
 
   const [result] = await M.match<
-    models.PageTransactionEstimateResponse,
+    models.RegistrationRead,
     | errors.ErrorResponse
-    | errors.BackendSrcTaxEstimationResponsesValidationErrorResponse
+    | errors.BackendSrcRegistrationsResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -171,12 +172,12 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, models.PageTransactionEstimateResponse$inboundSchema),
+    M.json(200, models.RegistrationRead$inboundSchema),
     M.jsonErr(401, errors.ErrorResponse$inboundSchema),
     M.jsonErr(
       422,
       errors
-        .BackendSrcTaxEstimationResponsesValidationErrorResponse$inboundSchema,
+        .BackendSrcRegistrationsResponsesValidationErrorResponse$inboundSchema,
     ),
     M.jsonErr(500, errors.ErrorResponse$inboundSchema),
     M.fail([404, "4XX"]),

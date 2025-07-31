@@ -3,7 +3,7 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery } from "../lib/encodings.js";
+import { encodeJSON, encodeSimple } from "../lib/encodings.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -27,21 +27,21 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get Transactions
+ * Update Registration
  *
  * @remarks
- * The Get Transactions API retrieves a list of transactions with
- *     optional filtering, sorting, and pagination.
+ * The Update Registration API allows you to modify
+ *     an existing registration using its unique registration_id.
  */
-export function transactionsList(
+export function registrationsUpdate(
   client: SDKCore,
-  request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
+  request: operations.UpdateRegistrationV1RegistrationsRegistrationIdPutRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    models.PageTransactionRead,
+    models.RegistrationRead,
     | errors.ErrorResponse
-    | errors.BackendSrcTransactionsResponsesValidationErrorResponse
+    | errors.BackendSrcRegistrationsResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -61,14 +61,14 @@ export function transactionsList(
 
 async function $do(
   client: SDKCore,
-  request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
+  request: operations.UpdateRegistrationV1RegistrationsRegistrationIdPutRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      models.PageTransactionRead,
+      models.RegistrationRead,
       | errors.ErrorResponse
-      | errors.BackendSrcTransactionsResponsesValidationErrorResponse
+      | errors.BackendSrcRegistrationsResponsesValidationErrorResponse
       | SDKError
       | ResponseValidationError
       | ConnectionError
@@ -84,39 +84,30 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.GetTransactionsV1TransactionsGetRequest$outboundSchema
-        .optional().parse(value),
+      operations
+        .UpdateRegistrationV1RegistrationsRegistrationIdPutRequest$outboundSchema
+        .parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = null;
-
-  const path = pathToFunc("/v1/transactions")();
-
-  const query = encodeFormQuery({
-    "address_status__in": payload?.address_status__in,
-    "country": payload?.country,
-    "date__gte": payload?.date__gte,
-    "date__lte": payload?.date__lte,
-    "exempt__in": payload?.exempt__in,
-    "filing_id": payload?.filing_id,
-    "marketplace": payload?.marketplace,
-    "order_by": payload?.order_by,
-    "page": payload?.page,
-    "processing_status__in": payload?.processing_status__in,
-    "search_query": payload?.search_query,
-    "size": payload?.size,
-    "state": payload?.state,
-    "state_code": payload?.state_code,
-    "status": payload?.status,
-    "transaction_source": payload?.transaction_source,
-    "transaction_type": payload?.transaction_type,
+  const body = encodeJSON("body", payload.RegistrationUpdateAPI, {
+    explode: true,
   });
 
+  const pathParams = {
+    registration_id: encodeSimple("registration_id", payload.registration_id, {
+      explode: false,
+      charEncoding: "percent",
+    }),
+  };
+
+  const path = pathToFunc("/v1/registrations/{registration_id}")(pathParams);
+
   const headers = new Headers(compactMap({
+    "Content-Type": "application/json",
     Accept: "application/json",
   }));
 
@@ -126,7 +117,7 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "get_transactions_v1_transactions_get",
+    operationID: "update_registration_v1_registrations__registration_id__put",
     oAuth2Scopes: [],
 
     resolvedSecurity: requestSecurity,
@@ -140,11 +131,10 @@ async function $do(
 
   const requestRes = client._createRequest(context, {
     security: requestSecurity,
-    method: "GET",
+    method: "PUT",
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
-    query: query,
     body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
@@ -170,9 +160,9 @@ async function $do(
   };
 
   const [result] = await M.match<
-    models.PageTransactionRead,
+    models.RegistrationRead,
     | errors.ErrorResponse
-    | errors.BackendSrcTransactionsResponsesValidationErrorResponse
+    | errors.BackendSrcRegistrationsResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -182,15 +172,15 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, models.PageTransactionRead$inboundSchema),
-    M.jsonErr([401, 404], errors.ErrorResponse$inboundSchema),
+    M.json(200, models.RegistrationRead$inboundSchema),
+    M.jsonErr(401, errors.ErrorResponse$inboundSchema),
     M.jsonErr(
       422,
       errors
-        .BackendSrcTransactionsResponsesValidationErrorResponse$inboundSchema,
+        .BackendSrcRegistrationsResponsesValidationErrorResponse$inboundSchema,
     ),
     M.jsonErr(500, errors.ErrorResponse$inboundSchema),
-    M.fail("4XX"),
+    M.fail([404, "4XX"]),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });
   if (!result.ok) {

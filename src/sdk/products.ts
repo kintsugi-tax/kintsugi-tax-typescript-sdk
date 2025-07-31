@@ -4,8 +4,8 @@
 
 import { productsCreate } from "../funcs/productsCreate.js";
 import { productsGet } from "../funcs/productsGet.js";
+import { productsGetCategories } from "../funcs/productsGetCategories.js";
 import { productsList } from "../funcs/productsList.js";
-import { productsListCategories } from "../funcs/productsListCategories.js";
 import { productsUpdate } from "../funcs/productsUpdate.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
@@ -94,10 +94,10 @@ export class Products extends ClientSDK {
    *     product categories.  This endpoint helps users understand and select the
    *     appropriate categories for their products.
    */
-  async listCategories(
+  async getCategories(
     options?: RequestOptions,
   ): Promise<Array<models.ProductCategories>> {
-    return unwrapAsync(productsListCategories(
+    return unwrapAsync(productsGetCategories(
       this,
       options,
     ));

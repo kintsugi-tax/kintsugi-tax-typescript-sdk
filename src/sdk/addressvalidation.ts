@@ -3,7 +3,7 @@
  */
 
 import { addressValidationSearch } from "../funcs/addressValidationSearch.js";
-import { addressValidationSuggestions } from "../funcs/addressValidationSuggestions.js";
+import { addressValidationSuggest } from "../funcs/addressValidationSuggest.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -42,11 +42,11 @@ export class AddressValidation extends ClientSDK {
    *     This improves accuracy, increases speed, reduces errors,
    *     and streamlines the data entry process.
    */
-  async suggestions(
+  async suggest(
     request: models.ValidationAddress,
     options?: RequestOptions,
   ): Promise<any> {
-    return unwrapAsync(addressValidationSuggestions(
+    return unwrapAsync(addressValidationSuggest(
       this,
       request,
       options,

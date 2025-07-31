@@ -13,7 +13,7 @@ import {
 } from "./resources.js";
 import { MCPScope } from "./scopes.js";
 import { createRegisterTool } from "./tools.js";
-import { tool$addressValidationSuggestions } from "./tools/addressValidationSuggestions.js";
+import { tool$addressValidationSuggest } from "./tools/addressValidationSuggest.js";
 import { tool$customersCreate } from "./tools/customersCreate.js";
 import { tool$customersCreateTransaction } from "./tools/customersCreateTransaction.js";
 import { tool$customersGet } from "./tools/customersGet.js";
@@ -26,19 +26,31 @@ import { tool$exemptionsGet } from "./tools/exemptionsGet.js";
 import { tool$exemptionsGetAttachments } from "./tools/exemptionsGetAttachments.js";
 import { tool$exemptionsList } from "./tools/exemptionsList.js";
 import { tool$exemptionsUploadCertificate } from "./tools/exemptionsUploadCertificate.js";
+import { tool$filingsGet } from "./tools/filingsGet.js";
+import { tool$filingsGetByRegistrationId } from "./tools/filingsGetByRegistrationId.js";
+import { tool$filingsList } from "./tools/filingsList.js";
+import { tool$nexusCreatePhysical } from "./tools/nexusCreatePhysical.js";
+import { tool$nexusDeletePhysical } from "./tools/nexusDeletePhysical.js";
 import { tool$nexusList } from "./tools/nexusList.js";
+import { tool$nexusListPhysical } from "./tools/nexusListPhysical.js";
+import { tool$nexusUpdatePhysical } from "./tools/nexusUpdatePhysical.js";
 import { tool$productsCreate } from "./tools/productsCreate.js";
 import { tool$productsGet } from "./tools/productsGet.js";
+import { tool$productsGetCategories } from "./tools/productsGetCategories.js";
 import { tool$productsList } from "./tools/productsList.js";
-import { tool$productsListCategories } from "./tools/productsListCategories.js";
 import { tool$productsUpdate } from "./tools/productsUpdate.js";
-import { tool$taxEstimationEstimateTax } from "./tools/taxEstimationEstimateTax.js";
+import { tool$registrationsCreate } from "./tools/registrationsCreate.js";
+import { tool$registrationsDeregister } from "./tools/registrationsDeregister.js";
+import { tool$registrationsGet } from "./tools/registrationsGet.js";
+import { tool$registrationsGetById } from "./tools/registrationsGetById.js";
+import { tool$registrationsUpdate } from "./tools/registrationsUpdate.js";
+import { tool$taxEstimationEstimate } from "./tools/taxEstimationEstimate.js";
 import { tool$transactionsCreate } from "./tools/transactionsCreate.js";
 import { tool$transactionsCreateCreditNote } from "./tools/transactionsCreateCreditNote.js";
+import { tool$transactionsGet } from "./tools/transactionsGet.js";
 import { tool$transactionsGetByExternalId } from "./tools/transactionsGetByExternalId.js";
 import { tool$transactionsGetByFilingId } from "./tools/transactionsGetByFilingId.js";
 import { tool$transactionsGetById } from "./tools/transactionsGetById.js";
-import { tool$transactionsList } from "./tools/transactionsList.js";
 import { tool$transactionsUpdate } from "./tools/transactionsUpdate.js";
 import { tool$transactionsUpdateCreditNote } from "./tools/transactionsUpdateCreditNote.js";
 
@@ -52,7 +64,7 @@ export function createMCPServer(deps: {
 }) {
   const server = new McpServer({
     name: "SDK",
-    version: "0.5.0",
+    version: "0.7.3",
   });
 
   const client = new SDKCore({
@@ -82,7 +94,7 @@ export function createMCPServer(deps: {
   const register = { tool, resource, resourceTemplate, prompt };
   void register; // suppress unused warnings
 
-  tool(tool$addressValidationSuggestions);
+  tool(tool$addressValidationSuggest);
   tool(tool$customersList);
   tool(tool$customersCreate);
   tool(tool$customersGet);
@@ -95,13 +107,25 @@ export function createMCPServer(deps: {
   tool(tool$exemptionsGet);
   tool(tool$exemptionsUploadCertificate);
   tool(tool$exemptionsGetAttachments);
+  tool(tool$filingsList);
+  tool(tool$filingsGet);
+  tool(tool$filingsGetByRegistrationId);
+  tool(tool$nexusListPhysical);
+  tool(tool$nexusCreatePhysical);
+  tool(tool$nexusUpdatePhysical);
+  tool(tool$nexusDeletePhysical);
   tool(tool$nexusList);
   tool(tool$productsList);
   tool(tool$productsCreate);
   tool(tool$productsGet);
   tool(tool$productsUpdate);
-  tool(tool$productsListCategories);
-  tool(tool$transactionsList);
+  tool(tool$productsGetCategories);
+  tool(tool$registrationsGet);
+  tool(tool$registrationsCreate);
+  tool(tool$registrationsGetById);
+  tool(tool$registrationsUpdate);
+  tool(tool$registrationsDeregister);
+  tool(tool$transactionsGet);
   tool(tool$transactionsCreate);
   tool(tool$transactionsGetByExternalId);
   tool(tool$transactionsUpdate);
@@ -109,7 +133,7 @@ export function createMCPServer(deps: {
   tool(tool$transactionsGetByFilingId);
   tool(tool$transactionsCreateCreditNote);
   tool(tool$transactionsUpdateCreditNote);
-  tool(tool$taxEstimationEstimateTax);
+  tool(tool$taxEstimationEstimate);
 
   return server;
 }
