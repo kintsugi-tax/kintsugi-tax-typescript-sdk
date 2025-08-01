@@ -9,6 +9,7 @@ export const FilingStatusEnum = {
   Unfiled: "UNFILED",
   Filed: "FILED",
   Filing: "FILING",
+  Paused: "PAUSED",
 } as const;
 export type FilingStatusEnum = ClosedEnum<typeof FilingStatusEnum>;
 

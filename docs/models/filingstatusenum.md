@@ -11,5 +11,5 @@ let value: FilingStatusEnum = "FILING";
 ## Values
 
 ```typescript
-"UNFILED" | "FILED" | "FILING"
+"UNFILED" | "FILED" | "FILING" | "PAUSED"
 ```

@@ -136,6 +136,10 @@ export type FilingRead = {
   blockApproval?: boolean | undefined;
   currency?: CurrencyEnum | undefined;
   /**
+   * Indicates the date when filing will be unpaused.
+   */
+  pausedUntilDate?: string | undefined;
+  /**
    * Unique identifier for the filing.
    */
   id: string;
@@ -180,6 +184,7 @@ export const FilingRead$inboundSchema: z.ZodType<
   payment_confirmation_id: z.string().optional(),
   block_approval: z.boolean().optional(),
   currency: CurrencyEnum$inboundSchema.optional(),
+  paused_until_date: z.string().optional(),
   id: z.string(),
   registration_id: z.string(),
 }).transform((v) => {
@@ -210,6 +215,7 @@ export const FilingRead$inboundSchema: z.ZodType<
     "return_confirmation_id": "returnConfirmationId",
     "payment_confirmation_id": "paymentConfirmationId",
     "block_approval": "blockApproval",
+    "paused_until_date": "pausedUntilDate",
     "registration_id": "registrationId",
   });
 });
@@ -245,6 +251,7 @@ export type FilingRead$Outbound = {
   payment_confirmation_id?: string | undefined;
   block_approval?: boolean | undefined;
   currency?: string | undefined;
+  paused_until_date?: string | undefined;
   id: string;
   registration_id: string;
 };
@@ -284,6 +291,7 @@ export const FilingRead$outboundSchema: z.ZodType<
   paymentConfirmationId: z.string().optional(),
   blockApproval: z.boolean().optional(),
   currency: CurrencyEnum$outboundSchema.optional(),
+  pausedUntilDate: z.string().optional(),
   id: z.string(),
   registrationId: z.string(),
 }).transform((v) => {
@@ -314,6 +322,7 @@ export const FilingRead$outboundSchema: z.ZodType<
     returnConfirmationId: "return_confirmation_id",
     paymentConfirmationId: "payment_confirmation_id",
     blockApproval: "block_approval",
+    pausedUntilDate: "paused_until_date",
     registrationId: "registration_id",
   });
 });
