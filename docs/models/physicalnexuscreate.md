@@ -10,7 +10,7 @@ let value: PhysicalNexusCreate = {
   countryCode: "BZ",
   stateCode: "<value>",
   startDate: new RFCDate("2024-09-17"),
-  category: "MANUFACTURING_FACILITIES",
+  category: "SERVERS_DATA_CENTERS",
 };
 ```
 
