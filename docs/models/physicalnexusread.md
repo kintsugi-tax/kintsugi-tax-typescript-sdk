@@ -10,7 +10,7 @@ let value: PhysicalNexusRead = {
   countryCode: "KZ",
   stateCode: "<value>",
   startDate: new RFCDate("2025-04-29"),
-  category: "FREQUENT_PARTICIPATION_IN_TRADE_SHOWS_EVENTS",
+  category: "MANUFACTURE_OR_PRODUCTION_IN_CANADA",
   id: "<id>",
 };
 ```

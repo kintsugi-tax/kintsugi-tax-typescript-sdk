@@ -8,7 +8,7 @@ import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 let value: PhysicalNexusUpdate = {
   startDate: new RFCDate("2025-08-19"),
-  category: "EMPLOYEES_AGENTS_CONTRACTORS",
+  category: "OWN_LEASE_A_PROPERTY",
 };
 ```
 
