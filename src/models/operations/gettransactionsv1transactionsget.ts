@@ -101,6 +101,13 @@ export type GetTransactionsV1TransactionsGetRequest = {
    */
   exemptIn?: string | undefined;
   /**
+   * Filter transactions by type (e.g., SALE, FULL_CREDIT_NOTE,
+   *
+   * @remarks
+   *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
+   */
+  type?: string | undefined;
+  /**
    * Page number
    */
   page?: number | undefined;
@@ -133,6 +140,7 @@ export const GetTransactionsV1TransactionsGetRequest$inboundSchema: z.ZodType<
   processing_status__in: z.string().optional(),
   marketplace: z.boolean().optional(),
   exempt__in: z.string().optional(),
+  type: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
 }).transform((v) => {
@@ -168,6 +176,7 @@ export type GetTransactionsV1TransactionsGetRequest$Outbound = {
   processing_status__in?: string | undefined;
   marketplace?: boolean | undefined;
   exempt__in?: string | undefined;
+  type?: string | undefined;
   page: number;
   size: number;
 };
@@ -195,6 +204,7 @@ export const GetTransactionsV1TransactionsGetRequest$outboundSchema: z.ZodType<
   processingStatusIn: z.string().optional(),
   marketplace: z.boolean().optional(),
   exemptIn: z.string().optional(),
+  type: z.string().optional(),
   page: z.number().int().default(1),
   size: z.number().int().default(50),
 }).transform((v) => {

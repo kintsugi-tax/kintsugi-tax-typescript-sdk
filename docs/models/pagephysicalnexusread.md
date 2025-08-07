@@ -12,7 +12,7 @@ let value: PagePhysicalNexusRead = {
       countryCode: "TM",
       stateCode: "<value>",
       startDate: new RFCDate("2023-07-19"),
-      category: "OWN_LEASE_A_PROPERTY",
+      category: "INVENTORY",
       id: "<id>",
     },
   ],

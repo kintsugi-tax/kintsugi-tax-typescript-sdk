@@ -114,6 +114,7 @@ async function $do(
     "status": payload?.status,
     "transaction_source": payload?.transaction_source,
     "transaction_type": payload?.transaction_type,
+    "type": payload?.type,
   });
 
   const headers = new Headers(compactMap({
