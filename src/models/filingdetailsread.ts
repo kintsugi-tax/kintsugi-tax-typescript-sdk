@@ -75,6 +75,18 @@ export type FilingDetailsRead = {
    */
   autoApproved?: boolean | undefined;
   /**
+   * Indicates the date when filing will be unpaused.
+   */
+  pausedUntilDate?: string | undefined;
+  /**
+   * User ID of who approved the filing.
+   */
+  approvedBy?: string | undefined;
+  /**
+   * Timestamp when the filing was approved.
+   */
+  approvedAt?: string | undefined;
+  /**
    * The calculated amount for the filing. Defaults to 0.00.
    */
   amountCalculated?: string | undefined;
@@ -140,10 +152,6 @@ export type FilingDetailsRead = {
    */
   blockApproval?: boolean | undefined;
   currency?: CurrencyEnum | undefined;
-  /**
-   * Indicates the date when filing will be unpaused.
-   */
-  pausedUntilDate?: string | undefined;
   /**
    * Unique identifier for the filing.
    */
@@ -220,6 +228,9 @@ export const FilingDetailsRead$inboundSchema: z.ZodType<
   country_code: CountryCodeEnum$inboundSchema,
   jira_issue_key: z.string().optional(),
   auto_approved: z.boolean().default(false),
+  paused_until_date: z.string().optional(),
+  approved_by: z.string().optional(),
+  approved_at: z.string().optional(),
   amount_calculated: z.string().default("0.00"),
   amount_adjusted: z.string().default("0.00"),
   amount_discounts: z.string().default("0.00"),
@@ -238,7 +249,6 @@ export const FilingDetailsRead$inboundSchema: z.ZodType<
   payment_confirmation_id: z.string().optional(),
   block_approval: z.boolean().optional(),
   currency: CurrencyEnum$inboundSchema.optional(),
-  paused_until_date: z.string().optional(),
   id: z.string(),
   registration_id: z.string(),
   attachments: z.lazy(() => Attachments$inboundSchema).optional(),
@@ -255,6 +265,9 @@ export const FilingDetailsRead$inboundSchema: z.ZodType<
     "country_code": "countryCode",
     "jira_issue_key": "jiraIssueKey",
     "auto_approved": "autoApproved",
+    "paused_until_date": "pausedUntilDate",
+    "approved_by": "approvedBy",
+    "approved_at": "approvedAt",
     "amount_calculated": "amountCalculated",
     "amount_adjusted": "amountAdjusted",
     "amount_discounts": "amountDiscounts",
@@ -271,7 +284,6 @@ export const FilingDetailsRead$inboundSchema: z.ZodType<
     "return_confirmation_id": "returnConfirmationId",
     "payment_confirmation_id": "paymentConfirmationId",
     "block_approval": "blockApproval",
-    "paused_until_date": "pausedUntilDate",
     "registration_id": "registrationId",
     "credits_utilized": "creditsUtilized",
   });
@@ -290,6 +302,9 @@ export type FilingDetailsRead$Outbound = {
   country_code: string;
   jira_issue_key?: string | undefined;
   auto_approved: boolean;
+  paused_until_date?: string | undefined;
+  approved_by?: string | undefined;
+  approved_at?: string | undefined;
   amount_calculated: string;
   amount_adjusted: string;
   amount_discounts: string;
@@ -308,7 +323,6 @@ export type FilingDetailsRead$Outbound = {
   payment_confirmation_id?: string | undefined;
   block_approval?: boolean | undefined;
   currency?: string | undefined;
-  paused_until_date?: string | undefined;
   id: string;
   registration_id: string;
   attachments?: Attachments$Outbound | undefined;
@@ -332,6 +346,9 @@ export const FilingDetailsRead$outboundSchema: z.ZodType<
   countryCode: CountryCodeEnum$outboundSchema,
   jiraIssueKey: z.string().optional(),
   autoApproved: z.boolean().default(false),
+  pausedUntilDate: z.string().optional(),
+  approvedBy: z.string().optional(),
+  approvedAt: z.string().optional(),
   amountCalculated: z.string().default("0.00"),
   amountAdjusted: z.string().default("0.00"),
   amountDiscounts: z.string().default("0.00"),
@@ -350,7 +367,6 @@ export const FilingDetailsRead$outboundSchema: z.ZodType<
   paymentConfirmationId: z.string().optional(),
   blockApproval: z.boolean().optional(),
   currency: CurrencyEnum$outboundSchema.optional(),
-  pausedUntilDate: z.string().optional(),
   id: z.string(),
   registrationId: z.string(),
   attachments: z.lazy(() => Attachments$outboundSchema).optional(),
@@ -367,6 +383,9 @@ export const FilingDetailsRead$outboundSchema: z.ZodType<
     countryCode: "country_code",
     jiraIssueKey: "jira_issue_key",
     autoApproved: "auto_approved",
+    pausedUntilDate: "paused_until_date",
+    approvedBy: "approved_by",
+    approvedAt: "approved_at",
     amountCalculated: "amount_calculated",
     amountAdjusted: "amount_adjusted",
     amountDiscounts: "amount_discounts",
@@ -383,7 +402,6 @@ export const FilingDetailsRead$outboundSchema: z.ZodType<
     returnConfirmationId: "return_confirmation_id",
     paymentConfirmationId: "payment_confirmation_id",
     blockApproval: "block_approval",
-    pausedUntilDate: "paused_until_date",
     registrationId: "registration_id",
     creditsUtilized: "credits_utilized",
   });

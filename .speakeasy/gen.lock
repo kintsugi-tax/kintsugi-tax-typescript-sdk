@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: d05be22d73a53ba9dbb3f88c157f0a54
+  docChecksum: 9831332ac0a08d96ed2b7f56738b49ed
   docVersion: 1.0.0
-  speakeasyVersion: 1.598.3
-  generationVersion: 2.674.3
-  releaseVersion: 0.8.2
-  configChecksum: 10cb3dac6e7441c9440fdc1e30209e76
+  speakeasyVersion: 1.606.3
+  generationVersion: 2.687.1
+  releaseVersion: 0.8.3
+  configChecksum: 4df9274eda1a71bc5eba6d0d46b99fbb
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -767,7 +767,7 @@ examples:
     speakeasy-default-get-filings-v1-filings-get:
       parameters:
         query:
-          status__in: "FILED,FILING,UNFILED"
+          status__in: "FILED,FILING,UNFILED,PAUSED"
           start_date: "2024-01-01"
           end_date: "2024-12-31"
           date_filed__gte: "2024-01-01"
@@ -3784,3 +3784,4 @@ examples:
         "422":
           application/json: {}
 examplesVersion: 1.0.2
+releaseNotes: "## SDK Changes Detected:\n* `sdk.transactions.get()`: \n  *  `request.type` **Removed** **Breaking** :warning:\n* `sdk.taxEstimation.estimate()`: \n  *  `request.transactionEstimatePublicRequest.transactionItems.[]` **Changed** **Breaking** :warning:\n  *  `response.items.[].transactionItems.[]` **Changed** **Breaking** :warning:\n* `sdk.filings.list()`:  `response.items.[]` **Changed**\n* `sdk.filings.get()`:  `response` **Changed**\n* `sdk.filings.getByRegistrationId()`:  `response.items.[]` **Changed**\n"
