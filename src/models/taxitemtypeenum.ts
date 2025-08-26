@@ -6,6 +6,7 @@ import * as z from "zod";
 import { ClosedEnum } from "../types/enums.js";
 
 export const TaxItemTypeEnum = {
+  ImportedOriginal: "IMPORTED_ORIGINAL",
   Imported: "IMPORTED",
   Calculated: "CALCULATED",
 } as const;

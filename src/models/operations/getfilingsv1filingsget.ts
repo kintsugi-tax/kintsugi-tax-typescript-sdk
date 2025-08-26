@@ -58,7 +58,7 @@ export const GetFilingsV1FilingsGetRequest$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
-  status__in: z.string().default("FILED,FILING,UNFILED"),
+  status__in: z.string().default("FILED,FILING,UNFILED,PAUSED"),
   start_date: z.string().optional(),
   end_date: z.string().optional(),
   date_filed__gte: z.string().optional(),
@@ -101,7 +101,7 @@ export const GetFilingsV1FilingsGetRequest$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   GetFilingsV1FilingsGetRequest
 > = z.object({
-  statusIn: z.string().default("FILED,FILING,UNFILED"),
+  statusIn: z.string().default("FILED,FILING,UNFILED,PAUSED"),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
   dateFiledGte: z.string().optional(),

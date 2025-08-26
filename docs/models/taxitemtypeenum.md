@@ -11,5 +11,5 @@ let value: TaxItemTypeEnum = "CALCULATED";
 ## Values
 
 ```typescript
-"IMPORTED" | "CALCULATED"
+"IMPORTED_ORIGINAL" | "IMPORTED" | "CALCULATED"
 ```

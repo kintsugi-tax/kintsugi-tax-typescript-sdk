@@ -8,7 +8,7 @@ dotenv.config();
  * Example usage of the @kintsugi-tax/tax-platform-sdk SDK
  *
  * To run this example from the examples directory:
- * npm run build && npx tsx addressValidationSearch.ts
+ * npm run build && npx tsx addressValidationSearch.example.ts
  */
 
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";

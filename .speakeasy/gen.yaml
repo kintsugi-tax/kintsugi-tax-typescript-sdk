@@ -22,7 +22,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 0.8.2
+  version: 0.8.3
   additionalDependencies:
     dependencies: {}
     devDependencies: {}
@@ -57,4 +57,5 @@ typescript:
   packageName: '@kintsugi-tax/tax-platform-sdk'
   responseFormat: flat
   templateVersion: v2
+  usageSDKInitImports: []
   useIndexModules: true
