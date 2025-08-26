@@ -1,21 +1,21 @@
-speakeasyVersion: 1.598.3
+speakeasyVersion: 1.606.5
 sources:
     kintsugi-overlay:
         sourceNamespace: kintsugi-overlay
-        sourceRevisionDigest: sha256:c155cf712f8c4cf077783a34d51ab833319d5036a6ec474326f81d9ab2105dc0
-        sourceBlobDigest: sha256:9f06ddba0318170f65b18e2a7466262c225156da877997a6fa1e4bbdc3fa4a1a
+        sourceRevisionDigest: sha256:548bf64bd1a7f751fa2002f728fc3054e55eabc03b24b1d0936f2e509061e951
+        sourceBlobDigest: sha256:8ccda7d52d0236055a74eff3853ade454e2eb15ab37fea06d6a710bf4682d032
         tags:
             - latest
-            - speakeasy-sdk-regen-1754094803
+            - speakeasy-sdk-regen-1756168286
             - 1.0.0
 targets:
     typescript:
         source: kintsugi-overlay
         sourceNamespace: kintsugi-overlay
-        sourceRevisionDigest: sha256:c155cf712f8c4cf077783a34d51ab833319d5036a6ec474326f81d9ab2105dc0
-        sourceBlobDigest: sha256:9f06ddba0318170f65b18e2a7466262c225156da877997a6fa1e4bbdc3fa4a1a
+        sourceRevisionDigest: sha256:548bf64bd1a7f751fa2002f728fc3054e55eabc03b24b1d0936f2e509061e951
+        sourceBlobDigest: sha256:8ccda7d52d0236055a74eff3853ade454e2eb15ab37fea06d6a710bf4682d032
         codeSamplesNamespace: kintsugi-overlay-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:bccde04c564b85d383fc013d8aedbe7fbaac7fd4613e61eccde6753f35bdef38
+        codeSamplesRevisionDigest: sha256:50cb608e485d2b7fd74e2dbc4bdcd1e2c8979e384976588ee7031045084fec85
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

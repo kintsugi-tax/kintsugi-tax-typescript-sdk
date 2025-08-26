@@ -8,16 +8,6 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  ProductCategoryEnum,
-  ProductCategoryEnum$inboundSchema,
-  ProductCategoryEnum$outboundSchema,
-} from "./productcategoryenum.js";
-import {
-  ProductSubCategoryEnum,
-  ProductSubCategoryEnum$inboundSchema,
-  ProductSubCategoryEnum$outboundSchema,
-} from "./productsubcategoryenum.js";
-import {
   SourceEnum,
   SourceEnum$inboundSchema,
   SourceEnum$outboundSchema,
@@ -63,8 +53,20 @@ export type TransactionItemEstimateResponse = {
    */
   productDescription?: string | undefined;
   productSource?: SourceEnum | undefined;
-  productSubcategory?: ProductSubCategoryEnum | undefined;
-  productCategory?: ProductCategoryEnum | undefined;
+  /**
+   * Subcategory of the product. Required if product_category is used
+   *
+   * @remarks
+   *         in place of external_product_id.
+   */
+  productSubcategory?: string | undefined;
+  /**
+   * Category of the product. Required if product_subcategory is used
+   *
+   * @remarks
+   *         in place of external_product_id.
+   */
+  productCategory?: string | undefined;
   /**
    * Defaults to 1.0. The quantity of the item.
    */
@@ -112,8 +114,8 @@ export const TransactionItemEstimateResponse$inboundSchema: z.ZodType<
   product_name: z.string().optional(),
   product_description: z.string().optional(),
   product_source: SourceEnum$inboundSchema.optional(),
-  product_subcategory: ProductSubCategoryEnum$inboundSchema.optional(),
-  product_category: ProductCategoryEnum$inboundSchema.optional(),
+  product_subcategory: z.string().optional(),
+  product_category: z.string().optional(),
   quantity: z.string().default("1.0"),
   amount: z.string(),
   exempt: z.boolean().default(false),
@@ -173,8 +175,8 @@ export const TransactionItemEstimateResponse$outboundSchema: z.ZodType<
   productName: z.string().optional(),
   productDescription: z.string().optional(),
   productSource: SourceEnum$outboundSchema.optional(),
-  productSubcategory: ProductSubCategoryEnum$outboundSchema.optional(),
-  productCategory: ProductCategoryEnum$outboundSchema.optional(),
+  productSubcategory: z.string().optional(),
+  productCategory: z.string().optional(),
   quantity: z.string().default("1.0"),
   amount: z.string(),
   exempt: z.boolean().default(false),
