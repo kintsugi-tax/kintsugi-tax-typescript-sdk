@@ -118,6 +118,7 @@ async function run() {
     endDate: "2025-01-01",
     category: "PHYSICAL_BUSINESS_LOCATION",
     externalId: "ext_ABC123",
+    source: "USER",
   });
 
   console.log(result);
@@ -152,6 +153,7 @@ async function run() {
     endDate: "2025-01-01",
     category: "PHYSICAL_BUSINESS_LOCATION",
     externalId: "ext_ABC123",
+    source: "USER",
   });
   if (res.ok) {
     const { value: result } = res;

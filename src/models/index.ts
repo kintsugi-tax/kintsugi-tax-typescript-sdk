@@ -63,6 +63,7 @@ export * from "./periodmodelenum.js";
 export * from "./physicalnexuscategory.js";
 export * from "./physicalnexuscreate.js";
 export * from "./physicalnexusread.js";
+export * from "./physicalnexussource.js";
 export * from "./physicalnexusupdate.js";
 export * from "./processingstatusenum.js";
 export * from "./productcategories.js";
