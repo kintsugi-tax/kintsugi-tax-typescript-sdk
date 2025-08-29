@@ -56,7 +56,7 @@ export const SourceEnum = {
   Faire: "FAIRE",
   Shopware: "SHOPWARE",
   Zoho: "ZOHO",
-  SageIntacct: "SAGE_INTACCT",
+  SageIntacct: "SAGE-INTACCT",
 } as const;
 export type SourceEnum = ClosedEnum<typeof SourceEnum>;
 

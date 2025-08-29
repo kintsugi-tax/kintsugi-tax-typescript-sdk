@@ -18,6 +18,11 @@ import {
   PhysicalNexusCategory$inboundSchema,
   PhysicalNexusCategory$outboundSchema,
 } from "./physicalnexuscategory.js";
+import {
+  PhysicalNexusSource,
+  PhysicalNexusSource$inboundSchema,
+  PhysicalNexusSource$outboundSchema,
+} from "./physicalnexussource.js";
 
 export type PhysicalNexusCreate = {
   countryCode: CountryCodeEnum;
@@ -50,6 +55,7 @@ export type PhysicalNexusCreate = {
    *                                         external identifier for the nexus.
    */
   externalId?: string | undefined;
+  source?: PhysicalNexusSource | undefined;
 };
 
 /** @internal */
@@ -64,6 +70,7 @@ export const PhysicalNexusCreate$inboundSchema: z.ZodType<
   end_date: z.string().optional(),
   category: PhysicalNexusCategory$inboundSchema,
   external_id: z.string().optional(),
+  source: PhysicalNexusSource$inboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     "country_code": "countryCode",
@@ -82,6 +89,7 @@ export type PhysicalNexusCreate$Outbound = {
   end_date?: string | undefined;
   category: string;
   external_id?: string | undefined;
+  source?: string | undefined;
 };
 
 /** @internal */
@@ -96,6 +104,7 @@ export const PhysicalNexusCreate$outboundSchema: z.ZodType<
   endDate: z.string().optional(),
   category: PhysicalNexusCategory$outboundSchema,
   externalId: z.string().optional(),
+  source: PhysicalNexusSource$outboundSchema.optional(),
 }).transform((v) => {
   return remap$(v, {
     countryCode: "country_code",
