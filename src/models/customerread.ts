@@ -86,6 +86,10 @@ export type CustomerRead = {
    */
   registrationNumber?: string | undefined;
   /**
+   * External friendly identifier associated with the customer. We need it for netsuite.
+   */
+  externalFriendlyId?: string | undefined;
+  /**
    * Unique identifier for the customer required.
    */
   id: string;
@@ -118,6 +122,7 @@ export const CustomerRead$inboundSchema: z.ZodType<
   connection_id: z.string().optional(),
   address_status: AddressStatus$inboundSchema.optional(),
   registration_number: z.string().optional(),
+  external_friendly_id: z.string().optional(),
   id: z.string(),
   organization_id: z.string(),
 }).transform((v) => {
@@ -130,6 +135,7 @@ export const CustomerRead$inboundSchema: z.ZodType<
     "connection_id": "connectionId",
     "address_status": "addressStatus",
     "registration_number": "registrationNumber",
+    "external_friendly_id": "externalFriendlyId",
     "organization_id": "organizationId",
   });
 });
@@ -153,6 +159,7 @@ export type CustomerRead$Outbound = {
   connection_id?: string | undefined;
   address_status?: string | undefined;
   registration_number?: string | undefined;
+  external_friendly_id?: string | undefined;
   id: string;
   organization_id: string;
 };
@@ -180,6 +187,7 @@ export const CustomerRead$outboundSchema: z.ZodType<
   connectionId: z.string().optional(),
   addressStatus: AddressStatus$outboundSchema.optional(),
   registrationNumber: z.string().optional(),
+  externalFriendlyId: z.string().optional(),
   id: z.string(),
   organizationId: z.string(),
 }).transform((v) => {
@@ -192,6 +200,7 @@ export const CustomerRead$outboundSchema: z.ZodType<
     connectionId: "connection_id",
     addressStatus: "address_status",
     registrationNumber: "registration_number",
+    externalFriendlyId: "external_friendly_id",
     organizationId: "organization_id",
   });
 });

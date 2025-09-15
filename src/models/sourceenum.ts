@@ -57,6 +57,7 @@ export const SourceEnum = {
   Shopware: "SHOPWARE",
   Zoho: "ZOHO",
   SageIntacct: "SAGE-INTACCT",
+  Airwallex: "AIRWALLEX",
 } as const;
 export type SourceEnum = ClosedEnum<typeof SourceEnum>;
 

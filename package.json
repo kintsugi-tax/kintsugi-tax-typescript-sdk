@@ -1,6 +1,6 @@
 {
   "name": "@kintsugi-tax/tax-platform-sdk",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "author": "Kintsugi Tax",
   "type": "module",
   "bin": {

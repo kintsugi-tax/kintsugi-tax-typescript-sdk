@@ -77,6 +77,10 @@ export type CustomerUpdate = {
    * External identifier associated with the customer
    */
   externalId?: string | undefined;
+  /**
+   * External friendly identifier associated with the customer. We need it for netsuite.
+   */
+  externalFriendlyId?: string | undefined;
 };
 
 /** @internal */
@@ -100,6 +104,7 @@ export const CustomerUpdate$inboundSchema: z.ZodType<
   source: SourceEnum$inboundSchema.optional(),
   address_status: AddressStatus$inboundSchema.optional(),
   external_id: z.string().optional(),
+  external_friendly_id: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
@@ -108,6 +113,7 @@ export const CustomerUpdate$inboundSchema: z.ZodType<
     "full_address": "fullAddress",
     "address_status": "addressStatus",
     "external_id": "externalId",
+    "external_friendly_id": "externalFriendlyId",
   });
 });
 
@@ -128,6 +134,7 @@ export type CustomerUpdate$Outbound = {
   source?: string | undefined;
   address_status?: string | undefined;
   external_id?: string | undefined;
+  external_friendly_id?: string | undefined;
 };
 
 /** @internal */
@@ -151,6 +158,7 @@ export const CustomerUpdate$outboundSchema: z.ZodType<
   source: SourceEnum$outboundSchema.optional(),
   addressStatus: AddressStatus$outboundSchema.optional(),
   externalId: z.string().optional(),
+  externalFriendlyId: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",
@@ -159,6 +167,7 @@ export const CustomerUpdate$outboundSchema: z.ZodType<
     fullAddress: "full_address",
     addressStatus: "address_status",
     externalId: "external_id",
+    externalFriendlyId: "external_friendly_id",
   });
 });
 

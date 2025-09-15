@@ -93,7 +93,6 @@ export type NexusResponse = {
   physicalNexusMetDate?: string | undefined;
   collectedTaxNexusMet?: boolean | undefined;
   collectedTaxNexusMetDate?: string | undefined;
-  collectedTaxEnabled?: boolean | undefined;
   periodModel: PeriodModelEnum;
   periodStartDate: RFCDate;
   periodEndDate: RFCDate;
@@ -200,7 +199,6 @@ export const NexusResponse$inboundSchema: z.ZodType<
   physical_nexus_met_date: z.string().optional(),
   collected_tax_nexus_met: z.boolean().default(false),
   collected_tax_nexus_met_date: z.string().optional(),
-  collected_tax_enabled: z.boolean().default(true),
   period_model: PeriodModelEnum$inboundSchema,
   period_start_date: z.string().transform(v => new RFCDate(v)),
   period_end_date: z.string().transform(v => new RFCDate(v)),
@@ -257,7 +255,6 @@ export const NexusResponse$inboundSchema: z.ZodType<
     "physical_nexus_met_date": "physicalNexusMetDate",
     "collected_tax_nexus_met": "collectedTaxNexusMet",
     "collected_tax_nexus_met_date": "collectedTaxNexusMetDate",
-    "collected_tax_enabled": "collectedTaxEnabled",
     "period_model": "periodModel",
     "period_start_date": "periodStartDate",
     "period_end_date": "periodEndDate",
@@ -313,7 +310,6 @@ export type NexusResponse$Outbound = {
   physical_nexus_met_date?: string | undefined;
   collected_tax_nexus_met: boolean;
   collected_tax_nexus_met_date?: string | undefined;
-  collected_tax_enabled: boolean;
   period_model: string;
   period_start_date: string;
   period_end_date: string;
@@ -376,7 +372,6 @@ export const NexusResponse$outboundSchema: z.ZodType<
   physicalNexusMetDate: z.string().optional(),
   collectedTaxNexusMet: z.boolean().default(false),
   collectedTaxNexusMetDate: z.string().optional(),
-  collectedTaxEnabled: z.boolean().default(true),
   periodModel: PeriodModelEnum$outboundSchema,
   periodStartDate: z.instanceof(RFCDate).transform(v => v.toString()),
   periodEndDate: z.instanceof(RFCDate).transform(v => v.toString()),
@@ -432,7 +427,6 @@ export const NexusResponse$outboundSchema: z.ZodType<
     physicalNexusMetDate: "physical_nexus_met_date",
     collectedTaxNexusMet: "collected_tax_nexus_met",
     collectedTaxNexusMetDate: "collected_tax_nexus_met_date",
-    collectedTaxEnabled: "collected_tax_enabled",
     periodModel: "period_model",
     periodStartDate: "period_start_date",
     periodEndDate: "period_end_date",
