@@ -16,7 +16,7 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 const sdk = new SDK();
 
 async function main() {
-  const result = await sdk.search({
+  const result = await sdk.addressValidation.search({
     apiKeyHeader: "<YOUR_API_KEY_HERE>",
   }, {
     phone: "555-123-4567",

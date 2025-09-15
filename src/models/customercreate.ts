@@ -85,6 +85,10 @@ export type CustomerCreate = {
    * Registration number of the customer.
    */
   registrationNumber?: string | undefined;
+  /**
+   * External friendly identifier associated with the customer. We need it for netsuite.
+   */
+  externalFriendlyId?: string | undefined;
 };
 
 /** @internal */
@@ -110,6 +114,7 @@ export const CustomerCreate$inboundSchema: z.ZodType<
   connection_id: z.string().optional(),
   address_status: AddressStatus$inboundSchema.optional(),
   registration_number: z.string().optional(),
+  external_friendly_id: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "street_1": "street1",
@@ -120,6 +125,7 @@ export const CustomerCreate$inboundSchema: z.ZodType<
     "connection_id": "connectionId",
     "address_status": "addressStatus",
     "registration_number": "registrationNumber",
+    "external_friendly_id": "externalFriendlyId",
   });
 });
 
@@ -142,6 +148,7 @@ export type CustomerCreate$Outbound = {
   connection_id?: string | undefined;
   address_status?: string | undefined;
   registration_number?: string | undefined;
+  external_friendly_id?: string | undefined;
 };
 
 /** @internal */
@@ -167,6 +174,7 @@ export const CustomerCreate$outboundSchema: z.ZodType<
   connectionId: z.string().optional(),
   addressStatus: AddressStatus$outboundSchema.optional(),
   registrationNumber: z.string().optional(),
+  externalFriendlyId: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     street1: "street_1",
@@ -177,6 +185,7 @@ export const CustomerCreate$outboundSchema: z.ZodType<
     connectionId: "connection_id",
     addressStatus: "address_status",
     registrationNumber: "registration_number",
+    externalFriendlyId: "external_friendly_id",
   });
 });
 

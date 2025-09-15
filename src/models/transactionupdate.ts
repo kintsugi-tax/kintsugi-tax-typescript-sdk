@@ -7,11 +7,6 @@ import { remap as remap$ } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
-  AddressStatus,
-  AddressStatus$inboundSchema,
-  AddressStatus$outboundSchema,
-} from "./addressstatus.js";
-import {
   CountryCodeEnum,
   CountryCodeEnum$inboundSchema,
   CountryCodeEnum$outboundSchema,
@@ -40,11 +35,6 @@ import {
   ExemptionRequired$Outbound,
   ExemptionRequired$outboundSchema,
 } from "./exemptionrequired.js";
-import {
-  ProcessingStatusEnum,
-  ProcessingStatusEnum$inboundSchema,
-  ProcessingStatusEnum$outboundSchema,
-} from "./processingstatusenum.js";
 import {
   SourceEnum,
   SourceEnum$inboundSchema,
@@ -219,47 +209,6 @@ export type TransactionUpdate = {
    * Tax ID associated with the transaction
    */
   taxId?: string | undefined;
-  addressStatus?: AddressStatus | undefined;
-  /**
-   * Our transaction state, used to determine when/if a transaction needs additional
-   *
-   * @remarks
-   * processing.
-   */
-  processingStatus?: ProcessingStatusEnum | undefined;
-  destinationCurrency?: CurrencyEnum | undefined;
-  /**
-   * Converted total amount.
-   */
-  convertedTotalAmount?: number | undefined;
-  /**
-   * Converted imported tax amount.
-   */
-  convertedTotalTaxAmountImported?: number | undefined;
-  /**
-   * Converted calculated tax amount.
-   */
-  convertedTotalTaxAmountCalculated?: number | undefined;
-  /**
-   * Currency conversion rate.
-   */
-  conversionRate?: number | undefined;
-  /**
-   * Converted taxable amount.
-   */
-  convertedTaxableAmount?: number | undefined;
-  /**
-   * Converted total discount amount.
-   */
-  convertedTotalDiscount?: number | undefined;
-  /**
-   * Converted subtotal amount.
-   */
-  convertedSubtotal?: number | undefined;
-  /**
-   * Converted total tax liability amount.
-   */
-  convertedTotalTaxLiabilityAmount?: number | undefined;
   addresses: Array<TransactionAddressBuilder>;
   transactionItems: Array<TransactionItemCreateUpdate>;
   customer: CustomerUpdate;
@@ -307,17 +256,6 @@ export const TransactionUpdate$inboundSchema: z.ZodType<
   country: CountryCodeEnum$inboundSchema.optional(),
   postal_code: z.string().optional(),
   tax_id: z.string().optional(),
-  address_status: AddressStatus$inboundSchema.optional(),
-  processing_status: ProcessingStatusEnum$inboundSchema.optional(),
-  destination_currency: CurrencyEnum$inboundSchema.optional(),
-  converted_total_amount: z.number().optional(),
-  converted_total_tax_amount_imported: z.number().optional(),
-  converted_total_tax_amount_calculated: z.number().optional(),
-  conversion_rate: z.number().optional(),
-  converted_taxable_amount: z.number().optional(),
-  converted_total_discount: z.number().optional(),
-  converted_subtotal: z.number().optional(),
-  converted_total_tax_liability_amount: z.number().optional(),
   addresses: z.array(TransactionAddressBuilder$inboundSchema),
   transaction_items: z.array(TransactionItemCreateUpdate$inboundSchema),
   customer: CustomerUpdate$inboundSchema,
@@ -346,18 +284,6 @@ export const TransactionUpdate$inboundSchema: z.ZodType<
     "filing_id": "filingId",
     "postal_code": "postalCode",
     "tax_id": "taxId",
-    "address_status": "addressStatus",
-    "processing_status": "processingStatus",
-    "destination_currency": "destinationCurrency",
-    "converted_total_amount": "convertedTotalAmount",
-    "converted_total_tax_amount_imported": "convertedTotalTaxAmountImported",
-    "converted_total_tax_amount_calculated":
-      "convertedTotalTaxAmountCalculated",
-    "conversion_rate": "conversionRate",
-    "converted_taxable_amount": "convertedTaxableAmount",
-    "converted_total_discount": "convertedTotalDiscount",
-    "converted_subtotal": "convertedSubtotal",
-    "converted_total_tax_liability_amount": "convertedTotalTaxLiabilityAmount",
     "transaction_items": "transactionItems",
   });
 });
@@ -400,17 +326,6 @@ export type TransactionUpdate$Outbound = {
   country?: string | undefined;
   postal_code?: string | undefined;
   tax_id?: string | undefined;
-  address_status?: string | undefined;
-  processing_status?: string | undefined;
-  destination_currency?: string | undefined;
-  converted_total_amount?: number | undefined;
-  converted_total_tax_amount_imported?: number | undefined;
-  converted_total_tax_amount_calculated?: number | undefined;
-  conversion_rate?: number | undefined;
-  converted_taxable_amount?: number | undefined;
-  converted_total_discount?: number | undefined;
-  converted_subtotal?: number | undefined;
-  converted_total_tax_liability_amount?: number | undefined;
   addresses: Array<TransactionAddressBuilder$Outbound>;
   transaction_items: Array<TransactionItemCreateUpdate$Outbound>;
   customer: CustomerUpdate$Outbound;
@@ -458,17 +373,6 @@ export const TransactionUpdate$outboundSchema: z.ZodType<
   country: CountryCodeEnum$outboundSchema.optional(),
   postalCode: z.string().optional(),
   taxId: z.string().optional(),
-  addressStatus: AddressStatus$outboundSchema.optional(),
-  processingStatus: ProcessingStatusEnum$outboundSchema.optional(),
-  destinationCurrency: CurrencyEnum$outboundSchema.optional(),
-  convertedTotalAmount: z.number().optional(),
-  convertedTotalTaxAmountImported: z.number().optional(),
-  convertedTotalTaxAmountCalculated: z.number().optional(),
-  conversionRate: z.number().optional(),
-  convertedTaxableAmount: z.number().optional(),
-  convertedTotalDiscount: z.number().optional(),
-  convertedSubtotal: z.number().optional(),
-  convertedTotalTaxLiabilityAmount: z.number().optional(),
   addresses: z.array(TransactionAddressBuilder$outboundSchema),
   transactionItems: z.array(TransactionItemCreateUpdate$outboundSchema),
   customer: CustomerUpdate$outboundSchema,
@@ -497,17 +401,6 @@ export const TransactionUpdate$outboundSchema: z.ZodType<
     filingId: "filing_id",
     postalCode: "postal_code",
     taxId: "tax_id",
-    addressStatus: "address_status",
-    processingStatus: "processing_status",
-    destinationCurrency: "destination_currency",
-    convertedTotalAmount: "converted_total_amount",
-    convertedTotalTaxAmountImported: "converted_total_tax_amount_imported",
-    convertedTotalTaxAmountCalculated: "converted_total_tax_amount_calculated",
-    conversionRate: "conversion_rate",
-    convertedTaxableAmount: "converted_taxable_amount",
-    convertedTotalDiscount: "converted_total_discount",
-    convertedSubtotal: "converted_subtotal",
-    convertedTotalTaxLiabilityAmount: "converted_total_tax_liability_amount",
     transactionItems: "transaction_items",
   });
 });
