@@ -7,6 +7,7 @@ import { ClosedEnum } from "../types/enums.js";
 
 export const SourceEnum = {
   Bigcommerce: "BIGCOMMERCE",
+  Bunny: "BUNNY",
   Chargebee: "CHARGEBEE",
   Shopify: "SHOPIFY",
   Stripe: "STRIPE",

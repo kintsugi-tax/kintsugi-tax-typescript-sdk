@@ -16,6 +16,12 @@ import {
   CountryCodeEnum$inboundSchema,
   CountryCodeEnum$outboundSchema,
 } from "./countrycodeenum.js";
+import {
+  CustomerTaxRegistrationRead,
+  CustomerTaxRegistrationRead$inboundSchema,
+  CustomerTaxRegistrationRead$Outbound,
+  CustomerTaxRegistrationRead$outboundSchema,
+} from "./customertaxregistrationread.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   SourceEnum,
@@ -90,6 +96,10 @@ export type CustomerRead = {
    */
   externalFriendlyId?: string | undefined;
   /**
+   * Customer tax registrations associated with the customer.
+   */
+  customerTaxRegistrations?: Array<CustomerTaxRegistrationRead> | undefined;
+  /**
    * Unique identifier for the customer required.
    */
   id: string;
@@ -123,6 +133,8 @@ export const CustomerRead$inboundSchema: z.ZodType<
   address_status: AddressStatus$inboundSchema.optional(),
   registration_number: z.string().optional(),
   external_friendly_id: z.string().optional(),
+  customer_tax_registrations: z.array(CustomerTaxRegistrationRead$inboundSchema)
+    .optional(),
   id: z.string(),
   organization_id: z.string(),
 }).transform((v) => {
@@ -136,6 +148,7 @@ export const CustomerRead$inboundSchema: z.ZodType<
     "address_status": "addressStatus",
     "registration_number": "registrationNumber",
     "external_friendly_id": "externalFriendlyId",
+    "customer_tax_registrations": "customerTaxRegistrations",
     "organization_id": "organizationId",
   });
 });
@@ -160,6 +173,9 @@ export type CustomerRead$Outbound = {
   address_status?: string | undefined;
   registration_number?: string | undefined;
   external_friendly_id?: string | undefined;
+  customer_tax_registrations?:
+    | Array<CustomerTaxRegistrationRead$Outbound>
+    | undefined;
   id: string;
   organization_id: string;
 };
@@ -188,6 +204,8 @@ export const CustomerRead$outboundSchema: z.ZodType<
   addressStatus: AddressStatus$outboundSchema.optional(),
   registrationNumber: z.string().optional(),
   externalFriendlyId: z.string().optional(),
+  customerTaxRegistrations: z.array(CustomerTaxRegistrationRead$outboundSchema)
+    .optional(),
   id: z.string(),
   organizationId: z.string(),
 }).transform((v) => {
@@ -201,6 +219,7 @@ export const CustomerRead$outboundSchema: z.ZodType<
     addressStatus: "address_status",
     registrationNumber: "registration_number",
     externalFriendlyId: "external_friendly_id",
+    customerTaxRegistrations: "customer_tax_registrations",
     organizationId: "organization_id",
   });
 });
