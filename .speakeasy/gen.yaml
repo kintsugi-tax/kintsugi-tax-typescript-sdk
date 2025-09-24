@@ -23,7 +23,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 typescript:
-  version: 0.8.5
+  version: 0.8.6
   additionalDependencies:
     dependencies: {}
     devDependencies: {}
@@ -53,6 +53,7 @@ typescript:
   jsonpath: rfc9535
   maxMethodParams: 0
   methodArguments: infer-optional-args
+  modelPropertyCasing: camel
   moduleFormat: dual
   outputModelSuffix: output
   packageName: '@kintsugi-tax/tax-platform-sdk'
