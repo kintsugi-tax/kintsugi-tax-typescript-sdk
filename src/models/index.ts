@@ -32,6 +32,8 @@ export * from "./customerbasebase.js";
 export * from "./customerbasepublic.js";
 export * from "./customercreate.js";
 export * from "./customerread.js";
+export * from "./customertaxregistrationread.js";
+export * from "./customertaxtypeenum.js";
 export * from "./customerupdate.js";
 export * from "./discountbuilder.js";
 export * from "./exemption.js";

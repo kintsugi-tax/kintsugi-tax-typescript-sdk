@@ -233,3 +233,13 @@ Based on:
 - [typescript v0.8.5] .
 ### Releases
 - [NPM v0.8.5] https://www.npmjs.com/package/@kintsugi-tax/tax-platform-sdk/v/0.8.5 - .
+
+## 2025-09-24 00:30:23
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.623.0 (2.713.0) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [typescript v0.8.6] .
+### Releases
+- [NPM v0.8.6] https://www.npmjs.com/package/@kintsugi-tax/tax-platform-sdk/v/0.8.6 - .

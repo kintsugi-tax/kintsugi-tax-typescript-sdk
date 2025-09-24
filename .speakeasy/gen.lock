@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: ea66beb80a6eed7a02ec4aa39e78f803
+  docChecksum: 8b8d890c5e533dd2592dea0268b9291d
   docVersion: 1.0.0
-  speakeasyVersion: 1.615.2
-  generationVersion: 2.698.4
-  releaseVersion: 0.8.5
-  configChecksum: 2e94a8f9f9b3e0dbe29a418169588a8f
+  speakeasyVersion: 1.623.0
+  generationVersion: 2.713.0
+  releaseVersion: 0.8.6
+  configChecksum: a26ef6e2a460a7a5068541836ec671c4
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -15,7 +15,7 @@ features:
   typescript:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.12
-    core: 3.21.22
+    core: 3.21.25
     defaultEnabledRetries: 0.1.0
     deprecations: 2.81.1
     enumUnions: 0.1.0
@@ -71,6 +71,8 @@ generatedFiles:
   - docs/models/customerbasepublic.md
   - docs/models/customercreate.md
   - docs/models/customerread.md
+  - docs/models/customertaxregistrationread.md
+  - docs/models/customertaxtypeenum.md
   - docs/models/customerupdate.md
   - docs/models/discountbuilder.md
   - docs/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.md
@@ -369,6 +371,8 @@ generatedFiles:
   - src/models/customerbasepublic.ts
   - src/models/customercreate.ts
   - src/models/customerread.ts
+  - src/models/customertaxregistrationread.ts
+  - src/models/customertaxtypeenum.ts
   - src/models/customerupdate.ts
   - src/models/discountbuilder.ts
   - src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts
@@ -917,6 +921,7 @@ examples:
           size: 50
           status__in: "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED"
           order_by: "state_code,country_code"
+          without_pagination: false
         header:
           x-organization-id: "org_12345"
       responses:
@@ -3786,4 +3791,4 @@ examples:
         "422":
           application/json: {}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes Detected:\n* `sdk.transactions.update()`: \n  *  `request.transactionUpdate` **Changed** **Breaking** :warning:\n  *  `response.customer.externalFriendlyId` **Added**\n* `sdk.nexus.list()`:  `response.items.[].collectedTaxEnabled` **Removed** **Breaking** :warning:\n* `sdk.transactions.get()`:  `response.items.[].customer.externalFriendlyId` **Added**\n* `sdk.exemptions.create()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.getByExternalId()`:  `response.external_friendly_id` **Added**\n* `sdk.customers.getTransactions()`:  `response.[].customer.externalFriendlyId` **Added**\n* `sdk.customers.create()`: \n  *  `request.externalFriendlyId` **Added**\n  *  `response.external_friendly_id` **Added**\n* `sdk.customers.createTransaction()`: \n  *  `request.transactionCreate.customer.externalFriendlyId` **Added**\n  *  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.get()`:  `response.external_friendly_id` **Added**\n* `sdk.customers.update()`: \n  *  `request.customerUpdate.externalFriendlyId` **Added**\n  *  `response.external_friendly_id` **Added**\n* `sdk.transactions.create()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.transactions.getByExternalId()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.list()`:  `response.items.[].externalFriendlyId` **Added**\n* `sdk.transactions.getById()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.transactions.getByFilingId()`:  `response.[].customer.externalFriendlyId` **Added**\n* `sdk.transactions.createCreditNote()`:  `response.customer.externalFriendlyId` **Added**\n"
+releaseNotes: "## Typescript SDK Changes Detected:\n* `sdk.customers.list()`:  `response.items.[].customerTaxRegistrations` **Added**\n* `sdk.customers.create()`: \n  *  `request.customerTaxRegistrations` **Added**\n  *  `response.customer_tax_registrations` **Added**\n* `sdk.customers.get()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.update()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getByExternalId()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getTransactions()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.customers.createTransaction()`: \n  *  `request.transactionCreate.customer.customerTaxRegistrations` **Added**\n  *  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.exemptions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.nexus.list()`: \n  *  `request.withoutPagination` **Added**\n* `sdk.transactions.get()`:  `response.items.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByExternalId()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.update()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getById()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByFilingId()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.createCreditNote()`:  `response.customer.customerTaxRegistrations` **Added**\n"

@@ -16,7 +16,7 @@ let value: ProductRead = {
   productCategory: "PHYSICAL",
   productSubcategory: "MEDICINES",
   taxExempt: true,
-  source: "EBAY",
+  source: "ETSY",
   connectionId: "<id>",
   classificationFailed: true,
 };

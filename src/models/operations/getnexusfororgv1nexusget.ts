@@ -9,18 +9,16 @@ import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
 export type GetNexusForOrgV1NexusGetRequest = {
+  /**
+   * Return all results without pagination
+   */
+  withoutPagination?: boolean | undefined;
   statusIn?: string | undefined;
   stateCode?: string | undefined;
   countryCodeIn?: string | undefined;
   orderBy?: string | undefined;
   collectedTaxNexusMet?: boolean | undefined;
-  /**
-   * Page number
-   */
   page?: number | undefined;
-  /**
-   * Page size
-   */
   size?: number | undefined;
 };
 
@@ -30,6 +28,7 @@ export const GetNexusForOrgV1NexusGetRequest$inboundSchema: z.ZodType<
   z.ZodTypeDef,
   unknown
 > = z.object({
+  without_pagination: z.boolean().default(false),
   status__in: z.string().default(
     "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED",
   ),
@@ -41,6 +40,7 @@ export const GetNexusForOrgV1NexusGetRequest$inboundSchema: z.ZodType<
   size: z.number().int().default(50),
 }).transform((v) => {
   return remap$(v, {
+    "without_pagination": "withoutPagination",
     "status__in": "statusIn",
     "state_code": "stateCode",
     "country_code__in": "countryCodeIn",
@@ -51,6 +51,7 @@ export const GetNexusForOrgV1NexusGetRequest$inboundSchema: z.ZodType<
 
 /** @internal */
 export type GetNexusForOrgV1NexusGetRequest$Outbound = {
+  without_pagination: boolean;
   status__in: string;
   state_code?: string | undefined;
   country_code__in?: string | undefined;
@@ -66,6 +67,7 @@ export const GetNexusForOrgV1NexusGetRequest$outboundSchema: z.ZodType<
   z.ZodTypeDef,
   GetNexusForOrgV1NexusGetRequest
 > = z.object({
+  withoutPagination: z.boolean().default(false),
   statusIn: z.string().default(
     "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED",
   ),
@@ -77,6 +79,7 @@ export const GetNexusForOrgV1NexusGetRequest$outboundSchema: z.ZodType<
   size: z.number().int().default(50),
 }).transform((v) => {
   return remap$(v, {
+    withoutPagination: "without_pagination",
     statusIn: "status__in",
     stateCode: "state_code",
     countryCodeIn: "country_code__in",
