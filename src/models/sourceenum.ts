@@ -41,6 +41,7 @@ export const SourceEnum = {
   Gusto: "GUSTO",
   Facebook: "FACEBOOK",
   Other: "OTHER",
+  Ordway: "ORDWAY",
   Instagram: "INSTAGRAM",
   Pinterest: "PINTEREST",
   Wayfair: "WAYFAIR",

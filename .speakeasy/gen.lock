@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: 8b8d890c5e533dd2592dea0268b9291d
+  docChecksum: f2729e302147290a978c138654da18c6
   docVersion: 1.0.0
-  speakeasyVersion: 1.623.0
-  generationVersion: 2.713.0
-  releaseVersion: 0.8.6
-  configChecksum: a26ef6e2a460a7a5068541836ec671c4
+  speakeasyVersion: 1.629.1
+  generationVersion: 2.716.10
+  releaseVersion: 0.8.7
+  configChecksum: e7addadb422566636f083a04cbd57010
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -31,7 +31,7 @@ features:
     responseFormat: 0.2.3
     retries: 2.83.0
     sdkHooks: 0.3.0
-    unions: 2.85.11
+    unions: 2.85.12
     uploadStreams: 0.1.0
 generatedFiles:
   - .gitattributes
@@ -3791,4 +3791,3 @@ examples:
         "422":
           application/json: {}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes Detected:\n* `sdk.customers.list()`:  `response.items.[].customerTaxRegistrations` **Added**\n* `sdk.customers.create()`: \n  *  `request.customerTaxRegistrations` **Added**\n  *  `response.customer_tax_registrations` **Added**\n* `sdk.customers.get()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.update()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getByExternalId()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getTransactions()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.customers.createTransaction()`: \n  *  `request.transactionCreate.customer.customerTaxRegistrations` **Added**\n  *  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.exemptions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.nexus.list()`: \n  *  `request.withoutPagination` **Added**\n* `sdk.transactions.get()`:  `response.items.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByExternalId()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.update()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getById()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByFilingId()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.createCreditNote()`:  `response.customer.customerTaxRegistrations` **Added**\n"
