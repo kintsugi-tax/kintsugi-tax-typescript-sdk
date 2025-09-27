@@ -3682,6 +3682,142 @@ components:
         - "total_updated"
         - "total_failed"
       title: "BulkTaskUpdateResponse"
+    "BunnyConnectionRequest":
+      properties:
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+          description: "Bunny subdomain (e.g., 'mycompany' for mycompany.bunny.com)"
+        "client_id":
+          type: "string"
+          title: "Client Id"
+          description: "Bunny API Client ID"
+        "client_secret":
+          type: "string"
+          title: "Client Secret"
+          description: "Bunny API Client Secret"
+        "name":
+          description: "Custom name for this connection"
+          type: "string"
+      type: "object"
+      required:
+        - "subdomain"
+        - "client_id"
+        - "client_secret"
+      title: "BunnyConnectionRequest"
+      description: "Request model for creating a Bunny connection."
+    "BunnyConnectionResponse":
+      properties:
+        "success":
+          type: "boolean"
+          title: "Success"
+        "message":
+          type: "string"
+          title: "Message"
+        "connection_id":
+          type: "string"
+        "data":
+          type: "object"
+      type: "object"
+      required:
+        - "success"
+        - "message"
+      title: "BunnyConnectionResponse"
+      description: "Response model for Bunny connection operations."
+    "BunnyConnectionStatus":
+      properties:
+        "connection_id":
+          type: "string"
+          title: "Connection Id"
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+        "name":
+          type: "string"
+          title: "Name"
+        "status":
+          type: "string"
+          title: "Status"
+        "last_sync":
+          type: "string"
+        "created_at":
+          type: "string"
+          format: "date-time"
+          title: "Created At"
+        "error_message":
+          type: "string"
+      type: "object"
+      required:
+        - "connection_id"
+        - "subdomain"
+        - "name"
+        - "status"
+        - "created_at"
+      title: "BunnyConnectionStatus"
+      description: "Model for connection status information."
+    "BunnyHealthCheckResponse":
+      properties:
+        "healthy":
+          type: "boolean"
+          title: "Healthy"
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+        "message":
+          type: "string"
+          title: "Message"
+        "last_checked":
+          type: "string"
+          format: "date-time"
+          title: "Last Checked"
+      type: "object"
+      required:
+        - "healthy"
+        - "subdomain"
+        - "message"
+        - "last_checked"
+      title: "BunnyHealthCheckResponse"
+      description: "Response model for health check."
+    "BunnySyncRequest":
+      properties:
+        "connection_id":
+          type: "string"
+          title: "Connection Id"
+        "entity_types":
+          description: "Specific entity types to sync (accounts, invoices, products, subscriptions)"
+          type: "array"
+          items:
+            type: "string"
+        "full_sync":
+          type: "boolean"
+          title: "Full Sync"
+          description: "Perform full sync instead of incremental"
+          default: false
+      type: "object"
+      required:
+        - "connection_id"
+      title: "BunnySyncRequest"
+      description: "Request model for triggering sync."
+    "BunnySyncResponse":
+      properties:
+        "sync_id":
+          type: "string"
+          title: "Sync Id"
+        "status":
+          type: "string"
+          title: "Status"
+        "message":
+          type: "string"
+          title: "Message"
+        "stats":
+          type: "object"
+      type: "object"
+      required:
+        - "sync_id"
+        - "status"
+        - "message"
+      title: "BunnySyncResponse"
+      description: "Response model for sync operations."
     "CanadaRule":
       properties:
         "id":
@@ -8556,6 +8692,9 @@ components:
         "note_type":
           type: "string"
           title: "Note Type"
+        "note_source":
+          type: "string"
+          title: "Note Source"
         "is_pinned":
           type: "boolean"
           title: "Is Pinned"
@@ -8570,6 +8709,7 @@ components:
         - "organization_id"
         - "content"
         - "note_type"
+        - "note_source"
         - "is_pinned"
         - "created_at"
       title: "NoteRead"
