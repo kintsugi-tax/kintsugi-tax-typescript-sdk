@@ -110,7 +110,6 @@ export type TransactionRead = {
    * Timezone of the shop
    */
   shopDateTz?: string | undefined;
-  status?: TransactionStatusEnum | undefined;
   /**
    * Description of the transaction.
    */
@@ -265,6 +264,7 @@ export type TransactionRead = {
    * Converted total tax liability amount.
    */
   convertedTotalTaxLiabilityAmount?: string | undefined;
+  status?: TransactionStatusEnum | undefined;
   /**
    * The unique transaction identifier.
    */
@@ -309,7 +309,6 @@ export const TransactionRead$inboundSchema: z.ZodType<
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
   shop_date: z.string().optional(),
   shop_date_tz: z.string().optional(),
-  status: TransactionStatusEnum$inboundSchema.optional(),
   description: z.string().optional(),
   refund_status: TransactionRefundStatus$inboundSchema.optional(),
   total_amount: z.string().default("0.00"),
@@ -350,6 +349,7 @@ export const TransactionRead$inboundSchema: z.ZodType<
   converted_total_discount: z.string().optional(),
   converted_subtotal: z.string().optional(),
   converted_total_tax_liability_amount: z.string().optional(),
+  status: TransactionStatusEnum$inboundSchema.optional(),
   id: z.string(),
   addresses: z.array(TransactionAddressReadOutput$inboundSchema),
   transaction_items: z.array(TransactionItemRead$inboundSchema),
@@ -411,7 +411,6 @@ export type TransactionRead$Outbound = {
   date: string;
   shop_date?: string | undefined;
   shop_date_tz?: string | undefined;
-  status?: string | undefined;
   description?: string | undefined;
   refund_status?: string | undefined;
   total_amount: string;
@@ -452,6 +451,7 @@ export type TransactionRead$Outbound = {
   converted_total_discount?: string | undefined;
   converted_subtotal?: string | undefined;
   converted_total_tax_liability_amount?: string | undefined;
+  status?: string | undefined;
   id: string;
   addresses: Array<TransactionAddressReadOutput$Outbound>;
   transaction_items: Array<TransactionItemRead$Outbound>;
@@ -475,7 +475,6 @@ export const TransactionRead$outboundSchema: z.ZodType<
   date: z.date().transform(v => v.toISOString()),
   shopDate: z.string().optional(),
   shopDateTz: z.string().optional(),
-  status: TransactionStatusEnum$outboundSchema.optional(),
   description: z.string().optional(),
   refundStatus: TransactionRefundStatus$outboundSchema.optional(),
   totalAmount: z.string().default("0.00"),
@@ -516,6 +515,7 @@ export const TransactionRead$outboundSchema: z.ZodType<
   convertedTotalDiscount: z.string().optional(),
   convertedSubtotal: z.string().optional(),
   convertedTotalTaxLiabilityAmount: z.string().optional(),
+  status: TransactionStatusEnum$outboundSchema.optional(),
   id: z.string(),
   addresses: z.array(TransactionAddressReadOutput$outboundSchema),
   transactionItems: z.array(TransactionItemRead$outboundSchema),

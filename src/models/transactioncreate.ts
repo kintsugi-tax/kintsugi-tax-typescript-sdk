@@ -105,7 +105,6 @@ export type TransactionCreate = {
    * Timezone of the shop
    */
   shopDateTz?: string | undefined;
-  status?: TransactionStatusEnum | undefined;
   /**
    * Description of the transaction.
    */
@@ -260,6 +259,7 @@ export type TransactionCreate = {
    * Converted total tax liability amount.
    */
   convertedTotalTaxLiabilityAmount?: number | undefined;
+  status?: TransactionStatusEnum | undefined;
   addresses: Array<TransactionAddressBuilder>;
   transactionItems: Array<TransactionItemCreateUpdate>;
   customer?: CustomerCreate | undefined;
@@ -277,7 +277,6 @@ export const TransactionCreate$inboundSchema: z.ZodType<
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
   shop_date: z.string().optional(),
   shop_date_tz: z.string().optional(),
-  status: TransactionStatusEnum$inboundSchema.optional(),
   description: z.string().optional(),
   refund_status: TransactionRefundStatus$inboundSchema.optional(),
   total_amount: z.number().default(0.00),
@@ -318,6 +317,7 @@ export const TransactionCreate$inboundSchema: z.ZodType<
   converted_total_discount: z.number().optional(),
   converted_subtotal: z.number().optional(),
   converted_total_tax_liability_amount: z.number().optional(),
+  status: TransactionStatusEnum$inboundSchema.optional(),
   addresses: z.array(TransactionAddressBuilder$inboundSchema),
   transaction_items: z.array(TransactionItemCreateUpdate$inboundSchema),
   customer: CustomerCreate$inboundSchema.optional(),
@@ -370,7 +370,6 @@ export type TransactionCreate$Outbound = {
   date: string;
   shop_date?: string | undefined;
   shop_date_tz?: string | undefined;
-  status?: string | undefined;
   description?: string | undefined;
   refund_status?: string | undefined;
   total_amount: number;
@@ -411,6 +410,7 @@ export type TransactionCreate$Outbound = {
   converted_total_discount?: number | undefined;
   converted_subtotal?: number | undefined;
   converted_total_tax_liability_amount?: number | undefined;
+  status?: string | undefined;
   addresses: Array<TransactionAddressBuilder$Outbound>;
   transaction_items: Array<TransactionItemCreateUpdate$Outbound>;
   customer?: CustomerCreate$Outbound | undefined;
@@ -428,7 +428,6 @@ export const TransactionCreate$outboundSchema: z.ZodType<
   date: z.date().transform(v => v.toISOString()),
   shopDate: z.string().optional(),
   shopDateTz: z.string().optional(),
-  status: TransactionStatusEnum$outboundSchema.optional(),
   description: z.string().optional(),
   refundStatus: TransactionRefundStatus$outboundSchema.optional(),
   totalAmount: z.number().default(0.00),
@@ -469,6 +468,7 @@ export const TransactionCreate$outboundSchema: z.ZodType<
   convertedTotalDiscount: z.number().optional(),
   convertedSubtotal: z.number().optional(),
   convertedTotalTaxLiabilityAmount: z.number().optional(),
+  status: TransactionStatusEnum$outboundSchema.optional(),
   addresses: z.array(TransactionAddressBuilder$outboundSchema),
   transactionItems: z.array(TransactionItemCreateUpdate$outboundSchema),
   customer: CustomerCreate$outboundSchema.optional(),
