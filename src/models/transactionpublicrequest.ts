@@ -68,11 +68,6 @@ import {
   TransactionRefundStatus$outboundSchema,
 } from "./transactionrefundstatus.js";
 import {
-  TransactionStatusEnum,
-  TransactionStatusEnum$inboundSchema,
-  TransactionStatusEnum$outboundSchema,
-} from "./transactionstatusenum.js";
-import {
   TransactionTypeEnum,
   TransactionTypeEnum$inboundSchema,
   TransactionTypeEnum$outboundSchema,
@@ -100,7 +95,6 @@ export type TransactionPublicRequest = {
    * Timezone of the shop
    */
   shopDateTz?: string | undefined;
-  status?: TransactionStatusEnum | undefined;
   /**
    * Description of the transaction.
    */
@@ -232,7 +226,6 @@ export const TransactionPublicRequest$inboundSchema: z.ZodType<
   date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
   shop_date: z.string().optional(),
   shop_date_tz: z.string().optional(),
-  status: TransactionStatusEnum$inboundSchema.optional(),
   description: z.string().optional(),
   refund_status: TransactionRefundStatus$inboundSchema.optional(),
   total_amount: z.number().default(0.00),
@@ -303,7 +296,6 @@ export type TransactionPublicRequest$Outbound = {
   date: string;
   shop_date?: string | undefined;
   shop_date_tz?: string | undefined;
-  status?: string | undefined;
   description?: string | undefined;
   refund_status?: string | undefined;
   total_amount: number;
@@ -351,7 +343,6 @@ export const TransactionPublicRequest$outboundSchema: z.ZodType<
   date: z.date().transform(v => v.toISOString()),
   shopDate: z.string().optional(),
   shopDateTz: z.string().optional(),
-  status: TransactionStatusEnum$outboundSchema.optional(),
   description: z.string().optional(),
   refundStatus: TransactionRefundStatus$outboundSchema.optional(),
   totalAmount: z.number().default(0.00),
