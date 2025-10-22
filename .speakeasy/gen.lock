@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: c3850712-337b-4121-95cc-c2e17a4391b9
 management:
-  docChecksum: f2729e302147290a978c138654da18c6
+  docChecksum: 3dcc953b21b59ddd691a685affecb034
   docVersion: 1.0.0
-  speakeasyVersion: 1.630.0
-  generationVersion: 2.716.10
-  releaseVersion: 0.8.7
-  configChecksum: e7addadb422566636f083a04cbd57010
+  speakeasyVersion: 1.638.0
+  generationVersion: 2.728.0
+  releaseVersion: 0.9.0
+  configChecksum: d58b618867b272449000f07c96c61ffa
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
@@ -15,7 +15,7 @@ features:
   typescript:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.12
-    core: 3.21.25
+    core: 3.23.0
     defaultEnabledRetries: 0.1.0
     deprecations: 2.81.1
     enumUnions: 0.1.0
@@ -23,7 +23,7 @@ features:
     globalSecurity: 2.82.14
     globalSecurityCallbacks: 0.1.0
     globalServerURLs: 2.82.5
-    groups: 2.81.2
+    groups: 2.81.3
     mcpServer: 0.9.3
     methodArguments: 0.1.2
     methodSecurity: 2.82.6
@@ -31,7 +31,7 @@ features:
     responseFormat: 0.2.3
     retries: 2.83.0
     sdkHooks: 0.3.0
-    unions: 2.85.12
+    unions: 2.86.0
     uploadStreams: 0.1.0
 generatedFiles:
   - .gitattributes
@@ -155,7 +155,6 @@ generatedFiles:
   - docs/models/processingstatusenum.md
   - docs/models/productcategories.md
   - docs/models/productcategoryenum.md
-  - docs/models/productcodeenum.md
   - docs/models/productcreatemanual.md
   - docs/models/productread.md
   - docs/models/productstatusenum.md
@@ -216,7 +215,6 @@ generatedFiles:
   - docs/sdks/nexus/README.md
   - docs/sdks/products/README.md
   - docs/sdks/registrations/README.md
-  - docs/sdks/sdk/README.md
   - docs/sdks/taxestimation/README.md
   - docs/sdks/transactions/README.md
   - docs/types/rfcdate.md
@@ -462,7 +460,6 @@ generatedFiles:
   - src/models/processingstatusenum.ts
   - src/models/productcategories.ts
   - src/models/productcategoryenum.ts
-  - src/models/productcodeenum.ts
   - src/models/productcreatemanual.ts
   - src/models/productread.ts
   - src/models/productstatusenum.ts
@@ -803,7 +800,7 @@ examples:
           x-organization-id: "org_12345"
       responses:
         "200":
-          application/json: {"start_date": "2024-05-22", "end_date": "2023-08-31", "country_code": "GL", "auto_approved": false, "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "total_taxable_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00"}
+          application/json: {"start_date": "2024-05-22", "end_date": "2023-08-31", "country_code": "GL", "auto_approved": false, "filing_category": "REGULAR", "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "total_taxable_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00", "filing_website_url": "https://electric-fold.name/"}
         "401":
           application/json: {"detail": "<value>"}
         "422":
@@ -1303,7 +1300,7 @@ examples:
         header:
           x-organization-id: "org_12345"
       requestBody:
-        application/json: {"date": "2025-10-15T06:09:56.760Z", "external_id": "<id>", "total_amount": 0, "currency": "WST", "marketplace": false, "transaction_items": [{"date": "2023-10-09T10:49:19.753Z", "quantity": 1, "amount": 612.37, "exempt": false}], "addresses": [{"type": "BILL_TO", "state": "Virginia", "postal_code": "53776-2466", "country": "Wallis and Futuna"}]}
+        application/json: {"date": "2025-10-15T06:09:56.760Z", "external_id": "<id>", "currency": "WST", "marketplace": false, "transaction_items": [{"date": "2023-10-09T10:49:19.753Z", "quantity": 1, "amount": 612.37, "exempt": false}], "addresses": [{"type": "BILL_TO", "state": "Virginia", "postal_code": "53776-2466", "country": "Wallis and Futuna"}]}
       responses:
         "200":
           application/json: {"items": [], "total": 610767, "page": 61497, "size": 435684}
@@ -3791,3 +3788,4 @@ examples:
         "422":
           application/json: {}
 examplesVersion: 1.0.2
+releaseNotes: "## Typescript SDK Changes Detected:\n* `sdk.products.list()`:  `response.items.[]` **Changed** **Breaking** :warning:\n* `sdk.products.create()`:  `response` **Changed** **Breaking** :warning:\n* `sdk.products.get()`:  `response` **Changed** **Breaking** :warning:\n* `sdk.products.update()`:  `response` **Changed** **Breaking** :warning:\n* `sdk.taxEstimation.estimate()`: \n  *  `request.transactionEstimatePublicRequest.totalAmount` **Removed** **Breaking** :warning:\n  *  `response.items.[].totalAmount` **Removed** **Breaking** :warning:\n* `sdk.filings.list()`:  `response.items.[]` **Changed**\n* `sdk.filings.get()`:  `response` **Changed**\n* `sdk.filings.getByRegistrationId()`:  `response.items.[]` **Changed**\n"

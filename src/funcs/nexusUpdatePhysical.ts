@@ -124,7 +124,7 @@ async function $do(
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID:
       "update_physical_nexus_v1_nexus_physical_nexus__physical_nexus_id__put",
-    oAuth2Scopes: [],
+    oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
 

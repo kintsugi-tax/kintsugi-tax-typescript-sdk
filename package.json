@@ -1,6 +1,6 @@
 {
   "name": "@kintsugi-tax/tax-platform-sdk",
-  "version": "0.8.7",
+  "version": "0.9.0",
   "author": "Kintsugi Tax",
   "type": "module",
   "bin": {
@@ -56,7 +56,7 @@
     "typescript-eslint": "^8.26.0"
   },
   "dependencies": {
-    "zod": "^3.20.0"
+    "zod": "^3.25.0 || ^4.0.0"
   },
   "exports": {
     ".": {

@@ -70,7 +70,6 @@ export * from "./physicalnexusupdate.js";
 export * from "./processingstatusenum.js";
 export * from "./productcategories.js";
 export * from "./productcategoryenum.js";
-export * from "./productcodeenum.js";
 export * from "./productcreatemanual.js";
 export * from "./productread.js";
 export * from "./productstatusenum.js";
