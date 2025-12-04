@@ -9,7 +9,6 @@ let value: EstimateTaxV1TaxEstimatePostRequest = {
   transactionEstimatePublicRequest: {
     date: new Date("2024-10-01T04:29:50.884Z"),
     externalId: "<id>",
-    totalAmount: 0,
     currency: "JEP",
     transactionItems: [],
     addresses: [

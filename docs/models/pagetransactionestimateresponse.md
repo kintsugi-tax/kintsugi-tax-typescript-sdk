@@ -30,6 +30,7 @@ let value: PageTransactionEstimateResponse = {
   total: 161936,
   page: 59419,
   size: 8843,
+  pages: 67472,
 };
 ```
 
@@ -41,4 +42,4 @@ let value: PageTransactionEstimateResponse = {
 | `total`                                                                          | *number*                                                                         | :heavy_check_mark:                                                               | N/A                                                                              |
 | `page`                                                                           | *number*                                                                         | :heavy_check_mark:                                                               | N/A                                                                              |
 | `size`                                                                           | *number*                                                                         | :heavy_check_mark:                                                               | N/A                                                                              |
-| `pages`                                                                          | *number*                                                                         | :heavy_minus_sign:                                                               | N/A                                                                              |
+| `pages`                                                                          | *number*                                                                         | :heavy_check_mark:                                                               | N/A                                                                              |

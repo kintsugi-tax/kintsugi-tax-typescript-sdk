@@ -8,7 +8,7 @@ import { CustomerTaxRegistrationRead } from "@kintsugi-tax/tax-platform-sdk/mode
 let value: CustomerTaxRegistrationRead = {
   id: "<id>",
   customerId: "<id>",
-  countryCode: "IR",
+  countryCode: "IQ",
   taxType: "rst",
   taxId: "<id>",
   isValid: true,

@@ -5,11 +5,11 @@
 ```typescript
 import { FilingFrequencyEnum } from "@kintsugi-tax/tax-platform-sdk/models";
 
-let value: FilingFrequencyEnum = "FOUR_MONTHLY";
+let value: FilingFrequencyEnum = "QUARTERLY_PREPAYMENT";
 ```
 
 ## Values
 
 ```typescript
-"UNKNOWN" | "MONTHLY" | "QUARTERLY" | "SEMI_ANNUALLY" | "ANNUALLY" | "ANNUAL_FISCAL_YEAR" | "SEMI_MONTHLY" | "BI_MONTHLY" | "FOUR_MONTHLY"
+"UNKNOWN" | "MONTHLY" | "QUARTERLY" | "SEMI_ANNUALLY" | "ANNUALLY" | "ANNUAL_FISCAL_YEAR" | "SEMI_MONTHLY" | "BI_MONTHLY" | "FOUR_MONTHLY" | "QUARTERLY_PREPAYMENT"
 ```

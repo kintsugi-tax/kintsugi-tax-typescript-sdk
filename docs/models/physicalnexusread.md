@@ -7,7 +7,7 @@ import { PhysicalNexusRead } from "@kintsugi-tax/tax-platform-sdk/models";
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 let value: PhysicalNexusRead = {
-  countryCode: "KZ",
+  countryCode: "JO",
   stateCode: "<value>",
   startDate: new RFCDate("2025-04-29"),
   category: "MANUFACTURE_OR_PRODUCTION_IN_CANADA",

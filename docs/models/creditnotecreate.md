@@ -9,9 +9,17 @@ let value: CreditNoteCreate = {
   externalId: "<id>",
   date: new Date("2024-04-22T00:27:29.737Z"),
   status: "PENDING",
-  totalAmount: 0,
-  currency: "CVE",
-  transactionItems: [],
+  totalAmount: 2151.36,
+  currency: "EGP",
+  transactionItems: [
+    {
+      externalId: "<id>",
+      date: new Date("2025-07-06T12:40:08.117Z"),
+      externalProductId: "<id>",
+      quantity: 5181.83,
+      amount: 8176.35,
+    },
+  ],
 };
 ```
 
@@ -23,7 +31,7 @@ let value: CreditNoteCreate = {
 | `date`                                                                                                                                                 | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)                                                          | :heavy_check_mark:                                                                                                                                     | Date when the credit note was issued or created.                                                                                                       |
 | `status`                                                                                                                                               | [models.Status](../models/status.md)                                                                                                                   | :heavy_check_mark:                                                                                                                                     | Current state of the credit note in its lifecycle.                                                                                                     |
 | `description`                                                                                                                                          | *string*                                                                                                                                               | :heavy_minus_sign:                                                                                                                                     | Brief explanation or reason for issuing the credit note.                                                                                               |
-| `totalAmount`                                                                                                                                          | *number*                                                                                                                                               | :heavy_minus_sign:                                                                                                                                     | Total monetary value of the credit note, including all items and taxes.                                                                                |
+| `totalAmount`                                                                                                                                          | *number*                                                                                                                                               | :heavy_check_mark:                                                                                                                                     | Total monetary value of the credit note, including all items and taxes.                                                                                |
 | `marketplace`                                                                                                                                          | *boolean*                                                                                                                                              | :heavy_minus_sign:                                                                                                                                     | Indicates whether this credit note is associated with a marketplace transaction.                                                                       |
 | `taxAmountImported`                                                                                                                                    | *number*                                                                                                                                               | :heavy_minus_sign:                                                                                                                                     | Pre-calculated total tax amount for the entire credit note, if provided by the external system.                                                        |
 | `taxRateImported`                                                                                                                                      | *number*                                                                                                                                               | :heavy_minus_sign:                                                                                                                                     | Pre-calculated overall tax rate for the credit note, if provided by the external system.                                                               |

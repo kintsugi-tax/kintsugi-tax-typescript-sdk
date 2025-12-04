@@ -96,6 +96,7 @@ async function $do(
   const query = encodeFormQuery({
     "collected_tax_nexus_met": payload?.collected_tax_nexus_met,
     "country_code__in": payload?.country_code__in,
+    "disregard_view": payload?.disregard_view,
     "order_by": payload?.order_by,
     "page": payload?.page,
     "size": payload?.size,
@@ -115,7 +116,7 @@ async function $do(
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
     operationID: "get_nexus_for_org_v1_nexus_get",
-    oAuth2Scopes: [],
+    oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
 
