@@ -11,8 +11,8 @@ let value: POSTCreateCreditNoteByTransactionIdRequest = {
     externalId: "<id>",
     date: new Date("2023-10-26T18:28:15.690Z"),
     status: "PENDING",
-    totalAmount: 0,
-    currency: "GIP",
+    totalAmount: 3103.69,
+    currency: "KYD",
     transactionItems: [],
   },
 };

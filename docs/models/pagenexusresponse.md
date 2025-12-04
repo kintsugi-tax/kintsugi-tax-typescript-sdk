@@ -10,6 +10,7 @@ let value: PageNexusResponse = {
   total: 715658,
   page: 218544,
   size: 772086,
+  pages: 189957,
 };
 ```
 
@@ -21,4 +22,4 @@ let value: PageNexusResponse = {
 | `total`                                              | *number*                                             | :heavy_check_mark:                                   | N/A                                                  |
 | `page`                                               | *number*                                             | :heavy_check_mark:                                   | N/A                                                  |
 | `size`                                               | *number*                                             | :heavy_check_mark:                                   | N/A                                                  |
-| `pages`                                              | *number*                                             | :heavy_minus_sign:                                   | N/A                                                  |
+| `pages`                                              | *number*                                             | :heavy_check_mark:                                   | N/A                                                  |

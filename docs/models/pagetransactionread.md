@@ -20,6 +20,7 @@ let value: PageTransactionRead = {
   total: 467045,
   page: 592293,
   size: 693910,
+  pages: 314435,
 };
 ```
 
@@ -31,4 +32,4 @@ let value: PageTransactionRead = {
 | `total`                                                  | *number*                                                 | :heavy_check_mark:                                       | N/A                                                      |
 | `page`                                                   | *number*                                                 | :heavy_check_mark:                                       | N/A                                                      |
 | `size`                                                   | *number*                                                 | :heavy_check_mark:                                       | N/A                                                      |
-| `pages`                                                  | *number*                                                 | :heavy_minus_sign:                                       | N/A                                                      |
+| `pages`                                                  | *number*                                                 | :heavy_check_mark:                                       | N/A                                                      |

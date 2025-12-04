@@ -13,14 +13,14 @@ let value: PageRegistrationReadWithPassword = {
       stateCode: "<value>",
       stateName: "<value>",
       filingFrequency: "FOUR_MONTHLY",
-      filingDays: 74800,
       id: "<id>",
-      registrationType: "OTHER",
+      registrationType: "EU_OSS",
     },
   ],
-  total: 392519,
-  page: 691562,
-  size: 732700,
+  total: 929584,
+  page: 392519,
+  size: 691562,
+  pages: 732700,
 };
 ```
 
@@ -32,4 +32,4 @@ let value: PageRegistrationReadWithPassword = {
 | `total`                                                                            | *number*                                                                           | :heavy_check_mark:                                                                 | N/A                                                                                |
 | `page`                                                                             | *number*                                                                           | :heavy_check_mark:                                                                 | N/A                                                                                |
 | `size`                                                                             | *number*                                                                           | :heavy_check_mark:                                                                 | N/A                                                                                |
-| `pages`                                                                            | *number*                                                                           | :heavy_minus_sign:                                                                 | N/A                                                                                |
+| `pages`                                                                            | *number*                                                                           | :heavy_check_mark:                                                                 | N/A                                                                                |

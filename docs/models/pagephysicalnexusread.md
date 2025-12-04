@@ -19,6 +19,7 @@ let value: PagePhysicalNexusRead = {
   total: 344619,
   page: 768204,
   size: 734231,
+  pages: 587644,
 };
 ```
 
@@ -30,4 +31,4 @@ let value: PagePhysicalNexusRead = {
 | `total`                                                      | *number*                                                     | :heavy_check_mark:                                           | N/A                                                          |
 | `page`                                                       | *number*                                                     | :heavy_check_mark:                                           | N/A                                                          |
 | `size`                                                       | *number*                                                     | :heavy_check_mark:                                           | N/A                                                          |
-| `pages`                                                      | *number*                                                     | :heavy_minus_sign:                                           | N/A                                                          |
+| `pages`                                                      | *number*                                                     | :heavy_check_mark:                                           | N/A                                                          |

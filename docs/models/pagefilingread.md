@@ -10,6 +10,7 @@ let value: PageFilingRead = {
   total: 931148,
   page: 603670,
   size: 649269,
+  pages: 793199,
 };
 ```
 
@@ -21,4 +22,4 @@ let value: PageFilingRead = {
 | `total`                                        | *number*                                       | :heavy_check_mark:                             | N/A                                            |
 | `page`                                         | *number*                                       | :heavy_check_mark:                             | N/A                                            |
 | `size`                                         | *number*                                       | :heavy_check_mark:                             | N/A                                            |
-| `pages`                                        | *number*                                       | :heavy_minus_sign:                             | N/A                                            |
+| `pages`                                        | *number*                                       | :heavy_check_mark:                             | N/A                                            |

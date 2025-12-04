@@ -330,7 +330,6 @@ run();
 * [update](docs/sdks/registrations/README.md#update) - Update Registration
 * [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
 
-
 ### [taxEstimation](docs/sdks/taxestimation/README.md)
 
 * [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
