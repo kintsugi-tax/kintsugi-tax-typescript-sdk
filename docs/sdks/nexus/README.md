@@ -1,5 +1,4 @@
 # Nexus
-(*nexus*)
 
 ## Overview
 
@@ -119,6 +118,10 @@ async function run() {
     category: "PHYSICAL_BUSINESS_LOCATION",
     externalId: "ext_ABC123",
     source: "USER",
+    street1: "123 Main Street",
+    street2: "Suite 100",
+    city: "San Francisco",
+    postalCode: "94102",
   });
 
   console.log(result);
@@ -154,6 +157,10 @@ async function run() {
     category: "PHYSICAL_BUSINESS_LOCATION",
     externalId: "ext_ABC123",
     source: "USER",
+    street1: "123 Main Street",
+    street2: "Suite 100",
+    city: "San Francisco",
+    postalCode: "94102",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -214,6 +221,10 @@ async function run() {
       startDate: new RFCDate("2024-01-01"),
       endDate: "2025-01-01",
       category: "PHYSICAL_BUSINESS_LOCATION",
+      street1: "123 Main Street",
+      street2: "Suite 100",
+      city: "San Francisco",
+      postalCode: "94102",
     },
   });
 
@@ -248,6 +259,10 @@ async function run() {
       startDate: new RFCDate("2024-01-01"),
       endDate: "2025-01-01",
       category: "PHYSICAL_BUSINESS_LOCATION",
+      street1: "123 Main Street",
+      street2: "Suite 100",
+      city: "San Francisco",
+      postalCode: "94102",
     },
   });
   if (res.ok) {
