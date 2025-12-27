@@ -16,7 +16,7 @@ let value: ProductRead = {
   productCategory: "<value>",
   productSubcategory: "<value>",
   taxExempt: true,
-  source: "NETSUITE",
+  source: "XERO",
   connectionId: "<id>",
   classificationFailed: false,
 };
