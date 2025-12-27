@@ -63,6 +63,7 @@ export const SourceEnum = {
   Airwallex: "AIRWALLEX",
   Orb: "ORB",
   Zenskar: "ZENSKAR",
+  MicrosoftDynamics365: "MICROSOFT_DYNAMICS_365",
 } as const;
 export type SourceEnum = ClosedEnum<typeof SourceEnum>;
 
