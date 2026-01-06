@@ -277,12 +277,12 @@ run();
 <details open>
 <summary>Available methods</summary>
 
-### [addressValidation](docs/sdks/addressvalidation/README.md)
+### [AddressValidation](docs/sdks/addressvalidation/README.md)
 
 * [search](docs/sdks/addressvalidation/README.md#search) - Search
 * [suggest](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
 
-### [customers](docs/sdks/customers/README.md)
+### [Customers](docs/sdks/customers/README.md)
 
 * [list](docs/sdks/customers/README.md#list) - Get Customers
 * [create](docs/sdks/customers/README.md#create) - Create Customer
@@ -292,7 +292,7 @@ run();
 * [getTransactions](docs/sdks/customers/README.md#gettransactions) - Get Transactions By Customer Id
 * [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
 
-### [exemptions](docs/sdks/exemptions/README.md)
+### [Exemptions](docs/sdks/exemptions/README.md)
 
 * [list](docs/sdks/exemptions/README.md#list) - Get Exemptions
 * [create](docs/sdks/exemptions/README.md#create) - Create Exemption
@@ -300,13 +300,13 @@ run();
 * [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
 * [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
 
-### [filings](docs/sdks/filings/README.md)
+### [Filings](docs/sdks/filings/README.md)
 
 * [list](docs/sdks/filings/README.md#list) - Get Filings
 * [get](docs/sdks/filings/README.md#get) - Get Filing By Id
 * [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
 
-### [nexus](docs/sdks/nexus/README.md)
+### [Nexus](docs/sdks/nexus/README.md)
 
 * [listPhysical](docs/sdks/nexus/README.md#listphysical) - Get Physical Nexus
 * [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
@@ -314,7 +314,7 @@ run();
 * [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
 * [list](docs/sdks/nexus/README.md#list) - Get Nexus For Org
 
-### [products](docs/sdks/products/README.md)
+### [Products](docs/sdks/products/README.md)
 
 * [list](docs/sdks/products/README.md#list) - Get Products
 * [create](docs/sdks/products/README.md#create) - Create Product
@@ -322,7 +322,7 @@ run();
 * [update](docs/sdks/products/README.md#update) - Update Product
 * [getCategories](docs/sdks/products/README.md#getcategories) - Get Product Categories
 
-### [registrations](docs/sdks/registrations/README.md)
+### [Registrations](docs/sdks/registrations/README.md)
 
 * [get](docs/sdks/registrations/README.md#get) - Get Registrations
 * [create](docs/sdks/registrations/README.md#create) - Create Registration
@@ -330,11 +330,11 @@ run();
 * [update](docs/sdks/registrations/README.md#update) - Update Registration
 * [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
 
-### [taxEstimation](docs/sdks/taxestimation/README.md)
+### [TaxEstimation](docs/sdks/taxestimation/README.md)
 
 * [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
 
-### [transactions](docs/sdks/transactions/README.md)
+### [Transactions](docs/sdks/transactions/README.md)
 
 * [get](docs/sdks/transactions/README.md#get) - Get Transactions
 * [create](docs/sdks/transactions/README.md#create) - Create Transaction

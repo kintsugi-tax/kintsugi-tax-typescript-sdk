@@ -16,6 +16,10 @@ export type GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest = {
    *                                 registration to retrieve.
    */
   registrationId: string;
+  /**
+   * Name of field to reveal
+   */
+  reveal?: string | undefined;
 };
 
 /** @internal */
@@ -26,6 +30,7 @@ export const GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$inboundS
     unknown
   > = z.object({
     registration_id: z.string(),
+    reveal: z.string().optional(),
   }).transform((v) => {
     return remap$(v, {
       "registration_id": "registrationId",
@@ -35,6 +40,7 @@ export const GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$inboundS
 export type GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$Outbound =
   {
     registration_id: string;
+    reveal?: string | undefined;
   };
 
 /** @internal */
@@ -45,6 +51,7 @@ export const GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$outbound
     GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest
   > = z.object({
     registrationId: z.string(),
+    reveal: z.string().optional(),
   }).transform((v) => {
     return remap$(v, {
       registrationId: "registration_id",

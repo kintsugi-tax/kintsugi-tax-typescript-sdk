@@ -9,12 +9,12 @@ This model excludes internal fields like enriched_fields and total_amount that s
 import { TransactionEstimatePublicRequest } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: TransactionEstimatePublicRequest = {
-  date: new Date("2023-03-16T23:27:34.414Z"),
+  date: new Date("2024-03-15T23:27:34.414Z"),
   externalId: "<id>",
   currency: "MDL",
   transactionItems: [
     {
-      date: new Date("2023-01-24T06:13:30.947Z"),
+      date: new Date("2024-01-24T06:13:30.947Z"),
       quantity: 1,
       amount: 9020.48,
     },

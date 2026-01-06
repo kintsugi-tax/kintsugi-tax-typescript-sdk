@@ -8,7 +8,7 @@ import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 let value: Exemption = {
   exemptionType: "transaction",
-  startDate: new RFCDate("2023-02-15"),
+  startDate: new RFCDate("2024-02-15"),
 };
 ```
 
