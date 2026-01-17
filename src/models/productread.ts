@@ -26,7 +26,23 @@ export type ProductRead = {
   name: string;
   description: string;
   status: ProductStatusEnum;
+  /**
+   * Main category of the product.
+   *
+   * @remarks
+   *         For example, Physical, Digital, etc. You can
+   *         retrieve supported categories from this endpoint
+   *         /v1/product/categories
+   */
   productCategory: string;
+  /**
+   * Subcategory of the product.
+   *
+   * @remarks
+   *         For example, General Clothing, UNKNOWN, etc. You can
+   *         retrieve supported sub-categories from this endpoint
+   *         /v1/product/categories
+   */
   productSubcategory: string;
   taxExempt: boolean;
   source: SourceEnum;

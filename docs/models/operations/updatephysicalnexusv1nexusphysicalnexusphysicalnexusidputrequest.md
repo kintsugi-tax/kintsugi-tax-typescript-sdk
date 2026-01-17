@@ -9,7 +9,7 @@ import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 let value: UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest = {
   physicalNexusId: "<id>",
   physicalNexusUpdate: {
-    startDate: new RFCDate("2023-10-04"),
+    startDate: new RFCDate("2024-10-03"),
     category: "EMPLOYEES_AGENTS_CONTRACTORS",
   },
 };

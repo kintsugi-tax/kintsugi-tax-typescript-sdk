@@ -31,7 +31,9 @@ import { Result } from "../types/fp.js";
  *
  * @remarks
  * The Update Product API allows users to modify the details of
- *     an existing product identified by its unique product_id
+ *     an existing product identified by its unique product_id. You can
+ *     retrieve supported categories and sub-categories from this endpoint
+ *     /v1/product/categories
  */
 export function productsUpdate(
   client: SDKCore,

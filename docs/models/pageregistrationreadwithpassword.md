@@ -14,13 +14,14 @@ let value: PageRegistrationReadWithPassword = {
       stateName: "<value>",
       filingFrequency: "FOUR_MONTHLY",
       id: "<id>",
-      registrationType: "EU_OSS",
+      filingDays: 74800,
+      registrationType: "OTHER",
     },
   ],
-  total: 929584,
-  page: 392519,
-  size: 691562,
-  pages: 732700,
+  total: 392519,
+  page: 691562,
+  size: 732700,
+  pages: 292303,
 };
 ```
 

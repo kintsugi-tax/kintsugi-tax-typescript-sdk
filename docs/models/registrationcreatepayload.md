@@ -11,7 +11,6 @@ let value: RegistrationCreatePayload = {
   stateCode: "<value>",
   stateName: "<value>",
   filingFrequency: "ANNUAL_FISCAL_YEAR",
-  filingDays: 601562,
   amountFees: 0,
 };
 ```
@@ -37,7 +36,6 @@ let value: RegistrationCreatePayload = {
 | `stateCode`                                                               | *string*                                                                  | :heavy_check_mark:                                                        | The state/province code where the registration applies.                   |
 | `stateName`                                                               | *string*                                                                  | :heavy_check_mark:                                                        | The name of the state/province.                                           |
 | `filingFrequency`                                                         | [models.FilingFrequencyEnum](../models/filingfrequencyenum.md)            | :heavy_check_mark:                                                        | N/A                                                                       |
-| `filingDays`                                                              | *number*                                                                  | :heavy_check_mark:                                                        | The number of days before the filing deadline.                            |
 | `username`                                                                | *string*                                                                  | :heavy_minus_sign:                                                        | Username for accessing tax registration details.                          |
 | `comment`                                                                 | *string*                                                                  | :heavy_minus_sign:                                                        | Additional comments related to the registration.                          |
 | `createFilingsFrom`                                                       | *string*                                                                  | :heavy_minus_sign:                                                        | The date from which filings should be created. should start (YYYY-MM-DD). |
