@@ -93,7 +93,7 @@ async function $do(
   const payload = parsed.value;
   const body = null;
 
-  const path = pathToFunc("/v1/products/")();
+  const path = pathToFunc("/v1/products")();
 
   const query = encodeFormQuery({
     "order_by": payload?.order_by,
@@ -116,8 +116,8 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "get_products_v1_products__get",
-    oAuth2Scopes: [],
+    operationID: "get_products_v1_products_get",
+    oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
 

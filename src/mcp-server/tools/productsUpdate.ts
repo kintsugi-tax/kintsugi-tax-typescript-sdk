@@ -15,7 +15,9 @@ export const tool$productsUpdate: ToolDefinition<typeof args> = {
   description: `Update Product
 
 The Update Product API allows users to modify the details of
-    an existing product identified by its unique product_id`,
+    an existing product identified by its unique product_id. You can
+    retrieve supported categories and sub-categories from this endpoint
+    /v1/product/categories`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await productsUpdate(

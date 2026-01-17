@@ -12,7 +12,8 @@ let value: RegistrationReadWithPassword = {
   stateName: "<value>",
   filingFrequency: "ANNUALLY",
   id: "<id>",
-  registrationType: "OTHER",
+  filingDays: 827599,
+  registrationType: "EU_OSS",
 };
 ```
 
@@ -40,7 +41,6 @@ let value: RegistrationReadWithPassword = {
 | `stateCode`                                                                         | *string*                                                                            | :heavy_check_mark:                                                                  | The state/province code where the registration applies.                             |
 | `stateName`                                                                         | *string*                                                                            | :heavy_check_mark:                                                                  | The name of the state/province.                                                     |
 | `filingFrequency`                                                                   | [models.FilingFrequencyEnum](../models/filingfrequencyenum.md)                      | :heavy_check_mark:                                                                  | N/A                                                                                 |
-| `filingDays`                                                                        | *number*                                                                            | :heavy_minus_sign:                                                                  | The number of days before the filing deadline.                                      |
 | `username`                                                                          | *string*                                                                            | :heavy_minus_sign:                                                                  | Username for accessing tax registration details.                                    |
 | `comment`                                                                           | *string*                                                                            | :heavy_minus_sign:                                                                  | Additional comments related to the registration.                                    |
 | `createFilingsFrom`                                                                 | *string*                                                                            | :heavy_minus_sign:                                                                  | The date from which filings should be created.<br/>        should start (YYYY-MM-DD). |
@@ -59,4 +59,5 @@ let value: RegistrationReadWithPassword = {
 | `registrationCategory`                                                              | [models.RegistrationCategoryEnum](../models/registrationcategoryenum.md)            | :heavy_minus_sign:                                                                  | N/A                                                                                 |
 | `passwordEncrypted`                                                                 | *string*                                                                            | :heavy_minus_sign:                                                                  | Encrypted password for accessing the registration,<br/>        if applicable.       |
 | `hasAllCredentials`                                                                 | *boolean*                                                                           | :heavy_minus_sign:                                                                  | Indicates if all required credentials are present.                                  |
+| `filingDays`                                                                        | *number*                                                                            | :heavy_check_mark:                                                                  | N/A                                                                                 |
 | `registrationType`                                                                  | [models.RegistrationTypeEnum](../models/registrationtypeenum.md)                    | :heavy_check_mark:                                                                  | N/A                                                                                 |

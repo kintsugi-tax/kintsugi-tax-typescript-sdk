@@ -1,5 +1,4 @@
 # Registrations
-(*registrations*)
 
 ## Overview
 

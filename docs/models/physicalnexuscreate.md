@@ -9,7 +9,7 @@ import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 let value: PhysicalNexusCreate = {
   countryCode: "BZ",
   stateCode: "<value>",
-  startDate: new RFCDate("2024-09-17"),
+  startDate: new RFCDate("2025-09-17"),
   category: "SERVERS_DATA_CENTERS",
 };
 ```
@@ -25,3 +25,7 @@ let value: PhysicalNexusCreate = {
 | `category`                                                                              | [models.PhysicalNexusCategory](../models/physicalnexuscategory.md)                      | :heavy_check_mark:                                                                      | N/A                                                                                     |
 | `externalId`                                                                            | *string*                                                                                | :heavy_minus_sign:                                                                      | Optional<br/>                                        external identifier for the nexus. |
 | `source`                                                                                | [models.PhysicalNexusSource](../models/physicalnexussource.md)                          | :heavy_minus_sign:                                                                      | N/A                                                                                     |
+| `street1`                                                                               | *string*                                                                                | :heavy_minus_sign:                                                                      | Primary street address for the physical presence location.                              |
+| `street2`                                                                               | *string*                                                                                | :heavy_minus_sign:                                                                      | Additional street address details, such as suite or unit number.                        |
+| `city`                                                                                  | *string*                                                                                | :heavy_minus_sign:                                                                      | City of the physical presence location.                                                 |
+| `postalCode`                                                                            | *string*                                                                                | :heavy_minus_sign:                                                                      | ZIP or postal code of the physical presence location.                                   |

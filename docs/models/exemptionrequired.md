@@ -8,7 +8,7 @@ import { ExemptionRequired } from "@kintsugi-tax/tax-platform-sdk/models";
 let value: ExemptionRequired = {
   organizationId: "<id>",
   exemptionType: "transaction",
-  startDate: new Date("2023-09-18T18:47:48.196Z"),
+  startDate: new Date("2024-09-17T18:47:48.196Z"),
   status: "ARCHIVED",
   reseller: false,
 };

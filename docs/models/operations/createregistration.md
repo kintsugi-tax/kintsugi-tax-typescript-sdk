@@ -12,7 +12,6 @@ const value: models.RegistrationCreatePayload = {
   stateCode: "<value>",
   stateName: "<value>",
   filingFrequency: "ANNUAL_FISCAL_YEAR",
-  filingDays: 601562,
   amountFees: 0,
 };
 ```

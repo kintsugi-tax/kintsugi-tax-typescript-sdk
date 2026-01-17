@@ -6,12 +6,12 @@
 import { TransactionEstimateResponse } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: TransactionEstimateResponse = {
-  date: new Date("2024-06-27T15:48:30.039Z"),
+  date: new Date("2025-06-27T15:48:30.039Z"),
   externalId: "<id>",
   currency: "ALL",
   transactionItems: [
     {
-      date: new Date("2024-05-31T06:57:32.911Z"),
+      date: new Date("2025-05-31T06:57:32.911Z"),
       amount: "391.48",
     },
   ],

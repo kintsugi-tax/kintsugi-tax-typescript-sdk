@@ -34,10 +34,10 @@ import { tool$nexusDeletePhysical } from "./tools/nexusDeletePhysical.js";
 import { tool$nexusList } from "./tools/nexusList.js";
 import { tool$nexusListPhysical } from "./tools/nexusListPhysical.js";
 import { tool$nexusUpdatePhysical } from "./tools/nexusUpdatePhysical.js";
-import { tool$productsCreate } from "./tools/productsCreate.js";
+import { tool$productsCreateProductV1ProductsPost } from "./tools/productsCreateProductV1ProductsPost.js";
 import { tool$productsGet } from "./tools/productsGet.js";
-import { tool$productsGetCategories } from "./tools/productsGetCategories.js";
-import { tool$productsList } from "./tools/productsList.js";
+import { tool$productsGetProductCategoriesV1ProductsCategoriesGet } from "./tools/productsGetProductCategoriesV1ProductsCategoriesGet.js";
+import { tool$productsGetProductsV1ProductsGet } from "./tools/productsGetProductsV1ProductsGet.js";
 import { tool$productsUpdate } from "./tools/productsUpdate.js";
 import { tool$registrationsCreate } from "./tools/registrationsCreate.js";
 import { tool$registrationsDeregister } from "./tools/registrationsDeregister.js";
@@ -64,7 +64,7 @@ export function createMCPServer(deps: {
 }) {
   const server = new McpServer({
     name: "SDK",
-    version: "0.9.0",
+    version: "0.9.1",
   });
 
   const client = new SDKCore({
@@ -115,11 +115,11 @@ export function createMCPServer(deps: {
   tool(tool$nexusUpdatePhysical);
   tool(tool$nexusDeletePhysical);
   tool(tool$nexusList);
-  tool(tool$productsList);
-  tool(tool$productsCreate);
+  tool(tool$productsGetProductsV1ProductsGet);
+  tool(tool$productsCreateProductV1ProductsPost);
+  tool(tool$productsGetProductCategoriesV1ProductsCategoriesGet);
   tool(tool$productsGet);
   tool(tool$productsUpdate);
-  tool(tool$productsGetCategories);
   tool(tool$registrationsGet);
   tool(tool$registrationsCreate);
   tool(tool$registrationsGetById);

@@ -7,14 +7,14 @@ import { CreditNoteCreate } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: CreditNoteCreate = {
   externalId: "<id>",
-  date: new Date("2024-04-22T00:27:29.737Z"),
+  date: new Date("2025-04-22T00:27:29.737Z"),
   status: "PENDING",
   totalAmount: 2151.36,
   currency: "EGP",
   transactionItems: [
     {
       externalId: "<id>",
-      date: new Date("2025-07-06T12:40:08.117Z"),
+      date: new Date("2026-07-06T12:40:08.117Z"),
       externalProductId: "<id>",
       quantity: 5181.83,
       amount: 8176.35,

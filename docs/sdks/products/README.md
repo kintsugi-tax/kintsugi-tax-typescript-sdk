@@ -1,23 +1,22 @@
 # Products
-(*products*)
 
 ## Overview
 
 ### Available Operations
 
-* [list](#list) - Get Products
-* [create](#create) - Create Product
+* [getProductsV1ProductsGet](#getproductsv1productsget) - Get Products
+* [createProductV1ProductsPost](#createproductv1productspost) - Create Product
+* [getProductCategoriesV1ProductsCategoriesGet](#getproductcategoriesv1productscategoriesget) - Get Product Categories
 * [get](#get) - Get Product By Id
 * [update](#update) - Update Product
-* [getCategories](#getcategories) - Get Product Categories
 
-## list
+## getProductsV1ProductsGet
 
 Retrieve a paginated list of products based on filters and search query.
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="get_products_v1_products__get" method="get" path="/v1/products/" -->
+<!-- UsageSnippet language="typescript" operationID="get_products_v1_products_get" method="get" path="/v1/products" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -29,7 +28,7 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.products.list({});
+  const result = await sdk.products.getProductsV1ProductsGet({});
 
   console.log(result);
 }
@@ -43,7 +42,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsList } from "@kintsugi-tax/tax-platform-sdk/funcs/productsList.js";
+import { productsGetProductsV1ProductsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetProductsV1ProductsGet.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -55,12 +54,12 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await productsList(sdk, {});
+  const res = await productsGetProductsV1ProductsGet(sdk, {});
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("productsList failed:", res.error);
+    console.log("productsGetProductsV1ProductsGet failed:", res.error);
   }
 }
 
@@ -89,7 +88,7 @@ run();
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
 
-## create
+## createProductV1ProductsPost
 
 The Create Product API allows users to manually create a new product
     in the system. This includes specifying product details such as category,
@@ -97,7 +96,7 @@ The Create Product API allows users to manually create a new product
 
 ### Example Usage
 
-<!-- UsageSnippet language="typescript" operationID="create_product_v1_products__post" method="post" path="/v1/products/" -->
+<!-- UsageSnippet language="typescript" operationID="create_product_v1_products_post" method="post" path="/v1/products" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -109,13 +108,11 @@ const sdk = new SDK({
 });
 
 async function run() {
-  const result = await sdk.products.create({
+  const result = await sdk.products.createProductV1ProductsPost({
     externalId: "prod_001",
-    name: "Sample Product",
-    description: "A description of the product",
+    name: "T-shirts",
+    description: "Common items of everyday wearing apparel designed for human use, covering a wide variety of non-specialized garments.",
     status: "APPROVED",
-    productCategory: "PHYSICAL",
-    productSubcategory: "GENERAL_CLOTHING",
     taxExempt: false,
     source: "BIGCOMMERCE",
   });
@@ -132,7 +129,7 @@ The standalone function version of this method:
 
 ```typescript
 import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/productsCreate.js";
+import { productsCreateProductV1ProductsPost } from "@kintsugi-tax/tax-platform-sdk/funcs/productsCreateProductV1ProductsPost.js";
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
@@ -144,13 +141,11 @@ const sdk = new SDKCore({
 });
 
 async function run() {
-  const res = await productsCreate(sdk, {
+  const res = await productsCreateProductV1ProductsPost(sdk, {
     externalId: "prod_001",
-    name: "Sample Product",
-    description: "A description of the product",
+    name: "T-shirts",
+    description: "Common items of everyday wearing apparel designed for human use, covering a wide variety of non-specialized garments.",
     status: "APPROVED",
-    productCategory: "PHYSICAL",
-    productSubcategory: "GENERAL_CLOTHING",
     taxExempt: false,
     source: "BIGCOMMERCE",
   });
@@ -158,7 +153,7 @@ async function run() {
     const { value: result } = res;
     console.log(result);
   } else {
-    console.log("productsCreate failed:", res.error);
+    console.log("productsCreateProductV1ProductsPost failed:", res.error);
   }
 }
 
@@ -177,6 +172,85 @@ run();
 ### Response
 
 **Promise\<[models.ProductRead](../../models/productread.md)\>**
+
+### Errors
+
+| Error Type                                                | Status Code                                               | Content Type                                              |
+| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
+| errors.ErrorResponse                                      | 401                                                       | application/json                                          |
+| errors.BackendSrcProductsResponsesValidationErrorResponse | 422                                                       | application/json                                          |
+| errors.ErrorResponse                                      | 500                                                       | application/json                                          |
+| errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
+
+## getProductCategoriesV1ProductsCategoriesGet
+
+The Get Product Categories API retrieves all
+    product categories.  This endpoint helps users understand and select the
+    appropriate categories for their products.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_product_categories_v1_products_categories_get" method="get" path="/v1/products/categories" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.products.getProductCategoriesV1ProductsCategoriesGet();
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { productsGetProductCategoriesV1ProductsCategoriesGet } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetProductCategoriesV1ProductsCategoriesGet.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await productsGetProductCategoriesV1ProductsCategoriesGet(sdk);
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("productsGetProductCategoriesV1ProductsCategoriesGet failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.ProductCategories](../../models/productcategories.md)\>**
 
 ### Errors
 
@@ -274,7 +348,9 @@ run();
 ## update
 
 The Update Product API allows users to modify the details of
-    an existing product identified by its unique product_id
+    an existing product identified by its unique product_id. You can
+    retrieve supported categories and sub-categories from this endpoint
+    /v1/product/categories
 
 ### Example Usage
 
@@ -294,11 +370,11 @@ async function run() {
     productId: "<id>",
     productUpdate: {
       externalId: "prod_001",
-      name: "Updated Product Name",
+      name: "Updated T-Shirt",
       description: "An updated description for the product",
       status: "APPROVED",
-      productCategory: "PHYSICAL",
-      productSubcategory: "GENERAL_CLOTHING",
+      productCategory: "Physical",
+      productSubcategory: "General Clothing",
       taxExempt: false,
     },
   });
@@ -331,11 +407,11 @@ async function run() {
     productId: "<id>",
     productUpdate: {
       externalId: "prod_001",
-      name: "Updated Product Name",
+      name: "Updated T-Shirt",
       description: "An updated description for the product",
       status: "APPROVED",
-      productCategory: "PHYSICAL",
-      productSubcategory: "GENERAL_CLOTHING",
+      productCategory: "Physical",
+      productSubcategory: "General Clothing",
       taxExempt: false,
     },
   });
@@ -371,80 +447,3 @@ run();
 | errors.BackendSrcProductsResponsesValidationErrorResponse | 422                                                       | application/json                                          |
 | errors.ErrorResponse                                      | 500                                                       | application/json                                          |
 | errors.SDKDefaultError                                    | 4XX, 5XX                                                  | \*/\*                                                     |
-
-## getCategories
-
-The Get Product Categories API retrieves all
-    product categories.  This endpoint helps users understand and select the
-    appropriate categories for their products.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_product_categories_v1_products_categories__get" method="get" path="/v1/products/categories/" -->
-```typescript
-import { SDK } from "@kintsugi-tax/tax-platform-sdk";
-
-const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
-});
-
-async function run() {
-  const result = await sdk.products.getCategories();
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { productsGetCategories } from "@kintsugi-tax/tax-platform-sdk/funcs/productsGetCategories.js";
-
-// Use `SDKCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
-});
-
-async function run() {
-  const res = await productsGetCategories(sdk);
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("productsGetCategories failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.ProductCategories[]](../../models/.md)\>**
-
-### Errors
-
-| Error Type                 | Status Code                | Content Type               |
-| -------------------------- | -------------------------- | -------------------------- |
-| errors.HTTPValidationError | 422                        | application/json           |
-| errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |

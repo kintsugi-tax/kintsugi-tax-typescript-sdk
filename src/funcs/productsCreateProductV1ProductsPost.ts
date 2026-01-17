@@ -92,7 +92,7 @@ async function $do(
   const payload = parsed.value;
   const body = encodeJSON("body", payload, { explode: true });
 
-  const path = pathToFunc("/v1/products/")();
+  const path = pathToFunc("/v1/products")();
 
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
@@ -105,8 +105,8 @@ async function $do(
   const context = {
     options: client._options,
     baseURL: options?.serverURL ?? client._baseURL ?? "",
-    operationID: "create_product_v1_products__post",
-    oAuth2Scopes: [],
+    operationID: "create_product_v1_products_post",
+    oAuth2Scopes: null,
 
     resolvedSecurity: requestSecurity,
 
