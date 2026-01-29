@@ -10,7 +10,7 @@ let value: UpdateTransactionV1TransactionsTransactionIdPutRequest = {
   transactionUpdate: {
     organizationId: "<id>",
     externalId: "<id>",
-    date: new Date("2025-04-30T15:53:47.696Z"),
+    date: new Date("2026-04-30T15:53:47.696Z"),
     totalAmount: 0,
     totalTaxAmountImported: 0,
     taxRateImported: 0,
