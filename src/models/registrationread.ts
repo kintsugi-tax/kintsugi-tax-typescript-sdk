@@ -115,10 +115,6 @@ export type RegistrationRead = {
   stateName: string;
   filingFrequency: FilingFrequencyEnum;
   /**
-   * The number of days before the filing deadline.
-   */
-  filingDays?: number | undefined;
-  /**
    * Username for accessing tax registration details.
    */
   username?: string | undefined;
@@ -176,6 +172,7 @@ export type RegistrationRead = {
   id: string;
   creditsTotalAvailable?: string | undefined;
   registrationCategory?: RegistrationCategoryEnum | undefined;
+  filingDays: number;
   registrationType: RegistrationTypeEnum;
 };
 
@@ -205,7 +202,6 @@ export const RegistrationRead$inboundSchema: z.ZodType<
   state_code: z.string(),
   state_name: z.string(),
   filing_frequency: FilingFrequencyEnum$inboundSchema,
-  filing_days: z.number().int().optional(),
   username: z.string().optional(),
   comment: z.string().optional(),
   create_filings_from: z.string().optional(),
@@ -223,6 +219,7 @@ export const RegistrationRead$inboundSchema: z.ZodType<
   id: z.string(),
   credits_total_available: z.string().default("0.00"),
   registration_category: RegistrationCategoryEnum$inboundSchema.optional(),
+  filing_days: z.number().int(),
   registration_type: RegistrationTypeEnum$inboundSchema,
 }).transform((v) => {
   return remap$(v, {
@@ -245,7 +242,6 @@ export const RegistrationRead$inboundSchema: z.ZodType<
     "state_code": "stateCode",
     "state_name": "stateName",
     "filing_frequency": "filingFrequency",
-    "filing_days": "filingDays",
     "create_filings_from": "createFilingsFrom",
     "initial_sync": "initialSync",
     "amount_fees": "amountFees",
@@ -258,6 +254,7 @@ export const RegistrationRead$inboundSchema: z.ZodType<
     "needs_mark_as_collecting": "needsMarkAsCollecting",
     "credits_total_available": "creditsTotalAvailable",
     "registration_category": "registrationCategory",
+    "filing_days": "filingDays",
     "registration_type": "registrationType",
   });
 });
@@ -283,7 +280,6 @@ export type RegistrationRead$Outbound = {
   state_code: string;
   state_name: string;
   filing_frequency: string;
-  filing_days?: number | undefined;
   username?: string | undefined;
   comment?: string | undefined;
   create_filings_from?: string | undefined;
@@ -300,6 +296,7 @@ export type RegistrationRead$Outbound = {
   id: string;
   credits_total_available: string;
   registration_category?: string | undefined;
+  filing_days: number;
   registration_type: string;
 };
 
@@ -329,7 +326,6 @@ export const RegistrationRead$outboundSchema: z.ZodType<
   stateCode: z.string(),
   stateName: z.string(),
   filingFrequency: FilingFrequencyEnum$outboundSchema,
-  filingDays: z.number().int().optional(),
   username: z.string().optional(),
   comment: z.string().optional(),
   createFilingsFrom: z.string().optional(),
@@ -346,6 +342,7 @@ export const RegistrationRead$outboundSchema: z.ZodType<
   id: z.string(),
   creditsTotalAvailable: z.string().default("0.00"),
   registrationCategory: RegistrationCategoryEnum$outboundSchema.optional(),
+  filingDays: z.number().int(),
   registrationType: RegistrationTypeEnum$outboundSchema,
 }).transform((v) => {
   return remap$(v, {
@@ -368,7 +365,6 @@ export const RegistrationRead$outboundSchema: z.ZodType<
     stateCode: "state_code",
     stateName: "state_name",
     filingFrequency: "filing_frequency",
-    filingDays: "filing_days",
     createFilingsFrom: "create_filings_from",
     initialSync: "initial_sync",
     amountFees: "amount_fees",
@@ -381,6 +377,7 @@ export const RegistrationRead$outboundSchema: z.ZodType<
     needsMarkAsCollecting: "needs_mark_as_collecting",
     creditsTotalAvailable: "credits_total_available",
     registrationCategory: "registration_category",
+    filingDays: "filing_days",
     registrationType: "registration_type",
   });
 });

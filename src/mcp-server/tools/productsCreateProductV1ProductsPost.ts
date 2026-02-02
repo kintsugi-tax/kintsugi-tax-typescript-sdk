@@ -18,7 +18,9 @@ export const tool$productsCreateProductV1ProductsPost: ToolDefinition<
 
 The Create Product API allows users to manually create a new product
     in the system. This includes specifying product details such as category,
-    subcategory, and tax exemption status, etc.`,
+    subcategory, and tax exemption status, etc. You can
+    retrieve supported categories and subcategories from
+    [GET /products/categories endpoint](/reference/api/products/get-product-categories)`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await productsCreateProductV1ProductsPost(
