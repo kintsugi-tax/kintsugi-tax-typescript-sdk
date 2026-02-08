@@ -7,7 +7,7 @@ import { CreditNoteItemCreateUpdate } from "@kintsugi-tax/tax-platform-sdk/model
 
 let value: CreditNoteItemCreateUpdate = {
   externalId: "<id>",
-  date: new Date("2025-05-09T16:48:14.799Z"),
+  date: new Date("2026-05-09T16:48:14.799Z"),
   externalProductId: "<id>",
   quantity: 5055.9,
   amount: 7252.29,
