@@ -9,8 +9,8 @@ let value: UpdateProductV1ProductsProductIdPutRequest = {
   productId: "<id>",
   productUpdate: {
     name: "<value>",
-    productCategory: "UNKNOWN",
-    productSubcategory: "FACILITY_MAINTENANCE_REAL_PROPERTY_LABOR_ONLY",
+    productCategory: "<value>",
+    productSubcategory: "<value>",
     taxExempt: false,
   },
 };

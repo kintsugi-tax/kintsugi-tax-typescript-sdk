@@ -25,6 +25,7 @@ export const ProcessingStatusEnum = {
   Pending: "PENDING",
   Archived: "ARCHIVED",
   NeedsRefetch: "NEEDS_REFETCH",
+  ExcludedInCalculation: "EXCLUDED_IN_CALCULATION",
 } as const;
 /**
  * Our transaction state, used to determine when/if a transaction needs additional
