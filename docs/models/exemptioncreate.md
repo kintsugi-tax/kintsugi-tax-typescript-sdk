@@ -8,7 +8,7 @@ import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 let value: ExemptionCreate = {
   exemptionType: "wholesale",
-  startDate: new RFCDate("2024-04-05"),
+  startDate: new RFCDate("2025-04-05"),
   customerId: "<id>",
   fein: "<value>",
   salesTaxId: "<id>",
