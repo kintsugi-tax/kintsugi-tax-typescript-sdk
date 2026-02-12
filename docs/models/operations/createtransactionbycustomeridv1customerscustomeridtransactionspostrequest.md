@@ -11,7 +11,7 @@ let value:
     transactionCreate: {
       organizationId: "<id>",
       externalId: "<id>",
-      date: new Date("2024-11-11T09:58:14.743Z"),
+      date: new Date("2025-11-11T09:58:14.743Z"),
       totalAmount: 0,
       totalTaxAmountImported: 0,
       taxRateImported: 0,

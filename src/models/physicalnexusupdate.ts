@@ -30,6 +30,22 @@ export type PhysicalNexusUpdate = {
    */
   endDate?: string | undefined;
   category: PhysicalNexusCategory;
+  /**
+   * Primary street address for the physical presence location.
+   */
+  street1?: string | undefined;
+  /**
+   * Additional street address details, such as suite or unit number.
+   */
+  street2?: string | undefined;
+  /**
+   * City of the physical presence location.
+   */
+  city?: string | undefined;
+  /**
+   * ZIP or postal code of the physical presence location.
+   */
+  postalCode?: string | undefined;
 };
 
 /** @internal */
@@ -41,10 +57,17 @@ export const PhysicalNexusUpdate$inboundSchema: z.ZodType<
   start_date: z.string().transform(v => new RFCDate(v)),
   end_date: z.string().optional(),
   category: PhysicalNexusCategory$inboundSchema,
+  street_1: z.string().optional(),
+  street_2: z.string().optional(),
+  city: z.string().optional(),
+  postal_code: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     "start_date": "startDate",
     "end_date": "endDate",
+    "street_1": "street1",
+    "street_2": "street2",
+    "postal_code": "postalCode",
   });
 });
 /** @internal */
@@ -52,6 +75,10 @@ export type PhysicalNexusUpdate$Outbound = {
   start_date: string;
   end_date?: string | undefined;
   category: string;
+  street_1?: string | undefined;
+  street_2?: string | undefined;
+  city?: string | undefined;
+  postal_code?: string | undefined;
 };
 
 /** @internal */
@@ -63,10 +90,17 @@ export const PhysicalNexusUpdate$outboundSchema: z.ZodType<
   startDate: z.instanceof(RFCDate).transform(v => v.toString()),
   endDate: z.string().optional(),
   category: PhysicalNexusCategory$outboundSchema,
+  street1: z.string().optional(),
+  street2: z.string().optional(),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
 }).transform((v) => {
   return remap$(v, {
     startDate: "start_date",
     endDate: "end_date",
+    street1: "street_1",
+    street2: "street_2",
+    postalCode: "postal_code",
   });
 });
 
