@@ -8,20 +8,10 @@ import { safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  ProductCategoryEnum,
-  ProductCategoryEnum$inboundSchema,
-  ProductCategoryEnum$outboundSchema,
-} from "./productcategoryenum.js";
-import {
   ProductStatusEnum,
   ProductStatusEnum$inboundSchema,
   ProductStatusEnum$outboundSchema,
 } from "./productstatusenum.js";
-import {
-  ProductSubCategoryEnum,
-  ProductSubCategoryEnum$inboundSchema,
-  ProductSubCategoryEnum$outboundSchema,
-} from "./productsubcategoryenum.js";
 
 export type ProductUpdate = {
   /**
@@ -45,8 +35,22 @@ export type ProductUpdate = {
    */
   description?: string | undefined;
   status?: ProductStatusEnum | undefined;
-  productCategory: ProductCategoryEnum;
-  productSubcategory: ProductSubCategoryEnum;
+  /**
+   * Main category of the product.
+   *
+   * @remarks
+   *     For example, Physical, Digital, etc. You can
+   *     retrieve supported categories from [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+   */
+  productCategory: string;
+  /**
+   * Subcategory of the product.
+   *
+   * @remarks
+   *     For example, General Clothing, UNKNOWN, etc. You can
+   *     retrieve supported subcategories from [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+   */
+  productSubcategory: string;
   /**
    * Indicates whether the product is tax-exempt.
    */
@@ -69,8 +73,8 @@ export const ProductUpdate$inboundSchema: z.ZodType<
   name: z.string(),
   description: z.string().optional(),
   status: ProductStatusEnum$inboundSchema.optional(),
-  product_category: ProductCategoryEnum$inboundSchema,
-  product_subcategory: ProductSubCategoryEnum$inboundSchema,
+  product_category: z.string(),
+  product_subcategory: z.string(),
   tax_exempt: z.boolean(),
   classification_failed: z.boolean().default(false),
 }).transform((v) => {
@@ -108,8 +112,8 @@ export const ProductUpdate$outboundSchema: z.ZodType<
   name: z.string(),
   description: z.string().optional(),
   status: ProductStatusEnum$outboundSchema.optional(),
-  productCategory: ProductCategoryEnum$outboundSchema,
-  productSubcategory: ProductSubCategoryEnum$outboundSchema,
+  productCategory: z.string(),
+  productSubcategory: z.string(),
   taxExempt: z.boolean(),
   classificationFailed: z.boolean().default(false),
 }).transform((v) => {
