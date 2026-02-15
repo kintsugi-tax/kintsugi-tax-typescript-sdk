@@ -132,9 +132,13 @@ export type FilingRead = {
    */
   totalTaxLiability?: string | undefined;
   /**
-   * Total number of transactions associated with the filing.
+   * Number of non-marketplace transactions. For total, add marketplace_transaction_count.
    */
   transactionCount?: number | undefined;
+  /**
+   * Number of marketplace transactions associated with the filing.
+   */
+  marketplaceTransactionCount?: number | undefined;
   /**
    * Notes or comments related to the filing.
    */
@@ -203,6 +207,7 @@ export const FilingRead$inboundSchema: z.ZodType<
   amount: z.string().default("0.00"),
   total_tax_liability: z.string().default("0.00"),
   transaction_count: z.number().int().default(0),
+  marketplace_transaction_count: z.number().int().default(0),
   internal_notes: z.string().optional(),
   recent_details_report_link: z.string().optional(),
   tax_remitted: z.string().default("0.00"),
@@ -239,6 +244,7 @@ export const FilingRead$inboundSchema: z.ZodType<
     "total_taxable_sales": "totalTaxableSales",
     "total_tax_liability": "totalTaxLiability",
     "transaction_count": "transactionCount",
+    "marketplace_transaction_count": "marketplaceTransactionCount",
     "internal_notes": "internalNotes",
     "recent_details_report_link": "recentDetailsReportLink",
     "tax_remitted": "taxRemitted",
@@ -277,6 +283,7 @@ export type FilingRead$Outbound = {
   amount: string;
   total_tax_liability: string;
   transaction_count: number;
+  marketplace_transaction_count: number;
   internal_notes?: string | undefined;
   recent_details_report_link?: string | undefined;
   tax_remitted: string;
@@ -321,6 +328,7 @@ export const FilingRead$outboundSchema: z.ZodType<
   amount: z.string().default("0.00"),
   totalTaxLiability: z.string().default("0.00"),
   transactionCount: z.number().int().default(0),
+  marketplaceTransactionCount: z.number().int().default(0),
   internalNotes: z.string().optional(),
   recentDetailsReportLink: z.string().optional(),
   taxRemitted: z.string().default("0.00"),
@@ -357,6 +365,7 @@ export const FilingRead$outboundSchema: z.ZodType<
     totalTaxableSales: "total_taxable_sales",
     totalTaxLiability: "total_tax_liability",
     transactionCount: "transaction_count",
+    marketplaceTransactionCount: "marketplace_transaction_count",
     internalNotes: "internal_notes",
     recentDetailsReportLink: "recent_details_report_link",
     taxRemitted: "tax_remitted",
