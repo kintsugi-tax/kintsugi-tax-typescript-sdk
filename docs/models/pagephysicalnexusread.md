@@ -11,7 +11,7 @@ let value: PagePhysicalNexusRead = {
     {
       countryCode: "TM",
       stateCode: "<value>",
-      startDate: new RFCDate("2023-07-19"),
+      startDate: new RFCDate("2024-07-18"),
       category: "INVENTORY",
       id: "<id>",
     },
