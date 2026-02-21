@@ -57,6 +57,22 @@ export type PhysicalNexusRead = {
   externalId?: string | undefined;
   source?: PhysicalNexusSource | undefined;
   /**
+   * Primary street address for the physical presence location.
+   */
+  street1?: string | undefined;
+  /**
+   * Additional street address details, such as suite or unit number.
+   */
+  street2?: string | undefined;
+  /**
+   * City of the physical presence location.
+   */
+  city?: string | undefined;
+  /**
+   * ZIP or postal code of the physical presence location.
+   */
+  postalCode?: string | undefined;
+  /**
    * The unique identifier for the physical nexus.
    */
   id: string;
@@ -75,6 +91,10 @@ export const PhysicalNexusRead$inboundSchema: z.ZodType<
   category: PhysicalNexusCategory$inboundSchema,
   external_id: z.string().optional(),
   source: PhysicalNexusSource$inboundSchema.optional(),
+  street_1: z.string().optional(),
+  street_2: z.string().optional(),
+  city: z.string().optional(),
+  postal_code: z.string().optional(),
   id: z.string(),
 }).transform((v) => {
   return remap$(v, {
@@ -83,6 +103,9 @@ export const PhysicalNexusRead$inboundSchema: z.ZodType<
     "start_date": "startDate",
     "end_date": "endDate",
     "external_id": "externalId",
+    "street_1": "street1",
+    "street_2": "street2",
+    "postal_code": "postalCode",
   });
 });
 /** @internal */
@@ -94,6 +117,10 @@ export type PhysicalNexusRead$Outbound = {
   category: string;
   external_id?: string | undefined;
   source?: string | undefined;
+  street_1?: string | undefined;
+  street_2?: string | undefined;
+  city?: string | undefined;
+  postal_code?: string | undefined;
   id: string;
 };
 
@@ -110,6 +137,10 @@ export const PhysicalNexusRead$outboundSchema: z.ZodType<
   category: PhysicalNexusCategory$outboundSchema,
   externalId: z.string().optional(),
   source: PhysicalNexusSource$outboundSchema.optional(),
+  street1: z.string().optional(),
+  street2: z.string().optional(),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
   id: z.string(),
 }).transform((v) => {
   return remap$(v, {
@@ -118,6 +149,9 @@ export const PhysicalNexusRead$outboundSchema: z.ZodType<
     startDate: "start_date",
     endDate: "end_date",
     externalId: "external_id",
+    street1: "street_1",
+    street2: "street_2",
+    postalCode: "postal_code",
   });
 });
 

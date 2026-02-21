@@ -7,7 +7,7 @@ import { EstimateTaxV1TaxEstimatePostRequest } from "@kintsugi-tax/tax-platform-
 
 let value: EstimateTaxV1TaxEstimatePostRequest = {
   transactionEstimatePublicRequest: {
-    date: new Date("2024-10-01T04:29:50.884Z"),
+    date: new Date("2025-10-01T04:29:50.884Z"),
     externalId: "<id>",
     currency: "JEP",
     transactionItems: [],
