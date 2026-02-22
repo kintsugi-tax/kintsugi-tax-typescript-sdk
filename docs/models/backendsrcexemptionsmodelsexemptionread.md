@@ -8,7 +8,7 @@ import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 let value: BackendSrcExemptionsModelsExemptionRead = {
   exemptionType: "transaction",
-  startDate: new RFCDate("2025-01-06"),
+  startDate: new RFCDate("2026-01-06"),
   id: "<id>",
 };
 ```
