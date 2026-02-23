@@ -6,7 +6,7 @@
 import { TransactionItemEstimateBase } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: TransactionItemEstimateBase = {
-  date: new Date("2025-01-14T21:46:54.339Z"),
+  date: new Date("2026-01-14T21:46:54.339Z"),
   quantity: 1,
   amount: 7953.58,
 };

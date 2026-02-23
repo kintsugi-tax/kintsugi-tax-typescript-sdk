@@ -86,10 +86,6 @@ export type RegistrationCreatePayload = {
   stateName: string;
   filingFrequency: FilingFrequencyEnum;
   /**
-   * The number of days before the filing deadline.
-   */
-  filingDays: number;
-  /**
    * Username for accessing tax registration details.
    */
   username?: string | undefined;
@@ -162,7 +158,6 @@ export const RegistrationCreatePayload$inboundSchema: z.ZodType<
   state_code: z.string(),
   state_name: z.string(),
   filing_frequency: FilingFrequencyEnum$inboundSchema,
-  filing_days: z.number().int(),
   username: z.string().optional(),
   comment: z.string().optional(),
   create_filings_from: z.string().optional(),
@@ -194,7 +189,6 @@ export const RegistrationCreatePayload$inboundSchema: z.ZodType<
     "state_code": "stateCode",
     "state_name": "stateName",
     "filing_frequency": "filingFrequency",
-    "filing_days": "filingDays",
     "create_filings_from": "createFilingsFrom",
     "initial_sync": "initialSync",
     "amount_fees": "amountFees",
@@ -224,7 +218,6 @@ export type RegistrationCreatePayload$Outbound = {
   state_code: string;
   state_name: string;
   filing_frequency: string;
-  filing_days: number;
   username?: string | undefined;
   comment?: string | undefined;
   create_filings_from?: string | undefined;
@@ -262,7 +255,6 @@ export const RegistrationCreatePayload$outboundSchema: z.ZodType<
   stateCode: z.string(),
   stateName: z.string(),
   filingFrequency: FilingFrequencyEnum$outboundSchema,
-  filingDays: z.number().int(),
   username: z.string().optional(),
   comment: z.string().optional(),
   createFilingsFrom: z.string().optional(),
@@ -294,7 +286,6 @@ export const RegistrationCreatePayload$outboundSchema: z.ZodType<
     stateCode: "state_code",
     stateName: "state_name",
     filingFrequency: "filing_frequency",
-    filingDays: "filing_days",
     createFilingsFrom: "create_filings_from",
     initialSync: "initial_sync",
     amountFees: "amount_fees",
