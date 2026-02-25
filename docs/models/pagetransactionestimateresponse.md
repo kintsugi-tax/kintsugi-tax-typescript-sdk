@@ -8,12 +8,12 @@ import { PageTransactionEstimateResponse } from "@kintsugi-tax/tax-platform-sdk/
 let value: PageTransactionEstimateResponse = {
   items: [
     {
-      date: new Date("2023-01-22T23:22:06.771Z"),
+      date: new Date("2024-01-22T23:22:06.771Z"),
       externalId: "<id>",
       currency: "GYD",
       transactionItems: [
         {
-          date: new Date("2024-05-31T06:57:32.911Z"),
+          date: new Date("2025-05-31T06:57:32.911Z"),
           amount: "391.48",
         },
       ],

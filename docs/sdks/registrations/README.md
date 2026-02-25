@@ -1,5 +1,4 @@
 # Registrations
-(*registrations*)
 
 ## Overview
 
@@ -97,9 +96,72 @@ run();
 The Create Registration API allows users to create a new registration
     for tracking and managing tax filings efficiently across multiple jurisdictions.
 
-### Example Usage
+### Example Usage: oss
 
-<!-- UsageSnippet language="typescript" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" -->
+<!-- UsageSnippet language="typescript" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="oss" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.registrations.create({
+    registrationImportType: "OSS",
+    passwordPlainText: "oss_pass_fr",
+    passwordMetadataPlainText: "{\"q\":\"a\"}",
+    memberStateOfIdentificationCode: "FR",
+    imported: true,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { registrationsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await registrationsCreate(sdk, {
+    registrationImportType: "OSS",
+    passwordPlainText: "oss_pass_fr",
+    passwordMetadataPlainText: "{\"q\":\"a\"}",
+    memberStateOfIdentificationCode: "FR",
+    imported: true,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("registrationsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: regular_legacy
+
+<!-- UsageSnippet language="typescript" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="regular_legacy" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -143,6 +205,148 @@ async function run() {
   const res = await registrationsCreate(sdk, {
     registrationImportType: "OSS",
     imported: false,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("registrationsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: regular_new
+
+<!-- UsageSnippet language="typescript" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="regular_new" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.registrations.create({
+    registrationImportType: "REGULAR",
+    registrationDate: "2025-02-01",
+    registrationEmail: "example@domain.com",
+    autoRegistered: true,
+    doNotFile: false,
+    countryCode: "US",
+    stateCode: "TX",
+    stateName: "Texas",
+    filingFrequency: "MONTHLY",
+    comment: "Registering for monthly sales tax filings",
+    initialSync: false,
+    amountFees: 100,
+    vda: false,
+    sstImport: false,
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { registrationsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await registrationsCreate(sdk, {
+    registrationImportType: "REGULAR",
+    registrationDate: "2025-02-01",
+    registrationEmail: "example@domain.com",
+    autoRegistered: true,
+    doNotFile: false,
+    countryCode: "US",
+    stateCode: "TX",
+    stateName: "Texas",
+    filingFrequency: "MONTHLY",
+    comment: "Registering for monthly sales tax filings",
+    initialSync: false,
+    amountFees: 100,
+    vda: false,
+    sstImport: false,
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("registrationsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: sst
+
+<!-- UsageSnippet language="typescript" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="sst" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.registrations.create({
+    registrationImportType: "SST",
+    passwordPlainText: "sst_pass",
+    passwordMetadataPlainText: "{\"q\":\"a\"}",
+    username: "sst_user",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { registrationsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/registrationsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await registrationsCreate(sdk, {
+    registrationImportType: "SST",
+    passwordPlainText: "sst_pass",
+    passwordMetadataPlainText: "{\"q\":\"a\"}",
+    username: "sst_user",
   });
   if (res.ok) {
     const { value: result } = res;
