@@ -1,5 +1,4 @@
 # TaxEstimation
-(*taxEstimation*)
 
 ## Overview
 
@@ -44,7 +43,6 @@ async function run() {
           externalId: "item_B",
           date: new Date("2024-10-28T10:00:00Z"),
           externalProductId: "prod_xyz",
-          quantity: 1,
           amount: 75.5,
         },
       ],
@@ -102,7 +100,6 @@ async function run() {
           externalId: "item_B",
           date: new Date("2024-10-28T10:00:00Z"),
           externalProductId: "prod_xyz",
-          quantity: 1,
           amount: 75.5,
         },
       ],
