@@ -1,5 +1,4 @@
 # Transactions
-(*transactions*)
 
 ## Overview
 
@@ -97,9 +96,9 @@ run();
 
 Create a transaction.
 
-### Example Usage
+### Example Usage: connection_mismatch
 
-<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" -->
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="connection_mismatch" -->
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
@@ -112,37 +111,15 @@ const sdk = new SDK({
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "orgn_YourOrgIdHere",
-    externalId: "YourUniqueOrder123",
-    date: new Date("2024-01-15T14:30:00Z"),
-    currency: "USD",
-    source: "API",
-    addresses: [
-      {
-        street1: "123 Main St",
-        city: "San Francisco",
-        state: "CA",
-        postalCode: "94107",
-        country: "US",
-        type: "SHIP_TO",
-      },
-    ],
-    transactionItems: [
-      {
-        organizationId: "orgn_YourOrgIdHere",
-        date: new Date("2024-01-15T14:30:00Z"),
-        externalProductId: "SKU-ABC",
-        product: "Example Widget",
-        quantity: 2,
-        amount: 50,
-      },
-    ],
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
     customer: {
-      name: "John Doe",
-      externalId: "Cust456",
-      organizationId: "orgn_YourOrgIdHere",
+      organizationId: "<id>",
     },
-    type: "SALE",
+    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -170,37 +147,512 @@ const sdk = new SDKCore({
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "orgn_YourOrgIdHere",
-    externalId: "YourUniqueOrder123",
-    date: new Date("2024-01-15T14:30:00Z"),
-    currency: "USD",
-    source: "API",
-    addresses: [
-      {
-        street1: "123 Main St",
-        city: "San Francisco",
-        state: "CA",
-        postalCode: "94107",
-        country: "US",
-        type: "SHIP_TO",
-      },
-    ],
-    transactionItems: [
-      {
-        organizationId: "orgn_YourOrgIdHere",
-        date: new Date("2024-01-15T14:30:00Z"),
-        externalProductId: "SKU-ABC",
-        product: "Example Widget",
-        quantity: 2,
-        amount: 50,
-      },
-    ],
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
     customer: {
-      name: "John Doe",
-      externalId: "Cust456",
-      organizationId: "orgn_YourOrgIdHere",
+      organizationId: "<id>",
     },
-    type: "SALE",
+    type: "ARCHIVE",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: duplicate_external_id
+
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="duplicate_external_id" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.transactions.create({
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await transactionsCreate(sdk, {
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: invalid_address
+
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="invalid_address" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.transactions.create({
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await transactionsCreate(sdk, {
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: invalid_date_format
+
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="invalid_date_format" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.transactions.create({
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await transactionsCreate(sdk, {
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: invalid_enum_value
+
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="invalid_enum_value" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.transactions.create({
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await transactionsCreate(sdk, {
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: missing_org_id
+
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="missing_org_id" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.transactions.create({
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await transactionsCreate(sdk, {
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: missing_product_external_id
+
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="missing_product_external_id" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.transactions.create({
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await transactionsCreate(sdk, {
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsCreate failed:", res.error);
+  }
+}
+
+run();
+```
+### Example Usage: missing_required_field
+
+<!-- UsageSnippet language="typescript" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="missing_required_field" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const result = await sdk.transactions.create({
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsCreate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  security: {
+    apiKeyHeader: "<YOUR_API_KEY_HERE>",
+    customHeader: "<YOUR_API_KEY_HERE>",
+  },
+});
+
+async function run() {
+  const res = await transactionsCreate(sdk, {
+    organizationId: "<id>",
+    externalId: "<id>",
+    date: new Date("2025-11-05T23:48:53.053Z"),
+    addresses: [],
+    transactionItems: [],
+    customer: {
+      organizationId: "<id>",
+    },
+    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;

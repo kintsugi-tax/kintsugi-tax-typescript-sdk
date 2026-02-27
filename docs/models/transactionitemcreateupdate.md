@@ -7,15 +7,8 @@ import { TransactionItemCreateUpdate } from "@kintsugi-tax/tax-platform-sdk/mode
 
 let value: TransactionItemCreateUpdate = {
   organizationId: "<id>",
-  date: new Date("2025-09-16T23:33:12.845Z"),
+  date: new Date("2026-09-16T23:33:12.845Z"),
   externalProductId: "<id>",
-  quantity: 1,
-  amount: 0,
-  taxAmountImported: 0,
-  taxRateImported: 0,
-  taxAmountCalculated: 0,
-  taxRateCalculated: 0,
-  taxableAmount: 0,
 };
 ```
 
