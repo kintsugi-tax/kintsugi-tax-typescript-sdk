@@ -27,7 +27,7 @@ export const DiscountBuilder$inboundSchema: z.ZodType<
 > = z.object({
   external_id: z.string().optional(),
   applied_to: AppliedTo$inboundSchema,
-  discount_amount: z.number().default(0.00),
+  discount_amount: z.number().default(0),
 }).transform((v) => {
   return remap$(v, {
     "external_id": "externalId",
@@ -50,7 +50,7 @@ export const DiscountBuilder$outboundSchema: z.ZodType<
 > = z.object({
   externalId: z.string().optional(),
   appliedTo: AppliedTo$outboundSchema,
-  discountAmount: z.number().default(0.00),
+  discountAmount: z.number().default(0),
 }).transform((v) => {
   return remap$(v, {
     externalId: "external_id",

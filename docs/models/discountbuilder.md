@@ -7,7 +7,6 @@ import { DiscountBuilder } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: DiscountBuilder = {
   appliedTo: "TRANSACTION_ITEM",
-  discountAmount: 0,
 };
 ```
 
