@@ -7,7 +7,7 @@ import { TransactionItemRead } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: TransactionItemRead = {
   organizationId: "<id>",
-  date: new Date("2024-04-06T17:51:35.076Z"),
+  date: new Date("2025-04-06T17:51:35.076Z"),
   externalProductId: "<id>",
   id: "<id>",
   taxItems: [
