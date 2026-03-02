@@ -7,15 +7,8 @@ import { TransactionItemBuilder } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: TransactionItemBuilder = {
   organizationId: "<id>",
-  date: new Date("2023-11-15T01:50:02.190Z"),
+  date: new Date("2024-11-14T01:50:02.190Z"),
   externalProductId: "<id>",
-  quantity: 1,
-  amount: 0,
-  taxAmountImported: 0,
-  taxRateImported: 0,
-  taxAmountCalculated: 0,
-  taxRateCalculated: 0,
-  taxableAmount: 0,
 };
 ```
 

@@ -1,5 +1,4 @@
 # Customers
-(*customers*)
 
 ## Overview
 
@@ -604,26 +603,12 @@ async function run() {
       organizationId: "<id>",
       externalId: "<id>",
       date: new Date("2023-02-16T04:36:50.697Z"),
-      totalAmount: 0,
-      totalTaxAmountImported: 0,
-      taxRateImported: 0,
-      totalTaxAmountCalculated: 0,
-      taxRateCalculated: 0,
-      totalTaxLiabilityAmount: 0,
-      taxableAmount: 0,
       addresses: [],
       transactionItems: [
         {
           organizationId: "<id>",
           date: new Date("2024-05-13T04:49:24.946Z"),
           externalProductId: "<id>",
-          quantity: 1,
-          amount: 0,
-          taxAmountImported: 0,
-          taxRateImported: 0,
-          taxAmountCalculated: 0,
-          taxRateCalculated: 0,
-          taxableAmount: 0,
         },
       ],
     },
@@ -659,26 +644,12 @@ async function run() {
       organizationId: "<id>",
       externalId: "<id>",
       date: new Date("2023-02-16T04:36:50.697Z"),
-      totalAmount: 0,
-      totalTaxAmountImported: 0,
-      taxRateImported: 0,
-      totalTaxAmountCalculated: 0,
-      taxRateCalculated: 0,
-      totalTaxLiabilityAmount: 0,
-      taxableAmount: 0,
       addresses: [],
       transactionItems: [
         {
           organizationId: "<id>",
           date: new Date("2024-05-13T04:49:24.946Z"),
           externalProductId: "<id>",
-          quantity: 1,
-          amount: 0,
-          taxAmountImported: 0,
-          taxRateImported: 0,
-          taxAmountCalculated: 0,
-          taxRateCalculated: 0,
-          taxableAmount: 0,
         },
       ],
     },
