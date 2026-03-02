@@ -12,11 +12,13 @@ import { ClosedEnum } from "../types/enums.js";
  * NOT EXEMPT: None of the items are NOT EXEMPT
  * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
  * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+ * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
  */
 export const TransactionExemptStatusEnum = {
   NotExempt: "NOT_EXEMPT",
   PartiallyExempt: "PARTIALLY_EXEMPT",
   FullyExempt: "FULLY_EXEMPT",
+  ZeroRateNotExempt: "ZERO_RATE_NOT_EXEMPT",
 } as const;
 /**
  * Based on transaction item exempt status.
@@ -25,6 +27,7 @@ export const TransactionExemptStatusEnum = {
  * NOT EXEMPT: None of the items are NOT EXEMPT
  * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
  * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+ * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
  */
 export type TransactionExemptStatusEnum = ClosedEnum<
   typeof TransactionExemptStatusEnum
