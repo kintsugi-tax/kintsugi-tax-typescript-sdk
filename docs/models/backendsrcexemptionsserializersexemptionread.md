@@ -7,7 +7,7 @@ import { BackendSrcExemptionsSerializersExemptionRead } from "@kintsugi-tax/tax-
 import { RFCDate } from "@kintsugi-tax/tax-platform-sdk/types";
 
 let value: BackendSrcExemptionsSerializersExemptionRead = {
-  startDate: new RFCDate("2024-08-29"),
+  startDate: new RFCDate("2025-08-29"),
   id: "<id>",
   exemptionType: "transaction",
   status: "DEACTIVATED",

@@ -85,7 +85,7 @@ export const TransactionItemEstimateBase$inboundSchema: z.ZodType<
   product_source: SourceEnum$inboundSchema.optional(),
   product_subcategory: z.string().optional(),
   product_category: z.string().optional(),
-  quantity: z.number().default(1.0),
+  quantity: z.number().default(1),
   amount: z.number(),
   exempt: z.boolean().default(false),
 }).transform((v) => {
@@ -130,7 +130,7 @@ export const TransactionItemEstimateBase$outboundSchema: z.ZodType<
   productSource: SourceEnum$outboundSchema.optional(),
   productSubcategory: z.string().optional(),
   productCategory: z.string().optional(),
-  quantity: z.number().default(1.0),
+  quantity: z.number().default(1),
   amount: z.number(),
   exempt: z.boolean().default(false),
 }).transform((v) => {
