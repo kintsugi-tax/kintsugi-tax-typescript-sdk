@@ -5,16 +5,16 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.737.0
   generationVersion: 2.845.15
-  releaseVersion: 0.10.1
-  configChecksum: d0c73ac9183fd70430e4b34c3e7da57c
+  releaseVersion: 0.10.2
+  configChecksum: 817be94690da5814d6e34f79f00b252a
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
   published: true
 persistentEdits:
-  generation_id: 87d01854-4564-42d5-985a-2365414933a4
-  pristine_commit_hash: a19faa4d2b43216de5445cc18cb5dd65290e5891
-  pristine_tree_hash: f0529c4a748ae121588c843aef9c36e8913fee75
+  generation_id: 9e8afdc5-774b-4d70-9063-36d7d875c85d
+  pristine_commit_hash: f7d94e35eec3646da542158c3355100daba810b4
+  pristine_tree_hash: e2dbd4ea6ac65d0fc1242eefe5a6f4857432d8ed
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -804,12 +804,12 @@ trackedFiles:
     pristine_git_object: 5a11b03ed83a6f77915e84d2ebeb6006c05ffb33
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:734012c679d1915792e55f26b80ea96069ec5319
-    pristine_git_object: 5e492c0886c16361ced0a2b9767aca9967d4a7e5
+    last_write_checksum: sha1:bfb041b78dc6709e564f58305d5c164327bafa1d
+    pristine_git_object: c8fe719c8a41cee55ff3ce4be3f7a9de566e2763
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:806c2c99c8f2ad4a35fd4976f6ad4f0b5b28c079
-    pristine_git_object: 8c711cf71b53677486e4af246d181f73bef66ae7
+    last_write_checksum: sha1:8e236530b9a036cac560b67d1766059427794c9a
+    pristine_git_object: a10904bc23559a2f76d3b4acb8ce5245deb14bfc
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ce840032c45608f5f4022b32bcce32cb69c5ed26
@@ -1000,8 +1000,8 @@ trackedFiles:
     pristine_git_object: 0aebd8b0a4867e35cb3348fc52921c3c0b4725b7
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:ffeeaf8de1bcb16057adf44c3d99f3e0f41eb52f
-    pristine_git_object: 02b60cc52f929725434a0f67cfa575a16db3a78c
+    last_write_checksum: sha1:74df540fd2964c6ea757757903a219d10f8102de
+    pristine_git_object: 004eacc560e47f3228c694de828b245c09200f3a
   src/lib/dlv.ts:
     id: b1988214835a
     last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
@@ -1080,8 +1080,8 @@ trackedFiles:
     pristine_git_object: 0955a573c2ce989d63c737410ab8cc28706d9f74
   src/mcp-server/mcp-server.ts:
     id: aabbc4ab07c1
-    last_write_checksum: sha1:59ba0ef6b526c5f5107942f93e16ac318ad227cd
-    pristine_git_object: 17944829487ccbc32262ff204f17fd5f24dd7472
+    last_write_checksum: sha1:0149bf06af82e24036e49b6ba5eb1eda9b4a0ff6
+    pristine_git_object: 90be5989a95a1300c33c9d9b4aad747e4c400a19
   src/mcp-server/prompts.ts:
     id: 26f3d73cbf31
     last_write_checksum: sha1:9ec1aa65259097a81cc0d355c9319cd4fdc9a381
@@ -1096,8 +1096,8 @@ trackedFiles:
     pristine_git_object: c25696d4c4f70e081fa5d87ad6891874c509a577
   src/mcp-server/server.ts:
     id: 2784dd48e82a
-    last_write_checksum: sha1:25104294c62e8eced3adda69cd308fb74c8ebda3
-    pristine_git_object: 48b93eac1ab8daa5b09e9651e134cfd87c29d0c1
+    last_write_checksum: sha1:b129adac41bf560562a3c7ac35314365b1aa49c1
+    pristine_git_object: 7bb0347ca7d63ebaba79b766804f1398312dc442
   src/mcp-server/shared.ts:
     id: 074e80d4be1e
     last_write_checksum: sha1:56c73d4429691516e35541825e759a0285747a2b

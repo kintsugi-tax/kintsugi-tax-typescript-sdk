@@ -14,7 +14,7 @@ targets:
         sourceRevisionDigest: sha256:27db006b44c7ec43b5eb0edadf4a600372573f7139028c40dfa63f3a9bcdc24b
         sourceBlobDigest: sha256:2bc123f02b22bc4f730c73c96383aa49ef7ca4ce895f74c40f644eb939fad163
         codeSamplesNamespace: kintsugi-overlay-typescript-code-samples
-        codeSamplesRevisionDigest: sha256:d0df4d35b087b4929780f31b831d72da89fd21b7337b17c59b0fe097bb5a74f9
+        codeSamplesRevisionDigest: sha256:6ec597b9a68323e57732254f336f84c2122aed7ddc0fdfb36d65fcd21f93326f
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
