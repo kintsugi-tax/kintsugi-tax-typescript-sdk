@@ -1,6 +1,6 @@
 {
   "name": "@kintsugi-tax/tax-platform-sdk",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "author": "Kintsugi Tax",
   "type": "module",
   "bin": {
@@ -133,8 +133,5 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js",
-  "publishConfig": {
-    "access": "public"
-  }
+  "module": "./dist/esm/index.js"
 }
