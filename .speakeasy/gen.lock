@@ -5,16 +5,16 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.737.0
   generationVersion: 2.845.15
-  releaseVersion: 0.10.0
-  configChecksum: 5c48380e3ab412faada8ddeaaf617265
+  releaseVersion: 0.10.1
+  configChecksum: d0c73ac9183fd70430e4b34c3e7da57c
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk.git
   repoSubDirectory: ./
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-typescript-sdk
   published: true
 persistentEdits:
-  generation_id: e1b4ddb3-2c87-4169-a6b5-42258480e72a
-  pristine_commit_hash: ffe4355821ea74b8f1bd9a78e43fde6079fbd5bf
-  pristine_tree_hash: 20a9cb4dacc77dc373a53fabb6888b4acd2ef150
+  generation_id: 87d01854-4564-42d5-985a-2365414933a4
+  pristine_commit_hash: a19faa4d2b43216de5445cc18cb5dd65290e5891
+  pristine_tree_hash: f0529c4a748ae121588c843aef9c36e8913fee75
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -804,12 +804,12 @@ trackedFiles:
     pristine_git_object: 5a11b03ed83a6f77915e84d2ebeb6006c05ffb33
   jsr.json:
     id: 7f6ab7767282
-    last_write_checksum: sha1:519496233a84d4bcfdde6191642a27bd3c0230e2
-    pristine_git_object: 067a8b1d1343aa1e54f30990bb2e240c43c2314e
+    last_write_checksum: sha1:734012c679d1915792e55f26b80ea96069ec5319
+    pristine_git_object: 5e492c0886c16361ced0a2b9767aca9967d4a7e5
   package.json:
     id: 7030d0b2f71b
-    last_write_checksum: sha1:de3730bcb01ab31a435cc41cf612c917149feee8
-    pristine_git_object: 7fd3c4bdde349c03d8e87b02018dc8d1b45bdfd0
+    last_write_checksum: sha1:806c2c99c8f2ad4a35fd4976f6ad4f0b5b28c079
+    pristine_git_object: 8c711cf71b53677486e4af246d181f73bef66ae7
   src/core.ts:
     id: f431fdbcd144
     last_write_checksum: sha1:ce840032c45608f5f4022b32bcce32cb69c5ed26
@@ -1000,8 +1000,8 @@ trackedFiles:
     pristine_git_object: 0aebd8b0a4867e35cb3348fc52921c3c0b4725b7
   src/lib/config.ts:
     id: 320761608fb3
-    last_write_checksum: sha1:a25862c7075c9a4ad126c55d9a9db849714c6f05
-    pristine_git_object: dea9b0308902a7b28c06d065f472bc054d5a2236
+    last_write_checksum: sha1:ffeeaf8de1bcb16057adf44c3d99f3e0f41eb52f
+    pristine_git_object: 02b60cc52f929725434a0f67cfa575a16db3a78c
   src/lib/dlv.ts:
     id: b1988214835a
     last_write_checksum: sha1:1dd3e3fbb4550c4bf31f5ef997faff355d6f3250
@@ -1080,8 +1080,8 @@ trackedFiles:
     pristine_git_object: 0955a573c2ce989d63c737410ab8cc28706d9f74
   src/mcp-server/mcp-server.ts:
     id: aabbc4ab07c1
-    last_write_checksum: sha1:20e2c6ecac03ceb63a7bff4bc1dd42cce1b42fb7
-    pristine_git_object: 4153fdc4ac7a39fd057e811c809b67b84b86cb9b
+    last_write_checksum: sha1:59ba0ef6b526c5f5107942f93e16ac318ad227cd
+    pristine_git_object: 17944829487ccbc32262ff204f17fd5f24dd7472
   src/mcp-server/prompts.ts:
     id: 26f3d73cbf31
     last_write_checksum: sha1:9ec1aa65259097a81cc0d355c9319cd4fdc9a381
@@ -1096,8 +1096,8 @@ trackedFiles:
     pristine_git_object: c25696d4c4f70e081fa5d87ad6891874c509a577
   src/mcp-server/server.ts:
     id: 2784dd48e82a
-    last_write_checksum: sha1:1797b09c86730e9eaa543bbd901776906023f55d
-    pristine_git_object: 9309d05f53975dfc50388b08b3c6f50676c6b3ff
+    last_write_checksum: sha1:25104294c62e8eced3adda69cd308fb74c8ebda3
+    pristine_git_object: 48b93eac1ab8daa5b09e9651e134cfd87c29d0c1
   src/mcp-server/shared.ts:
     id: 074e80d4be1e
     last_write_checksum: sha1:56c73d4429691516e35541825e759a0285747a2b
@@ -5333,7 +5333,6 @@ examples:
         "500":
           application/json: {"detail": "<value>"}
 examplesVersion: 1.0.2
-releaseNotes: "## Typescript SDK Changes:\n* `sdk.transactions.get()`:  `response.items[]` **Changed** (Breaking ⚠️)\n* `sdk.customers.update()`: \n  *  `request.customerUpdate.source` **Changed**\n  *  `response.source` **Changed** (Breaking ⚠️)\n* `sdk.taxEstimation.estimate()`: \n  *  `request.transactionEstimatePublicRequest.source` **Changed**\n  *  `response.items[]` **Changed** (Breaking ⚠️)\n* `sdk.transactions.createCreditNote()`: \n  *  `request.creditNoteCreate.transactionItems[].taxExemption.enum(zeroRateNotExempt)` **Added**\n  *  `response` **Changed** (Breaking ⚠️)\n* `sdk.transactions.getByFilingId()`:  `response.[]` **Changed** (Breaking ⚠️)\n* `sdk.transactions.getById()`:  `response` **Changed** (Breaking ⚠️)\n* `sdk.customers.list()`:  `response.items[].source` **Changed** (Breaking ⚠️)\n* `sdk.customers.create()`: \n  *  `request.source` **Changed**\n  *  `response.source` **Changed** (Breaking ⚠️)\n* `sdk.customers.get()`:  `response.source` **Changed** (Breaking ⚠️)\n* `sdk.products.get()`:  `response.source` **Changed** (Breaking ⚠️)\n* `sdk.customers.getByExternalId()`:  `response.source` **Changed** (Breaking ⚠️)\n* `sdk.customers.getTransactions()`:  `response.[]` **Changed** (Breaking ⚠️)\n* `sdk.customers.createTransaction()`: \n  *  `request.transactionCreate` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `sdk.exemptions.create()`:  `response.customer.source` **Changed** (Breaking ⚠️)\n* `sdk.transactions.update()`: \n  *  `request.transactionUpdate` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `sdk.transactions.getByExternalId()`:  `response` **Changed** (Breaking ⚠️)\n* `sdk.registrations.create()`: \n  *  `request.union(REGULAR).filingDays` **Removed** (Breaking ⚠️)\n  *  `response.filingDays` **Changed**\n* `sdk.products.update()`: \n  *  `request.productUpdate` **Changed** (Breaking ⚠️)\n  *  `response.source` **Changed** (Breaking ⚠️)\n* `sdk.transactions.create()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `sdk.products.createProductV1ProductsPost()`: **Added**\n* `sdk.nexus.updatePhysical()`: \n  *  `request.physicalNexusUpdate` **Changed**\n  *  `response` **Changed**\n* `sdk.filings.getByRegistrationId()`:  `response.items[].marketplaceTransactionCount` **Added**\n* `sdk.registrations.get()`:  `response.items[].filingDays` **Changed**\n* `sdk.nexus.listPhysical()`:  `response.items[]` **Changed**\n* `sdk.registrations.getById()`: \n  *  `request.reveal` **Added**\n  *  `response.filingDays` **Changed**\n* `sdk.registrations.update()`:  `response.filingDays` **Changed**\n* `sdk.registrations.deregister()`:  `response.filingDays` **Changed**\n* `sdk.products.getProductsV1ProductsGet()`: **Added**\n* `sdk.nexus.createPhysical()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `sdk.filings.get()`:  `response.marketplaceTransactionCount` **Added**\n* `sdk.filings.list()`:  `response.items[].marketplaceTransactionCount` **Added**\n* `sdk.products.getCategories()`: **Removed** (Breaking ⚠️)\n* `sdk.products.create()`: **Removed** (Breaking ⚠️)\n* `sdk.products.list()`: **Removed** (Breaking ⚠️)\n* `sdk.transactions.updateCreditNote()`: \n  *  `request.creditNoteCreate.transactionItems[].taxExemption.enum(zeroRateNotExempt)` **Added**\n* `sdk.products.getProductCategoriesV1ProductsCategoriesGet()`: **Added**\n"
 generatedFiles:
   - .gitattributes
   - .npmignore
