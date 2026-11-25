@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 /**
@@ -10,12 +11,15 @@ import { ClosedEnum } from "../types/enums.js";
  */
 export const TaxItemReturnReasonEnum = {
   NoRuleFound: "NO_RULE_FOUND",
+  AllRatesOptedOut: "ALL_RATES_OPTED_OUT",
   RuleFoundTaxable: "RULE_FOUND_TAXABLE",
   RuleFoundNotTaxable: "RULE_FOUND_NOT_TAXABLE",
   RuleFoundTaxableZeroRate: "RULE_FOUND_TAXABLE_ZERO_RATE",
   ProductExempt: "PRODUCT_EXEMPT",
   FromImport: "FROM_IMPORT",
   RuleExcludedInCalculation: "RULE_EXCLUDED_IN_CALCULATION",
+  ReverseCharge: "REVERSE_CHARGE",
+  RuleFoundSuppressedByCounty: "RULE_FOUND_SUPPRESSED_BY_COUNTY",
 } as const;
 /**
  * We use this to understand the response from get_tax_items
@@ -27,7 +31,7 @@ export type TaxItemReturnReasonEnum = ClosedEnum<
 /** @internal */
 export const TaxItemReturnReasonEnum$inboundSchema: z.ZodNativeEnum<
   typeof TaxItemReturnReasonEnum
-> = z.nativeEnum(TaxItemReturnReasonEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(TaxItemReturnReasonEnum));
 /** @internal */
 export const TaxItemReturnReasonEnum$outboundSchema: z.ZodNativeEnum<
   typeof TaxItemReturnReasonEnum

@@ -3,16 +3,16 @@
  */
 
 import { exemptionsCreate } from "../../funcs/exemptionsCreate.js";
-import * as models from "../../models/index.js";
+import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: models.ExemptionCreate$inboundSchema,
+  request: operations.CreateExemptionV1ExemptionsPostRequest$inboundSchema,
 };
 
 export const tool$exemptionsCreate: ToolDefinition<typeof args> = {
   name: "exemptions-create",
-  description: `Create Exemption
+  description: `Create exemption
 
 The Create Exemption API allows you to create a new exemption record.
     This includes defining details such as exemption type, jurisdiction,
@@ -22,7 +22,7 @@ The Create Exemption API allows you to create a new exemption record.
     const [result, apiCall] = await exemptionsCreate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

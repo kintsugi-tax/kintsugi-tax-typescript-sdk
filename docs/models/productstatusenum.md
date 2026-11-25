@@ -5,11 +5,11 @@
 ```typescript
 import { ProductStatusEnum } from "@kintsugi-tax/tax-platform-sdk/models";
 
-let value: ProductStatusEnum = "PENDING";
+let value: ProductStatusEnum = "ARCHIVED";
 ```
 
 ## Values
 
 ```typescript
-"APPROVED" | "PARTIALLY_APPROVED" | "PENDING"
+"APPROVED" | "PARTIALLY_APPROVED" | "PENDING" | "ARCHIVED"
 ```

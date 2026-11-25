@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
@@ -36,13 +36,15 @@ export const BackendSrcTaxEstimationResponsesValidationErrorItem$inboundSchema:
     BackendSrcTaxEstimationResponsesValidationErrorItem,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    type: z.string(),
-    loc: z.array(z.string()),
-    msg: z.string(),
-    input: z.any().optional(),
-    ctx: z.record(z.any()),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      type: z.string(),
+      loc: z.array(z.string()),
+      msg: z.string(),
+      input: z.any().optional(),
+      ctx: z.record(z.any()),
+    })
+  );
 /** @internal */
 export type BackendSrcTaxEstimationResponsesValidationErrorItem$Outbound = {
   type: string;
@@ -58,13 +60,15 @@ export const BackendSrcTaxEstimationResponsesValidationErrorItem$outboundSchema:
     BackendSrcTaxEstimationResponsesValidationErrorItem$Outbound,
     z.ZodTypeDef,
     BackendSrcTaxEstimationResponsesValidationErrorItem
-  > = z.object({
-    type: z.string(),
-    loc: z.array(z.string()),
-    msg: z.string(),
-    input: z.any().optional(),
-    ctx: z.record(z.any()),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      type: z.string(),
+      loc: z.array(z.string()),
+      msg: z.string(),
+      input: z.any().optional(),
+      ctx: z.record(z.any()),
+    })
+  );
 
 export function backendSrcTaxEstimationResponsesValidationErrorItemToJSON(
   backendSrcTaxEstimationResponsesValidationErrorItem:

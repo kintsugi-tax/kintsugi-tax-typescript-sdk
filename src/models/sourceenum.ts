@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const SourceEnum = {
@@ -11,6 +12,8 @@ export const SourceEnum = {
   Bunny: "BUNNY",
   Chargebee: "CHARGEBEE",
   Shopify: "SHOPIFY",
+  Shopline: "SHOPLINE",
+  Ecwid: "ECWID",
   Stripe: "STRIPE",
   Amazon: "AMAZON",
   Tiktok: "TIKTOK",
@@ -36,11 +39,14 @@ export const SourceEnum = {
   Squarespace: "SQUARESPACE",
   Woocommerce: "WOOCOMMERCE",
   Magento: "MAGENTO",
+  Macys: "MACYS",
   BillingPlatform: "BILLING_PLATFORM",
   Deel: "DEEL",
   Rippling: "RIPPLING",
   Gusto: "GUSTO",
   Facebook: "FACEBOOK",
+  Freshbooks: "FRESHBOOKS",
+  Fulfil: "FULFIL",
   Other: "OTHER",
   Ordway: "ORDWAY",
   Instagram: "INSTAGRAM",
@@ -57,8 +63,10 @@ export const SourceEnum = {
   Modalyst: "MODALYST",
   Nordstrom: "NORDSTROM",
   Faire: "FAIRE",
+  FrisbiiBilling: "FRISBII_BILLING",
   Shopware: "SHOPWARE",
   Zoho: "ZOHO",
+  ZohoBooks: "ZOHO_BOOKS",
   SageIntacct: "SAGE-INTACCT",
   Airwallex: "AIRWALLEX",
   Orb: "ORB",
@@ -66,12 +74,28 @@ export const SourceEnum = {
   MicrosoftDynamics365: "MICROSOFT_DYNAMICS_365",
   Kickstarter: "KICKSTARTER",
   InternalErp: "INTERNAL_ERP",
+  Rillet: "RILLET",
+  Campfire: "CAMPFIRE",
+  KillBill: "KILL_BILL",
+  Provision: "PROVISION",
+  VertexOSeries: "VERTEX_O_SERIES",
+  Checkoutchamp: "CHECKOUTCHAMP",
+  Dualentry: "DUALENTRY",
+  Odoo: "ODOO",
+  BillCom: "BILL_COM",
+  IntuitEnterpriseSuite: "INTUIT_ENTERPRISE_SUITE",
+  Acumatica: "ACUMATICA",
+  Plentyone: "PLENTYONE",
+  Hyperline: "HYPERLINE",
+  Openmeter: "OPENMETER",
+  Saleor: "SALEOR",
+  Unleashed: "UNLEASHED",
 } as const;
 export type SourceEnum = ClosedEnum<typeof SourceEnum>;
 
 /** @internal */
-export const SourceEnum$inboundSchema: z.ZodNativeEnum<typeof SourceEnum> = z
-  .nativeEnum(SourceEnum);
+export const SourceEnum$inboundSchema: z.ZodNativeEnum<typeof SourceEnum> =
+  /* @__PURE__ */ lazySchema$(() => z.nativeEnum(SourceEnum));
 /** @internal */
 export const SourceEnum$outboundSchema: z.ZodNativeEnum<typeof SourceEnum> =
   SourceEnum$inboundSchema;

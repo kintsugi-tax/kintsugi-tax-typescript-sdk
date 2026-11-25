@@ -13,12 +13,12 @@ dotenv.config();
 
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK();
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
 
 async function main() {
   const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",

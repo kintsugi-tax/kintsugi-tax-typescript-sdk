@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -17,6 +17,10 @@ export type GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetReque
      *         whose attachments are being retrieved.
      */
     exemptionId: string;
+    /**
+     * The unique identifier for the organization making the request
+     */
+    xOrganizationId: string | null;
   };
 
 /** @internal */
@@ -25,17 +29,22 @@ export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    exemption_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "exemption_id": "exemptionId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      exemption_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "exemption_id": "exemptionId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest$Outbound =
   {
     exemption_id: string;
+    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -44,13 +53,17 @@ export const GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest$Outbound,
     z.ZodTypeDef,
     GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest
-  > = z.object({
-    exemptionId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      exemptionId: "exemption_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      exemptionId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        exemptionId: "exemption_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestToJSON(
   getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest:

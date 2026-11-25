@@ -4,7 +4,7 @@
 
 ### Available Operations
 
-* [estimate](#estimate) - Estimate Tax
+* [estimate](#estimate) - Estimate tax
 
 ## estimate
 
@@ -19,14 +19,12 @@ The Estimate Tax API calculates the estimated tax for a specific
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.taxEstimation.estimate({
+    xOrganizationId: "org_12345",
     transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
@@ -43,6 +41,7 @@ async function run() {
           externalId: "item_B",
           date: new Date("2024-10-28T10:00:00Z"),
           externalProductId: "prod_xyz",
+          quantity: 1,
           amount: 75.5,
         },
       ],
@@ -76,14 +75,12 @@ import { taxEstimationEstimate } from "@kintsugi-tax/tax-platform-sdk/funcs/taxE
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await taxEstimationEstimate(sdk, {
+    xOrganizationId: "org_12345",
     transactionEstimatePublicRequest: {
       date: new Date("2025-01-23T13:01:29.949Z"),
       externalId: "txn_12345",
@@ -100,6 +97,7 @@ async function run() {
           externalId: "item_B",
           date: new Date("2024-10-28T10:00:00Z"),
           externalProductId: "prod_xyz",
+          quantity: 1,
           amount: 75.5,
         },
       ],
@@ -137,13 +135,13 @@ run();
 
 ### Response
 
-**Promise\<[models.PageTransactionEstimateResponse](../../models/pagetransactionestimateresponse.md)\>**
+**Promise\<[models.TransactionEstimateResponse](../../models/transactionestimateresponse.md)\>**
 
 ### Errors
 
 | Error Type                                                     | Status Code                                                    | Content Type                                                   |
 | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| errors.ErrorResponse                                           | 401                                                            | application/json                                               |
+| errors.ErrorResponse                                           | 400, 401                                                       | application/json                                               |
 | errors.BackendSrcTaxEstimationResponsesValidationErrorResponse | 422                                                            | application/json                                               |
-| errors.ErrorResponse                                           | 500                                                            | application/json                                               |
+| errors.ErrorResponse                                           | 500, 503                                                       | application/json                                               |
 | errors.SDKDefaultError                                         | 4XX, 5XX                                                       | \*/\*                                                          |

@@ -6,6 +6,7 @@ import { exemptionsCreate } from "../funcs/exemptionsCreate.js";
 import { exemptionsGet } from "../funcs/exemptionsGet.js";
 import { exemptionsGetAttachments } from "../funcs/exemptionsGetAttachments.js";
 import { exemptionsList } from "../funcs/exemptionsList.js";
+import { exemptionsListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet } from "../funcs/exemptionsListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet.js";
 import { exemptionsUploadCertificate } from "../funcs/exemptionsUploadCertificate.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
@@ -14,13 +15,13 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Exemptions extends ClientSDK {
   /**
-   * Get Exemptions
+   * Get exemptions
    *
    * @remarks
    * Retrieve a list of exemptions based on filters.
    */
   async list(
-    request?: operations.GetExemptionsV1ExemptionsGetRequest | undefined,
+    request: operations.GetExemptionsV1ExemptionsGetRequest,
     options?: RequestOptions,
   ): Promise<models.FastapiPaginationDefaultPageExemptionRead2> {
     return unwrapAsync(exemptionsList(
@@ -31,7 +32,7 @@ export class Exemptions extends ClientSDK {
   }
 
   /**
-   * Create Exemption
+   * Create exemption
    *
    * @remarks
    * The Create Exemption API allows you to create a new exemption record.
@@ -39,7 +40,7 @@ export class Exemptions extends ClientSDK {
    *     Country, State, validity dates, etc.
    */
   async create(
-    request: models.ExemptionCreate,
+    request: operations.CreateExemptionV1ExemptionsPostRequest,
     options?: RequestOptions,
   ): Promise<models.BackendSrcExemptionsSerializersExemptionRead> {
     return unwrapAsync(exemptionsCreate(
@@ -50,7 +51,27 @@ export class Exemptions extends ClientSDK {
   }
 
   /**
-   * Get Exemption By Id
+   * List partial certificate types
+   *
+   * @remarks
+   * Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+   */
+  async listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(
+    request:
+      operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest,
+    options?: RequestOptions,
+  ): Promise<Array<models.PartialCertificateTypeRead>> {
+    return unwrapAsync(
+      exemptionsListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(
+        this,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get exemption by id
    *
    * @remarks
    * The Get Exemption By ID API retrieves a specific exemption record by
@@ -61,7 +82,7 @@ export class Exemptions extends ClientSDK {
   async get(
     request: operations.GetExemptionByIdV1ExemptionsExemptionIdGetRequest,
     options?: RequestOptions,
-  ): Promise<models.BackendSrcExemptionsModelsExemptionRead> {
+  ): Promise<models.BackendSrcExemptionsSchemasExemptionExemptionRead> {
     return unwrapAsync(exemptionsGet(
       this,
       request,
@@ -70,28 +91,7 @@ export class Exemptions extends ClientSDK {
   }
 
   /**
-   * Upload Exemption Certificate
-   *
-   * @remarks
-   * The Upload Exemption Certificate API allows you
-   *     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
-   *     This is primarily used to associate supporting documents with an exemption record
-   *     to ensure compliance and facilitate verification.
-   */
-  async uploadCertificate(
-    request:
-      operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest,
-    options?: RequestOptions,
-  ): Promise<models.AttachmentRead> {
-    return unwrapAsync(exemptionsUploadCertificate(
-      this,
-      request,
-      options,
-    ));
-  }
-
-  /**
-   * Get Attachments For Exemption
+   * Get attachments for exemption
    *
    * @remarks
    * The Get Attachments for Exemption API retrieves all
@@ -105,6 +105,27 @@ export class Exemptions extends ClientSDK {
     options?: RequestOptions,
   ): Promise<Array<models.AttachmentRead>> {
     return unwrapAsync(exemptionsGetAttachments(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Upload exemption certificate
+   *
+   * @remarks
+   * The Upload Exemption Certificate API allows you
+   *     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
+   *     This is primarily used to associate supporting documents with an exemption record
+   *     to ensure compliance and facilitate verification.
+   */
+  async uploadCertificate(
+    request:
+      operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.AttachmentRead> {
+    return unwrapAsync(exemptionsUploadCertificate(
       this,
       request,
       options,

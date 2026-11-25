@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
@@ -14,6 +14,10 @@ export type UpdateCustomerV1CustomersCustomerIdPutRequest = {
    * Unique identifier of the customer to be retrieved.
    */
   customerId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
   customerUpdate: models.CustomerUpdate;
 };
 
@@ -23,18 +27,23 @@ export const UpdateCustomerV1CustomersCustomerIdPutRequest$inboundSchema:
     UpdateCustomerV1CustomersCustomerIdPutRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    customer_id: z.string(),
-    CustomerUpdate: models.CustomerUpdate$inboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      "customer_id": "customerId",
-      "CustomerUpdate": "customerUpdate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customer_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+      CustomerUpdate: models.CustomerUpdate$inboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        "customer_id": "customerId",
+        "x-organization-id": "xOrganizationId",
+        "CustomerUpdate": "customerUpdate",
+      });
+    })
+  );
 /** @internal */
 export type UpdateCustomerV1CustomersCustomerIdPutRequest$Outbound = {
   customer_id: string;
+  "x-organization-id": string | null;
   CustomerUpdate: models.CustomerUpdate$Outbound;
 };
 
@@ -44,15 +53,19 @@ export const UpdateCustomerV1CustomersCustomerIdPutRequest$outboundSchema:
     UpdateCustomerV1CustomersCustomerIdPutRequest$Outbound,
     z.ZodTypeDef,
     UpdateCustomerV1CustomersCustomerIdPutRequest
-  > = z.object({
-    customerId: z.string(),
-    customerUpdate: models.CustomerUpdate$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      customerId: "customer_id",
-      customerUpdate: "CustomerUpdate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customerId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      customerUpdate: models.CustomerUpdate$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        customerId: "customer_id",
+        xOrganizationId: "x-organization-id",
+        customerUpdate: "CustomerUpdate",
+      });
+    })
+  );
 
 export function updateCustomerV1CustomersCustomerIdPutRequestToJSON(
   updateCustomerV1CustomersCustomerIdPutRequest:

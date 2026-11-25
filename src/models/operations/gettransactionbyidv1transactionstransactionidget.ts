@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -13,6 +13,10 @@ export type GetTransactionByIdV1TransactionsTransactionIdGetRequest = {
    * The unique identifier of the transaction to retrieve.
    */
   transactionId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -21,16 +25,21 @@ export const GetTransactionByIdV1TransactionsTransactionIdGetRequest$inboundSche
     GetTransactionByIdV1TransactionsTransactionIdGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    transaction_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "transaction_id": "transactionId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      transaction_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "transaction_id": "transactionId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetTransactionByIdV1TransactionsTransactionIdGetRequest$Outbound = {
   transaction_id: string;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -39,13 +48,17 @@ export const GetTransactionByIdV1TransactionsTransactionIdGetRequest$outboundSch
     GetTransactionByIdV1TransactionsTransactionIdGetRequest$Outbound,
     z.ZodTypeDef,
     GetTransactionByIdV1TransactionsTransactionIdGetRequest
-  > = z.object({
-    transactionId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      transactionId: "transaction_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      transactionId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        transactionId: "transaction_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getTransactionByIdV1TransactionsTransactionIdGetRequestToJSON(
   getTransactionByIdV1TransactionsTransactionIdGetRequest:

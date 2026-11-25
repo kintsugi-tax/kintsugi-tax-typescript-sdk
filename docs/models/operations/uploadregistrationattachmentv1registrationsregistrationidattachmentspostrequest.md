@@ -1,0 +1,26 @@
+# UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest
+
+## Example Usage
+
+```typescript
+import { UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest } from "@kintsugi-tax/tax-platform-sdk/models/operations";
+
+let value:
+  UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest =
+    {
+      registrationId: "<id>",
+      xOrganizationId: "org_12345",
+      bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost:
+        {
+          file: "<value>",
+        },
+    };
+```
+
+## Fields
+
+| Field                                                                                                                                                                               | Type                                                                                                                                                                                | Required                                                                                                                                                                            | Description                                                                                                                                                                         | Example                                                                                                                                                                             |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `registrationId`                                                                                                                                                                    | *string*                                                                                                                                                                            | :heavy_check_mark:                                                                                                                                                                  | N/A                                                                                                                                                                                 |                                                                                                                                                                                     |
+| `xOrganizationId`                                                                                                                                                                   | *string*                                                                                                                                                                            | :heavy_check_mark:                                                                                                                                                                  | The unique identifier for the organization making the request                                                                                                                       | org_12345                                                                                                                                                                           |
+| `bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost`                                                                                                      | [models.BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost](../../models/bodyuploadregistrationattachmentv1registrationsregistrationidattachmentspost.md) | :heavy_check_mark:                                                                                                                                                                  | N/A                                                                                                                                                                                 |                                                                                                                                                                                     |

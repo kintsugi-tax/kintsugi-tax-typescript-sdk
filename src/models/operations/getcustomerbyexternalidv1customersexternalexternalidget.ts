@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -13,6 +13,10 @@ export type GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest = {
    * The external identifier of the customer to retrieve.
    */
   externalId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -21,17 +25,22 @@ export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$inbo
     GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    external_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "external_id": "externalId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      external_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "external_id": "externalId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$Outbound =
   {
     external_id: string;
+    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -40,13 +49,17 @@ export const GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$outb
     GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest$Outbound,
     z.ZodTypeDef,
     GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest
-  > = z.object({
-    externalId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      externalId: "external_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      externalId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        externalId: "external_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getCustomerByExternalIdV1CustomersExternalExternalIdGetRequestToJSON(
   getCustomerByExternalIdV1CustomersExternalExternalIdGetRequest:

@@ -5,11 +5,12 @@
 import * as z from "zod/v3";
 import { SDKCore } from "../core.js";
 import { encodeJSON } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
-import { resolveSecurity } from "../lib/security.js";
+import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
@@ -23,7 +24,6 @@ import { ResponseValidationError } from "../models/errors/responsevalidationerro
 import { SDKError } from "../models/errors/sdkerror.js";
 import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
-import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
@@ -38,7 +38,6 @@ import { Result } from "../types/fp.js";
  */
 export function addressValidationSearch(
   client: SDKCore,
-  security: operations.SearchV1AddressValidationSearchPostSecurity,
   request: models.AddressBase,
   options?: RequestOptions,
 ): APIPromise<
@@ -58,7 +57,6 @@ export function addressValidationSearch(
 > {
   return new APIPromise($do(
     client,
-    security,
     request,
     options,
   ));
@@ -66,7 +64,6 @@ export function addressValidationSearch(
 
 async function $do(
   client: SDKCore,
-  security: operations.SearchV1AddressValidationSearchPostSecurity,
   request: models.AddressBase,
   options?: RequestOptions,
 ): Promise<
@@ -105,15 +102,9 @@ async function $do(
     Accept: "application/json",
   }));
 
-  const requestSecurity = resolveSecurity(
-    [
-      {
-        fieldName: "X-API-KEY",
-        type: "apiKey:header",
-        value: security?.apiKeyHeader,
-      },
-    ],
-  );
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
+  const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
     options: client._options,
@@ -123,7 +114,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -147,7 +138,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

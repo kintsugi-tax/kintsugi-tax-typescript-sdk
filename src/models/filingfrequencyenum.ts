@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const FilingFrequencyEnum = {
@@ -22,7 +23,7 @@ export type FilingFrequencyEnum = ClosedEnum<typeof FilingFrequencyEnum>;
 /** @internal */
 export const FilingFrequencyEnum$inboundSchema: z.ZodNativeEnum<
   typeof FilingFrequencyEnum
-> = z.nativeEnum(FilingFrequencyEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(FilingFrequencyEnum));
 /** @internal */
 export const FilingFrequencyEnum$outboundSchema: z.ZodNativeEnum<
   typeof FilingFrequencyEnum

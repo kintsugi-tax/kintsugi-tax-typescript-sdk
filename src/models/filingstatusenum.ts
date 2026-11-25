@@ -3,20 +3,25 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const FilingStatusEnum = {
   Unfiled: "UNFILED",
   Filed: "FILED",
   Filing: "FILING",
+  Submitted: "SUBMITTED",
   Paused: "PAUSED",
+  Skipped: "SKIPPED",
+  Cancelled: "CANCELLED",
+  Issue: "ISSUE",
 } as const;
 export type FilingStatusEnum = ClosedEnum<typeof FilingStatusEnum>;
 
 /** @internal */
 export const FilingStatusEnum$inboundSchema: z.ZodNativeEnum<
   typeof FilingStatusEnum
-> = z.nativeEnum(FilingStatusEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(FilingStatusEnum));
 /** @internal */
 export const FilingStatusEnum$outboundSchema: z.ZodNativeEnum<
   typeof FilingStatusEnum

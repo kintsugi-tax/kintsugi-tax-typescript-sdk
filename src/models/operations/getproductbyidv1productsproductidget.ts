@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -13,6 +13,10 @@ export type GetProductByIdV1ProductsProductIdGetRequest = {
    * The unique identifier for the product you want to retrieve.
    */
   productId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -21,16 +25,21 @@ export const GetProductByIdV1ProductsProductIdGetRequest$inboundSchema:
     GetProductByIdV1ProductsProductIdGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    product_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "product_id": "productId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      product_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "product_id": "productId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetProductByIdV1ProductsProductIdGetRequest$Outbound = {
   product_id: string;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -39,13 +48,17 @@ export const GetProductByIdV1ProductsProductIdGetRequest$outboundSchema:
     GetProductByIdV1ProductsProductIdGetRequest$Outbound,
     z.ZodTypeDef,
     GetProductByIdV1ProductsProductIdGetRequest
-  > = z.object({
-    productId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      productId: "product_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      productId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        productId: "product_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getProductByIdV1ProductsProductIdGetRequestToJSON(
   getProductByIdV1ProductsProductIdGetRequest:

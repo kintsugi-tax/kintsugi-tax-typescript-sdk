@@ -7,8 +7,7 @@ import { ValidationError } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: ValidationError = {
   loc: [
-    "<value 1>",
-    "<value 2>",
+    929957,
   ],
   msg: "<value>",
   type: "<value>",
@@ -17,8 +16,10 @@ let value: ValidationError = {
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `loc`              | *string*[]         | :heavy_check_mark: | N/A                |
-| `msg`              | *string*           | :heavy_check_mark: | N/A                |
-| `type`             | *string*           | :heavy_check_mark: | N/A                |
+| Field                                  | Type                                   | Required                               | Description                            |
+| -------------------------------------- | -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| `loc`                                  | *models.Loc*[]                         | :heavy_check_mark:                     | N/A                                    |
+| `msg`                                  | *string*                               | :heavy_check_mark:                     | N/A                                    |
+| `type`                                 | *string*                               | :heavy_check_mark:                     | N/A                                    |
+| `input`                                | *any*                                  | :heavy_minus_sign:                     | N/A                                    |
+| `ctx`                                  | [models.Context](../models/context.md) | :heavy_minus_sign:                     | N/A                                    |

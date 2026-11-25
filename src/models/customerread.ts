@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   AddressStatus,
@@ -38,63 +38,73 @@ export type CustomerRead = {
   /**
    * Customer's phone number
    */
-  phone?: string | undefined;
+  phone?: string | null | undefined;
   /**
    * Primary street address.
    */
-  street1?: string | undefined;
+  street1?: string | null | undefined;
   /**
    * Additional street address details, such as an apartment or suite number.
    */
-  street2?: string | undefined;
+  street2?: string | null | undefined;
   /**
    * City where the customer resides.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * County or district of the customer.
    */
-  county?: string | undefined;
+  county?: string | null | undefined;
   /**
    * State or province of the customer.
    */
-  state?: string | undefined;
+  state?: string | null | undefined;
   /**
    * ZIP or Postal code of the customer.
    */
-  postalCode?: string | undefined;
-  country?: CountryCodeEnum | undefined;
+  postalCode?: string | null | undefined;
+  /**
+   * Country code in ISO 3166-1 alpha-2 format
+   */
+  country?: CountryCodeEnum | null | undefined;
   /**
    * Complete address string of the customer, which can be used as an alternative to individual fields.
    */
-  fullAddress?: string | undefined;
+  fullAddress?: string | null | undefined;
   /**
    * Name of the customer.
    */
-  name?: string | undefined;
+  name?: string | null | undefined;
   /**
    * External identifier associated with the customer.
    */
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   status?: StatusEnum | undefined;
   /**
    * Customer's email address
    */
-  email?: string | undefined;
-  source?: SourceEnum | undefined;
+  email?: string | null | undefined;
+  /**
+   * Registered or legal business name of the customer.
+   */
+  companyName?: string | null | undefined;
+  /**
+   * Source of the customer's record.
+   */
+  source?: SourceEnum | null | undefined;
   /**
    * Identifier for the connection source, if applicable.
    */
-  connectionId?: string | undefined;
+  connectionId?: string | null | undefined;
   addressStatus?: AddressStatus | undefined;
   /**
    * Registration number of the customer.
    */
-  registrationNumber?: string | undefined;
+  registrationNumber?: string | null | undefined;
   /**
    * External friendly identifier associated with the customer. We need it for netsuite.
    */
-  externalFriendlyId?: string | undefined;
+  externalFriendlyId?: string | null | undefined;
   /**
    * Customer tax registrations associated with the customer.
    */
@@ -107,6 +117,10 @@ export type CustomerRead = {
    * Unique identifier for the organization associated with the customer. Required.
    */
   organizationId: string;
+  /**
+   * Store name resolved from the customer's connection, if available.
+   */
+  storeName?: string | null | undefined;
 };
 
 /** @internal */
@@ -114,69 +128,78 @@ export const CustomerRead$inboundSchema: z.ZodType<
   CustomerRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  phone: z.string().optional(),
-  street_1: z.string().optional(),
-  street_2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postal_code: z.string().optional(),
-  country: CountryCodeEnum$inboundSchema.optional(),
-  full_address: z.string().optional(),
-  name: z.string().optional(),
-  external_id: z.string().optional(),
-  status: StatusEnum$inboundSchema.optional(),
-  email: z.string().optional(),
-  source: SourceEnum$inboundSchema.optional(),
-  connection_id: z.string().optional(),
-  address_status: AddressStatus$inboundSchema.optional(),
-  registration_number: z.string().optional(),
-  external_friendly_id: z.string().optional(),
-  customer_tax_registrations: z.array(CustomerTaxRegistrationRead$inboundSchema)
-    .optional(),
-  id: z.string(),
-  organization_id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "street_1": "street1",
-    "street_2": "street2",
-    "postal_code": "postalCode",
-    "full_address": "fullAddress",
-    "external_id": "externalId",
-    "connection_id": "connectionId",
-    "address_status": "addressStatus",
-    "registration_number": "registrationNumber",
-    "external_friendly_id": "externalFriendlyId",
-    "customer_tax_registrations": "customerTaxRegistrations",
-    "organization_id": "organizationId",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street_1: z.nullable(z.string()).optional(),
+    street_2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    full_address: z.nullable(z.string()).optional(),
+    name: z.nullable(z.string()).optional(),
+    external_id: z.nullable(z.string()).optional(),
+    status: StatusEnum$inboundSchema.optional(),
+    email: z.nullable(z.string()).optional(),
+    company_name: z.nullable(z.string()).optional(),
+    source: z.nullable(SourceEnum$inboundSchema).optional(),
+    connection_id: z.nullable(z.string()).optional(),
+    address_status: AddressStatus$inboundSchema.optional(),
+    registration_number: z.nullable(z.string()).optional(),
+    external_friendly_id: z.nullable(z.string()).optional(),
+    customer_tax_registrations: z.array(
+      CustomerTaxRegistrationRead$inboundSchema,
+    ).optional(),
+    id: z.string(),
+    organization_id: z.string(),
+    store_name: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "street_1": "street1",
+      "street_2": "street2",
+      "postal_code": "postalCode",
+      "full_address": "fullAddress",
+      "external_id": "externalId",
+      "company_name": "companyName",
+      "connection_id": "connectionId",
+      "address_status": "addressStatus",
+      "registration_number": "registrationNumber",
+      "external_friendly_id": "externalFriendlyId",
+      "customer_tax_registrations": "customerTaxRegistrations",
+      "organization_id": "organizationId",
+      "store_name": "storeName",
+    });
+  })
+);
 /** @internal */
 export type CustomerRead$Outbound = {
-  phone?: string | undefined;
-  street_1?: string | undefined;
-  street_2?: string | undefined;
-  city?: string | undefined;
-  county?: string | undefined;
-  state?: string | undefined;
-  postal_code?: string | undefined;
-  country?: string | undefined;
-  full_address?: string | undefined;
-  name?: string | undefined;
-  external_id?: string | undefined;
+  phone?: string | null | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
+  city?: string | null | undefined;
+  county?: string | null | undefined;
+  state?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  country?: string | null | undefined;
+  full_address?: string | null | undefined;
+  name?: string | null | undefined;
+  external_id?: string | null | undefined;
   status?: string | undefined;
-  email?: string | undefined;
-  source?: string | undefined;
-  connection_id?: string | undefined;
+  email?: string | null | undefined;
+  company_name?: string | null | undefined;
+  source?: string | null | undefined;
+  connection_id?: string | null | undefined;
   address_status?: string | undefined;
-  registration_number?: string | undefined;
-  external_friendly_id?: string | undefined;
+  registration_number?: string | null | undefined;
+  external_friendly_id?: string | null | undefined;
   customer_tax_registrations?:
     | Array<CustomerTaxRegistrationRead$Outbound>
     | undefined;
   id: string;
   organization_id: string;
+  store_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -184,44 +207,51 @@ export const CustomerRead$outboundSchema: z.ZodType<
   CustomerRead$Outbound,
   z.ZodTypeDef,
   CustomerRead
-> = z.object({
-  phone: z.string().optional(),
-  street1: z.string().optional(),
-  street2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: CountryCodeEnum$outboundSchema.optional(),
-  fullAddress: z.string().optional(),
-  name: z.string().optional(),
-  externalId: z.string().optional(),
-  status: StatusEnum$outboundSchema.optional(),
-  email: z.string().optional(),
-  source: SourceEnum$outboundSchema.optional(),
-  connectionId: z.string().optional(),
-  addressStatus: AddressStatus$outboundSchema.optional(),
-  registrationNumber: z.string().optional(),
-  externalFriendlyId: z.string().optional(),
-  customerTaxRegistrations: z.array(CustomerTaxRegistrationRead$outboundSchema)
-    .optional(),
-  id: z.string(),
-  organizationId: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    street1: "street_1",
-    street2: "street_2",
-    postalCode: "postal_code",
-    fullAddress: "full_address",
-    externalId: "external_id",
-    connectionId: "connection_id",
-    addressStatus: "address_status",
-    registrationNumber: "registration_number",
-    externalFriendlyId: "external_friendly_id",
-    customerTaxRegistrations: "customer_tax_registrations",
-    organizationId: "organization_id",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street1: z.nullable(z.string()).optional(),
+    street2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    fullAddress: z.nullable(z.string()).optional(),
+    name: z.nullable(z.string()).optional(),
+    externalId: z.nullable(z.string()).optional(),
+    status: StatusEnum$outboundSchema.optional(),
+    email: z.nullable(z.string()).optional(),
+    companyName: z.nullable(z.string()).optional(),
+    source: z.nullable(SourceEnum$outboundSchema).optional(),
+    connectionId: z.nullable(z.string()).optional(),
+    addressStatus: AddressStatus$outboundSchema.optional(),
+    registrationNumber: z.nullable(z.string()).optional(),
+    externalFriendlyId: z.nullable(z.string()).optional(),
+    customerTaxRegistrations: z.array(
+      CustomerTaxRegistrationRead$outboundSchema,
+    ).optional(),
+    id: z.string(),
+    organizationId: z.string(),
+    storeName: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      street1: "street_1",
+      street2: "street_2",
+      postalCode: "postal_code",
+      fullAddress: "full_address",
+      externalId: "external_id",
+      companyName: "company_name",
+      connectionId: "connection_id",
+      addressStatus: "address_status",
+      registrationNumber: "registration_number",
+      externalFriendlyId: "external_friendly_id",
+      customerTaxRegistrations: "customer_tax_registrations",
+      organizationId: "organization_id",
+      storeName: "store_name",
+    });
+  })
+);
 
 export function customerReadToJSON(customerRead: CustomerRead): string {
   return JSON.stringify(CustomerRead$outboundSchema.parse(customerRead));

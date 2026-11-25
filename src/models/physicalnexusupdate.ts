@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
@@ -28,24 +28,24 @@ export type PhysicalNexusUpdate = {
    * @remarks
    *                                         nexus ends, if applicable (YYYY-MM-DD).
    */
-  endDate?: string | undefined;
+  endDate?: RFCDate | null | undefined;
   category: PhysicalNexusCategory;
   /**
    * Primary street address for the physical presence location.
    */
-  street1?: string | undefined;
+  street1?: string | null | undefined;
   /**
    * Additional street address details, such as suite or unit number.
    */
-  street2?: string | undefined;
+  street2?: string | null | undefined;
   /**
    * City of the physical presence location.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * ZIP or postal code of the physical presence location.
    */
-  postalCode?: string | undefined;
+  postalCode?: string | null | undefined;
 };
 
 /** @internal */
@@ -53,32 +53,34 @@ export const PhysicalNexusUpdate$inboundSchema: z.ZodType<
   PhysicalNexusUpdate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  start_date: z.string().transform(v => new RFCDate(v)),
-  end_date: z.string().optional(),
-  category: PhysicalNexusCategory$inboundSchema,
-  street_1: z.string().optional(),
-  street_2: z.string().optional(),
-  city: z.string().optional(),
-  postal_code: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "start_date": "startDate",
-    "end_date": "endDate",
-    "street_1": "street1",
-    "street_2": "street2",
-    "postal_code": "postalCode",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    start_date: z.string().transform(v => new RFCDate(v)),
+    end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    category: PhysicalNexusCategory$inboundSchema,
+    street_1: z.nullable(z.string()).optional(),
+    street_2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "start_date": "startDate",
+      "end_date": "endDate",
+      "street_1": "street1",
+      "street_2": "street2",
+      "postal_code": "postalCode",
+    });
+  })
+);
 /** @internal */
 export type PhysicalNexusUpdate$Outbound = {
   start_date: string;
-  end_date?: string | undefined;
+  end_date?: string | null | undefined;
   category: string;
-  street_1?: string | undefined;
-  street_2?: string | undefined;
-  city?: string | undefined;
-  postal_code?: string | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
+  city?: string | null | undefined;
+  postal_code?: string | null | undefined;
 };
 
 /** @internal */
@@ -86,23 +88,26 @@ export const PhysicalNexusUpdate$outboundSchema: z.ZodType<
   PhysicalNexusUpdate$Outbound,
   z.ZodTypeDef,
   PhysicalNexusUpdate
-> = z.object({
-  startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  endDate: z.string().optional(),
-  category: PhysicalNexusCategory$outboundSchema,
-  street1: z.string().optional(),
-  street2: z.string().optional(),
-  city: z.string().optional(),
-  postalCode: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    startDate: "start_date",
-    endDate: "end_date",
-    street1: "street_1",
-    street2: "street_2",
-    postalCode: "postal_code",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    startDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    category: PhysicalNexusCategory$outboundSchema,
+    street1: z.nullable(z.string()).optional(),
+    street2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      startDate: "start_date",
+      endDate: "end_date",
+      street1: "street_1",
+      street2: "street_2",
+      postalCode: "postal_code",
+    });
+  })
+);
 
 export function physicalNexusUpdateToJSON(
   physicalNexusUpdate: PhysicalNexusUpdate,

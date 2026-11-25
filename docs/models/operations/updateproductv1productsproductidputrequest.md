@@ -7,8 +7,10 @@ import { UpdateProductV1ProductsProductIdPutRequest } from "@kintsugi-tax/tax-pl
 
 let value: UpdateProductV1ProductsProductIdPutRequest = {
   productId: "<id>",
-  productUpdate: {
+  xOrganizationId: "org_12345",
+  requestBody: {
     name: "<value>",
+    status: "PARTIALLY_APPROVED",
     productCategory: "<value>",
     productSubcategory: "<value>",
     taxExempt: false,
@@ -18,7 +20,8 @@ let value: UpdateProductV1ProductsProductIdPutRequest = {
 
 ## Fields
 
-| Field                                                 | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `productId`                                           | *string*                                              | :heavy_check_mark:                                    | Unique identifier of the product to be updated.       |
-| `productUpdate`                                       | [models.ProductUpdate](../../models/productupdate.md) | :heavy_check_mark:                                    | N/A                                                   |
+| Field                                                         | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `productId`                                                   | *string*                                                      | :heavy_check_mark:                                            | Unique identifier of the product to be updated.               |                                                               |
+| `xOrganizationId`                                             | *string*                                                      | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+| `requestBody`                                                 | *operations.Product*                                          | :heavy_check_mark:                                            | N/A                                                           |                                                               |

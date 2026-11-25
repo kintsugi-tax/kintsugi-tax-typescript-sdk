@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -27,7 +28,7 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get Physical Nexus
+ * Get physical nexus
  *
  * @remarks
  * Retrieve a paginated list of
@@ -35,9 +36,7 @@ import { Result } from "../types/fp.js";
  */
 export function nexusListPhysical(
   client: SDKCore,
-  request?:
-    | operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest
-    | undefined,
+  request: operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -63,9 +62,7 @@ export function nexusListPhysical(
 
 async function $do(
   client: SDKCore,
-  request?:
-    | operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest
-    | undefined,
+  request: operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest,
   options?: RequestOptions,
 ): Promise<
   [
@@ -89,7 +86,7 @@ async function $do(
     request,
     (value) =>
       operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest$outboundSchema
-        .optional().parse(value),
+        .parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -101,18 +98,24 @@ async function $do(
   const path = pathToFunc("/v1/nexus/physical_nexus")();
 
   const query = encodeFormQuery({
-    "country_code": payload?.country_code,
-    "order_by": payload?.order_by,
-    "page": payload?.page,
-    "size": payload?.size,
-    "state_code": payload?.state_code,
+    "country_code": payload.country_code,
+    "order_by": payload.order_by,
+    "page": payload.page,
+    "size": payload.size,
+    "state_code": payload.state_code,
   });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -123,7 +126,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -148,7 +151,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "404", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

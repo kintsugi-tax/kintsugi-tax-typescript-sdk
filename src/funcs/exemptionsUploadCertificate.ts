@@ -4,16 +4,12 @@
 
 import { SDKCore } from "../core.js";
 import { appendForm, encodeSimple } from "../lib/encodings.js";
-import {
-  getContentTypeFromFileName,
-  readableStreamToArrayBuffer,
-} from "../lib/files.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
-import { RequestOptions } from "../lib/sdks.js";
+import { encodePath, RequestOptions } from "../lib/sdks.js";
 import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
-import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
   InvalidRequestError,
@@ -28,12 +24,10 @@ import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
-import { isBlobLike } from "../types/blobs.js";
 import { Result } from "../types/fp.js";
-import { isReadableStream } from "../types/streams.js";
 
 /**
- * Upload Exemption Certificate
+ * Upload exemption certificate
  *
  * @remarks
  * The Upload Exemption Certificate API allows you
@@ -105,67 +99,13 @@ async function $do(
   const payload = parsed.value;
   const body = new FormData();
 
-  if (
-    isBlobLike(
-      payload
-        .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-        .file,
-    )
-  ) {
-    appendForm(
-      body,
-      "file",
-      payload
-        .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-        .file,
-    );
-  } else if (
-    isReadableStream(
-      payload
-        .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-        .file.content,
-    )
-  ) {
-    const buffer = await readableStreamToArrayBuffer(
-      payload
-        .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-        .file.content,
-    );
-    const contentType =
-      getContentTypeFromFileName(
-        payload
-          .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-          .file.fileName,
-      ) || "application/octet-stream";
-    const blob = new Blob([buffer], { type: contentType });
-    appendForm(
-      body,
-      "file",
-      blob,
-      payload
-        .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-        .file.fileName,
-    );
-  } else {
-    const contentType =
-      getContentTypeFromFileName(
-        payload
-          .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-          .file.fileName,
-      ) || "application/octet-stream";
-    appendForm(
-      body,
-      "file",
-      new Blob([
-        payload
-          .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-          .file.content,
-      ], { type: contentType }),
-      payload
-        .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
-        .file.fileName,
-    );
-  }
+  appendForm(
+    body,
+    "file",
+    payload
+      .Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post
+      .file,
+  );
 
   const pathParams = {
     exemption_id: encodeSimple("exemption_id", payload.exemption_id, {
@@ -173,16 +113,26 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
-  const path = pathToFunc("/v1/exemptions/{exemption_id}/attachments")(
+  const pathResult = encodePath(
+    "/v1/exemptions/{exemption_id}/attachments",
     pathParams,
   );
+  if (!pathResult.ok) {
+    return [pathResult, { status: "invalid" }];
+  }
+  const path = pathResult.value;
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -194,7 +144,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -218,7 +168,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

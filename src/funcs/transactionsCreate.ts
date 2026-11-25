@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeJSON } from "../lib/encodings.js";
+import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -22,18 +23,19 @@ import { ResponseValidationError } from "../models/errors/responsevalidationerro
 import { SDKError } from "../models/errors/sdkerror.js";
 import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
+import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Create Transaction
+ * Create transaction
  *
  * @remarks
- * Create a transaction.
+ * Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was remitted externally; gross sales still count toward nexus, but tax liability is excluded.
  */
 export function transactionsCreate(
   client: SDKCore,
-  request: models.TransactionPublicRequest,
+  request: operations.CreateTransactionV1TransactionsPostRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -59,7 +61,7 @@ export function transactionsCreate(
 
 async function $do(
   client: SDKCore,
-  request: models.TransactionPublicRequest,
+  request: operations.CreateTransactionV1TransactionsPostRequest,
   options?: RequestOptions,
 ): Promise<
   [
@@ -81,23 +83,33 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) => models.TransactionPublicRequest$outboundSchema.parse(value),
+    (value) =>
+      operations.CreateTransactionV1TransactionsPostRequest$outboundSchema
+        .parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = encodeJSON("body", payload, { explode: true });
+  const body = encodeJSON("body", payload.TransactionPublicRequest, {
+    explode: true,
+  });
 
   const path = pathToFunc("/v1/transactions")();
 
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -108,7 +120,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -132,7 +144,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["400", "401", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

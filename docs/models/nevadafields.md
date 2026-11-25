@@ -1,0 +1,24 @@
+# NevadaFields
+
+State-specific fields for Nevada (My Nevada Tax) registration import.
+
+## Example Usage
+
+```typescript
+import { NevadaFields } from "@kintsugi-tax/tax-platform-sdk/models";
+
+let value: NevadaFields = {
+  registrationType: "SALES_AND_USE_TAX",
+  businessName: "<value>",
+  nvStateTaxId: "<id>",
+};
+```
+
+## Fields
+
+| Field                                                                                                              | Type                                                                                                               | Required                                                                                                           | Description                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `mfaCompleted`                                                                                                     | *boolean*                                                                                                          | :heavy_minus_sign:                                                                                                 | Whether the customer has completed MFA setup using the Kintsugi virtual mail group ID on their Nevada tax account. |
+| `registrationType`                                                                                                 | *"SALES_AND_USE_TAX"*                                                                                              | :heavy_check_mark:                                                                                                 | Registration type for this Nevada import: sales and use tax.                                                       |
+| `businessName`                                                                                                     | *string*                                                                                                           | :heavy_check_mark:                                                                                                 | State-registered business name as shown in My Nevada Tax.                                                          |
+| `nvStateTaxId`                                                                                                     | *string*                                                                                                           | :heavy_check_mark:                                                                                                 | Nevada state-issued tax identification number (NV State Tax ID).                                                   |

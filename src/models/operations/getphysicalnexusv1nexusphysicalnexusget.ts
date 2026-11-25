@@ -4,14 +4,11 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
 export type GetPhysicalNexusV1NexusPhysicalNexusGetRequest = {
-  countryCode?: string | undefined;
-  stateCode?: string | undefined;
-  orderBy?: string | undefined;
   /**
    * Page number
    */
@@ -20,6 +17,13 @@ export type GetPhysicalNexusV1NexusPhysicalNexusGetRequest = {
    * Page size
    */
   size?: number | undefined;
+  countryCode?: string | null | undefined;
+  stateCode?: string | null | undefined;
+  orderBy?: string | null | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -28,26 +32,31 @@ export const GetPhysicalNexusV1NexusPhysicalNexusGetRequest$inboundSchema:
     GetPhysicalNexusV1NexusPhysicalNexusGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    country_code: z.string().optional(),
-    state_code: z.string().optional(),
-    order_by: z.string().default("country_code,state_code,start_date,end_date"),
-    page: z.number().int().default(1),
-    size: z.number().int().default(50),
-  }).transform((v) => {
-    return remap$(v, {
-      "country_code": "countryCode",
-      "state_code": "stateCode",
-      "order_by": "orderBy",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      page: z.number().int().default(1),
+      size: z.number().int().default(50),
+      country_code: z.nullable(z.string()).optional(),
+      state_code: z.nullable(z.string()).optional(),
+      order_by: z.nullable(z.string()).optional(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "country_code": "countryCode",
+        "state_code": "stateCode",
+        "order_by": "orderBy",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetPhysicalNexusV1NexusPhysicalNexusGetRequest$Outbound = {
-  country_code?: string | undefined;
-  state_code?: string | undefined;
-  order_by: string;
   page: number;
   size: number;
+  country_code?: string | null | undefined;
+  state_code?: string | null | undefined;
+  order_by?: string | null | undefined;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -56,19 +65,23 @@ export const GetPhysicalNexusV1NexusPhysicalNexusGetRequest$outboundSchema:
     GetPhysicalNexusV1NexusPhysicalNexusGetRequest$Outbound,
     z.ZodTypeDef,
     GetPhysicalNexusV1NexusPhysicalNexusGetRequest
-  > = z.object({
-    countryCode: z.string().optional(),
-    stateCode: z.string().optional(),
-    orderBy: z.string().default("country_code,state_code,start_date,end_date"),
-    page: z.number().int().default(1),
-    size: z.number().int().default(50),
-  }).transform((v) => {
-    return remap$(v, {
-      countryCode: "country_code",
-      stateCode: "state_code",
-      orderBy: "order_by",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      page: z.number().int().default(1),
+      size: z.number().int().default(50),
+      countryCode: z.nullable(z.string()).optional(),
+      stateCode: z.nullable(z.string()).optional(),
+      orderBy: z.nullable(z.string()).optional(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        countryCode: "country_code",
+        stateCode: "state_code",
+        orderBy: "order_by",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getPhysicalNexusV1NexusPhysicalNexusGetRequestToJSON(
   getPhysicalNexusV1NexusPhysicalNexusGetRequest:

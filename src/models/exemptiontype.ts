@@ -3,19 +3,22 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const ExemptionType = {
   Customer: "customer",
   Wholesale: "wholesale",
   Transaction: "transaction",
+  ReverseCharge: "reverse_charge",
+  Partial: "partial",
 } as const;
 export type ExemptionType = ClosedEnum<typeof ExemptionType>;
 
 /** @internal */
 export const ExemptionType$inboundSchema: z.ZodNativeEnum<
   typeof ExemptionType
-> = z.nativeEnum(ExemptionType);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(ExemptionType));
 /** @internal */
 export const ExemptionType$outboundSchema: z.ZodNativeEnum<
   typeof ExemptionType

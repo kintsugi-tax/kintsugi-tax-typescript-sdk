@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const PhysicalNexusSource = {
@@ -14,7 +15,7 @@ export type PhysicalNexusSource = ClosedEnum<typeof PhysicalNexusSource>;
 /** @internal */
 export const PhysicalNexusSource$inboundSchema: z.ZodNativeEnum<
   typeof PhysicalNexusSource
-> = z.nativeEnum(PhysicalNexusSource);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(PhysicalNexusSource));
 /** @internal */
 export const PhysicalNexusSource$outboundSchema: z.ZodNativeEnum<
   typeof PhysicalNexusSource

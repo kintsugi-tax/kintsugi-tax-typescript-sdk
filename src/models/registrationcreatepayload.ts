@@ -4,8 +4,9 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import { RFCDate } from "../types/rfcdate.js";
 import {
   ChangeRegimeStatusEnum,
   ChangeRegimeStatusEnum$inboundSchema,
@@ -27,54 +28,63 @@ import {
   RegistrationsRegimeEnum$inboundSchema,
   RegistrationsRegimeEnum$outboundSchema,
 } from "./registrationsregimeenum.js";
+import {
+  TaxTypeEnum,
+  TaxTypeEnum$inboundSchema,
+  TaxTypeEnum$outboundSchema,
+} from "./taxtypeenum.js";
+
+/**
+ * The amount of fees associated with the registration.
+ */
+export type RegistrationCreatePayloadAmountFees = number | string;
 
 export type RegistrationCreatePayload = {
   /**
    * Specifies this is a regular jurisdiction registration import.
    */
-  registrationImportType: "REGULAR";
+  registrationImportType?: "REGULAR" | undefined;
   /**
    * The date when the registration was created. Format: YYYY-MM-DD.
    */
-  registrationDate?: string | undefined;
+  registrationDate?: RFCDate | null | undefined;
   /**
    * Email address associated with the registration.
    */
-  registrationEmail?: string | undefined;
-  /**
-   * A unique key assigned to the registration.
-   */
-  registrationKey?: string | undefined;
-  /**
-   * A unique key assigned for deregistration.
-   */
-  deregistrationKey?: string | undefined;
+  registrationEmail?: string | null | undefined;
   /**
    * Timestamp when the registration was requested.
    */
-  registrationRequested?: string | undefined;
+  registrationRequested?: Date | null | undefined;
   /**
    * Timestamp when the registration was completed.
    */
-  registrationCompleted?: string | undefined;
+  registrationCompleted?: Date | null | undefined;
   /**
    * Timestamp when deregistration was requested.
    */
-  deregistrationRequested?: string | undefined;
+  deregistrationRequested?: Date | null | undefined;
   /**
    * Timestamp when the deregistration was completed.
    */
-  deregistrationCompleted?: string | undefined;
+  deregistrationCompleted?: Date | null | undefined;
   /**
    * Indicates whether the registration was completed automatically.
    */
-  autoRegistered?: boolean | undefined;
+  autoRegistered?: boolean | null | undefined;
   /**
    * If true, do not file for this registration (treated as False by default).
    */
   doNotFile?: boolean | undefined;
-  registrationsRegime?: RegistrationsRegimeEnum | undefined;
-  changeRegimeStatus?: ChangeRegimeStatusEnum | undefined;
+  /**
+   * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+   */
+  registrationsRegime?: RegistrationsRegimeEnum | null | undefined;
+  changeRegimeStatus?: ChangeRegimeStatusEnum | null | undefined;
+  /**
+   * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and credentials are not required.
+   */
+  isPreCollecting?: boolean | undefined;
   countryCode: CountryCodeEnum;
   /**
    * The state/province code where the registration applies.
@@ -84,152 +94,253 @@ export type RegistrationCreatePayload = {
    * The name of the state/province.
    */
   stateName: string;
-  filingFrequency: FilingFrequencyEnum;
+  /**
+   * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY, UNKNOWN. Required unless isPreCollecting is set.
+   */
+  filingFrequency?: FilingFrequencyEnum | null | undefined;
+  /**
+   * Fiscal-year anchor month (1-12) on which each recurring period
+   *
+   * @remarks
+   *         ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+   *         quarterly/semiannual, British Columbia (CA-BC) and United Kingdom (GB)
+   *         quarterly, and California (US-CA) and District of Columbia (US-DC) annual.
+   *         Null (default) keeps the standard calendar grid.
+   */
+  periodEndMonth?: number | null | undefined;
   /**
    * Username for accessing tax registration details.
    */
-  username?: string | undefined;
+  username?: string | null | undefined;
   /**
    * Additional comments related to the registration.
    */
-  comment?: string | undefined;
+  comment?: string | null | undefined;
   /**
    * The date from which filings should be created. should start (YYYY-MM-DD).
    */
-  createFilingsFrom?: string | undefined;
+  createFilingsFrom?: RFCDate | null | undefined;
   /**
    * Indicates whether an initial synchronization should be performed.
    */
-  initialSync?: boolean | undefined;
+  initialSync?: boolean | null | undefined;
   /**
    * The amount of fees associated with the registration.
    */
-  amountFees?: number | undefined;
+  amountFees?: number | string | undefined;
   /**
    * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
    */
-  vda?: boolean | undefined;
+  vda?: boolean | null | undefined;
   /**
    * Whether the registration was imported from another system.
    */
-  imported?: boolean | undefined;
+  imported?: boolean | null | undefined;
   /**
    * The sales tax ID associated with the registration.
    */
-  salesTaxId?: string | undefined;
+  salesTaxId?: string | null | undefined;
+  /**
+   * The Importer of Record (IOR) number associated with the registration.
+   */
+  iorNumber?: string | null | undefined;
   /**
    * Indicates whether the registration is an SST Import.
    */
-  sstImport?: boolean | undefined;
+  sstImport?: boolean | null | undefined;
   /**
    * Organization-level tax ID (e.g., VAT number, Canada Business Number).
    */
-  taxId?: string | undefined;
+  taxId?: string | null | undefined;
   /**
    * The plaintext password for accessing the tax registration account.
    */
-  passwordPlainText?: string | undefined;
+  passwordPlainText?: string | null | undefined;
   /**
    * Metadata related to the password.
    */
-  passwordMetadataPlainText?: string | undefined;
+  passwordMetadataPlainText?: string | null | undefined;
+  /**
+   * State-specific registration fields (e.g. Alabama Sign On ID, Access Code).
+   */
+  jurisdictionSpecificFields?: { [k: string]: any } | null | undefined;
+  /**
+   * Optional client-minted id for this confirm attempt.
+   */
+  requestId?: string | null | undefined;
+  /**
+   * Tax obligation on a nexus, registration, or filing row.
+   *
+   * @remarks
+   *
+   * Registrations and filings may be SALES_AND_USE_TAX: one state account and
+   * one return can cover both taxes, and each is stored as a single row.
+   * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+   * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+   * Swiss small-parcel threshold are separate obligations with their own met
+   * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+   * tax registration covers it, and it has no account and no return of its own.
+   */
+  taxType?: TaxTypeEnum | undefined;
 };
+
+/** @internal */
+export const RegistrationCreatePayloadAmountFees$inboundSchema: z.ZodType<
+  RegistrationCreatePayloadAmountFees,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type RegistrationCreatePayloadAmountFees$Outbound = number | string;
+
+/** @internal */
+export const RegistrationCreatePayloadAmountFees$outboundSchema: z.ZodType<
+  RegistrationCreatePayloadAmountFees$Outbound,
+  z.ZodTypeDef,
+  RegistrationCreatePayloadAmountFees
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function registrationCreatePayloadAmountFeesToJSON(
+  registrationCreatePayloadAmountFees: RegistrationCreatePayloadAmountFees,
+): string {
+  return JSON.stringify(
+    RegistrationCreatePayloadAmountFees$outboundSchema.parse(
+      registrationCreatePayloadAmountFees,
+    ),
+  );
+}
+export function registrationCreatePayloadAmountFeesFromJSON(
+  jsonString: string,
+): SafeParseResult<RegistrationCreatePayloadAmountFees, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      RegistrationCreatePayloadAmountFees$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'RegistrationCreatePayloadAmountFees' from JSON`,
+  );
+}
 
 /** @internal */
 export const RegistrationCreatePayload$inboundSchema: z.ZodType<
   RegistrationCreatePayload,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  registration_import_type: z.literal("REGULAR"),
-  registration_date: z.string().optional(),
-  registration_email: z.string().optional(),
-  registration_key: z.string().optional(),
-  deregistration_key: z.string().optional(),
-  registration_requested: z.string().optional(),
-  registration_completed: z.string().optional(),
-  deregistration_requested: z.string().optional(),
-  deregistration_completed: z.string().optional(),
-  auto_registered: z.boolean().default(false),
-  do_not_file: z.boolean().default(false),
-  registrations_regime: RegistrationsRegimeEnum$inboundSchema.optional(),
-  change_regime_status: ChangeRegimeStatusEnum$inboundSchema.optional(),
-  country_code: CountryCodeEnum$inboundSchema,
-  state_code: z.string(),
-  state_name: z.string(),
-  filing_frequency: FilingFrequencyEnum$inboundSchema,
-  username: z.string().optional(),
-  comment: z.string().optional(),
-  create_filings_from: z.string().optional(),
-  initial_sync: z.boolean().default(false),
-  amount_fees: z.number().default(0),
-  vda: z.boolean().default(false),
-  imported: z.boolean().optional(),
-  sales_tax_id: z.string().optional(),
-  sst_import: z.boolean().default(false),
-  tax_id: z.string().optional(),
-  password_plain_text: z.string().optional(),
-  password_metadata_plain_text: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "registration_import_type": "registrationImportType",
-    "registration_date": "registrationDate",
-    "registration_email": "registrationEmail",
-    "registration_key": "registrationKey",
-    "deregistration_key": "deregistrationKey",
-    "registration_requested": "registrationRequested",
-    "registration_completed": "registrationCompleted",
-    "deregistration_requested": "deregistrationRequested",
-    "deregistration_completed": "deregistrationCompleted",
-    "auto_registered": "autoRegistered",
-    "do_not_file": "doNotFile",
-    "registrations_regime": "registrationsRegime",
-    "change_regime_status": "changeRegimeStatus",
-    "country_code": "countryCode",
-    "state_code": "stateCode",
-    "state_name": "stateName",
-    "filing_frequency": "filingFrequency",
-    "create_filings_from": "createFilingsFrom",
-    "initial_sync": "initialSync",
-    "amount_fees": "amountFees",
-    "sales_tax_id": "salesTaxId",
-    "sst_import": "sstImport",
-    "tax_id": "taxId",
-    "password_plain_text": "passwordPlainText",
-    "password_metadata_plain_text": "passwordMetadataPlainText",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registration_import_type: z.literal("REGULAR").default("REGULAR"),
+    registration_date: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    registration_email: z.nullable(z.string()).optional(),
+    registration_requested: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    registration_completed: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    deregistration_requested: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    deregistration_completed: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    auto_registered: z.nullable(z.boolean()).optional(),
+    do_not_file: z.boolean().default(false),
+    registrations_regime: z.nullable(RegistrationsRegimeEnum$inboundSchema)
+      .optional(),
+    change_regime_status: z.nullable(ChangeRegimeStatusEnum$inboundSchema)
+      .optional(),
+    is_pre_collecting: z.boolean().default(false),
+    country_code: CountryCodeEnum$inboundSchema,
+    state_code: z.string(),
+    state_name: z.string(),
+    filing_frequency: z.nullable(FilingFrequencyEnum$inboundSchema).optional(),
+    period_end_month: z.nullable(z.number().int()).optional(),
+    username: z.nullable(z.string()).optional(),
+    comment: z.nullable(z.string()).optional(),
+    create_filings_from: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    initial_sync: z.nullable(z.boolean()).optional(),
+    amount_fees: z.union([z.number(), z.string()]).optional(),
+    vda: z.nullable(z.boolean()).optional(),
+    imported: z.nullable(z.boolean()).optional(),
+    sales_tax_id: z.nullable(z.string()).optional(),
+    ior_number: z.nullable(z.string()).optional(),
+    sst_import: z.nullable(z.boolean()).optional(),
+    tax_id: z.nullable(z.string()).optional(),
+    password_plain_text: z.nullable(z.string()).optional(),
+    password_metadata_plain_text: z.nullable(z.string()).optional(),
+    jurisdiction_specific_fields: z.nullable(z.record(z.any())).optional(),
+    request_id: z.nullable(z.string()).optional(),
+    tax_type: TaxTypeEnum$inboundSchema.optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "registration_import_type": "registrationImportType",
+      "registration_date": "registrationDate",
+      "registration_email": "registrationEmail",
+      "registration_requested": "registrationRequested",
+      "registration_completed": "registrationCompleted",
+      "deregistration_requested": "deregistrationRequested",
+      "deregistration_completed": "deregistrationCompleted",
+      "auto_registered": "autoRegistered",
+      "do_not_file": "doNotFile",
+      "registrations_regime": "registrationsRegime",
+      "change_regime_status": "changeRegimeStatus",
+      "is_pre_collecting": "isPreCollecting",
+      "country_code": "countryCode",
+      "state_code": "stateCode",
+      "state_name": "stateName",
+      "filing_frequency": "filingFrequency",
+      "period_end_month": "periodEndMonth",
+      "create_filings_from": "createFilingsFrom",
+      "initial_sync": "initialSync",
+      "amount_fees": "amountFees",
+      "sales_tax_id": "salesTaxId",
+      "ior_number": "iorNumber",
+      "sst_import": "sstImport",
+      "tax_id": "taxId",
+      "password_plain_text": "passwordPlainText",
+      "password_metadata_plain_text": "passwordMetadataPlainText",
+      "jurisdiction_specific_fields": "jurisdictionSpecificFields",
+      "request_id": "requestId",
+      "tax_type": "taxType",
+    });
+  })
+);
 /** @internal */
 export type RegistrationCreatePayload$Outbound = {
   registration_import_type: "REGULAR";
-  registration_date?: string | undefined;
-  registration_email?: string | undefined;
-  registration_key?: string | undefined;
-  deregistration_key?: string | undefined;
-  registration_requested?: string | undefined;
-  registration_completed?: string | undefined;
-  deregistration_requested?: string | undefined;
-  deregistration_completed?: string | undefined;
-  auto_registered: boolean;
+  registration_date?: string | null | undefined;
+  registration_email?: string | null | undefined;
+  registration_requested?: string | null | undefined;
+  registration_completed?: string | null | undefined;
+  deregistration_requested?: string | null | undefined;
+  deregistration_completed?: string | null | undefined;
+  auto_registered?: boolean | null | undefined;
   do_not_file: boolean;
-  registrations_regime?: string | undefined;
-  change_regime_status?: string | undefined;
+  registrations_regime?: string | null | undefined;
+  change_regime_status?: string | null | undefined;
+  is_pre_collecting: boolean;
   country_code: string;
   state_code: string;
   state_name: string;
-  filing_frequency: string;
-  username?: string | undefined;
-  comment?: string | undefined;
-  create_filings_from?: string | undefined;
-  initial_sync: boolean;
-  amount_fees: number;
-  vda: boolean;
-  imported?: boolean | undefined;
-  sales_tax_id?: string | undefined;
-  sst_import: boolean;
-  tax_id?: string | undefined;
-  password_plain_text?: string | undefined;
-  password_metadata_plain_text?: string | undefined;
+  filing_frequency?: string | null | undefined;
+  period_end_month?: number | null | undefined;
+  username?: string | null | undefined;
+  comment?: string | null | undefined;
+  create_filings_from?: string | null | undefined;
+  initial_sync?: boolean | null | undefined;
+  amount_fees?: number | string | undefined;
+  vda?: boolean | null | undefined;
+  imported?: boolean | null | undefined;
+  sales_tax_id?: string | null | undefined;
+  ior_number?: string | null | undefined;
+  sst_import?: boolean | null | undefined;
+  tax_id?: string | null | undefined;
+  password_plain_text?: string | null | undefined;
+  password_metadata_plain_text?: string | null | undefined;
+  jurisdiction_specific_fields?: { [k: string]: any } | null | undefined;
+  request_id?: string | null | undefined;
+  tax_type?: string | undefined;
 };
 
 /** @internal */
@@ -237,65 +348,87 @@ export const RegistrationCreatePayload$outboundSchema: z.ZodType<
   RegistrationCreatePayload$Outbound,
   z.ZodTypeDef,
   RegistrationCreatePayload
-> = z.object({
-  registrationImportType: z.literal("REGULAR"),
-  registrationDate: z.string().optional(),
-  registrationEmail: z.string().optional(),
-  registrationKey: z.string().optional(),
-  deregistrationKey: z.string().optional(),
-  registrationRequested: z.string().optional(),
-  registrationCompleted: z.string().optional(),
-  deregistrationRequested: z.string().optional(),
-  deregistrationCompleted: z.string().optional(),
-  autoRegistered: z.boolean().default(false),
-  doNotFile: z.boolean().default(false),
-  registrationsRegime: RegistrationsRegimeEnum$outboundSchema.optional(),
-  changeRegimeStatus: ChangeRegimeStatusEnum$outboundSchema.optional(),
-  countryCode: CountryCodeEnum$outboundSchema,
-  stateCode: z.string(),
-  stateName: z.string(),
-  filingFrequency: FilingFrequencyEnum$outboundSchema,
-  username: z.string().optional(),
-  comment: z.string().optional(),
-  createFilingsFrom: z.string().optional(),
-  initialSync: z.boolean().default(false),
-  amountFees: z.number().default(0),
-  vda: z.boolean().default(false),
-  imported: z.boolean().optional(),
-  salesTaxId: z.string().optional(),
-  sstImport: z.boolean().default(false),
-  taxId: z.string().optional(),
-  passwordPlainText: z.string().optional(),
-  passwordMetadataPlainText: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    registrationImportType: "registration_import_type",
-    registrationDate: "registration_date",
-    registrationEmail: "registration_email",
-    registrationKey: "registration_key",
-    deregistrationKey: "deregistration_key",
-    registrationRequested: "registration_requested",
-    registrationCompleted: "registration_completed",
-    deregistrationRequested: "deregistration_requested",
-    deregistrationCompleted: "deregistration_completed",
-    autoRegistered: "auto_registered",
-    doNotFile: "do_not_file",
-    registrationsRegime: "registrations_regime",
-    changeRegimeStatus: "change_regime_status",
-    countryCode: "country_code",
-    stateCode: "state_code",
-    stateName: "state_name",
-    filingFrequency: "filing_frequency",
-    createFilingsFrom: "create_filings_from",
-    initialSync: "initial_sync",
-    amountFees: "amount_fees",
-    salesTaxId: "sales_tax_id",
-    sstImport: "sst_import",
-    taxId: "tax_id",
-    passwordPlainText: "password_plain_text",
-    passwordMetadataPlainText: "password_metadata_plain_text",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registrationImportType: z.literal("REGULAR").default("REGULAR" as const),
+    registrationDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    registrationEmail: z.nullable(z.string()).optional(),
+    registrationRequested: z.nullable(z.date().transform(v => v.toISOString()))
+      .optional(),
+    registrationCompleted: z.nullable(z.date().transform(v => v.toISOString()))
+      .optional(),
+    deregistrationRequested: z.nullable(
+      z.date().transform(v => v.toISOString()),
+    ).optional(),
+    deregistrationCompleted: z.nullable(
+      z.date().transform(v => v.toISOString()),
+    ).optional(),
+    autoRegistered: z.nullable(z.boolean()).optional(),
+    doNotFile: z.boolean().default(false),
+    registrationsRegime: z.nullable(RegistrationsRegimeEnum$outboundSchema)
+      .optional(),
+    changeRegimeStatus: z.nullable(ChangeRegimeStatusEnum$outboundSchema)
+      .optional(),
+    isPreCollecting: z.boolean().default(false),
+    countryCode: CountryCodeEnum$outboundSchema,
+    stateCode: z.string(),
+    stateName: z.string(),
+    filingFrequency: z.nullable(FilingFrequencyEnum$outboundSchema).optional(),
+    periodEndMonth: z.nullable(z.number().int()).optional(),
+    username: z.nullable(z.string()).optional(),
+    comment: z.nullable(z.string()).optional(),
+    createFilingsFrom: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    initialSync: z.nullable(z.boolean()).optional(),
+    amountFees: z.union([z.number(), z.string()]).optional(),
+    vda: z.nullable(z.boolean()).optional(),
+    imported: z.nullable(z.boolean()).optional(),
+    salesTaxId: z.nullable(z.string()).optional(),
+    iorNumber: z.nullable(z.string()).optional(),
+    sstImport: z.nullable(z.boolean()).optional(),
+    taxId: z.nullable(z.string()).optional(),
+    passwordPlainText: z.nullable(z.string()).optional(),
+    passwordMetadataPlainText: z.nullable(z.string()).optional(),
+    jurisdictionSpecificFields: z.nullable(z.record(z.any())).optional(),
+    requestId: z.nullable(z.string()).optional(),
+    taxType: TaxTypeEnum$outboundSchema.optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      registrationImportType: "registration_import_type",
+      registrationDate: "registration_date",
+      registrationEmail: "registration_email",
+      registrationRequested: "registration_requested",
+      registrationCompleted: "registration_completed",
+      deregistrationRequested: "deregistration_requested",
+      deregistrationCompleted: "deregistration_completed",
+      autoRegistered: "auto_registered",
+      doNotFile: "do_not_file",
+      registrationsRegime: "registrations_regime",
+      changeRegimeStatus: "change_regime_status",
+      isPreCollecting: "is_pre_collecting",
+      countryCode: "country_code",
+      stateCode: "state_code",
+      stateName: "state_name",
+      filingFrequency: "filing_frequency",
+      periodEndMonth: "period_end_month",
+      createFilingsFrom: "create_filings_from",
+      initialSync: "initial_sync",
+      amountFees: "amount_fees",
+      salesTaxId: "sales_tax_id",
+      iorNumber: "ior_number",
+      sstImport: "sst_import",
+      taxId: "tax_id",
+      passwordPlainText: "password_plain_text",
+      passwordMetadataPlainText: "password_metadata_plain_text",
+      jurisdictionSpecificFields: "jurisdiction_specific_fields",
+      requestId: "request_id",
+      taxType: "tax_type",
+    });
+  })
+);
 
 export function registrationCreatePayloadToJSON(
   registrationCreatePayload: RegistrationCreatePayload,

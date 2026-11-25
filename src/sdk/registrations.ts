@@ -6,7 +6,17 @@ import { registrationsCreate } from "../funcs/registrationsCreate.js";
 import { registrationsDeregister } from "../funcs/registrationsDeregister.js";
 import { registrationsGet } from "../funcs/registrationsGet.js";
 import { registrationsGetById } from "../funcs/registrationsGetById.js";
+import {
+  registrationsGetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet,
+} from "../funcs/registrationsGetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet.js";
+import {
+  registrationsGetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet,
+} from "../funcs/registrationsGetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet.js";
+import { registrationsListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet } from "../funcs/registrationsListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet.js";
 import { registrationsUpdate } from "../funcs/registrationsUpdate.js";
+import {
+  registrationsUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost,
+} from "../funcs/registrationsUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.js";
 import { ClientSDK, RequestOptions } from "../lib/sdks.js";
 import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
@@ -14,16 +24,17 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Registrations extends ClientSDK {
   /**
-   * Get Registrations
+   * Get registrations
    *
    * @remarks
    * The Get Registrations API retrieves a
    *     paginated list of registrations.
    *     This API helps in tracking and managing registrations efficiently across multiple
-   *     jurisdictions.
+   *     jurisdictions. Stored credential fields come back masked; use the reveal parameter
+   *     of the Get Registration By ID API to read them.
    */
   async get(
-    request?: operations.GetRegistrationsV1RegistrationsGetRequest | undefined,
+    request: operations.GetRegistrationsV1RegistrationsGetRequest,
     options?: RequestOptions,
   ): Promise<models.PageRegistrationReadWithPassword> {
     return unwrapAsync(registrationsGet(
@@ -34,14 +45,14 @@ export class Registrations extends ClientSDK {
   }
 
   /**
-   * Create Registration
+   * Create registration
    *
    * @remarks
    * The Create Registration API allows users to create a new registration
    *     for tracking and managing tax filings efficiently across multiple jurisdictions.
    */
   async create(
-    request: operations.CreateRegistration,
+    request: operations.CreateRegistrationV1RegistrationsPostRequest,
     options?: RequestOptions,
   ): Promise<models.RegistrationRead> {
     return unwrapAsync(registrationsCreate(
@@ -52,7 +63,47 @@ export class Registrations extends ClientSDK {
   }
 
   /**
-   * Get Registration By Id
+   * Get jurisdiction specific fields
+   *
+   * @remarks
+   * Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types that can be imported there.
+   */
+  async getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(
+    request:
+      operations.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.CustomerJurisdictionSpecificFieldsResponse> {
+    return unwrapAsync(
+      registrationsGetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(
+        this,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * List registration jurisdictions
+   *
+   * @remarks
+   * Distinct registration jurisdictions (country + state) for filter dropdowns. Non-SST only. Default status__in matches GET /registrations (all statuses).
+   */
+  async listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(
+    request:
+      operations.ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest,
+    options?: RequestOptions,
+  ): Promise<Array<models.RegistrationJurisdictionOptionRead>> {
+    return unwrapAsync(
+      registrationsListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(
+        this,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Get registration by id
    *
    * @remarks
    * The Get Registration By ID API retrieves a single registration record
@@ -71,11 +122,21 @@ export class Registrations extends ClientSDK {
   }
 
   /**
-   * Update Registration
+   * Update registration
    *
    * @remarks
    * The Update Registration API allows you to modify
-   *     an existing registration using its unique registration_id.
+   *     an existing registration using its unique registration_id. Sending a value for,
+   *     or clearing, a credential that is already stored (username, password, security
+   *     questions or a portal access code) needs an Owner of the organization or a
+   *     Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+   *     to, and a service key as the user who created it. Other callers, and automated
+   *     assistant integrations, get 403, even when the value matches the stored one.
+   *     Any caller who can edit the registration may fill a credential that has no
+   *     stored value, except that a stored password also guards the username and security
+   *     questions. A masked username sent back unchanged is ignored. A password made
+   *     only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+   *     response come back masked.
    */
   async update(
     request:
@@ -90,10 +151,31 @@ export class Registrations extends ClientSDK {
   }
 
   /**
-   * Deregister Registration
+   * Upload registration attachment
    *
    * @remarks
-   * Deregister an existing registration.
+   * Upload an attachment for a specific registration.
+   */
+  async uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(
+    request:
+      operations.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest,
+    options?: RequestOptions,
+  ): Promise<models.Attachment> {
+    return unwrapAsync(
+      registrationsUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(
+        this,
+        request,
+        options,
+      ),
+    );
+  }
+
+  /**
+   * Deregister registration
+   *
+   * @remarks
+   * Deregister an existing registration. Stored credential fields in the
+   *     response come back masked.
    */
   async deregister(
     request:
@@ -105,5 +187,26 @@ export class Registrations extends ClientSDK {
       request,
       options,
     ));
+  }
+
+  /**
+   * Get oss countries for registration
+   *
+   * @remarks
+   * Get all OSS countries for a specific registration. This endpoint returns
+   *     a list of EU countries that are covered by the OSS registration.
+   */
+  async getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(
+    request:
+      operations.GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest,
+    options?: RequestOptions,
+  ): Promise<Array<models.OssRegistrationCountryRead>> {
+    return unwrapAsync(
+      registrationsGetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(
+        this,
+        request,
+        options,
+      ),
+    );
   }
 }

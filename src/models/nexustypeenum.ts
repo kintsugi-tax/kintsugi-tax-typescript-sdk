@@ -3,11 +3,13 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const NexusTypeEnum = {
   CanadaFederal: "CANADA_FEDERAL",
   EuAggregator: "EU_AGGREGATOR",
+  EuIoss: "EU_IOSS",
   State: "STATE",
   EuMemberState: "EU_MEMBER_STATE",
 } as const;
@@ -16,7 +18,7 @@ export type NexusTypeEnum = ClosedEnum<typeof NexusTypeEnum>;
 /** @internal */
 export const NexusTypeEnum$inboundSchema: z.ZodNativeEnum<
   typeof NexusTypeEnum
-> = z.nativeEnum(NexusTypeEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(NexusTypeEnum));
 /** @internal */
 export const NexusTypeEnum$outboundSchema: z.ZodNativeEnum<
   typeof NexusTypeEnum

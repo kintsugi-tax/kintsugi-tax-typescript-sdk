@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -27,7 +28,7 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get Transactions
+ * Get transactions
  *
  * @remarks
  * The Get Transactions API retrieves a list of transactions with
@@ -35,7 +36,7 @@ import { Result } from "../types/fp.js";
  */
 export function transactionsGet(
   client: SDKCore,
-  request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
+  request: operations.GetTransactionsV1TransactionsGetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -61,7 +62,7 @@ export function transactionsGet(
 
 async function $do(
   client: SDKCore,
-  request?: operations.GetTransactionsV1TransactionsGetRequest | undefined,
+  request: operations.GetTransactionsV1TransactionsGetRequest,
   options?: RequestOptions,
 ): Promise<
   [
@@ -84,8 +85,9 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.GetTransactionsV1TransactionsGetRequest$outboundSchema
-        .optional().parse(value),
+      operations.GetTransactionsV1TransactionsGetRequest$outboundSchema.parse(
+        value,
+      ),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -97,30 +99,40 @@ async function $do(
   const path = pathToFunc("/v1/transactions")();
 
   const query = encodeFormQuery({
-    "address_status__in": payload?.address_status__in,
-    "country": payload?.country,
-    "date__gte": payload?.date__gte,
-    "date__lte": payload?.date__lte,
-    "exempt__in": payload?.exempt__in,
-    "filing_id": payload?.filing_id,
-    "marketplace": payload?.marketplace,
-    "order_by": payload?.order_by,
-    "page": payload?.page,
-    "processing_status__in": payload?.processing_status__in,
-    "search_query": payload?.search_query,
-    "size": payload?.size,
-    "state": payload?.state,
-    "state_code": payload?.state_code,
-    "status": payload?.status,
-    "transaction_source": payload?.transaction_source,
-    "transaction_type": payload?.transaction_type,
+    "address_status__in": payload.address_status__in,
+    "connection_id__in": payload.connection_id__in,
+    "count_limit": payload.count_limit,
+    "country": payload.country,
+    "date__gte": payload.date__gte,
+    "date__lte": payload.date__lte,
+    "direction": payload.direction,
+    "exempt__in": payload.exempt__in,
+    "filing_id": payload.filing_id,
+    "marketplace": payload.marketplace,
+    "order_by": payload.order_by,
+    "page": payload.page,
+    "processing_status__in": payload.processing_status__in,
+    "refund_status": payload.refund_status,
+    "search_query": payload.search_query,
+    "size": payload.size,
+    "state": payload.state,
+    "state_code": payload.state_code,
+    "status": payload.status,
+    "transaction_source": payload.transaction_source,
+    "transaction_type": payload.transaction_type,
   });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -131,7 +143,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -156,7 +168,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "404", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

@@ -3,24 +3,24 @@
  */
 
 import { transactionsCreate } from "../../funcs/transactionsCreate.js";
-import * as models from "../../models/index.js";
+import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: models.TransactionPublicRequest$inboundSchema,
+  request: operations.CreateTransactionV1TransactionsPostRequest$inboundSchema,
 };
 
 export const tool$transactionsCreate: ToolDefinition<typeof args> = {
   name: "transactions-create",
-  description: `Create Transaction
+  description: `Create transaction
 
-Create a transaction.`,
+Create a transaction. Set \`marketplace: true\` for reseller or marketplace orders where tax was remitted externally; gross sales still count toward nexus, but tax liability is excluded.`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await transactionsCreate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

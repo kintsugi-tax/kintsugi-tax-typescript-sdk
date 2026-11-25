@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
@@ -12,6 +12,10 @@ import * as models from "../index.js";
 export type PUTUpdateCreditNoteByTransactionIdRequest = {
   originalTransactionId: string;
   creditNoteId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
   creditNoteCreate: models.CreditNoteCreate;
 };
 
@@ -20,21 +24,26 @@ export const PUTUpdateCreditNoteByTransactionIdRequest$inboundSchema: z.ZodType<
   PUTUpdateCreditNoteByTransactionIdRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  original_transaction_id: z.string(),
-  credit_note_id: z.string(),
-  CreditNoteCreate: models.CreditNoteCreate$inboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    "original_transaction_id": "originalTransactionId",
-    "credit_note_id": "creditNoteId",
-    "CreditNoteCreate": "creditNoteCreate",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    original_transaction_id: z.string(),
+    credit_note_id: z.string(),
+    "x-organization-id": z.nullable(z.string()),
+    CreditNoteCreate: models.CreditNoteCreate$inboundSchema,
+  }).transform((v) => {
+    return remap$(v, {
+      "original_transaction_id": "originalTransactionId",
+      "credit_note_id": "creditNoteId",
+      "x-organization-id": "xOrganizationId",
+      "CreditNoteCreate": "creditNoteCreate",
+    });
+  })
+);
 /** @internal */
 export type PUTUpdateCreditNoteByTransactionIdRequest$Outbound = {
   original_transaction_id: string;
   credit_note_id: string;
+  "x-organization-id": string | null;
   CreditNoteCreate: models.CreditNoteCreate$Outbound;
 };
 
@@ -44,17 +53,21 @@ export const PUTUpdateCreditNoteByTransactionIdRequest$outboundSchema:
     PUTUpdateCreditNoteByTransactionIdRequest$Outbound,
     z.ZodTypeDef,
     PUTUpdateCreditNoteByTransactionIdRequest
-  > = z.object({
-    originalTransactionId: z.string(),
-    creditNoteId: z.string(),
-    creditNoteCreate: models.CreditNoteCreate$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      originalTransactionId: "original_transaction_id",
-      creditNoteId: "credit_note_id",
-      creditNoteCreate: "CreditNoteCreate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      originalTransactionId: z.string(),
+      creditNoteId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      creditNoteCreate: models.CreditNoteCreate$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        originalTransactionId: "original_transaction_id",
+        creditNoteId: "credit_note_id",
+        xOrganizationId: "x-organization-id",
+        creditNoteCreate: "CreditNoteCreate",
+      });
+    })
+  );
 
 export function putUpdateCreditNoteByTransactionIdRequestToJSON(
   putUpdateCreditNoteByTransactionIdRequest:

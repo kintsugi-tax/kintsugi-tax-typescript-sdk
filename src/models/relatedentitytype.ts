@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const RelatedEntityType = {
@@ -10,13 +11,17 @@ export const RelatedEntityType = {
   Registration: "REGISTRATION",
   Filing: "FILING",
   FilingPayment: "FILING_PAYMENT",
+  Task: "TASK",
+  FilingPaymentReceipt: "FILING_PAYMENT_RECEIPT",
+  Proposal: "PROPOSAL",
+  FilingDocument: "FILING_DOCUMENT",
 } as const;
 export type RelatedEntityType = ClosedEnum<typeof RelatedEntityType>;
 
 /** @internal */
 export const RelatedEntityType$inboundSchema: z.ZodNativeEnum<
   typeof RelatedEntityType
-> = z.nativeEnum(RelatedEntityType);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(RelatedEntityType));
 /** @internal */
 export const RelatedEntityType$outboundSchema: z.ZodNativeEnum<
   typeof RelatedEntityType

@@ -8,7 +8,7 @@ import { PageRegistrationReadWithPassword } from "@kintsugi-tax/tax-platform-sdk
 let value: PageRegistrationReadWithPassword = {
   items: [
     {
-      status: "DEREGISTERED",
+      status: "VALIDATING",
       countryCode: "UG",
       stateCode: "<value>",
       stateName: "<value>",
@@ -16,12 +16,13 @@ let value: PageRegistrationReadWithPassword = {
       id: "<id>",
       filingDays: 74800,
       registrationType: "OTHER",
+      filingWebsiteUrl: "https://shameless-embarrassment.name",
     },
   ],
-  total: 392519,
-  page: 691562,
-  size: 732700,
-  pages: 292303,
+  total: 559261,
+  page: 664977,
+  size: 656284,
+  pages: 610000,
 };
 ```
 

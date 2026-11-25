@@ -4,9 +4,10 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+import * as models from "../index.js";
 
 export type DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest =
   {
@@ -14,6 +15,11 @@ export type DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostReq
      * The unique identifier of the registration to deregister.
      */
     registrationId: string;
+    /**
+     * The unique identifier for the organization making the request
+     */
+    xOrganizationId: string | null;
+    deregisterRegistrationRequest: models.DeregisterRegistrationRequest;
   };
 
 /** @internal */
@@ -22,17 +28,27 @@ export const DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    registration_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "registration_id": "registrationId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registration_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+      DeregisterRegistrationRequest:
+        models.DeregisterRegistrationRequest$inboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        "registration_id": "registrationId",
+        "x-organization-id": "xOrganizationId",
+        "DeregisterRegistrationRequest": "deregisterRegistrationRequest",
+      });
+    })
+  );
 /** @internal */
 export type DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest$Outbound =
   {
     registration_id: string;
+    "x-organization-id": string | null;
+    DeregisterRegistrationRequest:
+      models.DeregisterRegistrationRequest$Outbound;
   };
 
 /** @internal */
@@ -41,13 +57,20 @@ export const DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest$Outbound,
     z.ZodTypeDef,
     DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
-  > = z.object({
-    registrationId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      registrationId: "registration_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registrationId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      deregisterRegistrationRequest:
+        models.DeregisterRegistrationRequest$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        registrationId: "registration_id",
+        xOrganizationId: "x-organization-id",
+        deregisterRegistrationRequest: "DeregisterRegistrationRequest",
+      });
+    })
+  );
 
 export function deregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestToJSON(
   deregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest:

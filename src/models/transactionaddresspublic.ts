@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   AddressType,
@@ -19,43 +19,50 @@ import {
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 /**
- * Public address class for transaction addresses
+ * API-facing transaction address without internal enrichment fields.
  */
 export type TransactionAddressPublic = {
   /**
    * Phone number associated with the address.
    */
-  phone?: string | undefined;
+  phone?: string | null | undefined;
   /**
    * Primary street address.
    */
-  street1?: string | undefined;
+  street1?: string | null | undefined;
   /**
    * Additional street address details, such as an apartment or suite number.
    */
-  street2?: string | undefined;
+  street2?: string | null | undefined;
   /**
    * City where the customer resides.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * County or district of the customer.
    */
-  county?: string | undefined;
+  county?: string | null | undefined;
   /**
    * State or province of the customer.
    */
-  state?: string | undefined;
+  state?: string | null | undefined;
   /**
    * ZIP or Postal code of the customer.
    */
-  postalCode?: string | undefined;
-  country?: CountryCodeEnum | undefined;
+  postalCode?: string | null | undefined;
+  /**
+   * Country code in ISO 3166-1 alpha-2 format
+   */
+  country?: CountryCodeEnum | null | undefined;
   /**
    * Complete address string of the customer, which can be used as an alternative to individual fields.
    */
-  fullAddress?: string | undefined;
+  fullAddress?: string | null | undefined;
   type: AddressType;
+  /**
+   * If true, city-level tax rates are not applied for this address.
+   */
+  isUnincorporated?: boolean | undefined;
 };
 
 /** @internal */
@@ -63,37 +70,42 @@ export const TransactionAddressPublic$inboundSchema: z.ZodType<
   TransactionAddressPublic,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  phone: z.string().optional(),
-  street_1: z.string().optional(),
-  street_2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postal_code: z.string().optional(),
-  country: CountryCodeEnum$inboundSchema.optional(),
-  full_address: z.string().optional(),
-  type: AddressType$inboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    "street_1": "street1",
-    "street_2": "street2",
-    "postal_code": "postalCode",
-    "full_address": "fullAddress",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street_1: z.nullable(z.string()).optional(),
+    street_2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    full_address: z.nullable(z.string()).optional(),
+    type: AddressType$inboundSchema,
+    is_unincorporated: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      "street_1": "street1",
+      "street_2": "street2",
+      "postal_code": "postalCode",
+      "full_address": "fullAddress",
+      "is_unincorporated": "isUnincorporated",
+    });
+  })
+);
 /** @internal */
 export type TransactionAddressPublic$Outbound = {
-  phone?: string | undefined;
-  street_1?: string | undefined;
-  street_2?: string | undefined;
-  city?: string | undefined;
-  county?: string | undefined;
-  state?: string | undefined;
-  postal_code?: string | undefined;
-  country?: string | undefined;
-  full_address?: string | undefined;
+  phone?: string | null | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
+  city?: string | null | undefined;
+  county?: string | null | undefined;
+  state?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  country?: string | null | undefined;
+  full_address?: string | null | undefined;
   type: string;
+  is_unincorporated: boolean;
 };
 
 /** @internal */
@@ -101,25 +113,29 @@ export const TransactionAddressPublic$outboundSchema: z.ZodType<
   TransactionAddressPublic$Outbound,
   z.ZodTypeDef,
   TransactionAddressPublic
-> = z.object({
-  phone: z.string().optional(),
-  street1: z.string().optional(),
-  street2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: CountryCodeEnum$outboundSchema.optional(),
-  fullAddress: z.string().optional(),
-  type: AddressType$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    street1: "street_1",
-    street2: "street_2",
-    postalCode: "postal_code",
-    fullAddress: "full_address",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street1: z.nullable(z.string()).optional(),
+    street2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    fullAddress: z.nullable(z.string()).optional(),
+    type: AddressType$outboundSchema,
+    isUnincorporated: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      street1: "street_1",
+      street2: "street_2",
+      postalCode: "postal_code",
+      fullAddress: "full_address",
+      isUnincorporated: "is_unincorporated",
+    });
+  })
+);
 
 export function transactionAddressPublicToJSON(
   transactionAddressPublic: TransactionAddressPublic,

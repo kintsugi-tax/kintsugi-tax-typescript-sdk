@@ -14,7 +14,7 @@ Developer-friendly & type-safe Typescript SDK specifically catered to leverage K
 <!-- Start Summary [summary] -->
 ## Summary
 
-
+Kintsugi Customer API: Publicly documented Kintsugi Customer API endpoints. The source (openapi/_source/openapi-master.json) is the platform spec filtered to the documented customer surface (openapi/customer-endpoints.json); scripts/build-specs.mjs re-applies that filter here. Do not edit by hand.
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
@@ -27,7 +27,6 @@ Developer-friendly & type-safe Typescript SDK specifically catered to leverage K
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Standalone functions](#standalone-functions)
-  * [File uploads](#file-uploads)
   * [Retries](#retries)
   * [Error Handling](#error-handling)
   * [Server Selection](#server-selection)
@@ -93,8 +92,7 @@ Add the following server definition to your `claude_desktop_config.json` file:
         "-y", "--package", "@kintsugi-tax/tax-platform-sdk",
         "--",
         "mcp", "start",
-        "--api-key-header", "...",
-        "--custom-header", "..."
+        "--api-key-header", "..."
       ]
     }
   }
@@ -117,8 +115,7 @@ Create a `.cursor/mcp.json` file in your project root with the following content
         "-y", "--package", "@kintsugi-tax/tax-platform-sdk",
         "--",
         "mcp", "start",
-        "--api-key-header", "...",
-        "--custom-header", "..."
+        "--api-key-header", "..."
       ]
     }
   }
@@ -162,6 +159,26 @@ npx -y --package @kintsugi-tax/tax-platform-sdk -- mcp start --help
 ## Requirements
 
 For supported JavaScript runtimes, please consult [RUNTIMES.md](RUNTIMES.md).
+
+### Lazy operation loading in Node.js
+
+The `/node` entry point and its lazy SDK classes are generated for every SDK. No `gen.yaml` flag is needed; Node.js applications opt in to loading operation functions on first use by changing their import:
+
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk/node";
+
+const sdk = new SDK();
+```
+
+The `/node` entry point keeps the same method signatures, pagination behaviour, and response helpers. Operation modules load through dynamic imports when a method is called. Models and error classes are shared with the standard entry points, rather than bundled into separate copies.
+
+The standard package entry point and SDK subpaths retain their static imports. Keep using those entry points in browser bundles, including IIFE and UMD builds, to avoid dynamic-import chunks. Custom root exports may still load additional modules.
+
+The Node SDK classes live in `src/sdk/*.lazy.ts`. Custom code regions in the standard SDK classes are not copied to these classes; apply any required customisations to their separate regions. Accept-header enums have the same values, but their enum objects are specific to each entry point.
+
+Generated model schemas are constructed synchronously and cached on first use with either entry point. Importing a model does not construct its schema; parsing or inspecting a schema does. This does not require changing the configured Zod version.
+
+`Object.freeze`, `Object.seal`, and `Object.preventExtensions` construct the schema and apply to the cached Zod object. Zod's own restrictions on frozen schemas still apply, including methods that install properties on first access.
 <!-- End Requirements [requirements] -->
 
 <!-- Start SDK Example Usage [usage] -->
@@ -172,12 +189,12 @@ For supported JavaScript runtimes, please consult [RUNTIMES.md](RUNTIMES.md).
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK();
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
 
 async function run() {
   const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",
@@ -202,56 +219,22 @@ run();
 
 ### Per-Client Security Schemes
 
-This SDK supports the following security schemes globally:
+This SDK supports the following security scheme globally:
 
 | Name           | Type   | Scheme  |
 | -------------- | ------ | ------- |
 | `apiKeyHeader` | apiKey | API key |
-| `customHeader` | apiKey | API key |
 
-You can set the security parameters through the `security` optional parameter when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
+To authenticate with the API the `apiKeyHeader` parameter must be set when initializing the SDK client instance. For example:
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
-  const result = await sdk.addressValidation.suggest({
-    line1: "1600 Amphitheatre Parkway",
-    line2: "",
-    line3: "",
-    city: "Mountain View",
-    state: "CA",
-    postalCode: "94043",
-    id: 215,
-    county: "",
-    fullAddress: "1600 Amphitheatre Parkway, Mountain View, CA 94043",
-  });
-
-  console.log(result);
-}
-
-run();
-
-```
-
-### Per-Operation Security Schemes
-
-Some operations in this SDK require the security scheme to be specified at the request level. For example:
-```typescript
-import { SDK } from "@kintsugi-tax/tax-platform-sdk";
-
-const sdk = new SDK();
-
-async function run() {
   const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",
@@ -282,68 +265,85 @@ run();
 * [search](docs/sdks/addressvalidation/README.md#search) - Search
 * [suggest](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
 
+### [CustomerTaxRegistration](docs/sdks/customertaxregistration/README.md)
+
+* [upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost](docs/sdks/customertaxregistration/README.md#upsertcustomertaxregistrationv1customerscustomeridtaxregistrationspost) - Upsert customer tax registration
+
 ### [Customers](docs/sdks/customers/README.md)
 
-* [list](docs/sdks/customers/README.md#list) - Get Customers
-* [create](docs/sdks/customers/README.md#create) - Create Customer
-* [get](docs/sdks/customers/README.md#get) - Get Customer By Id
-* [update](docs/sdks/customers/README.md#update) - Update Customer
-* [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
-* [getTransactions](docs/sdks/customers/README.md#gettransactions) - Get Transactions By Customer Id
-* [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
+* [list](docs/sdks/customers/README.md#list) - Get customers
+* [create](docs/sdks/customers/README.md#create) - Create customer
+* [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get customer by external id
+* [get](docs/sdks/customers/README.md#get) - Get customer by id
+* [update](docs/sdks/customers/README.md#update) - Update customer
+* [getTransactions](docs/sdks/customers/README.md#gettransactions) - Get transactions by customer id
+* [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create transaction by customer id
 
 ### [Exemptions](docs/sdks/exemptions/README.md)
 
-* [list](docs/sdks/exemptions/README.md#list) - Get Exemptions
-* [create](docs/sdks/exemptions/README.md#create) - Create Exemption
-* [get](docs/sdks/exemptions/README.md#get) - Get Exemption By Id
-* [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
-* [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
+* [list](docs/sdks/exemptions/README.md#list) - Get exemptions
+* [create](docs/sdks/exemptions/README.md#create) - Create exemption
+* [listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet](docs/sdks/exemptions/README.md#listpartialcertificatetypesv1exemptionspartialcertificatetypesget) - List partial certificate types
+* [get](docs/sdks/exemptions/README.md#get) - Get exemption by id
+* [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get attachments for exemption
+* [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload exemption certificate
 
 ### [Filings](docs/sdks/filings/README.md)
 
-* [list](docs/sdks/filings/README.md#list) - Get Filings
-* [get](docs/sdks/filings/README.md#get) - Get Filing By Id
-* [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
+* [list](docs/sdks/filings/README.md#list) - Get filings
+* [createBackFilingRequestV1FilingsBackFilingRequestPost](docs/sdks/filings/README.md#createbackfilingrequestv1filingsbackfilingrequestpost) - Create back filing request
+* [getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet](docs/sdks/filings/README.md#getbackfilingrequestoptionsv1filingsbackfilingrequestoptionsget) - Get back filing request options
+* [getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet](docs/sdks/filings/README.md#getcurrentbackfilingtermsv1filingsbackfilingtermscurrentget) - Get current back filing terms
+* [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get filings by registration id
+* [get](docs/sdks/filings/README.md#get) - Get filing by id
+* [approveFilingV1FilingsFilingIdApprovePut](docs/sdks/filings/README.md#approvefilingv1filingsfilingidapproveput) - Approve filing
 
 ### [Nexus](docs/sdks/nexus/README.md)
 
-* [listPhysical](docs/sdks/nexus/README.md#listphysical) - Get Physical Nexus
-* [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
-* [updatePhysical](docs/sdks/nexus/README.md#updatephysical) - Update Physical Nexus
-* [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
-* [list](docs/sdks/nexus/README.md#list) - Get Nexus For Org
+* [list](docs/sdks/nexus/README.md#list) - Get nexus for org
+* [listPhysical](docs/sdks/nexus/README.md#listphysical) - Get physical nexus
+* [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create physical nexus
+* [getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet](docs/sdks/nexus/README.md#getphysicalnexuscategoriesv1nexusphysicalnexuscategoriesget) - Get physical nexus categories
+* [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete physical nexus
+* [updatePhysical](docs/sdks/nexus/README.md#updatephysical) - Update physical nexus
+* [getNexusDetailsForIdV1NexusNexusIdGet](docs/sdks/nexus/README.md#getnexusdetailsforidv1nexusnexusidget) - Get nexus details for id
 
 ### [Products](docs/sdks/products/README.md)
 
-* [getProductsV1ProductsGet](docs/sdks/products/README.md#getproductsv1productsget) - Get Products
-* [createProductV1ProductsPost](docs/sdks/products/README.md#createproductv1productspost) - Create Product
-* [getProductCategoriesV1ProductsCategoriesGet](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get Product Categories
-* [get](docs/sdks/products/README.md#get) - Get Product By Id
-* [update](docs/sdks/products/README.md#update) - Update Product
+* [getProductsV1ProductsGet](docs/sdks/products/README.md#getproductsv1productsget) - Get products
+* [createProductV1ProductsPost](docs/sdks/products/README.md#createproductv1productspost) - Create product
+* [getProductCategoriesV1ProductsCategoriesGet](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get product categories
+* [get](docs/sdks/products/README.md#get) - Get product by id
+* [update](docs/sdks/products/README.md#update) - Update product
 
 ### [Registrations](docs/sdks/registrations/README.md)
 
-* [get](docs/sdks/registrations/README.md#get) - Get Registrations
-* [create](docs/sdks/registrations/README.md#create) - Create Registration
-* [getById](docs/sdks/registrations/README.md#getbyid) - Get Registration By Id
-* [update](docs/sdks/registrations/README.md#update) - Update Registration
-* [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
+* [get](docs/sdks/registrations/README.md#get) - Get registrations
+* [create](docs/sdks/registrations/README.md#create) - Create registration
+* [getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet](docs/sdks/registrations/README.md#getjurisdictionspecificfieldsv1registrationsjurisdictionspecificfieldsget) - Get jurisdiction specific fields
+* [listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet](docs/sdks/registrations/README.md#listregistrationjurisdictionsv1registrationsjurisdictionsget) - List registration jurisdictions
+* [getById](docs/sdks/registrations/README.md#getbyid) - Get registration by id
+* [update](docs/sdks/registrations/README.md#update) - Update registration
+* [uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost](docs/sdks/registrations/README.md#uploadregistrationattachmentv1registrationsregistrationidattachmentspost) - Upload registration attachment
+* [deregister](docs/sdks/registrations/README.md#deregister) - Deregister registration
+* [getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet](docs/sdks/registrations/README.md#getosscountriesforregistrationv1registrationsregistrationidosscountriesget) - Get oss countries for registration
 
 ### [TaxEstimation](docs/sdks/taxestimation/README.md)
 
-* [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
+* [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate tax
 
 ### [Transactions](docs/sdks/transactions/README.md)
 
-* [get](docs/sdks/transactions/README.md#get) - Get Transactions
-* [create](docs/sdks/transactions/README.md#create) - Create Transaction
-* [getByExternalId](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
-* [update](docs/sdks/transactions/README.md#update) - Update Transaction
-* [getById](docs/sdks/transactions/README.md#getbyid) - Get Transaction By Id
-* [getByFilingId](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
-* [createCreditNote](docs/sdks/transactions/README.md#createcreditnote) - Create Credit Note By Transaction Id
-* [updateCreditNote](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
+* [get](docs/sdks/transactions/README.md#get) - Get transactions
+* [create](docs/sdks/transactions/README.md#create) - Create transaction
+* [archiveTransactionByIdV1TransactionsArchivePost](docs/sdks/transactions/README.md#archivetransactionbyidv1transactionsarchivepost) - Archive transaction by id
+* [getByExternalId](docs/sdks/transactions/README.md#getbyexternalid) - Get transaction by external id
+* [getByFilingId](docs/sdks/transactions/README.md#getbyfilingid) - Get transactions by filing id
+* [createCreditNote](docs/sdks/transactions/README.md#createcreditnote) - Create credit note by transaction id
+* [updateCreditNote](docs/sdks/transactions/README.md#updatecreditnote) - Update credit note by transaction id
+* [getById](docs/sdks/transactions/README.md#getbyid) - Get transaction by id
+* [update](docs/sdks/transactions/README.md#update) - Update transaction
+* [setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost](docs/sdks/transactions/README.md#settransactiontaxonlyv1transactionstransactionidtaxonlypost) - Set transaction tax only
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -365,89 +365,62 @@ To read more about standalone functions, check [FUNCTIONS.md](./FUNCTIONS.md).
 
 - [`addressValidationSearch`](docs/sdks/addressvalidation/README.md#search) - Search
 - [`addressValidationSuggest`](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
-- [`customersCreate`](docs/sdks/customers/README.md#create) - Create Customer
-- [`customersCreateTransaction`](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
-- [`customersGet`](docs/sdks/customers/README.md#get) - Get Customer By Id
-- [`customersGetByExternalId`](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
-- [`customersGetTransactions`](docs/sdks/customers/README.md#gettransactions) - Get Transactions By Customer Id
-- [`customersList`](docs/sdks/customers/README.md#list) - Get Customers
-- [`customersUpdate`](docs/sdks/customers/README.md#update) - Update Customer
-- [`exemptionsCreate`](docs/sdks/exemptions/README.md#create) - Create Exemption
-- [`exemptionsGet`](docs/sdks/exemptions/README.md#get) - Get Exemption By Id
-- [`exemptionsGetAttachments`](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
-- [`exemptionsList`](docs/sdks/exemptions/README.md#list) - Get Exemptions
-- [`exemptionsUploadCertificate`](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
-- [`filingsGet`](docs/sdks/filings/README.md#get) - Get Filing By Id
-- [`filingsGetByRegistrationId`](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
-- [`filingsList`](docs/sdks/filings/README.md#list) - Get Filings
-- [`nexusCreatePhysical`](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
-- [`nexusDeletePhysical`](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
-- [`nexusList`](docs/sdks/nexus/README.md#list) - Get Nexus For Org
-- [`nexusListPhysical`](docs/sdks/nexus/README.md#listphysical) - Get Physical Nexus
-- [`nexusUpdatePhysical`](docs/sdks/nexus/README.md#updatephysical) - Update Physical Nexus
-- [`productsCreateProductV1ProductsPost`](docs/sdks/products/README.md#createproductv1productspost) - Create Product
-- [`productsGet`](docs/sdks/products/README.md#get) - Get Product By Id
-- [`productsGetProductCategoriesV1ProductsCategoriesGet`](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get Product Categories
-- [`productsGetProductsV1ProductsGet`](docs/sdks/products/README.md#getproductsv1productsget) - Get Products
-- [`productsUpdate`](docs/sdks/products/README.md#update) - Update Product
-- [`registrationsCreate`](docs/sdks/registrations/README.md#create) - Create Registration
-- [`registrationsDeregister`](docs/sdks/registrations/README.md#deregister) - Deregister Registration
-- [`registrationsGet`](docs/sdks/registrations/README.md#get) - Get Registrations
-- [`registrationsGetById`](docs/sdks/registrations/README.md#getbyid) - Get Registration By Id
-- [`registrationsUpdate`](docs/sdks/registrations/README.md#update) - Update Registration
-- [`taxEstimationEstimate`](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
-- [`transactionsCreate`](docs/sdks/transactions/README.md#create) - Create Transaction
-- [`transactionsCreateCreditNote`](docs/sdks/transactions/README.md#createcreditnote) - Create Credit Note By Transaction Id
-- [`transactionsGet`](docs/sdks/transactions/README.md#get) - Get Transactions
-- [`transactionsGetByExternalId`](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
-- [`transactionsGetByFilingId`](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
-- [`transactionsGetById`](docs/sdks/transactions/README.md#getbyid) - Get Transaction By Id
-- [`transactionsUpdate`](docs/sdks/transactions/README.md#update) - Update Transaction
-- [`transactionsUpdateCreditNote`](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
+- [`customersCreate`](docs/sdks/customers/README.md#create) - Create customer
+- [`customersCreateTransaction`](docs/sdks/customers/README.md#createtransaction) - Create transaction by customer id
+- [`customersGet`](docs/sdks/customers/README.md#get) - Get customer by id
+- [`customersGetByExternalId`](docs/sdks/customers/README.md#getbyexternalid) - Get customer by external id
+- [`customersGetTransactions`](docs/sdks/customers/README.md#gettransactions) - Get transactions by customer id
+- [`customersList`](docs/sdks/customers/README.md#list) - Get customers
+- [`customersUpdate`](docs/sdks/customers/README.md#update) - Update customer
+- [`customerTaxRegistrationUpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost`](docs/sdks/customertaxregistration/README.md#upsertcustomertaxregistrationv1customerscustomeridtaxregistrationspost) - Upsert customer tax registration
+- [`exemptionsCreate`](docs/sdks/exemptions/README.md#create) - Create exemption
+- [`exemptionsGet`](docs/sdks/exemptions/README.md#get) - Get exemption by id
+- [`exemptionsGetAttachments`](docs/sdks/exemptions/README.md#getattachments) - Get attachments for exemption
+- [`exemptionsList`](docs/sdks/exemptions/README.md#list) - Get exemptions
+- [`exemptionsListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet`](docs/sdks/exemptions/README.md#listpartialcertificatetypesv1exemptionspartialcertificatetypesget) - List partial certificate types
+- [`exemptionsUploadCertificate`](docs/sdks/exemptions/README.md#uploadcertificate) - Upload exemption certificate
+- [`filingsApproveFilingV1FilingsFilingIdApprovePut`](docs/sdks/filings/README.md#approvefilingv1filingsfilingidapproveput) - Approve filing
+- [`filingsCreateBackFilingRequestV1FilingsBackFilingRequestPost`](docs/sdks/filings/README.md#createbackfilingrequestv1filingsbackfilingrequestpost) - Create back filing request
+- [`filingsGet`](docs/sdks/filings/README.md#get) - Get filing by id
+- [`filingsGetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet`](docs/sdks/filings/README.md#getbackfilingrequestoptionsv1filingsbackfilingrequestoptionsget) - Get back filing request options
+- [`filingsGetByRegistrationId`](docs/sdks/filings/README.md#getbyregistrationid) - Get filings by registration id
+- [`filingsGetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet`](docs/sdks/filings/README.md#getcurrentbackfilingtermsv1filingsbackfilingtermscurrentget) - Get current back filing terms
+- [`filingsList`](docs/sdks/filings/README.md#list) - Get filings
+- [`nexusCreatePhysical`](docs/sdks/nexus/README.md#createphysical) - Create physical nexus
+- [`nexusDeletePhysical`](docs/sdks/nexus/README.md#deletephysical) - Delete physical nexus
+- [`nexusGetNexusDetailsForIdV1NexusNexusIdGet`](docs/sdks/nexus/README.md#getnexusdetailsforidv1nexusnexusidget) - Get nexus details for id
+- [`nexusGetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet`](docs/sdks/nexus/README.md#getphysicalnexuscategoriesv1nexusphysicalnexuscategoriesget) - Get physical nexus categories
+- [`nexusList`](docs/sdks/nexus/README.md#list) - Get nexus for org
+- [`nexusListPhysical`](docs/sdks/nexus/README.md#listphysical) - Get physical nexus
+- [`nexusUpdatePhysical`](docs/sdks/nexus/README.md#updatephysical) - Update physical nexus
+- [`productsCreateProductV1ProductsPost`](docs/sdks/products/README.md#createproductv1productspost) - Create product
+- [`productsGet`](docs/sdks/products/README.md#get) - Get product by id
+- [`productsGetProductCategoriesV1ProductsCategoriesGet`](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get product categories
+- [`productsGetProductsV1ProductsGet`](docs/sdks/products/README.md#getproductsv1productsget) - Get products
+- [`productsUpdate`](docs/sdks/products/README.md#update) - Update product
+- [`registrationsCreate`](docs/sdks/registrations/README.md#create) - Create registration
+- [`registrationsDeregister`](docs/sdks/registrations/README.md#deregister) - Deregister registration
+- [`registrationsGet`](docs/sdks/registrations/README.md#get) - Get registrations
+- [`registrationsGetById`](docs/sdks/registrations/README.md#getbyid) - Get registration by id
+- [`registrationsGetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet`](docs/sdks/registrations/README.md#getjurisdictionspecificfieldsv1registrationsjurisdictionspecificfieldsget) - Get jurisdiction specific fields
+- [`registrationsGetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet`](docs/sdks/registrations/README.md#getosscountriesforregistrationv1registrationsregistrationidosscountriesget) - Get oss countries for registration
+- [`registrationsListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet`](docs/sdks/registrations/README.md#listregistrationjurisdictionsv1registrationsjurisdictionsget) - List registration jurisdictions
+- [`registrationsUpdate`](docs/sdks/registrations/README.md#update) - Update registration
+- [`registrationsUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost`](docs/sdks/registrations/README.md#uploadregistrationattachmentv1registrationsregistrationidattachmentspost) - Upload registration attachment
+- [`taxEstimationEstimate`](docs/sdks/taxestimation/README.md#estimate) - Estimate tax
+- [`transactionsArchiveTransactionByIdV1TransactionsArchivePost`](docs/sdks/transactions/README.md#archivetransactionbyidv1transactionsarchivepost) - Archive transaction by id
+- [`transactionsCreate`](docs/sdks/transactions/README.md#create) - Create transaction
+- [`transactionsCreateCreditNote`](docs/sdks/transactions/README.md#createcreditnote) - Create credit note by transaction id
+- [`transactionsGet`](docs/sdks/transactions/README.md#get) - Get transactions
+- [`transactionsGetByExternalId`](docs/sdks/transactions/README.md#getbyexternalid) - Get transaction by external id
+- [`transactionsGetByFilingId`](docs/sdks/transactions/README.md#getbyfilingid) - Get transactions by filing id
+- [`transactionsGetById`](docs/sdks/transactions/README.md#getbyid) - Get transaction by id
+- [`transactionsSetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost`](docs/sdks/transactions/README.md#settransactiontaxonlyv1transactionstransactionidtaxonlypost) - Set transaction tax only
+- [`transactionsUpdate`](docs/sdks/transactions/README.md#update) - Update transaction
+- [`transactionsUpdateCreditNote`](docs/sdks/transactions/README.md#updatecreditnote) - Update credit note by transaction id
 
 </details>
 <!-- End Standalone functions [standalone-funcs] -->
-
-<!-- Start File uploads [file-upload] -->
-## File uploads
-
-Certain SDK methods accept files as part of a multi-part request. It is possible and typically recommended to upload files as a stream rather than reading the entire contents into memory. This avoids excessive memory consumption and potentially crashing with out-of-memory errors when working with very large files. The following example demonstrates how to attach a file stream to a request.
-
-> [!TIP]
->
-> Depending on your JavaScript runtime, there are convenient utilities that return a handle to a file without reading the entire contents into memory:
->
-> - **Node.js v20+:** Since v20, Node.js comes with a native `openAsBlob` function in [`node:fs`](https://nodejs.org/docs/latest-v20.x/api/fs.html#fsopenasblobpath-options).
-> - **Bun:** The native [`Bun.file`](https://bun.sh/docs/api/file-io#reading-files-bun-file) function produces a file handle that can be used for streaming file uploads.
-> - **Browsers:** All supported browsers return an instance to a [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File) when reading the value from an `<input type="file">` element.
-> - **Node.js v18:** A file stream can be created using the `fileFrom` helper from [`fetch-blob/from.js`](https://www.npmjs.com/package/fetch-blob).
-
-```typescript
-import { SDK } from "@kintsugi-tax/tax-platform-sdk";
-import { openAsBlob } from "node:fs";
-
-const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
-});
-
-async function run() {
-  const result = await sdk.exemptions.uploadCertificate({
-    exemptionId: "<id>",
-    bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost: {
-      file: await openAsBlob("example.file"),
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-
-```
-<!-- End File uploads [file-upload] -->
 
 <!-- Start Retries [retries] -->
 ## Retries
@@ -458,12 +431,12 @@ To change the default retry strategy for a single API call, simply provide a ret
 ```typescript
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
-const sdk = new SDK();
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
 
 async function run() {
   const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",
@@ -508,12 +481,11 @@ const sdk = new SDK({
     },
     retryConnectionErrors: false,
   },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",
@@ -552,13 +524,13 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 import * as errors from "@kintsugi-tax/tax-platform-sdk/models/errors";
 
-const sdk = new SDK();
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
 
 async function run() {
   try {
     const result = await sdk.addressValidation.search({
-      apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    }, {
       phone: "555-123-4567",
       street1: "1600 Amphitheatre Parkway",
       street2: "Building 40",
@@ -592,11 +564,10 @@ run();
 ```
 
 ### Error Classes
-**Primary errors:**
+**Primary error:**
 * [`SDKError`](./src/models/errors/sdkerror.ts): The base class for HTTP error responses.
-  * [`ErrorResponse`](./src/models/errors/errorresponse.ts): *
 
-<details><summary>Less common errors (16)</summary>
+<details><summary>Less common errors (17)</summary>
 
 <br />
 
@@ -609,16 +580,17 @@ run();
 
 
 **Inherit from [`SDKError`](./src/models/errors/sdkerror.ts)**:
-* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Validation Error. Status code `422`. Applicable to 8 of 41 methods.*
-* [`BackendSrcExemptionsResponsesValidationErrorResponse`](./src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 41 methods.*
-* [`BackendSrcProductsResponsesValidationErrorResponse`](./src/models/errors/backendsrcproductsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
-* [`BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
-* [`BackendSrcTransactionsResponsesValidationErrorResponse`](./src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts): Status code `422`. Applicable to 5 of 41 methods.*
-* [`BackendSrcNexusResponsesValidationErrorResponse`](./src/models/errors/backendsrcnexusresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
-* [`BackendSrcCustomersResponsesValidationErrorResponse`](./src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 41 methods.*
-* [`BackendSrcFilingsResponsesValidationErrorResponse`](./src/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 3 of 41 methods.*
-* [`BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 41 methods.*
-* [`BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts): Validation Error. Status code `422`. Applicable to 1 of 41 methods.*
+* [`ErrorResponse`](./src/models/errors/errorresponse.ts): Applicable to 34 of 55 methods.*
+* [`HTTPValidationError`](./src/models/errors/httpvalidationerror.ts): Validation Error. Status code `422`. Applicable to 22 of 55 methods.*
+* [`BackendSrcExemptionsResponsesValidationErrorResponse`](./src/models/errors/backendsrcexemptionsresponsesvalidationerrorresponse.ts): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 55 methods.*
+* [`BackendSrcProductsSchemasResponsesValidationErrorResponse`](./src/models/errors/backendsrcproductsschemasresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 5 of 55 methods.*
+* [`BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/models/errors/backendsrcregistrationsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 5 of 55 methods.*
+* [`BackendSrcTransactionsResponsesValidationErrorResponse`](./src/models/errors/backendsrctransactionsresponsesvalidationerrorresponse.ts): Status code `422`. Applicable to 5 of 55 methods.*
+* [`BackendSrcNexusResponsesValidationErrorResponse`](./src/models/errors/backendsrcnexusresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 4 of 55 methods.*
+* [`BackendSrcCustomersResponsesValidationErrorResponse`](./src/models/errors/backendsrccustomersresponsesvalidationerrorresponse.ts): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 55 methods.*
+* [`BackendSrcFilingsResponsesValidationErrorResponse`](./src/models/errors/backendsrcfilingsresponsesvalidationerrorresponse.ts): Validation error. Status code `422`. Applicable to 3 of 55 methods.*
+* [`BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/models/errors/backendsrcaddressvalidationresponsesvalidationerrorresponse.ts): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 55 methods.*
+* [`BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/models/errors/backendsrctaxestimationresponsesvalidationerrorresponse.ts): Validation Error. Status code `422`. Applicable to 1 of 55 methods.*
 * [`ResponseValidationError`](./src/models/errors/responsevalidationerror.ts): Type mismatch between the data returned from the server and the structure expected by the SDK. See `error.rawValue` for the raw value and `error.pretty()` for a nicely formatted multi-line string.
 
 </details>
@@ -637,12 +609,11 @@ import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
   serverURL: "https://api.trykintsugi.com",
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.addressValidation.search({
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",

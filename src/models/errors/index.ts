@@ -7,7 +7,7 @@ export * from "./backendsrccustomersresponsesvalidationerrorresponse.js";
 export * from "./backendsrcexemptionsresponsesvalidationerrorresponse.js";
 export * from "./backendsrcfilingsresponsesvalidationerrorresponse.js";
 export * from "./backendsrcnexusresponsesvalidationerrorresponse.js";
-export * from "./backendsrcproductsresponsesvalidationerrorresponse.js";
+export * from "./backendsrcproductsschemasresponsesvalidationerrorresponse.js";
 export * from "./backendsrcregistrationsresponsesvalidationerrorresponse.js";
 export * from "./backendsrctaxestimationresponsesvalidationerrorresponse.js";
 export * from "./backendsrctransactionsresponsesvalidationerrorresponse.js";

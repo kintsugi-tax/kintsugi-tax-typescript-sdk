@@ -4,8 +4,14 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import {
+  DiscountBuilder,
+  DiscountBuilder$inboundSchema,
+  DiscountBuilder$Outbound,
+  DiscountBuilder$outboundSchema,
+} from "./discountbuilder.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   TaxExemptionEnum,
@@ -19,6 +25,31 @@ import {
   TaxItemBuilder$outboundSchema,
 } from "./taxitembuilder.js";
 
+/**
+ * Number of units or amount of the product being credited.
+ */
+export type CreditNoteItemCreateUpdateQuantity = number | string;
+
+/**
+ * Total monetary value of the credit note item before taxes.
+ */
+export type CreditNoteItemCreateUpdateAmount = number | string;
+
+/**
+ * Pre-calculated tax amount for the item, if provided by the external system.
+ */
+export type CreditNoteItemCreateUpdateTaxAmountImported = number | string;
+
+/**
+ * Pre-calculated tax rate for the item, if provided by the external system.
+ */
+export type CreditNoteItemCreateUpdateTaxRateImported = number | string;
+
+/**
+ * Portion of the item amount subject to taxation.
+ */
+export type CreditNoteItemCreateUpdateTaxableAmount = number | string;
+
 export type CreditNoteItemCreateUpdate = {
   /**
    * Unique identifier for the credit note item in the external system.
@@ -31,7 +62,7 @@ export type CreditNoteItemCreateUpdate = {
   /**
    * Brief explanation or details about the credit note item.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /**
    * Unique identifier for the associated product in the external system.
    */
@@ -39,74 +70,295 @@ export type CreditNoteItemCreateUpdate = {
   /**
    * Number of units or amount of the product being credited.
    */
-  quantity: number;
+  quantity: number | string;
   /**
    * Total monetary value of the credit note item before taxes.
    */
-  amount: number;
+  amount: number | string;
   /**
    * Pre-calculated tax amount for the item, if provided by the external system.
    */
-  taxAmountImported?: number | undefined;
+  taxAmountImported?: number | string | null | undefined;
   /**
    * Pre-calculated tax rate for the item, if provided by the external system.
    */
-  taxRateImported?: number | undefined;
+  taxRateImported?: number | string | null | undefined;
   /**
    * Portion of the item amount subject to taxation.
    */
-  taxableAmount?: number | undefined;
+  taxableAmount?: number | string | null | undefined;
   /**
-   * This enum is used to determine if a transaction is exempt from tax.
+   * Specific tax exemption status applied to this item, if any.
    */
-  taxExemption?: TaxExemptionEnum | undefined;
+  taxExemption?: TaxExemptionEnum | null | undefined;
   /**
    * Detailed breakdown of individual tax components applied to this item.
    */
   taxItems?: Array<TaxItemBuilder> | undefined;
+  /**
+   * Line-level discount for this credit note item, if any.
+   */
+  discountBuilder?: DiscountBuilder | null | undefined;
+  /**
+   * Whether the source amount includes tax (EI-1534). None means the source did not say. Mirrors the parent order's signal; netting stays EI-1538.
+   */
+  isTaxInclusive?: boolean | null | undefined;
 };
+
+/** @internal */
+export const CreditNoteItemCreateUpdateQuantity$inboundSchema: z.ZodType<
+  CreditNoteItemCreateUpdateQuantity,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteItemCreateUpdateQuantity$Outbound = number | string;
+
+/** @internal */
+export const CreditNoteItemCreateUpdateQuantity$outboundSchema: z.ZodType<
+  CreditNoteItemCreateUpdateQuantity$Outbound,
+  z.ZodTypeDef,
+  CreditNoteItemCreateUpdateQuantity
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteItemCreateUpdateQuantityToJSON(
+  creditNoteItemCreateUpdateQuantity: CreditNoteItemCreateUpdateQuantity,
+): string {
+  return JSON.stringify(
+    CreditNoteItemCreateUpdateQuantity$outboundSchema.parse(
+      creditNoteItemCreateUpdateQuantity,
+    ),
+  );
+}
+export function creditNoteItemCreateUpdateQuantityFromJSON(
+  jsonString: string,
+): SafeParseResult<CreditNoteItemCreateUpdateQuantity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      CreditNoteItemCreateUpdateQuantity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreditNoteItemCreateUpdateQuantity' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreditNoteItemCreateUpdateAmount$inboundSchema: z.ZodType<
+  CreditNoteItemCreateUpdateAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteItemCreateUpdateAmount$Outbound = number | string;
+
+/** @internal */
+export const CreditNoteItemCreateUpdateAmount$outboundSchema: z.ZodType<
+  CreditNoteItemCreateUpdateAmount$Outbound,
+  z.ZodTypeDef,
+  CreditNoteItemCreateUpdateAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteItemCreateUpdateAmountToJSON(
+  creditNoteItemCreateUpdateAmount: CreditNoteItemCreateUpdateAmount,
+): string {
+  return JSON.stringify(
+    CreditNoteItemCreateUpdateAmount$outboundSchema.parse(
+      creditNoteItemCreateUpdateAmount,
+    ),
+  );
+}
+export function creditNoteItemCreateUpdateAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<CreditNoteItemCreateUpdateAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreditNoteItemCreateUpdateAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreditNoteItemCreateUpdateAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreditNoteItemCreateUpdateTaxAmountImported$inboundSchema:
+  z.ZodType<
+    CreditNoteItemCreateUpdateTaxAmountImported,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteItemCreateUpdateTaxAmountImported$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const CreditNoteItemCreateUpdateTaxAmountImported$outboundSchema:
+  z.ZodType<
+    CreditNoteItemCreateUpdateTaxAmountImported$Outbound,
+    z.ZodTypeDef,
+    CreditNoteItemCreateUpdateTaxAmountImported
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteItemCreateUpdateTaxAmountImportedToJSON(
+  creditNoteItemCreateUpdateTaxAmountImported:
+    CreditNoteItemCreateUpdateTaxAmountImported,
+): string {
+  return JSON.stringify(
+    CreditNoteItemCreateUpdateTaxAmountImported$outboundSchema.parse(
+      creditNoteItemCreateUpdateTaxAmountImported,
+    ),
+  );
+}
+export function creditNoteItemCreateUpdateTaxAmountImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  CreditNoteItemCreateUpdateTaxAmountImported,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      CreditNoteItemCreateUpdateTaxAmountImported$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'CreditNoteItemCreateUpdateTaxAmountImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreditNoteItemCreateUpdateTaxRateImported$inboundSchema: z.ZodType<
+  CreditNoteItemCreateUpdateTaxRateImported,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteItemCreateUpdateTaxRateImported$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const CreditNoteItemCreateUpdateTaxRateImported$outboundSchema:
+  z.ZodType<
+    CreditNoteItemCreateUpdateTaxRateImported$Outbound,
+    z.ZodTypeDef,
+    CreditNoteItemCreateUpdateTaxRateImported
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteItemCreateUpdateTaxRateImportedToJSON(
+  creditNoteItemCreateUpdateTaxRateImported:
+    CreditNoteItemCreateUpdateTaxRateImported,
+): string {
+  return JSON.stringify(
+    CreditNoteItemCreateUpdateTaxRateImported$outboundSchema.parse(
+      creditNoteItemCreateUpdateTaxRateImported,
+    ),
+  );
+}
+export function creditNoteItemCreateUpdateTaxRateImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  CreditNoteItemCreateUpdateTaxRateImported,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      CreditNoteItemCreateUpdateTaxRateImported$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'CreditNoteItemCreateUpdateTaxRateImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreditNoteItemCreateUpdateTaxableAmount$inboundSchema: z.ZodType<
+  CreditNoteItemCreateUpdateTaxableAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteItemCreateUpdateTaxableAmount$Outbound = number | string;
+
+/** @internal */
+export const CreditNoteItemCreateUpdateTaxableAmount$outboundSchema: z.ZodType<
+  CreditNoteItemCreateUpdateTaxableAmount$Outbound,
+  z.ZodTypeDef,
+  CreditNoteItemCreateUpdateTaxableAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteItemCreateUpdateTaxableAmountToJSON(
+  creditNoteItemCreateUpdateTaxableAmount:
+    CreditNoteItemCreateUpdateTaxableAmount,
+): string {
+  return JSON.stringify(
+    CreditNoteItemCreateUpdateTaxableAmount$outboundSchema.parse(
+      creditNoteItemCreateUpdateTaxableAmount,
+    ),
+  );
+}
+export function creditNoteItemCreateUpdateTaxableAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  CreditNoteItemCreateUpdateTaxableAmount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      CreditNoteItemCreateUpdateTaxableAmount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'CreditNoteItemCreateUpdateTaxableAmount' from JSON`,
+  );
+}
 
 /** @internal */
 export const CreditNoteItemCreateUpdate$inboundSchema: z.ZodType<
   CreditNoteItemCreateUpdate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  external_id: z.string(),
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.string().optional(),
-  external_product_id: z.string(),
-  quantity: z.number(),
-  amount: z.number(),
-  tax_amount_imported: z.number().optional(),
-  tax_rate_imported: z.number().optional(),
-  taxable_amount: z.number().optional(),
-  tax_exemption: TaxExemptionEnum$inboundSchema.optional(),
-  tax_items: z.array(TaxItemBuilder$inboundSchema).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "external_product_id": "externalProductId",
-    "tax_amount_imported": "taxAmountImported",
-    "tax_rate_imported": "taxRateImported",
-    "taxable_amount": "taxableAmount",
-    "tax_exemption": "taxExemption",
-    "tax_items": "taxItems",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    external_id: z.string(),
+    date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    description: z.nullable(z.string()).optional(),
+    external_product_id: z.string(),
+    quantity: z.union([z.number(), z.string()]),
+    amount: z.union([z.number(), z.string()]),
+    tax_amount_imported: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    tax_rate_imported: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxable_amount: z.nullable(z.union([z.number(), z.string()])).optional(),
+    tax_exemption: z.nullable(TaxExemptionEnum$inboundSchema).optional(),
+    tax_items: z.array(TaxItemBuilder$inboundSchema).optional(),
+    discount_builder: z.nullable(DiscountBuilder$inboundSchema).optional(),
+    is_tax_inclusive: z.nullable(z.boolean()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "external_product_id": "externalProductId",
+      "tax_amount_imported": "taxAmountImported",
+      "tax_rate_imported": "taxRateImported",
+      "taxable_amount": "taxableAmount",
+      "tax_exemption": "taxExemption",
+      "tax_items": "taxItems",
+      "discount_builder": "discountBuilder",
+      "is_tax_inclusive": "isTaxInclusive",
+    });
+  })
+);
 /** @internal */
 export type CreditNoteItemCreateUpdate$Outbound = {
   external_id: string;
   date: string;
-  description?: string | undefined;
+  description?: string | null | undefined;
   external_product_id: string;
-  quantity: number;
-  amount: number;
-  tax_amount_imported?: number | undefined;
-  tax_rate_imported?: number | undefined;
-  taxable_amount?: number | undefined;
-  tax_exemption?: string | undefined;
+  quantity: number | string;
+  amount: number | string;
+  tax_amount_imported?: number | string | null | undefined;
+  tax_rate_imported?: number | string | null | undefined;
+  taxable_amount?: number | string | null | undefined;
+  tax_exemption?: string | null | undefined;
   tax_items?: Array<TaxItemBuilder$Outbound> | undefined;
+  discount_builder?: DiscountBuilder$Outbound | null | undefined;
+  is_tax_inclusive?: boolean | null | undefined;
 };
 
 /** @internal */
@@ -114,29 +366,35 @@ export const CreditNoteItemCreateUpdate$outboundSchema: z.ZodType<
   CreditNoteItemCreateUpdate$Outbound,
   z.ZodTypeDef,
   CreditNoteItemCreateUpdate
-> = z.object({
-  externalId: z.string(),
-  date: z.date().transform(v => v.toISOString()),
-  description: z.string().optional(),
-  externalProductId: z.string(),
-  quantity: z.number(),
-  amount: z.number(),
-  taxAmountImported: z.number().optional(),
-  taxRateImported: z.number().optional(),
-  taxableAmount: z.number().optional(),
-  taxExemption: TaxExemptionEnum$outboundSchema.optional(),
-  taxItems: z.array(TaxItemBuilder$outboundSchema).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    externalProductId: "external_product_id",
-    taxAmountImported: "tax_amount_imported",
-    taxRateImported: "tax_rate_imported",
-    taxableAmount: "taxable_amount",
-    taxExemption: "tax_exemption",
-    taxItems: "tax_items",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    externalId: z.string(),
+    date: z.date().transform(v => v.toISOString()),
+    description: z.nullable(z.string()).optional(),
+    externalProductId: z.string(),
+    quantity: z.union([z.number(), z.string()]),
+    amount: z.union([z.number(), z.string()]),
+    taxAmountImported: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxRateImported: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxableAmount: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxExemption: z.nullable(TaxExemptionEnum$outboundSchema).optional(),
+    taxItems: z.array(TaxItemBuilder$outboundSchema).optional(),
+    discountBuilder: z.nullable(DiscountBuilder$outboundSchema).optional(),
+    isTaxInclusive: z.nullable(z.boolean()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      externalProductId: "external_product_id",
+      taxAmountImported: "tax_amount_imported",
+      taxRateImported: "tax_rate_imported",
+      taxableAmount: "taxable_amount",
+      taxExemption: "tax_exemption",
+      taxItems: "tax_items",
+      discountBuilder: "discount_builder",
+      isTaxInclusive: "is_tax_inclusive",
+    });
+  })
+);
 
 export function creditNoteItemCreateUpdateToJSON(
   creditNoteItemCreateUpdate: CreditNoteItemCreateUpdate,

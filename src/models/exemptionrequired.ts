@@ -4,9 +4,19 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import {
+  CountryCodeEnum,
+  CountryCodeEnum$inboundSchema,
+  CountryCodeEnum$outboundSchema,
+} from "./countrycodeenum.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  ExemptionSourceEnum,
+  ExemptionSourceEnum$inboundSchema,
+  ExemptionSourceEnum$outboundSchema,
+} from "./exemptionsourceenum.js";
 import {
   ExemptionStatus,
   ExemptionStatus$inboundSchema,
@@ -19,8 +29,8 @@ import {
 } from "./exemptiontype.js";
 
 export type ExemptionRequired = {
-  jurisdiction?: string | undefined;
-  customerId?: string | undefined;
+  jurisdiction?: string | null | undefined;
+  customerId?: string | null | undefined;
   /**
    * Unique identifier of the organization. This field is deprecated, and should no longer be used. The value is populated through the 'x-organization-id' header.
    *
@@ -31,6 +41,11 @@ export type ExemptionRequired = {
   startDate: Date;
   status: ExemptionStatus;
   reseller: boolean;
+  countryCode?: CountryCodeEnum | null | undefined;
+  endDate?: Date | null | undefined;
+  fein?: string | null | undefined;
+  salesTaxId?: string | null | undefined;
+  source?: ExemptionSourceEnum | null | undefined;
 };
 
 /** @internal */
@@ -38,31 +53,51 @@ export const ExemptionRequired$inboundSchema: z.ZodType<
   ExemptionRequired,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  jurisdiction: z.string().optional(),
-  customer_id: z.string().optional(),
-  organization_id: z.string(),
-  exemption_type: ExemptionType$inboundSchema,
-  start_date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  status: ExemptionStatus$inboundSchema,
-  reseller: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    "customer_id": "customerId",
-    "organization_id": "organizationId",
-    "exemption_type": "exemptionType",
-    "start_date": "startDate",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    jurisdiction: z.nullable(z.string()).optional(),
+    customer_id: z.nullable(z.string()).optional(),
+    organization_id: z.string(),
+    exemption_type: ExemptionType$inboundSchema,
+    start_date: z.string().datetime({ offset: true }).transform(v =>
+      new Date(v)
+    ),
+    status: ExemptionStatus$inboundSchema,
+    reseller: z.boolean(),
+    country_code: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    end_date: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    FEIN: z.nullable(z.string()).optional(),
+    sales_tax_id: z.nullable(z.string()).optional(),
+    source: z.nullable(ExemptionSourceEnum$inboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "customer_id": "customerId",
+      "organization_id": "organizationId",
+      "exemption_type": "exemptionType",
+      "start_date": "startDate",
+      "country_code": "countryCode",
+      "end_date": "endDate",
+      "FEIN": "fein",
+      "sales_tax_id": "salesTaxId",
+    });
+  })
+);
 /** @internal */
 export type ExemptionRequired$Outbound = {
-  jurisdiction?: string | undefined;
-  customer_id?: string | undefined;
+  jurisdiction?: string | null | undefined;
+  customer_id?: string | null | undefined;
   organization_id: string;
   exemption_type: string;
   start_date: string;
   status: string;
   reseller: boolean;
+  country_code?: string | null | undefined;
+  end_date?: string | null | undefined;
+  FEIN?: string | null | undefined;
+  sales_tax_id?: string | null | undefined;
+  source?: string | null | undefined;
 };
 
 /** @internal */
@@ -70,22 +105,33 @@ export const ExemptionRequired$outboundSchema: z.ZodType<
   ExemptionRequired$Outbound,
   z.ZodTypeDef,
   ExemptionRequired
-> = z.object({
-  jurisdiction: z.string().optional(),
-  customerId: z.string().optional(),
-  organizationId: z.string(),
-  exemptionType: ExemptionType$outboundSchema,
-  startDate: z.date().transform(v => v.toISOString()),
-  status: ExemptionStatus$outboundSchema,
-  reseller: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    customerId: "customer_id",
-    organizationId: "organization_id",
-    exemptionType: "exemption_type",
-    startDate: "start_date",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    jurisdiction: z.nullable(z.string()).optional(),
+    customerId: z.nullable(z.string()).optional(),
+    organizationId: z.string(),
+    exemptionType: ExemptionType$outboundSchema,
+    startDate: z.date().transform(v => v.toISOString()),
+    status: ExemptionStatus$outboundSchema,
+    reseller: z.boolean(),
+    countryCode: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    endDate: z.nullable(z.date().transform(v => v.toISOString())).optional(),
+    fein: z.nullable(z.string()).optional(),
+    salesTaxId: z.nullable(z.string()).optional(),
+    source: z.nullable(ExemptionSourceEnum$outboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      customerId: "customer_id",
+      organizationId: "organization_id",
+      exemptionType: "exemption_type",
+      startDate: "start_date",
+      countryCode: "country_code",
+      endDate: "end_date",
+      fein: "FEIN",
+      salesTaxId: "sales_tax_id",
+    });
+  })
+);
 
 export function exemptionRequiredToJSON(
   exemptionRequired: ExemptionRequired,

@@ -14,7 +14,7 @@ const args = {
 
 export const tool$customersGetByExternalId: ToolDefinition<typeof args> = {
   name: "customers-get-by-external-id",
-  description: `Get Customer By External Id
+  description: `Get customer by external id
 
 The Get Customer By External ID API retrieves the details of a single customer using
 their external identifier. This endpoint is useful for accessing customer data when only
@@ -24,7 +24,7 @@ an external ID is available.`,
     const [result, apiCall] = await customersGetByExternalId(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

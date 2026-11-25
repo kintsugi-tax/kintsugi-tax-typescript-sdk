@@ -4,13 +4,13 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type FindThresholdCrossingTransactionState = {
-  lastTxnId?: string | undefined;
-  lastTxnDatetime?: string | undefined;
+  lastTxnId?: string | null | undefined;
+  lastTxnDatetime?: string | null | undefined;
   periodStartDate: string;
   periodEndDate: string;
   runningSalesTotalDecimal: string;
@@ -23,29 +23,31 @@ export const FindThresholdCrossingTransactionState$inboundSchema: z.ZodType<
   FindThresholdCrossingTransactionState,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  last_txn_id: z.string().optional(),
-  last_txn_datetime: z.string().optional(),
-  period_start_date: z.string(),
-  period_end_date: z.string(),
-  running_sales_total_decimal: z.string(),
-  running_transaction_count: z.number().int(),
-  has_all_marketplace_transactions: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    "last_txn_id": "lastTxnId",
-    "last_txn_datetime": "lastTxnDatetime",
-    "period_start_date": "periodStartDate",
-    "period_end_date": "periodEndDate",
-    "running_sales_total_decimal": "runningSalesTotalDecimal",
-    "running_transaction_count": "runningTransactionCount",
-    "has_all_marketplace_transactions": "hasAllMarketplaceTransactions",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    last_txn_id: z.nullable(z.string()).optional(),
+    last_txn_datetime: z.nullable(z.string()).optional(),
+    period_start_date: z.string(),
+    period_end_date: z.string(),
+    running_sales_total_decimal: z.string(),
+    running_transaction_count: z.number().int(),
+    has_all_marketplace_transactions: z.boolean(),
+  }).transform((v) => {
+    return remap$(v, {
+      "last_txn_id": "lastTxnId",
+      "last_txn_datetime": "lastTxnDatetime",
+      "period_start_date": "periodStartDate",
+      "period_end_date": "periodEndDate",
+      "running_sales_total_decimal": "runningSalesTotalDecimal",
+      "running_transaction_count": "runningTransactionCount",
+      "has_all_marketplace_transactions": "hasAllMarketplaceTransactions",
+    });
+  })
+);
 /** @internal */
 export type FindThresholdCrossingTransactionState$Outbound = {
-  last_txn_id?: string | undefined;
-  last_txn_datetime?: string | undefined;
+  last_txn_id?: string | null | undefined;
+  last_txn_datetime?: string | null | undefined;
   period_start_date: string;
   period_end_date: string;
   running_sales_total_decimal: string;
@@ -58,25 +60,27 @@ export const FindThresholdCrossingTransactionState$outboundSchema: z.ZodType<
   FindThresholdCrossingTransactionState$Outbound,
   z.ZodTypeDef,
   FindThresholdCrossingTransactionState
-> = z.object({
-  lastTxnId: z.string().optional(),
-  lastTxnDatetime: z.string().optional(),
-  periodStartDate: z.string(),
-  periodEndDate: z.string(),
-  runningSalesTotalDecimal: z.string(),
-  runningTransactionCount: z.number().int(),
-  hasAllMarketplaceTransactions: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    lastTxnId: "last_txn_id",
-    lastTxnDatetime: "last_txn_datetime",
-    periodStartDate: "period_start_date",
-    periodEndDate: "period_end_date",
-    runningSalesTotalDecimal: "running_sales_total_decimal",
-    runningTransactionCount: "running_transaction_count",
-    hasAllMarketplaceTransactions: "has_all_marketplace_transactions",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    lastTxnId: z.nullable(z.string()).optional(),
+    lastTxnDatetime: z.nullable(z.string()).optional(),
+    periodStartDate: z.string(),
+    periodEndDate: z.string(),
+    runningSalesTotalDecimal: z.string(),
+    runningTransactionCount: z.number().int(),
+    hasAllMarketplaceTransactions: z.boolean(),
+  }).transform((v) => {
+    return remap$(v, {
+      lastTxnId: "last_txn_id",
+      lastTxnDatetime: "last_txn_datetime",
+      periodStartDate: "period_start_date",
+      periodEndDate: "period_end_date",
+      runningSalesTotalDecimal: "running_sales_total_decimal",
+      runningTransactionCount: "running_transaction_count",
+      hasAllMarketplaceTransactions: "has_all_marketplace_transactions",
+    });
+  })
+);
 
 export function findThresholdCrossingTransactionStateToJSON(
   findThresholdCrossingTransactionState: FindThresholdCrossingTransactionState,

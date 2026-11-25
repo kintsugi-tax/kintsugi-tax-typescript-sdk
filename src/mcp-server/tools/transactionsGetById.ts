@@ -14,7 +14,7 @@ const args = {
 
 export const tool$transactionsGetById: ToolDefinition<typeof args> = {
   name: "transactions-get-by-id",
-  description: `Get Transaction By Id
+  description: `Get transaction by id
 
 The Get Transaction By Id API retrieves detailed information
     about a specific transaction by providing its unique transaction ID.`,
@@ -23,7 +23,7 @@ The Get Transaction By Id API retrieves detailed information
     const [result, apiCall] = await transactionsGetById(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

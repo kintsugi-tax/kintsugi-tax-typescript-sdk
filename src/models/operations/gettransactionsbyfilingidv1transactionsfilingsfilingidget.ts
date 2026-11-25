@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -16,6 +16,10 @@ export type GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest = {
    *         whose transactions you wish to retrieve.
    */
   filingId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -24,17 +28,22 @@ export const GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest$in
     GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    filing_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "filing_id": "filingId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      filing_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "filing_id": "filingId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest$Outbound =
   {
     filing_id: string;
+    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -43,13 +52,17 @@ export const GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest$ou
     GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest$Outbound,
     z.ZodTypeDef,
     GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
-  > = z.object({
-    filingId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      filingId: "filing_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      filingId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        filingId: "filing_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestToJSON(
   getTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest:

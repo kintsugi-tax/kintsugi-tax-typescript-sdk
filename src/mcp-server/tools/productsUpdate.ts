@@ -12,18 +12,20 @@ const args = {
 
 export const tool$productsUpdate: ToolDefinition<typeof args> = {
   name: "products-update",
-  description: `Update Product
+  description: `Update product
 
 The Update Product API allows users to modify the details of
     an existing product identified by its unique product_id. You can
-    retrieve supported categories and subcategories from
-    [GET /products/categories endpoint](/reference/api/products/get-product-categories)`,
+    retrieve supported categories and subcategories from the
+    [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+    or browse the full catalog with descriptions and examples in the
+    [Product Categories guide](/docs/guides/product-categories)`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await productsUpdate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

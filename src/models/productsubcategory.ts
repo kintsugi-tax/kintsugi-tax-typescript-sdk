@@ -4,16 +4,13 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type ProductSubCategory = {
   /**
-   * Name of the product subcategory
-   *
-   * @remarks
-   *             (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+   * Tax subcategory display label (e.g. 'Oral Hygiene', 'Medical Devices').
    */
   name: string;
   /**
@@ -35,16 +32,18 @@ export const ProductSubCategory$inboundSchema: z.ZodType<
   ProductSubCategory,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  name: z.string(),
-  description: z.string(),
-  example: z.string(),
-  is_frequent: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    "is_frequent": "isFrequent",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.string(),
+    description: z.string(),
+    example: z.string(),
+    is_frequent: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      "is_frequent": "isFrequent",
+    });
+  })
+);
 /** @internal */
 export type ProductSubCategory$Outbound = {
   name: string;
@@ -58,16 +57,18 @@ export const ProductSubCategory$outboundSchema: z.ZodType<
   ProductSubCategory$Outbound,
   z.ZodTypeDef,
   ProductSubCategory
-> = z.object({
-  name: z.string(),
-  description: z.string(),
-  example: z.string(),
-  isFrequent: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    isFrequent: "is_frequent",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    name: z.string(),
+    description: z.string(),
+    example: z.string(),
+    isFrequent: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      isFrequent: "is_frequent",
+    });
+  })
+);
 
 export function productSubCategoryToJSON(
   productSubCategory: ProductSubCategory,

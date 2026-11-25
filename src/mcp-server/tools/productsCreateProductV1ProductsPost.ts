@@ -3,30 +3,37 @@
  */
 
 import { productsCreateProductV1ProductsPost } from "../../funcs/productsCreateProductV1ProductsPost.js";
-import * as models from "../../models/index.js";
+import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: models.ProductCreateManual$inboundSchema,
+  request: operations.CreateProductV1ProductsPostRequest$inboundSchema,
 };
 
 export const tool$productsCreateProductV1ProductsPost: ToolDefinition<
   typeof args
 > = {
   name: "products-create-product-v1-products-post",
-  description: `Create Product
+  description: `Create product
 
 The Create Product API allows users to manually create a new product
     in the system. This includes specifying product details such as category,
     subcategory, and tax exemption status, etc. You can
-    retrieve supported categories and subcategories from
-    [GET /products/categories endpoint](/reference/api/products/get-product-categories)`,
+    retrieve supported categories and subcategories from the
+    [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+    or browse the full catalog with descriptions and examples in the
+    [Product Categories guide](/docs/guides/product-categories).
+
+    Idempotent on \`\`(organization_id, external_id, source)\`\` for connectionless
+    creates (CP-4726): a re-POST of an existing identity returns \`\`200\`\`. A live
+    match is unchanged; a previously deleted match is revived (status returns to
+    \`\`PENDING\`\`). Use PUT to update fields.`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await productsCreateProductV1ProductsPost(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

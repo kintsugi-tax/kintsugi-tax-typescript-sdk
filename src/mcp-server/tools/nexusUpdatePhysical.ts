@@ -14,7 +14,7 @@ const args = {
 
 export const tool$nexusUpdatePhysical: ToolDefinition<typeof args> = {
   name: "nexus-update-physical",
-  description: `Update Physical Nexus
+  description: `Update physical nexus
 
 The Update Physical Nexus API allows you to modify the details of
     an existing physical nexus by its unique ID.`,
@@ -23,7 +23,7 @@ The Update Physical Nexus API allows you to modify the details of
     const [result, apiCall] = await nexusUpdatePhysical(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

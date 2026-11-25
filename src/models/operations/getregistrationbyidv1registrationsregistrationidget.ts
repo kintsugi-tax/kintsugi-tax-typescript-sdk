@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -17,9 +17,13 @@ export type GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest = {
    */
   registrationId: string;
   /**
-   * Name of field to reveal
+   * Comma-separated credential fields to return decrypted. Only an Owner of the organization or a Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and a service key as the user who created it. Other callers, and automated assistant integrations, get 403. Without this parameter, credential fields come back masked.
    */
-  reveal?: string | undefined;
+  reveal?: string | null | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -28,19 +32,24 @@ export const GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$inboundS
     GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    registration_id: z.string(),
-    reveal: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      "registration_id": "registrationId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registration_id: z.string(),
+      reveal: z.nullable(z.string()).optional(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "registration_id": "registrationId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$Outbound =
   {
     registration_id: string;
-    reveal?: string | undefined;
+    reveal?: string | null | undefined;
+    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -49,14 +58,18 @@ export const GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$outbound
     GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest$Outbound,
     z.ZodTypeDef,
     GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest
-  > = z.object({
-    registrationId: z.string(),
-    reveal: z.string().optional(),
-  }).transform((v) => {
-    return remap$(v, {
-      registrationId: "registration_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registrationId: z.string(),
+      reveal: z.nullable(z.string()).optional(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        registrationId: "registration_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getRegistrationByIdV1RegistrationsRegistrationIdGetRequestToJSON(
   getRegistrationByIdV1RegistrationsRegistrationIdGetRequest:

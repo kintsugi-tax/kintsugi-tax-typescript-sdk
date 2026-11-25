@@ -4,8 +4,9 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import { RFCDate } from "../types/rfcdate.js";
 import {
   AddressStatus,
   AddressStatus$inboundSchema,
@@ -27,13 +28,12 @@ import {
   CustomerCreate$Outbound,
   CustomerCreate$outboundSchema,
 } from "./customercreate.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  Exemption,
-  Exemption$inboundSchema,
-  Exemption$Outbound,
-  Exemption$outboundSchema,
-} from "./exemption.js";
+  DocumentTypeEnum,
+  DocumentTypeEnum$inboundSchema,
+  DocumentTypeEnum$outboundSchema,
+} from "./documenttypeenum.js";
+import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   ExemptionRequired,
   ExemptionRequired$inboundSchema,
@@ -62,6 +62,18 @@ import {
   TransactionAddressBuilder$outboundSchema,
 } from "./transactionaddressbuilder.js";
 import {
+  TransactionAddressInput,
+  TransactionAddressInput$inboundSchema,
+  TransactionAddressInput$Outbound,
+  TransactionAddressInput$outboundSchema,
+} from "./transactionaddressinput.js";
+import {
+  TransactionEmbeddedExemption,
+  TransactionEmbeddedExemption$inboundSchema,
+  TransactionEmbeddedExemption$Outbound,
+  TransactionEmbeddedExemption$outboundSchema,
+} from "./transactionembeddedexemption.js";
+import {
   TransactionExemptStatusEnum,
   TransactionExemptStatusEnum$inboundSchema,
   TransactionExemptStatusEnum$outboundSchema,
@@ -83,8 +95,90 @@ import {
   TransactionStatusEnum$outboundSchema,
 } from "./transactionstatusenum.js";
 
+/**
+ * Total amount of the transaction.
+ */
+export type TransactionCreateTotalAmount = number | string;
+
+/**
+ * Imported tax amount.
+ */
+export type TransactionCreateTotalTaxAmountImported = number | string;
+
+/**
+ * Imported tax rate.
+ */
+export type TransactionCreateTaxRateImported = number | string;
+
+/**
+ * Calculated tax amount.
+ */
+export type TransactionCreateTotalTaxAmountCalculated = number | string;
+
+/**
+ * Calculated tax rate.
+ */
+export type TransactionCreateTaxRateCalculated = number | string;
+
+/**
+ * Total tax liability amount.
+ */
+export type TransactionCreateTotalTaxLiabilityAmount = number | string;
+
+/**
+ * Taxable amount.
+ */
+export type TransactionCreateTaxableAmount = number | string;
+
+/**
+ * Converted total amount.
+ */
+export type ConvertedTotalAmount = number | string;
+
+/**
+ * Converted imported tax amount.
+ */
+export type ConvertedTotalTaxAmountImported = number | string;
+
+/**
+ * Converted calculated tax amount.
+ */
+export type ConvertedTotalTaxAmountCalculated = number | string;
+
+/**
+ * Currency conversion rate.
+ */
+export type ConversionRate = number | string;
+
+/**
+ * Converted taxable amount.
+ */
+export type TransactionCreateConvertedTaxableAmount = number | string;
+
+/**
+ * Converted total discount amount.
+ */
+export type TransactionCreateConvertedTotalDiscount = number | string;
+
+/**
+ * Converted subtotal amount.
+ */
+export type TransactionCreateConvertedSubtotal = number | string;
+
+/**
+ * Converted total tax liability amount.
+ */
+export type ConvertedTotalTaxLiabilityAmount = number | string;
+
+export type TransactionCreateAddresses =
+  | Array<TransactionAddressBuilder>
+  | Array<TransactionAddressInput>;
+
 export type TransactionCreate = {
-  requiresExemption?: ExemptionRequired | undefined;
+  /**
+   * Indicates if transaction requires tax exemption.
+   */
+  requiresExemption?: ExemptionRequired | null | undefined;
   /**
    * Unique identifier of the organization. This field is deprecated, and should no longer be used. The value is populated through the 'x-organization-id' header.
    *
@@ -102,90 +196,90 @@ export type TransactionCreate = {
   /**
    * Transaction date in the shop's local timezone
    */
-  shopDate?: string | undefined;
+  shopDate?: RFCDate | null | undefined;
   /**
    * Timezone of the shop
    */
-  shopDateTz?: string | undefined;
+  shopDateTz?: string | null | undefined;
   /**
    * Description of the transaction.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /**
-   * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-   *
-   * @remarks
-   * If the given order has different status from these 2, we will set the
-   * transaction's refund_status to PARTIALLY_REFUNDED by default.
+   * Status of refund, if applicable
    */
-  refundStatus?: TransactionRefundStatus | undefined;
+  refundStatus?: TransactionRefundStatus | null | undefined;
   /**
    * Total amount of the transaction.
    */
-  totalAmount?: number | undefined;
+  totalAmount?: number | string | undefined;
   /**
    * Unique identifier of the customer.
    */
-  customerId?: string | undefined;
+  customerId?: string | null | undefined;
   /**
    * Indicates if transaction is marketplace-based.
    */
-  marketplace?: boolean | undefined;
+  marketplace?: boolean | null | undefined;
   /**
-   * Based on transaction item exempt status.
-   *
-   * @remarks
-   * NOT EXEMPT: None of the items are NOT EXEMPT
-   * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-   * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-   * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+   * Exemption status (e.g., NOT_EXEMPT)
    */
-  exempt?: TransactionExemptStatusEnum | undefined;
+  exempt?: TransactionExemptStatusEnum | null | undefined;
   /**
    * List of exemptions applied (if any).
    */
-  exemptions?: Array<Exemption> | undefined;
+  exemptions?: Array<TransactionEmbeddedExemption> | null | undefined;
   /**
    * Related transaction identifier.
    */
-  relatedTo?: string | undefined;
+  relatedTo?: string | null | undefined;
   /**
    * Secondary External Identifier.
    */
-  secondaryExternalId?: string | undefined;
+  secondaryExternalId?: string | null | undefined;
   /**
    * Secondary source information
    */
-  secondarySource?: string | undefined;
+  secondarySource?: string | null | undefined;
   /**
    * Friendly identifier of the original item.
    */
-  externalFriendlyId?: string | undefined;
+  externalFriendlyId?: string | null | undefined;
   /**
    * Imported tax amount.
    */
-  totalTaxAmountImported?: number | undefined;
+  totalTaxAmountImported?: number | string | undefined;
   /**
    * Imported tax rate.
    */
-  taxRateImported?: number | undefined;
+  taxRateImported?: number | string | undefined;
   /**
    * Calculated tax amount.
    */
-  totalTaxAmountCalculated?: number | undefined;
+  totalTaxAmountCalculated?: number | string | undefined;
   /**
    * Calculated tax rate.
    */
-  taxRateCalculated?: number | undefined;
+  taxRateCalculated?: number | string | undefined;
   /**
    * Total tax liability amount.
    */
-  totalTaxLiabilityAmount?: number | undefined;
-  taxLiabilitySource?: TaxLiabilitySourceEnum | undefined;
+  totalTaxLiabilityAmount?: number | string | undefined;
+  /**
+   * Source of tax liability.
+   */
+  taxLiabilitySource?: TaxLiabilitySourceEnum | null | undefined;
   /**
    * Taxable amount.
    */
-  taxableAmount?: number | undefined;
+  taxableAmount?: number | string | undefined;
+  /**
+   * Whether source amounts include tax. NULL means the source did not say.
+   */
+  isTaxInclusive?: boolean | null | undefined;
+  /**
+   * ISO-4217 currency code. Pair with a monetary amount on the same object.
+   */
   currency?: CurrencyEnum | undefined;
   /**
    * Transaction lock status.
@@ -195,35 +289,46 @@ export type TransactionCreate = {
   /**
    * Connection Identifier
    */
-  connectionId?: string | undefined;
+  connectionId?: string | null | undefined;
   /**
    * Filing identifier.
    */
-  filingId?: string | undefined;
+  filingId?: string | null | undefined;
   /**
    * City of the transaction address.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * County of the transaction address.
    */
-  county?: string | undefined;
+  county?: string | null | undefined;
   /**
    * State of the transaction address.
    */
-  state?: string | undefined;
-  country?: CountryCodeEnum | undefined;
+  state?: string | null | undefined;
+  /**
+   * Country code (ISO Alpha-2).
+   */
+  country?: CountryCodeEnum | null | undefined;
   /**
    * Postal code of the transaction.
    */
-  postalCode?: string | undefined;
+  postalCode?: string | null | undefined;
   /**
    * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks integrations and will be removed in a future version.
    *
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
-  taxId?: string | undefined;
+  taxId?: string | null | undefined;
   status?: TransactionStatusEnum | undefined;
+  /**
+   * Document type distinguishing invoices from sales orders.
+   */
+  documentType?: DocumentTypeEnum | null | undefined;
+  /**
+   * Identifier of the invoice that created from a sales order.
+   */
+  createdFrom?: string | null | undefined;
   addressStatus?: AddressStatus | undefined;
   /**
    * Our transaction state, used to determine when/if a transaction needs additional
@@ -232,192 +337,830 @@ export type TransactionCreate = {
    * processing.
    */
   processingStatus?: ProcessingStatusEnum | undefined;
-  destinationCurrency?: CurrencyEnum | undefined;
+  isDuplicate?: boolean | undefined;
+  /**
+   * Destination currency code (ISO 4217, e.g., USD)
+   */
+  destinationCurrency?: CurrencyEnum | null | undefined;
   /**
    * Converted total amount.
    */
-  convertedTotalAmount?: number | undefined;
+  convertedTotalAmount?: number | string | null | undefined;
   /**
    * Converted imported tax amount.
    */
-  convertedTotalTaxAmountImported?: number | undefined;
+  convertedTotalTaxAmountImported?: number | string | null | undefined;
   /**
    * Converted calculated tax amount.
    */
-  convertedTotalTaxAmountCalculated?: number | undefined;
+  convertedTotalTaxAmountCalculated?: number | string | null | undefined;
   /**
    * Currency conversion rate.
    */
-  conversionRate?: number | undefined;
+  conversionRate?: number | string | null | undefined;
   /**
    * Converted taxable amount.
    */
-  convertedTaxableAmount?: number | undefined;
+  convertedTaxableAmount?: number | string | null | undefined;
   /**
    * Converted total discount amount.
    */
-  convertedTotalDiscount?: number | undefined;
+  convertedTotalDiscount?: number | string | null | undefined;
   /**
    * Converted subtotal amount.
    */
-  convertedSubtotal?: number | undefined;
+  convertedSubtotal?: number | string | null | undefined;
   /**
    * Converted total tax liability amount.
    */
-  convertedTotalTaxLiabilityAmount?: number | undefined;
-  addresses: Array<TransactionAddressBuilder>;
+  convertedTotalTaxLiabilityAmount?: number | string | null | undefined;
+  addresses: Array<TransactionAddressBuilder> | Array<TransactionAddressInput>;
   transactionItems: Array<TransactionItemCreateUpdate>;
-  customer?: CustomerCreate | undefined;
+  customer?: CustomerCreate | null | undefined;
 };
+
+/** @internal */
+export const TransactionCreateTotalAmount$inboundSchema: z.ZodType<
+  TransactionCreateTotalAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateTotalAmount$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateTotalAmount$outboundSchema: z.ZodType<
+  TransactionCreateTotalAmount$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateTotalAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateTotalAmountToJSON(
+  transactionCreateTotalAmount: TransactionCreateTotalAmount,
+): string {
+  return JSON.stringify(
+    TransactionCreateTotalAmount$outboundSchema.parse(
+      transactionCreateTotalAmount,
+    ),
+  );
+}
+export function transactionCreateTotalAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionCreateTotalAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => TransactionCreateTotalAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionCreateTotalAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateTotalTaxAmountImported$inboundSchema: z.ZodType<
+  TransactionCreateTotalTaxAmountImported,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateTotalTaxAmountImported$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateTotalTaxAmountImported$outboundSchema: z.ZodType<
+  TransactionCreateTotalTaxAmountImported$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateTotalTaxAmountImported
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateTotalTaxAmountImportedToJSON(
+  transactionCreateTotalTaxAmountImported:
+    TransactionCreateTotalTaxAmountImported,
+): string {
+  return JSON.stringify(
+    TransactionCreateTotalTaxAmountImported$outboundSchema.parse(
+      transactionCreateTotalTaxAmountImported,
+    ),
+  );
+}
+export function transactionCreateTotalTaxAmountImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionCreateTotalTaxAmountImported,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionCreateTotalTaxAmountImported$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionCreateTotalTaxAmountImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateTaxRateImported$inboundSchema: z.ZodType<
+  TransactionCreateTaxRateImported,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateTaxRateImported$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateTaxRateImported$outboundSchema: z.ZodType<
+  TransactionCreateTaxRateImported$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateTaxRateImported
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateTaxRateImportedToJSON(
+  transactionCreateTaxRateImported: TransactionCreateTaxRateImported,
+): string {
+  return JSON.stringify(
+    TransactionCreateTaxRateImported$outboundSchema.parse(
+      transactionCreateTaxRateImported,
+    ),
+  );
+}
+export function transactionCreateTaxRateImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionCreateTaxRateImported, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => TransactionCreateTaxRateImported$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionCreateTaxRateImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateTotalTaxAmountCalculated$inboundSchema: z.ZodType<
+  TransactionCreateTotalTaxAmountCalculated,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateTotalTaxAmountCalculated$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionCreateTotalTaxAmountCalculated$outboundSchema:
+  z.ZodType<
+    TransactionCreateTotalTaxAmountCalculated$Outbound,
+    z.ZodTypeDef,
+    TransactionCreateTotalTaxAmountCalculated
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateTotalTaxAmountCalculatedToJSON(
+  transactionCreateTotalTaxAmountCalculated:
+    TransactionCreateTotalTaxAmountCalculated,
+): string {
+  return JSON.stringify(
+    TransactionCreateTotalTaxAmountCalculated$outboundSchema.parse(
+      transactionCreateTotalTaxAmountCalculated,
+    ),
+  );
+}
+export function transactionCreateTotalTaxAmountCalculatedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionCreateTotalTaxAmountCalculated,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionCreateTotalTaxAmountCalculated$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionCreateTotalTaxAmountCalculated' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateTaxRateCalculated$inboundSchema: z.ZodType<
+  TransactionCreateTaxRateCalculated,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateTaxRateCalculated$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateTaxRateCalculated$outboundSchema: z.ZodType<
+  TransactionCreateTaxRateCalculated$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateTaxRateCalculated
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateTaxRateCalculatedToJSON(
+  transactionCreateTaxRateCalculated: TransactionCreateTaxRateCalculated,
+): string {
+  return JSON.stringify(
+    TransactionCreateTaxRateCalculated$outboundSchema.parse(
+      transactionCreateTaxRateCalculated,
+    ),
+  );
+}
+export function transactionCreateTaxRateCalculatedFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionCreateTaxRateCalculated, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionCreateTaxRateCalculated$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionCreateTaxRateCalculated' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateTotalTaxLiabilityAmount$inboundSchema: z.ZodType<
+  TransactionCreateTotalTaxLiabilityAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateTotalTaxLiabilityAmount$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateTotalTaxLiabilityAmount$outboundSchema: z.ZodType<
+  TransactionCreateTotalTaxLiabilityAmount$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateTotalTaxLiabilityAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateTotalTaxLiabilityAmountToJSON(
+  transactionCreateTotalTaxLiabilityAmount:
+    TransactionCreateTotalTaxLiabilityAmount,
+): string {
+  return JSON.stringify(
+    TransactionCreateTotalTaxLiabilityAmount$outboundSchema.parse(
+      transactionCreateTotalTaxLiabilityAmount,
+    ),
+  );
+}
+export function transactionCreateTotalTaxLiabilityAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionCreateTotalTaxLiabilityAmount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionCreateTotalTaxLiabilityAmount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionCreateTotalTaxLiabilityAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateTaxableAmount$inboundSchema: z.ZodType<
+  TransactionCreateTaxableAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateTaxableAmount$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateTaxableAmount$outboundSchema: z.ZodType<
+  TransactionCreateTaxableAmount$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateTaxableAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateTaxableAmountToJSON(
+  transactionCreateTaxableAmount: TransactionCreateTaxableAmount,
+): string {
+  return JSON.stringify(
+    TransactionCreateTaxableAmount$outboundSchema.parse(
+      transactionCreateTaxableAmount,
+    ),
+  );
+}
+export function transactionCreateTaxableAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionCreateTaxableAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => TransactionCreateTaxableAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionCreateTaxableAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConvertedTotalAmount$inboundSchema: z.ZodType<
+  ConvertedTotalAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type ConvertedTotalAmount$Outbound = number | string;
+
+/** @internal */
+export const ConvertedTotalAmount$outboundSchema: z.ZodType<
+  ConvertedTotalAmount$Outbound,
+  z.ZodTypeDef,
+  ConvertedTotalAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function convertedTotalAmountToJSON(
+  convertedTotalAmount: ConvertedTotalAmount,
+): string {
+  return JSON.stringify(
+    ConvertedTotalAmount$outboundSchema.parse(convertedTotalAmount),
+  );
+}
+export function convertedTotalAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<ConvertedTotalAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConvertedTotalAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConvertedTotalAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConvertedTotalTaxAmountImported$inboundSchema: z.ZodType<
+  ConvertedTotalTaxAmountImported,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type ConvertedTotalTaxAmountImported$Outbound = number | string;
+
+/** @internal */
+export const ConvertedTotalTaxAmountImported$outboundSchema: z.ZodType<
+  ConvertedTotalTaxAmountImported$Outbound,
+  z.ZodTypeDef,
+  ConvertedTotalTaxAmountImported
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function convertedTotalTaxAmountImportedToJSON(
+  convertedTotalTaxAmountImported: ConvertedTotalTaxAmountImported,
+): string {
+  return JSON.stringify(
+    ConvertedTotalTaxAmountImported$outboundSchema.parse(
+      convertedTotalTaxAmountImported,
+    ),
+  );
+}
+export function convertedTotalTaxAmountImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<ConvertedTotalTaxAmountImported, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConvertedTotalTaxAmountImported$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConvertedTotalTaxAmountImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConvertedTotalTaxAmountCalculated$inboundSchema: z.ZodType<
+  ConvertedTotalTaxAmountCalculated,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type ConvertedTotalTaxAmountCalculated$Outbound = number | string;
+
+/** @internal */
+export const ConvertedTotalTaxAmountCalculated$outboundSchema: z.ZodType<
+  ConvertedTotalTaxAmountCalculated$Outbound,
+  z.ZodTypeDef,
+  ConvertedTotalTaxAmountCalculated
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function convertedTotalTaxAmountCalculatedToJSON(
+  convertedTotalTaxAmountCalculated: ConvertedTotalTaxAmountCalculated,
+): string {
+  return JSON.stringify(
+    ConvertedTotalTaxAmountCalculated$outboundSchema.parse(
+      convertedTotalTaxAmountCalculated,
+    ),
+  );
+}
+export function convertedTotalTaxAmountCalculatedFromJSON(
+  jsonString: string,
+): SafeParseResult<ConvertedTotalTaxAmountCalculated, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConvertedTotalTaxAmountCalculated$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConvertedTotalTaxAmountCalculated' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConversionRate$inboundSchema: z.ZodType<
+  ConversionRate,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type ConversionRate$Outbound = number | string;
+
+/** @internal */
+export const ConversionRate$outboundSchema: z.ZodType<
+  ConversionRate$Outbound,
+  z.ZodTypeDef,
+  ConversionRate
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function conversionRateToJSON(conversionRate: ConversionRate): string {
+  return JSON.stringify(ConversionRate$outboundSchema.parse(conversionRate));
+}
+export function conversionRateFromJSON(
+  jsonString: string,
+): SafeParseResult<ConversionRate, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConversionRate$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConversionRate' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateConvertedTaxableAmount$inboundSchema: z.ZodType<
+  TransactionCreateConvertedTaxableAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateConvertedTaxableAmount$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateConvertedTaxableAmount$outboundSchema: z.ZodType<
+  TransactionCreateConvertedTaxableAmount$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateConvertedTaxableAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateConvertedTaxableAmountToJSON(
+  transactionCreateConvertedTaxableAmount:
+    TransactionCreateConvertedTaxableAmount,
+): string {
+  return JSON.stringify(
+    TransactionCreateConvertedTaxableAmount$outboundSchema.parse(
+      transactionCreateConvertedTaxableAmount,
+    ),
+  );
+}
+export function transactionCreateConvertedTaxableAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionCreateConvertedTaxableAmount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionCreateConvertedTaxableAmount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionCreateConvertedTaxableAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateConvertedTotalDiscount$inboundSchema: z.ZodType<
+  TransactionCreateConvertedTotalDiscount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateConvertedTotalDiscount$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateConvertedTotalDiscount$outboundSchema: z.ZodType<
+  TransactionCreateConvertedTotalDiscount$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateConvertedTotalDiscount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateConvertedTotalDiscountToJSON(
+  transactionCreateConvertedTotalDiscount:
+    TransactionCreateConvertedTotalDiscount,
+): string {
+  return JSON.stringify(
+    TransactionCreateConvertedTotalDiscount$outboundSchema.parse(
+      transactionCreateConvertedTotalDiscount,
+    ),
+  );
+}
+export function transactionCreateConvertedTotalDiscountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionCreateConvertedTotalDiscount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionCreateConvertedTotalDiscount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionCreateConvertedTotalDiscount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateConvertedSubtotal$inboundSchema: z.ZodType<
+  TransactionCreateConvertedSubtotal,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionCreateConvertedSubtotal$Outbound = number | string;
+
+/** @internal */
+export const TransactionCreateConvertedSubtotal$outboundSchema: z.ZodType<
+  TransactionCreateConvertedSubtotal$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateConvertedSubtotal
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionCreateConvertedSubtotalToJSON(
+  transactionCreateConvertedSubtotal: TransactionCreateConvertedSubtotal,
+): string {
+  return JSON.stringify(
+    TransactionCreateConvertedSubtotal$outboundSchema.parse(
+      transactionCreateConvertedSubtotal,
+    ),
+  );
+}
+export function transactionCreateConvertedSubtotalFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionCreateConvertedSubtotal, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionCreateConvertedSubtotal$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionCreateConvertedSubtotal' from JSON`,
+  );
+}
+
+/** @internal */
+export const ConvertedTotalTaxLiabilityAmount$inboundSchema: z.ZodType<
+  ConvertedTotalTaxLiabilityAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type ConvertedTotalTaxLiabilityAmount$Outbound = number | string;
+
+/** @internal */
+export const ConvertedTotalTaxLiabilityAmount$outboundSchema: z.ZodType<
+  ConvertedTotalTaxLiabilityAmount$Outbound,
+  z.ZodTypeDef,
+  ConvertedTotalTaxLiabilityAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function convertedTotalTaxLiabilityAmountToJSON(
+  convertedTotalTaxLiabilityAmount: ConvertedTotalTaxLiabilityAmount,
+): string {
+  return JSON.stringify(
+    ConvertedTotalTaxLiabilityAmount$outboundSchema.parse(
+      convertedTotalTaxLiabilityAmount,
+    ),
+  );
+}
+export function convertedTotalTaxLiabilityAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<ConvertedTotalTaxLiabilityAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ConvertedTotalTaxLiabilityAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ConvertedTotalTaxLiabilityAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionCreateAddresses$inboundSchema: z.ZodType<
+  TransactionCreateAddresses,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    z.array(TransactionAddressBuilder$inboundSchema),
+    z.array(TransactionAddressInput$inboundSchema),
+  ])
+);
+/** @internal */
+export type TransactionCreateAddresses$Outbound =
+  | Array<TransactionAddressBuilder$Outbound>
+  | Array<TransactionAddressInput$Outbound>;
+
+/** @internal */
+export const TransactionCreateAddresses$outboundSchema: z.ZodType<
+  TransactionCreateAddresses$Outbound,
+  z.ZodTypeDef,
+  TransactionCreateAddresses
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    z.array(TransactionAddressBuilder$outboundSchema),
+    z.array(TransactionAddressInput$outboundSchema),
+  ])
+);
+
+export function transactionCreateAddressesToJSON(
+  transactionCreateAddresses: TransactionCreateAddresses,
+): string {
+  return JSON.stringify(
+    TransactionCreateAddresses$outboundSchema.parse(transactionCreateAddresses),
+  );
+}
+export function transactionCreateAddressesFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionCreateAddresses, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => TransactionCreateAddresses$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionCreateAddresses' from JSON`,
+  );
+}
 
 /** @internal */
 export const TransactionCreate$inboundSchema: z.ZodType<
   TransactionCreate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  requires_exemption: ExemptionRequired$inboundSchema.optional(),
-  organization_id: z.string(),
-  external_id: z.string(),
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  shop_date: z.string().optional(),
-  shop_date_tz: z.string().optional(),
-  description: z.string().optional(),
-  refund_status: TransactionRefundStatus$inboundSchema.optional(),
-  total_amount: z.number().default(0),
-  customer_id: z.string().optional(),
-  marketplace: z.boolean().default(false),
-  exempt: TransactionExemptStatusEnum$inboundSchema.optional(),
-  exemptions: z.array(Exemption$inboundSchema).optional(),
-  related_to: z.string().optional(),
-  secondary_external_id: z.string().optional(),
-  secondary_source: z.string().optional(),
-  external_friendly_id: z.string().optional(),
-  total_tax_amount_imported: z.number().default(0),
-  tax_rate_imported: z.number().default(0),
-  total_tax_amount_calculated: z.number().default(0),
-  tax_rate_calculated: z.number().default(0),
-  total_tax_liability_amount: z.number().default(0),
-  tax_liability_source: TaxLiabilitySourceEnum$inboundSchema.optional(),
-  taxable_amount: z.number().default(0),
-  currency: CurrencyEnum$inboundSchema.optional(),
-  locked: z.boolean().default(false),
-  source: SourceEnum$inboundSchema.optional(),
-  connection_id: z.string().optional(),
-  filing_id: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  country: CountryCodeEnum$inboundSchema.optional(),
-  postal_code: z.string().optional(),
-  tax_id: z.string().optional(),
-  status: TransactionStatusEnum$inboundSchema.optional(),
-  address_status: AddressStatus$inboundSchema.optional(),
-  processing_status: ProcessingStatusEnum$inboundSchema.optional(),
-  destination_currency: CurrencyEnum$inboundSchema.optional(),
-  converted_total_amount: z.number().optional(),
-  converted_total_tax_amount_imported: z.number().optional(),
-  converted_total_tax_amount_calculated: z.number().optional(),
-  conversion_rate: z.number().optional(),
-  converted_taxable_amount: z.number().optional(),
-  converted_total_discount: z.number().optional(),
-  converted_subtotal: z.number().optional(),
-  converted_total_tax_liability_amount: z.number().optional(),
-  addresses: z.array(TransactionAddressBuilder$inboundSchema),
-  transaction_items: z.array(TransactionItemCreateUpdate$inboundSchema),
-  customer: CustomerCreate$inboundSchema.optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "requires_exemption": "requiresExemption",
-    "organization_id": "organizationId",
-    "external_id": "externalId",
-    "shop_date": "shopDate",
-    "shop_date_tz": "shopDateTz",
-    "refund_status": "refundStatus",
-    "total_amount": "totalAmount",
-    "customer_id": "customerId",
-    "related_to": "relatedTo",
-    "secondary_external_id": "secondaryExternalId",
-    "secondary_source": "secondarySource",
-    "external_friendly_id": "externalFriendlyId",
-    "total_tax_amount_imported": "totalTaxAmountImported",
-    "tax_rate_imported": "taxRateImported",
-    "total_tax_amount_calculated": "totalTaxAmountCalculated",
-    "tax_rate_calculated": "taxRateCalculated",
-    "total_tax_liability_amount": "totalTaxLiabilityAmount",
-    "tax_liability_source": "taxLiabilitySource",
-    "taxable_amount": "taxableAmount",
-    "connection_id": "connectionId",
-    "filing_id": "filingId",
-    "postal_code": "postalCode",
-    "tax_id": "taxId",
-    "address_status": "addressStatus",
-    "processing_status": "processingStatus",
-    "destination_currency": "destinationCurrency",
-    "converted_total_amount": "convertedTotalAmount",
-    "converted_total_tax_amount_imported": "convertedTotalTaxAmountImported",
-    "converted_total_tax_amount_calculated":
-      "convertedTotalTaxAmountCalculated",
-    "conversion_rate": "conversionRate",
-    "converted_taxable_amount": "convertedTaxableAmount",
-    "converted_total_discount": "convertedTotalDiscount",
-    "converted_subtotal": "convertedSubtotal",
-    "converted_total_tax_liability_amount": "convertedTotalTaxLiabilityAmount",
-    "transaction_items": "transactionItems",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    requires_exemption: z.nullable(ExemptionRequired$inboundSchema).optional(),
+    organization_id: z.string(),
+    external_id: z.string(),
+    date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    shop_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    shop_date_tz: z.nullable(z.string()).optional(),
+    description: z.nullable(z.string()).optional(),
+    refund_status: z.nullable(TransactionRefundStatus$inboundSchema).optional(),
+    total_amount: z.union([z.number(), z.string()]).optional(),
+    customer_id: z.nullable(z.string()).optional(),
+    marketplace: z.nullable(z.boolean()).optional(),
+    exempt: z.nullable(TransactionExemptStatusEnum$inboundSchema).optional(),
+    exemptions: z.nullable(z.array(TransactionEmbeddedExemption$inboundSchema))
+      .optional(),
+    related_to: z.nullable(z.string()).optional(),
+    secondary_external_id: z.nullable(z.string()).optional(),
+    secondary_source: z.nullable(z.string()).optional(),
+    external_friendly_id: z.nullable(z.string()).optional(),
+    total_tax_amount_imported: z.union([z.number(), z.string()]).optional(),
+    tax_rate_imported: z.union([z.number(), z.string()]).optional(),
+    total_tax_amount_calculated: z.union([z.number(), z.string()]).optional(),
+    tax_rate_calculated: z.union([z.number(), z.string()]).optional(),
+    total_tax_liability_amount: z.union([z.number(), z.string()]).optional(),
+    tax_liability_source: z.nullable(TaxLiabilitySourceEnum$inboundSchema)
+      .optional(),
+    taxable_amount: z.union([z.number(), z.string()]).optional(),
+    is_tax_inclusive: z.nullable(z.boolean()).optional(),
+    currency: CurrencyEnum$inboundSchema.optional(),
+    locked: z.boolean().default(false),
+    source: SourceEnum$inboundSchema.optional(),
+    connection_id: z.nullable(z.string()).optional(),
+    filing_id: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+    tax_id: z.nullable(z.string()).optional(),
+    status: TransactionStatusEnum$inboundSchema.optional(),
+    document_type: z.nullable(DocumentTypeEnum$inboundSchema).optional(),
+    created_from: z.nullable(z.string()).optional(),
+    address_status: AddressStatus$inboundSchema.optional(),
+    processing_status: ProcessingStatusEnum$inboundSchema.optional(),
+    is_duplicate: z.boolean().default(false),
+    destination_currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    converted_total_amount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    converted_total_tax_amount_imported: z.nullable(
+      z.union([z.number(), z.string()]),
+    ).optional(),
+    converted_total_tax_amount_calculated: z.nullable(
+      z.union([z.number(), z.string()]),
+    ).optional(),
+    conversion_rate: z.nullable(z.union([z.number(), z.string()])).optional(),
+    converted_taxable_amount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    converted_total_discount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    converted_subtotal: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    converted_total_tax_liability_amount: z.nullable(
+      z.union([z.number(), z.string()]),
+    ).optional(),
+    addresses: z.union([
+      z.array(TransactionAddressBuilder$inboundSchema),
+      z.array(TransactionAddressInput$inboundSchema),
+    ]),
+    transaction_items: z.array(TransactionItemCreateUpdate$inboundSchema),
+    customer: z.nullable(CustomerCreate$inboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "requires_exemption": "requiresExemption",
+      "organization_id": "organizationId",
+      "external_id": "externalId",
+      "shop_date": "shopDate",
+      "shop_date_tz": "shopDateTz",
+      "refund_status": "refundStatus",
+      "total_amount": "totalAmount",
+      "customer_id": "customerId",
+      "related_to": "relatedTo",
+      "secondary_external_id": "secondaryExternalId",
+      "secondary_source": "secondarySource",
+      "external_friendly_id": "externalFriendlyId",
+      "total_tax_amount_imported": "totalTaxAmountImported",
+      "tax_rate_imported": "taxRateImported",
+      "total_tax_amount_calculated": "totalTaxAmountCalculated",
+      "tax_rate_calculated": "taxRateCalculated",
+      "total_tax_liability_amount": "totalTaxLiabilityAmount",
+      "tax_liability_source": "taxLiabilitySource",
+      "taxable_amount": "taxableAmount",
+      "is_tax_inclusive": "isTaxInclusive",
+      "connection_id": "connectionId",
+      "filing_id": "filingId",
+      "postal_code": "postalCode",
+      "tax_id": "taxId",
+      "document_type": "documentType",
+      "created_from": "createdFrom",
+      "address_status": "addressStatus",
+      "processing_status": "processingStatus",
+      "is_duplicate": "isDuplicate",
+      "destination_currency": "destinationCurrency",
+      "converted_total_amount": "convertedTotalAmount",
+      "converted_total_tax_amount_imported": "convertedTotalTaxAmountImported",
+      "converted_total_tax_amount_calculated":
+        "convertedTotalTaxAmountCalculated",
+      "conversion_rate": "conversionRate",
+      "converted_taxable_amount": "convertedTaxableAmount",
+      "converted_total_discount": "convertedTotalDiscount",
+      "converted_subtotal": "convertedSubtotal",
+      "converted_total_tax_liability_amount":
+        "convertedTotalTaxLiabilityAmount",
+      "transaction_items": "transactionItems",
+    });
+  })
+);
 /** @internal */
 export type TransactionCreate$Outbound = {
-  requires_exemption?: ExemptionRequired$Outbound | undefined;
+  requires_exemption?: ExemptionRequired$Outbound | null | undefined;
   organization_id: string;
   external_id: string;
   date: string;
-  shop_date?: string | undefined;
-  shop_date_tz?: string | undefined;
-  description?: string | undefined;
-  refund_status?: string | undefined;
-  total_amount: number;
-  customer_id?: string | undefined;
-  marketplace: boolean;
-  exempt?: string | undefined;
-  exemptions?: Array<Exemption$Outbound> | undefined;
-  related_to?: string | undefined;
-  secondary_external_id?: string | undefined;
-  secondary_source?: string | undefined;
-  external_friendly_id?: string | undefined;
-  total_tax_amount_imported: number;
-  tax_rate_imported: number;
-  total_tax_amount_calculated: number;
-  tax_rate_calculated: number;
-  total_tax_liability_amount: number;
-  tax_liability_source?: string | undefined;
-  taxable_amount: number;
+  shop_date?: string | null | undefined;
+  shop_date_tz?: string | null | undefined;
+  description?: string | null | undefined;
+  refund_status?: string | null | undefined;
+  total_amount?: number | string | undefined;
+  customer_id?: string | null | undefined;
+  marketplace?: boolean | null | undefined;
+  exempt?: string | null | undefined;
+  exemptions?: Array<TransactionEmbeddedExemption$Outbound> | null | undefined;
+  related_to?: string | null | undefined;
+  secondary_external_id?: string | null | undefined;
+  secondary_source?: string | null | undefined;
+  external_friendly_id?: string | null | undefined;
+  total_tax_amount_imported?: number | string | undefined;
+  tax_rate_imported?: number | string | undefined;
+  total_tax_amount_calculated?: number | string | undefined;
+  tax_rate_calculated?: number | string | undefined;
+  total_tax_liability_amount?: number | string | undefined;
+  tax_liability_source?: string | null | undefined;
+  taxable_amount?: number | string | undefined;
+  is_tax_inclusive?: boolean | null | undefined;
   currency?: string | undefined;
   locked: boolean;
   source?: string | undefined;
-  connection_id?: string | undefined;
-  filing_id?: string | undefined;
-  city?: string | undefined;
-  county?: string | undefined;
-  state?: string | undefined;
-  country?: string | undefined;
-  postal_code?: string | undefined;
-  tax_id?: string | undefined;
+  connection_id?: string | null | undefined;
+  filing_id?: string | null | undefined;
+  city?: string | null | undefined;
+  county?: string | null | undefined;
+  state?: string | null | undefined;
+  country?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  tax_id?: string | null | undefined;
   status?: string | undefined;
+  document_type?: string | null | undefined;
+  created_from?: string | null | undefined;
   address_status?: string | undefined;
   processing_status?: string | undefined;
-  destination_currency?: string | undefined;
-  converted_total_amount?: number | undefined;
-  converted_total_tax_amount_imported?: number | undefined;
-  converted_total_tax_amount_calculated?: number | undefined;
-  conversion_rate?: number | undefined;
-  converted_taxable_amount?: number | undefined;
-  converted_total_discount?: number | undefined;
-  converted_subtotal?: number | undefined;
-  converted_total_tax_liability_amount?: number | undefined;
-  addresses: Array<TransactionAddressBuilder$Outbound>;
+  is_duplicate: boolean;
+  destination_currency?: string | null | undefined;
+  converted_total_amount?: number | string | null | undefined;
+  converted_total_tax_amount_imported?: number | string | null | undefined;
+  converted_total_tax_amount_calculated?: number | string | null | undefined;
+  conversion_rate?: number | string | null | undefined;
+  converted_taxable_amount?: number | string | null | undefined;
+  converted_total_discount?: number | string | null | undefined;
+  converted_subtotal?: number | string | null | undefined;
+  converted_total_tax_liability_amount?: number | string | null | undefined;
+  addresses:
+    | Array<TransactionAddressBuilder$Outbound>
+    | Array<TransactionAddressInput$Outbound>;
   transaction_items: Array<TransactionItemCreateUpdate$Outbound>;
-  customer?: CustomerCreate$Outbound | undefined;
+  customer?: CustomerCreate$Outbound | null | undefined;
 };
 
 /** @internal */
@@ -425,96 +1168,122 @@ export const TransactionCreate$outboundSchema: z.ZodType<
   TransactionCreate$Outbound,
   z.ZodTypeDef,
   TransactionCreate
-> = z.object({
-  requiresExemption: ExemptionRequired$outboundSchema.optional(),
-  organizationId: z.string(),
-  externalId: z.string(),
-  date: z.date().transform(v => v.toISOString()),
-  shopDate: z.string().optional(),
-  shopDateTz: z.string().optional(),
-  description: z.string().optional(),
-  refundStatus: TransactionRefundStatus$outboundSchema.optional(),
-  totalAmount: z.number().default(0),
-  customerId: z.string().optional(),
-  marketplace: z.boolean().default(false),
-  exempt: TransactionExemptStatusEnum$outboundSchema.optional(),
-  exemptions: z.array(Exemption$outboundSchema).optional(),
-  relatedTo: z.string().optional(),
-  secondaryExternalId: z.string().optional(),
-  secondarySource: z.string().optional(),
-  externalFriendlyId: z.string().optional(),
-  totalTaxAmountImported: z.number().default(0),
-  taxRateImported: z.number().default(0),
-  totalTaxAmountCalculated: z.number().default(0),
-  taxRateCalculated: z.number().default(0),
-  totalTaxLiabilityAmount: z.number().default(0),
-  taxLiabilitySource: TaxLiabilitySourceEnum$outboundSchema.optional(),
-  taxableAmount: z.number().default(0),
-  currency: CurrencyEnum$outboundSchema.optional(),
-  locked: z.boolean().default(false),
-  source: SourceEnum$outboundSchema.optional(),
-  connectionId: z.string().optional(),
-  filingId: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  country: CountryCodeEnum$outboundSchema.optional(),
-  postalCode: z.string().optional(),
-  taxId: z.string().optional(),
-  status: TransactionStatusEnum$outboundSchema.optional(),
-  addressStatus: AddressStatus$outboundSchema.optional(),
-  processingStatus: ProcessingStatusEnum$outboundSchema.optional(),
-  destinationCurrency: CurrencyEnum$outboundSchema.optional(),
-  convertedTotalAmount: z.number().optional(),
-  convertedTotalTaxAmountImported: z.number().optional(),
-  convertedTotalTaxAmountCalculated: z.number().optional(),
-  conversionRate: z.number().optional(),
-  convertedTaxableAmount: z.number().optional(),
-  convertedTotalDiscount: z.number().optional(),
-  convertedSubtotal: z.number().optional(),
-  convertedTotalTaxLiabilityAmount: z.number().optional(),
-  addresses: z.array(TransactionAddressBuilder$outboundSchema),
-  transactionItems: z.array(TransactionItemCreateUpdate$outboundSchema),
-  customer: CustomerCreate$outboundSchema.optional(),
-}).transform((v) => {
-  return remap$(v, {
-    requiresExemption: "requires_exemption",
-    organizationId: "organization_id",
-    externalId: "external_id",
-    shopDate: "shop_date",
-    shopDateTz: "shop_date_tz",
-    refundStatus: "refund_status",
-    totalAmount: "total_amount",
-    customerId: "customer_id",
-    relatedTo: "related_to",
-    secondaryExternalId: "secondary_external_id",
-    secondarySource: "secondary_source",
-    externalFriendlyId: "external_friendly_id",
-    totalTaxAmountImported: "total_tax_amount_imported",
-    taxRateImported: "tax_rate_imported",
-    totalTaxAmountCalculated: "total_tax_amount_calculated",
-    taxRateCalculated: "tax_rate_calculated",
-    totalTaxLiabilityAmount: "total_tax_liability_amount",
-    taxLiabilitySource: "tax_liability_source",
-    taxableAmount: "taxable_amount",
-    connectionId: "connection_id",
-    filingId: "filing_id",
-    postalCode: "postal_code",
-    taxId: "tax_id",
-    addressStatus: "address_status",
-    processingStatus: "processing_status",
-    destinationCurrency: "destination_currency",
-    convertedTotalAmount: "converted_total_amount",
-    convertedTotalTaxAmountImported: "converted_total_tax_amount_imported",
-    convertedTotalTaxAmountCalculated: "converted_total_tax_amount_calculated",
-    conversionRate: "conversion_rate",
-    convertedTaxableAmount: "converted_taxable_amount",
-    convertedTotalDiscount: "converted_total_discount",
-    convertedSubtotal: "converted_subtotal",
-    convertedTotalTaxLiabilityAmount: "converted_total_tax_liability_amount",
-    transactionItems: "transaction_items",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    requiresExemption: z.nullable(ExemptionRequired$outboundSchema).optional(),
+    organizationId: z.string(),
+    externalId: z.string(),
+    date: z.date().transform(v => v.toISOString()),
+    shopDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    shopDateTz: z.nullable(z.string()).optional(),
+    description: z.nullable(z.string()).optional(),
+    refundStatus: z.nullable(TransactionRefundStatus$outboundSchema).optional(),
+    totalAmount: z.union([z.number(), z.string()]).optional(),
+    customerId: z.nullable(z.string()).optional(),
+    marketplace: z.nullable(z.boolean()).optional(),
+    exempt: z.nullable(TransactionExemptStatusEnum$outboundSchema).optional(),
+    exemptions: z.nullable(z.array(TransactionEmbeddedExemption$outboundSchema))
+      .optional(),
+    relatedTo: z.nullable(z.string()).optional(),
+    secondaryExternalId: z.nullable(z.string()).optional(),
+    secondarySource: z.nullable(z.string()).optional(),
+    externalFriendlyId: z.nullable(z.string()).optional(),
+    totalTaxAmountImported: z.union([z.number(), z.string()]).optional(),
+    taxRateImported: z.union([z.number(), z.string()]).optional(),
+    totalTaxAmountCalculated: z.union([z.number(), z.string()]).optional(),
+    taxRateCalculated: z.union([z.number(), z.string()]).optional(),
+    totalTaxLiabilityAmount: z.union([z.number(), z.string()]).optional(),
+    taxLiabilitySource: z.nullable(TaxLiabilitySourceEnum$outboundSchema)
+      .optional(),
+    taxableAmount: z.union([z.number(), z.string()]).optional(),
+    isTaxInclusive: z.nullable(z.boolean()).optional(),
+    currency: CurrencyEnum$outboundSchema.optional(),
+    locked: z.boolean().default(false),
+    source: SourceEnum$outboundSchema.optional(),
+    connectionId: z.nullable(z.string()).optional(),
+    filingId: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    taxId: z.nullable(z.string()).optional(),
+    status: TransactionStatusEnum$outboundSchema.optional(),
+    documentType: z.nullable(DocumentTypeEnum$outboundSchema).optional(),
+    createdFrom: z.nullable(z.string()).optional(),
+    addressStatus: AddressStatus$outboundSchema.optional(),
+    processingStatus: ProcessingStatusEnum$outboundSchema.optional(),
+    isDuplicate: z.boolean().default(false),
+    destinationCurrency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    convertedTotalAmount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    convertedTotalTaxAmountImported: z.nullable(
+      z.union([z.number(), z.string()]),
+    ).optional(),
+    convertedTotalTaxAmountCalculated: z.nullable(
+      z.union([z.number(), z.string()]),
+    ).optional(),
+    conversionRate: z.nullable(z.union([z.number(), z.string()])).optional(),
+    convertedTaxableAmount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    convertedTotalDiscount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    convertedSubtotal: z.nullable(z.union([z.number(), z.string()])).optional(),
+    convertedTotalTaxLiabilityAmount: z.nullable(
+      z.union([z.number(), z.string()]),
+    ).optional(),
+    addresses: z.union([
+      z.array(TransactionAddressBuilder$outboundSchema),
+      z.array(TransactionAddressInput$outboundSchema),
+    ]),
+    transactionItems: z.array(TransactionItemCreateUpdate$outboundSchema),
+    customer: z.nullable(CustomerCreate$outboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      requiresExemption: "requires_exemption",
+      organizationId: "organization_id",
+      externalId: "external_id",
+      shopDate: "shop_date",
+      shopDateTz: "shop_date_tz",
+      refundStatus: "refund_status",
+      totalAmount: "total_amount",
+      customerId: "customer_id",
+      relatedTo: "related_to",
+      secondaryExternalId: "secondary_external_id",
+      secondarySource: "secondary_source",
+      externalFriendlyId: "external_friendly_id",
+      totalTaxAmountImported: "total_tax_amount_imported",
+      taxRateImported: "tax_rate_imported",
+      totalTaxAmountCalculated: "total_tax_amount_calculated",
+      taxRateCalculated: "tax_rate_calculated",
+      totalTaxLiabilityAmount: "total_tax_liability_amount",
+      taxLiabilitySource: "tax_liability_source",
+      taxableAmount: "taxable_amount",
+      isTaxInclusive: "is_tax_inclusive",
+      connectionId: "connection_id",
+      filingId: "filing_id",
+      postalCode: "postal_code",
+      taxId: "tax_id",
+      documentType: "document_type",
+      createdFrom: "created_from",
+      addressStatus: "address_status",
+      processingStatus: "processing_status",
+      isDuplicate: "is_duplicate",
+      destinationCurrency: "destination_currency",
+      convertedTotalAmount: "converted_total_amount",
+      convertedTotalTaxAmountImported: "converted_total_tax_amount_imported",
+      convertedTotalTaxAmountCalculated:
+        "converted_total_tax_amount_calculated",
+      conversionRate: "conversion_rate",
+      convertedTaxableAmount: "converted_taxable_amount",
+      convertedTotalDiscount: "converted_total_discount",
+      convertedSubtotal: "converted_subtotal",
+      convertedTotalTaxLiabilityAmount: "converted_total_tax_liability_amount",
+      transactionItems: "transaction_items",
+    });
+  })
+);
 
 export function transactionCreateToJSON(
   transactionCreate: TransactionCreate,

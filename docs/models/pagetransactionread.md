@@ -10,11 +10,11 @@ let value: PageTransactionRead = {
     {
       organizationId: "<id>",
       externalId: "<id>",
-      date: new Date("2025-05-29T14:28:30.145Z"),
+      date: "2024-06-21",
       id: "<id>",
       addresses: [],
       transactionItems: [],
-      type: "TAX_REFUND",
+      type: "TAX_COLLECTION",
     },
   ],
   total: 467045,

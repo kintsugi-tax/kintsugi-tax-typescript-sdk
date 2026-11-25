@@ -4,14 +4,28 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+import * as models from "../index.js";
 
 export type GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest =
   {
     customerId: string;
+    page?: number | null | undefined;
+    size?: number | null | undefined;
+    /**
+     * The unique identifier for the organization making the request
+     */
+    xOrganizationId: string | null;
   };
+
+/**
+ * Successful Response
+ */
+export type ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet =
+  | models.PageTransactionRead
+  | Array<models.TransactionRead>;
 
 /** @internal */
 export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest$inboundSchema:
@@ -19,17 +33,26 @@ export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    customer_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "customer_id": "customerId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customer_id: z.string(),
+      page: z.nullable(z.number().int()).optional(),
+      size: z.nullable(z.number().int()).optional(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "customer_id": "customerId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest$Outbound =
   {
     customer_id: string;
+    page?: number | null | undefined;
+    size?: number | null | undefined;
+    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -38,13 +61,19 @@ export const GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest$Outbound,
     z.ZodTypeDef,
     GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
-  > = z.object({
-    customerId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      customerId: "customer_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customerId: z.string(),
+      page: z.nullable(z.number().int()).optional(),
+      size: z.nullable(z.number().int()).optional(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        customerId: "customer_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestToJSON(
   getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest:
@@ -69,5 +98,61 @@ export function getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetR
       GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest$inboundSchema
         .parse(JSON.parse(x)),
     `Failed to parse 'GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest' from JSON`,
+  );
+}
+
+/** @internal */
+export const ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet$inboundSchema:
+  z.ZodType<
+    ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      models.PageTransactionRead$inboundSchema,
+      z.array(models.TransactionRead$inboundSchema),
+    ])
+  );
+/** @internal */
+export type ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet$Outbound =
+  | models.PageTransactionRead$Outbound
+  | Array<models.TransactionRead$Outbound>;
+
+/** @internal */
+export const ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet$outboundSchema:
+  z.ZodType<
+    ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet$Outbound,
+    z.ZodTypeDef,
+    ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      models.PageTransactionRead$outboundSchema,
+      z.array(models.TransactionRead$outboundSchema),
+    ])
+  );
+
+export function responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetToJSON(
+  responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet:
+    ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet,
+): string {
+  return JSON.stringify(
+    ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet$outboundSchema
+      .parse(
+        responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet,
+      ),
+  );
+}
+export function responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet$inboundSchema
+        .parse(JSON.parse(x)),
+    `Failed to parse 'ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet' from JSON`,
   );
 }

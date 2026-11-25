@@ -12,7 +12,7 @@ const args = {
 
 export const tool$filingsGet: ToolDefinition<typeof args> = {
   name: "filings-get",
-  description: `Get Filing By Id
+  description: `Get filing by id
 
 This API retrieves detailed information about a specific
     filing using its unique identifier (filing_id).`,
@@ -21,7 +21,7 @@ This API retrieves detailed information about a specific
     const [result, apiCall] = await filingsGet(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

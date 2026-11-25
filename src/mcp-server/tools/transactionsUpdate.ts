@@ -14,7 +14,7 @@ const args = {
 
 export const tool$transactionsUpdate: ToolDefinition<typeof args> = {
   name: "transactions-update",
-  description: `Update Transaction
+  description: `Update transaction
 
 Update a specific transaction by its ID.`,
   args,
@@ -22,7 +22,7 @@ Update a specific transaction by its ID.`,
     const [result, apiCall] = await transactionsUpdate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

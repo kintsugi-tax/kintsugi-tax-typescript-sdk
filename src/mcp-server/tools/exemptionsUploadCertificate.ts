@@ -14,7 +14,7 @@ const args = {
 
 export const tool$exemptionsUploadCertificate: ToolDefinition<typeof args> = {
   name: "exemptions-upload-certificate",
-  description: `Upload Exemption Certificate
+  description: `Upload exemption certificate
 
 The Upload Exemption Certificate API allows you
     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
@@ -25,7 +25,7 @@ The Upload Exemption Certificate API allows you
     const [result, apiCall] = await exemptionsUploadCertificate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

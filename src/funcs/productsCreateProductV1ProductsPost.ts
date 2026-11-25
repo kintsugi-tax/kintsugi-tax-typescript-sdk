@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeJSON } from "../lib/encodings.js";
+import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -22,28 +23,36 @@ import { ResponseValidationError } from "../models/errors/responsevalidationerro
 import { SDKError } from "../models/errors/sdkerror.js";
 import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
+import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Create Product
+ * Create product
  *
  * @remarks
  * The Create Product API allows users to manually create a new product
  *     in the system. This includes specifying product details such as category,
  *     subcategory, and tax exemption status, etc. You can
- *     retrieve supported categories and subcategories from
- *     [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+ *     retrieve supported categories and subcategories from the
+ *     [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+ *     or browse the full catalog with descriptions and examples in the
+ *     [Product Categories guide](/docs/guides/product-categories).
+ *
+ *     Idempotent on ``(organization_id, external_id, source)`` for connectionless
+ *     creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+ *     match is unchanged; a previously deleted match is revived (status returns to
+ *     ``PENDING``). Use PUT to update fields.
  */
 export function productsCreateProductV1ProductsPost(
   client: SDKCore,
-  request: models.ProductCreateManual,
+  request: operations.CreateProductV1ProductsPostRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
     models.ProductRead,
     | errors.ErrorResponse
-    | errors.BackendSrcProductsResponsesValidationErrorResponse
+    | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -63,14 +72,14 @@ export function productsCreateProductV1ProductsPost(
 
 async function $do(
   client: SDKCore,
-  request: models.ProductCreateManual,
+  request: operations.CreateProductV1ProductsPostRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
       models.ProductRead,
       | errors.ErrorResponse
-      | errors.BackendSrcProductsResponsesValidationErrorResponse
+      | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
       | SDKError
       | ResponseValidationError
       | ConnectionError
@@ -85,23 +94,32 @@ async function $do(
 > {
   const parsed = safeParse(
     request,
-    (value) => models.ProductCreateManual$outboundSchema.parse(value),
+    (value) =>
+      operations.CreateProductV1ProductsPostRequest$outboundSchema.parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
     return [parsed, { status: "invalid" }];
   }
   const payload = parsed.value;
-  const body = encodeJSON("body", payload, { explode: true });
+  const body = encodeJSON("body", payload.ProductCreateManual, {
+    explode: true,
+  });
 
   const path = pathToFunc("/v1/products")();
 
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -112,7 +130,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -136,7 +154,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -152,7 +171,7 @@ async function $do(
   const [result] = await M.match<
     models.ProductRead,
     | errors.ErrorResponse
-    | errors.BackendSrcProductsResponsesValidationErrorResponse
+    | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -162,11 +181,12 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, models.ProductRead$inboundSchema),
+    M.json([200, 201], models.ProductRead$inboundSchema),
     M.jsonErr(401, errors.ErrorResponse$inboundSchema),
     M.jsonErr(
       422,
-      errors.BackendSrcProductsResponsesValidationErrorResponse$inboundSchema,
+      errors
+        .BackendSrcProductsSchemasResponsesValidationErrorResponse$inboundSchema,
     ),
     M.jsonErr(500, errors.ErrorResponse$inboundSchema),
     M.fail("4XX"),

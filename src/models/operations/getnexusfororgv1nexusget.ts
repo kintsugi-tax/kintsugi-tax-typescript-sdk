@@ -4,9 +4,10 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+import * as models from "../index.js";
 
 export type GetNexusForOrgV1NexusGetRequest = {
   /**
@@ -16,55 +17,84 @@ export type GetNexusForOrgV1NexusGetRequest = {
   /**
    * Filter nexuses by disregard view: 'exposed' or 'disregarded'
    */
-  disregardView?: string | undefined;
-  statusIn?: string | undefined;
-  stateCode?: string | undefined;
-  countryCodeIn?: string | undefined;
-  orderBy?: string | undefined;
-  collectedTaxNexusMet?: boolean | undefined;
+  disregardView?: string | null | undefined;
+  /**
+   * Search nexuses by state code or state name
+   */
+  searchQuery?: string | null | undefined;
+  statusIn?: string | null | undefined;
+  stateCode?: string | null | undefined;
+  stateCodeIn?: string | null | undefined;
+  countryCodeIn?: string | null | undefined;
+  taxTypeIn?: string | null | undefined;
+  orderBy?: string | null | undefined;
+  collectedTaxNexusMet?: boolean | null | undefined;
   page?: number | undefined;
   size?: number | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
+
+/**
+ * Successful Response
+ */
+export type ResponseGetNexusForOrgV1NexusGet =
+  | models.PageNexusResponse
+  | Array<models.NexusResponse>;
 
 /** @internal */
 export const GetNexusForOrgV1NexusGetRequest$inboundSchema: z.ZodType<
   GetNexusForOrgV1NexusGetRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  without_pagination: z.boolean().default(false),
-  disregard_view: z.string().optional(),
-  status__in: z.string().default(
-    "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED",
-  ),
-  state_code: z.string().optional(),
-  country_code__in: z.string().optional(),
-  order_by: z.string().default("state_code,country_code"),
-  collected_tax_nexus_met: z.boolean().optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    "without_pagination": "withoutPagination",
-    "disregard_view": "disregardView",
-    "status__in": "statusIn",
-    "state_code": "stateCode",
-    "country_code__in": "countryCodeIn",
-    "order_by": "orderBy",
-    "collected_tax_nexus_met": "collectedTaxNexusMet",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    without_pagination: z.boolean().default(false),
+    disregard_view: z.nullable(z.string()).optional(),
+    search_query: z.nullable(z.string()).optional(),
+    status__in: z.nullable(z.string()).optional(),
+    state_code: z.nullable(z.string()).optional(),
+    state_code__in: z.nullable(z.string()).optional(),
+    country_code__in: z.nullable(z.string()).optional(),
+    tax_type__in: z.nullable(z.string()).optional(),
+    order_by: z.nullable(z.string()).optional(),
+    collected_tax_nexus_met: z.nullable(z.boolean()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    "x-organization-id": z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "without_pagination": "withoutPagination",
+      "disregard_view": "disregardView",
+      "search_query": "searchQuery",
+      "status__in": "statusIn",
+      "state_code": "stateCode",
+      "state_code__in": "stateCodeIn",
+      "country_code__in": "countryCodeIn",
+      "tax_type__in": "taxTypeIn",
+      "order_by": "orderBy",
+      "collected_tax_nexus_met": "collectedTaxNexusMet",
+      "x-organization-id": "xOrganizationId",
+    });
+  })
+);
 /** @internal */
 export type GetNexusForOrgV1NexusGetRequest$Outbound = {
   without_pagination: boolean;
-  disregard_view?: string | undefined;
-  status__in: string;
-  state_code?: string | undefined;
-  country_code__in?: string | undefined;
-  order_by: string;
-  collected_tax_nexus_met?: boolean | undefined;
+  disregard_view?: string | null | undefined;
+  search_query?: string | null | undefined;
+  status__in?: string | null | undefined;
+  state_code?: string | null | undefined;
+  state_code__in?: string | null | undefined;
+  country_code__in?: string | null | undefined;
+  tax_type__in?: string | null | undefined;
+  order_by?: string | null | undefined;
+  collected_tax_nexus_met?: boolean | null | undefined;
   page: number;
   size: number;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -72,29 +102,37 @@ export const GetNexusForOrgV1NexusGetRequest$outboundSchema: z.ZodType<
   GetNexusForOrgV1NexusGetRequest$Outbound,
   z.ZodTypeDef,
   GetNexusForOrgV1NexusGetRequest
-> = z.object({
-  withoutPagination: z.boolean().default(false),
-  disregardView: z.string().optional(),
-  statusIn: z.string().default(
-    "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED",
-  ),
-  stateCode: z.string().optional(),
-  countryCodeIn: z.string().optional(),
-  orderBy: z.string().default("state_code,country_code"),
-  collectedTaxNexusMet: z.boolean().optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    withoutPagination: "without_pagination",
-    disregardView: "disregard_view",
-    statusIn: "status__in",
-    stateCode: "state_code",
-    countryCodeIn: "country_code__in",
-    orderBy: "order_by",
-    collectedTaxNexusMet: "collected_tax_nexus_met",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    withoutPagination: z.boolean().default(false),
+    disregardView: z.nullable(z.string()).optional(),
+    searchQuery: z.nullable(z.string()).optional(),
+    statusIn: z.nullable(z.string()).optional(),
+    stateCode: z.nullable(z.string()).optional(),
+    stateCodeIn: z.nullable(z.string()).optional(),
+    countryCodeIn: z.nullable(z.string()).optional(),
+    taxTypeIn: z.nullable(z.string()).optional(),
+    orderBy: z.nullable(z.string()).optional(),
+    collectedTaxNexusMet: z.nullable(z.boolean()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    xOrganizationId: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      withoutPagination: "without_pagination",
+      disregardView: "disregard_view",
+      searchQuery: "search_query",
+      statusIn: "status__in",
+      stateCode: "state_code",
+      stateCodeIn: "state_code__in",
+      countryCodeIn: "country_code__in",
+      taxTypeIn: "tax_type__in",
+      orderBy: "order_by",
+      collectedTaxNexusMet: "collected_tax_nexus_met",
+      xOrganizationId: "x-organization-id",
+    });
+  })
+);
 
 export function getNexusForOrgV1NexusGetRequestToJSON(
   getNexusForOrgV1NexusGetRequest: GetNexusForOrgV1NexusGetRequest,
@@ -112,5 +150,52 @@ export function getNexusForOrgV1NexusGetRequestFromJSON(
     jsonString,
     (x) => GetNexusForOrgV1NexusGetRequest$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'GetNexusForOrgV1NexusGetRequest' from JSON`,
+  );
+}
+
+/** @internal */
+export const ResponseGetNexusForOrgV1NexusGet$inboundSchema: z.ZodType<
+  ResponseGetNexusForOrgV1NexusGet,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    models.PageNexusResponse$inboundSchema,
+    z.array(models.NexusResponse$inboundSchema),
+  ])
+);
+/** @internal */
+export type ResponseGetNexusForOrgV1NexusGet$Outbound =
+  | models.PageNexusResponse$Outbound
+  | Array<models.NexusResponse$Outbound>;
+
+/** @internal */
+export const ResponseGetNexusForOrgV1NexusGet$outboundSchema: z.ZodType<
+  ResponseGetNexusForOrgV1NexusGet$Outbound,
+  z.ZodTypeDef,
+  ResponseGetNexusForOrgV1NexusGet
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    models.PageNexusResponse$outboundSchema,
+    z.array(models.NexusResponse$outboundSchema),
+  ])
+);
+
+export function responseGetNexusForOrgV1NexusGetToJSON(
+  responseGetNexusForOrgV1NexusGet: ResponseGetNexusForOrgV1NexusGet,
+): string {
+  return JSON.stringify(
+    ResponseGetNexusForOrgV1NexusGet$outboundSchema.parse(
+      responseGetNexusForOrgV1NexusGet,
+    ),
+  );
+}
+export function responseGetNexusForOrgV1NexusGetFromJSON(
+  jsonString: string,
+): SafeParseResult<ResponseGetNexusForOrgV1NexusGet, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => ResponseGetNexusForOrgV1NexusGet$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'ResponseGetNexusForOrgV1NexusGet' from JSON`,
   );
 }

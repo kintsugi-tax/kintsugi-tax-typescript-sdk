@@ -7,24 +7,24 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.GetRegistrationsV1RegistrationsGetRequest$inboundSchema
-    .optional(),
+  request: operations.GetRegistrationsV1RegistrationsGetRequest$inboundSchema,
 };
 
 export const tool$registrationsGet: ToolDefinition<typeof args> = {
   name: "registrations-get",
-  description: `Get Registrations
+  description: `Get registrations
 
 The Get Registrations API retrieves a
     paginated list of registrations.
     This API helps in tracking and managing registrations efficiently across multiple
-    jurisdictions.`,
+    jurisdictions. Stored credential fields come back masked; use the reveal parameter
+    of the Get Registration By ID API to read them.`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await registrationsGet(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

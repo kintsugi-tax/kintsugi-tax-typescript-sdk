@@ -7,11 +7,13 @@ import { GetTransactionByIdV1TransactionsTransactionIdGetRequest } from "@kintsu
 
 let value: GetTransactionByIdV1TransactionsTransactionIdGetRequest = {
   transactionId: "<id>",
+  xOrganizationId: "org_12345",
 };
 ```
 
 ## Fields
 
-| Field                                                 | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `transactionId`                                       | *string*                                              | :heavy_check_mark:                                    | The unique identifier of the transaction to retrieve. |
+| Field                                                         | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `transactionId`                                               | *string*                                                      | :heavy_check_mark:                                            | The unique identifier of the transaction to retrieve.         |                                                               |
+| `xOrganizationId`                                             | *string*                                                      | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |

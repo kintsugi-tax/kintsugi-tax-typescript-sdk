@@ -7,7 +7,7 @@ import { AttachmentRead } from "@kintsugi-tax/tax-platform-sdk/models";
 
 let value: AttachmentRead = {
   relatedEntityId: "<id>",
-  relatedEntityType: "FILING_PAYMENT",
+  relatedEntityType: "PROPOSAL",
   id: "<id>",
 };
 ```

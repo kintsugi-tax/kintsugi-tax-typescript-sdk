@@ -7,12 +7,12 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.GetNexusForOrgV1NexusGetRequest$inboundSchema.optional(),
+  request: operations.GetNexusForOrgV1NexusGetRequest$inboundSchema,
 };
 
 export const tool$nexusList: ToolDefinition<typeof args> = {
   name: "nexus-list",
-  description: `Get Nexus For Org
+  description: `Get nexus for org
 
 Get a list of all nexuses for the organization.`,
   args,
@@ -20,7 +20,7 @@ Get a list of all nexuses for the organization.`,
     const [result, apiCall] = await nexusList(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

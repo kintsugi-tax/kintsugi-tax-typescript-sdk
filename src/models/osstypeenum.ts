@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 /**
@@ -11,6 +12,7 @@ import { ClosedEnum } from "../types/enums.js";
 export const OssTypeEnum = {
   Union: "UNION",
   NonUnion: "NON_UNION",
+  Ioss: "IOSS",
 } as const;
 /**
  * Type of OSS registration.
@@ -18,8 +20,8 @@ export const OssTypeEnum = {
 export type OssTypeEnum = ClosedEnum<typeof OssTypeEnum>;
 
 /** @internal */
-export const OssTypeEnum$inboundSchema: z.ZodNativeEnum<typeof OssTypeEnum> = z
-  .nativeEnum(OssTypeEnum);
+export const OssTypeEnum$inboundSchema: z.ZodNativeEnum<typeof OssTypeEnum> =
+  /* @__PURE__ */ lazySchema$(() => z.nativeEnum(OssTypeEnum));
 /** @internal */
 export const OssTypeEnum$outboundSchema: z.ZodNativeEnum<typeof OssTypeEnum> =
   OssTypeEnum$inboundSchema;

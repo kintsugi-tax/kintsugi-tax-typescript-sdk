@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   CountryCodeEnum,
@@ -12,25 +12,41 @@ import {
   CountryCodeEnum$outboundSchema,
 } from "./countrycodeenum.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
+import {
+  OssTypeEnum,
+  OssTypeEnum$inboundSchema,
+  OssTypeEnum$outboundSchema,
+} from "./osstypeenum.js";
 
 export type OSSRegistrationCreatePayload = {
   /**
    * Specifies this is an OSS registration import.
    */
-  registrationImportType: "OSS";
+  registrationImportType?: "OSS" | undefined;
   /**
    * The plaintext password for accessing the tax registration account.
    */
-  passwordPlainText?: string | undefined;
+  passwordPlainText?: string | null | undefined;
   /**
    * Metadata related to the password.
    */
-  passwordMetadataPlainText?: string | undefined;
-  memberStateOfIdentificationCode?: CountryCodeEnum | undefined;
+  passwordMetadataPlainText?: string | null | undefined;
+  /**
+   * If importing an OSS registration, specify the Member State of Identification.
+   */
+  memberStateOfIdentificationCode?: CountryCodeEnum | null | undefined;
+  /**
+   * Type of OSS registration.
+   */
+  ossType?: OssTypeEnum | undefined;
   /**
    * Whether the registration was imported from another system.
    */
   imported?: boolean | undefined;
+  /**
+   * Optional client-minted id for this confirm attempt.
+   */
+  requestId?: string | null | undefined;
 };
 
 /** @internal */
@@ -38,27 +54,37 @@ export const OSSRegistrationCreatePayload$inboundSchema: z.ZodType<
   OSSRegistrationCreatePayload,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  registration_import_type: z.literal("OSS"),
-  password_plain_text: z.string().optional(),
-  password_metadata_plain_text: z.string().optional(),
-  member_state_of_identification_code: CountryCodeEnum$inboundSchema.optional(),
-  imported: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    "registration_import_type": "registrationImportType",
-    "password_plain_text": "passwordPlainText",
-    "password_metadata_plain_text": "passwordMetadataPlainText",
-    "member_state_of_identification_code": "memberStateOfIdentificationCode",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registration_import_type: z.literal("OSS").default("OSS"),
+    password_plain_text: z.nullable(z.string()).optional(),
+    password_metadata_plain_text: z.nullable(z.string()).optional(),
+    member_state_of_identification_code: z.nullable(
+      CountryCodeEnum$inboundSchema,
+    ).optional(),
+    oss_type: OssTypeEnum$inboundSchema.optional(),
+    imported: z.boolean().default(false),
+    request_id: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "registration_import_type": "registrationImportType",
+      "password_plain_text": "passwordPlainText",
+      "password_metadata_plain_text": "passwordMetadataPlainText",
+      "member_state_of_identification_code": "memberStateOfIdentificationCode",
+      "oss_type": "ossType",
+      "request_id": "requestId",
+    });
+  })
+);
 /** @internal */
 export type OSSRegistrationCreatePayload$Outbound = {
   registration_import_type: "OSS";
-  password_plain_text?: string | undefined;
-  password_metadata_plain_text?: string | undefined;
-  member_state_of_identification_code?: string | undefined;
+  password_plain_text?: string | null | undefined;
+  password_metadata_plain_text?: string | null | undefined;
+  member_state_of_identification_code?: string | null | undefined;
+  oss_type?: string | undefined;
   imported: boolean;
+  request_id?: string | null | undefined;
 };
 
 /** @internal */
@@ -66,20 +92,27 @@ export const OSSRegistrationCreatePayload$outboundSchema: z.ZodType<
   OSSRegistrationCreatePayload$Outbound,
   z.ZodTypeDef,
   OSSRegistrationCreatePayload
-> = z.object({
-  registrationImportType: z.literal("OSS"),
-  passwordPlainText: z.string().optional(),
-  passwordMetadataPlainText: z.string().optional(),
-  memberStateOfIdentificationCode: CountryCodeEnum$outboundSchema.optional(),
-  imported: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    registrationImportType: "registration_import_type",
-    passwordPlainText: "password_plain_text",
-    passwordMetadataPlainText: "password_metadata_plain_text",
-    memberStateOfIdentificationCode: "member_state_of_identification_code",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registrationImportType: z.literal("OSS").default("OSS" as const),
+    passwordPlainText: z.nullable(z.string()).optional(),
+    passwordMetadataPlainText: z.nullable(z.string()).optional(),
+    memberStateOfIdentificationCode: z.nullable(CountryCodeEnum$outboundSchema)
+      .optional(),
+    ossType: OssTypeEnum$outboundSchema.optional(),
+    imported: z.boolean().default(false),
+    requestId: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      registrationImportType: "registration_import_type",
+      passwordPlainText: "password_plain_text",
+      passwordMetadataPlainText: "password_metadata_plain_text",
+      memberStateOfIdentificationCode: "member_state_of_identification_code",
+      ossType: "oss_type",
+      requestId: "request_id",
+    });
+  })
+);
 
 export function ossRegistrationCreatePayloadToJSON(
   ossRegistrationCreatePayload: OSSRegistrationCreatePayload,

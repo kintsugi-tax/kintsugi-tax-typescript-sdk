@@ -3,68 +3,17 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
-import { blobLikeSchema } from "../types/blobs.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-
-export type FileT = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
 
 export type BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost =
   {
     /**
      * The file to be uploaded. Supported format: PDF. Max size: 10 MB.
      */
-    file: FileT | Blob;
+    file: string;
   };
-
-/** @internal */
-export const FileT$inboundSchema: z.ZodType<FileT, z.ZodTypeDef, unknown> = z
-  .object({
-    fileName: z.string(),
-    content: z.union([
-      z.instanceof(ReadableStream<Uint8Array>),
-      z.instanceof(Blob),
-      z.instanceof(ArrayBuffer),
-      z.instanceof(Uint8Array),
-    ]),
-  });
-/** @internal */
-export type FileT$Outbound = {
-  fileName: string;
-  content: ReadableStream<Uint8Array> | Blob | ArrayBuffer | Uint8Array;
-};
-
-/** @internal */
-export const FileT$outboundSchema: z.ZodType<
-  FileT$Outbound,
-  z.ZodTypeDef,
-  FileT
-> = z.object({
-  fileName: z.string(),
-  content: z.union([
-    z.instanceof(ReadableStream<Uint8Array>),
-    z.instanceof(Blob),
-    z.instanceof(ArrayBuffer),
-    z.instanceof(Uint8Array),
-  ]),
-});
-
-export function fileToJSON(fileT: FileT): string {
-  return JSON.stringify(FileT$outboundSchema.parse(fileT));
-}
-export function fileFromJSON(
-  jsonString: string,
-): SafeParseResult<FileT, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => FileT$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'FileT' from JSON`,
-  );
-}
 
 /** @internal */
 export const BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$inboundSchema:
@@ -72,13 +21,15 @@ export const BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPos
     BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    file: z.lazy(() => FileT$inboundSchema),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      file: z.string(),
+    })
+  );
 /** @internal */
 export type BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$Outbound =
   {
-    file: FileT$Outbound | Blob;
+    file: string;
   };
 
 /** @internal */
@@ -87,9 +38,11 @@ export const BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPos
     BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$Outbound,
     z.ZodTypeDef,
     BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost
-  > = z.object({
-    file: z.lazy(() => FileT$outboundSchema).or(blobLikeSchema),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      file: z.string(),
+    })
+  );
 
 export function bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostToJSON(
   bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:

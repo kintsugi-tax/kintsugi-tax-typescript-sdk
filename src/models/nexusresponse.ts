@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
 import {
@@ -17,6 +17,11 @@ import {
   CurrencyEnum$inboundSchema,
   CurrencyEnum$outboundSchema,
 } from "./currencyenum.js";
+import {
+  DisregardedTypeEnum,
+  DisregardedTypeEnum$inboundSchema,
+  DisregardedTypeEnum$outboundSchema,
+} from "./disregardedtypeenum.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   FindThresholdCrossingTransactionState,
@@ -55,12 +60,20 @@ import {
   SalesOrTransactionsEnum$outboundSchema,
 } from "./salesortransactionsenum.js";
 import {
+  TaxTypeEnum,
+  TaxTypeEnum$inboundSchema,
+  TaxTypeEnum$outboundSchema,
+} from "./taxtypeenum.js";
+import {
   TreatmentEnum,
   TreatmentEnum$inboundSchema,
   TreatmentEnum$outboundSchema,
 } from "./treatmentenum.js";
-
-export type Registration = {};
+import {
+  UseTaxRegistrationPath,
+  UseTaxRegistrationPath$inboundSchema,
+  UseTaxRegistrationPath$outboundSchema,
+} from "./usetaxregistrationpath.js";
 
 export type NexusResponse = {
   processingStatus?: NexusStatusEnum | undefined;
@@ -71,226 +84,257 @@ export type NexusResponse = {
   treatmentOfExemptTransactions: TreatmentEnum;
   trigger: string;
   salesOrTransactions: SalesOrTransactionsEnum;
-  thresholdSales: number;
-  thresholdTransactions: number;
+  thresholdSalesBigint?: number | undefined;
+  thresholdTransactions: number | null;
   startDate: RFCDate;
   transactionCount?: number | undefined;
   transactionsAmount?: string | undefined;
   /**
-   * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+   * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
    *
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   previousTransactionCount?: number | undefined;
   /**
-   * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+   * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
    *
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   previousTransactionsAmount?: string | undefined;
-  calculatedTaxLiability?: string | undefined;
-  importedTaxLiability?: string | undefined;
+  calculatedTaxLiability?: string | null | undefined;
+  importedTaxLiability?: string | null | undefined;
   taxLiability?: string | undefined;
   nexusMet?: boolean | undefined;
-  nexusMetDate?: string | undefined;
+  nexusMetDate?: RFCDate | null | undefined;
+  /**
+   * Tax obligation on a nexus, registration, or filing row.
+   *
+   * @remarks
+   *
+   * Registrations and filings may be SALES_AND_USE_TAX: one state account and
+   * one return can cover both taxes, and each is stored as a single row.
+   * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+   * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+   * Swiss small-parcel threshold are separate obligations with their own met
+   * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+   * tax registration covers it, and it has no account and no return of its own.
+   */
+  taxType?: TaxTypeEnum | undefined;
   economicNexusMet?: boolean | undefined;
-  economicNexusMetDate?: string | undefined;
+  economicNexusMetDate?: RFCDate | null | undefined;
   physicalNexusMet?: boolean | undefined;
-  physicalNexusMetDate?: string | undefined;
-  collectedTaxNexusMet?: boolean | undefined;
-  collectedTaxNexusMetDate?: string | undefined;
+  physicalNexusMetDate?: RFCDate | null | undefined;
+  collectedTaxNexusMet?: boolean | null | undefined;
+  collectedTaxNexusMetDate?: RFCDate | null | undefined;
   periodModel: PeriodModelEnum;
   periodStartDate: RFCDate;
   periodEndDate: RFCDate;
-  previousPeriodStartDate: string;
-  previousPeriodEndDate: string;
-  earliestTransactionDate?: string | undefined;
-  mostRecentTransactionDate?: string | undefined;
+  previousPeriodStartDate: RFCDate | null;
+  previousPeriodEndDate: RFCDate | null;
+  earliestTransactionDate?: string | null | undefined;
+  mostRecentTransactionDate?: string | null | undefined;
   findThresholdCrossingTransactionState?:
     | FindThresholdCrossingTransactionState
+    | null
     | undefined;
-  earliestCollectedDate?: Date | undefined;
-  predictedMonthFromToday?: number | undefined;
-  vdaEligible?: boolean | undefined;
-  confidenceLevel?: number | undefined;
-  lastProcessedAt?: string | undefined;
-  lastTaxLiabilityProcessedAt?: string | undefined;
+  earliestCollectedDate?: string | null | undefined;
+  predictedMonthFromToday?: number | null | undefined;
+  vdaEligible?: boolean | null | undefined;
+  confidenceLevel?: number | null | undefined;
+  lastProcessedAt?: string | null | undefined;
+  lastTaxLiabilityProcessedAt?: string | null | undefined;
   periods?: Array<{ [k: string]: any }> | undefined;
-  currency?: CurrencyEnum | undefined;
+  /**
+   * Currency code for the nexus (e.g., USD, CAD).
+   */
+  currency?: CurrencyEnum | null | undefined;
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string | null;
+  updatedAt: string | null;
   organizationId: string;
-  registration?: Registration | undefined;
-  registrationRegime?: RegistrationsRegimeEnum | undefined;
-  disregardedAt?: string | undefined;
-  disregardedBy?: string | undefined;
+  registration?: { [k: string]: any } | null | undefined;
+  registrationRegime?: RegistrationsRegimeEnum | null | undefined;
+  disregardedAt?: string | null | undefined;
+  disregardedBy?: string | null | undefined;
+  disregardedType?: DisregardedTypeEnum | null | undefined;
   disregardedNexusTypes?: Array<string> | undefined;
   isCurrentlyDisregarded?: boolean | undefined;
+  iorOptOutEligible?: boolean | undefined;
+  iorEligibleAtRegistration?: boolean | undefined;
+  requiresIorNumberToRegister?: boolean | undefined;
+  /**
+   * What Register does with a use tax row, as the nexus response reports it.
+   *
+   * @remarks
+   *
+   * - ABSORBED: Register folds the row into the org's live sales tax registration
+   * - SEPARATE: the state always keeps use tax on its own registration
+   * - NONE: everything else, and always NONE on a row that is not use tax
+   */
+  useTaxRegistrationPath?: UseTaxRegistrationPath | undefined;
+  thresholdSales: number;
   isVdaEligible: boolean;
   nexusType: NexusTypeEnum;
   totalTransactions: number;
   totalTransactionsIncluded: number;
   totalTransactionsExempted: number;
   totalTransactionsMarketplace: number;
-  marketplaceIncluded: boolean;
+  marketplaceIncluded: boolean | null;
 };
-
-/** @internal */
-export const Registration$inboundSchema: z.ZodType<
-  Registration,
-  z.ZodTypeDef,
-  unknown
-> = z.object({});
-/** @internal */
-export type Registration$Outbound = {};
-
-/** @internal */
-export const Registration$outboundSchema: z.ZodType<
-  Registration$Outbound,
-  z.ZodTypeDef,
-  Registration
-> = z.object({});
-
-export function registrationToJSON(registration: Registration): string {
-  return JSON.stringify(Registration$outboundSchema.parse(registration));
-}
-export function registrationFromJSON(
-  jsonString: string,
-): SafeParseResult<Registration, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Registration$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Registration' from JSON`,
-  );
-}
 
 /** @internal */
 export const NexusResponse$inboundSchema: z.ZodType<
   NexusResponse,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  processing_status: NexusStatusEnum$inboundSchema.optional(),
-  status: NexusStateEnum$inboundSchema.optional(),
-  country_code: CountryCodeEnum$inboundSchema,
-  state_code: z.string(),
-  state_name: z.string(),
-  treatment_of_exempt_transactions: TreatmentEnum$inboundSchema,
-  trigger: z.string(),
-  sales_or_transactions: SalesOrTransactionsEnum$inboundSchema,
-  threshold_sales: z.number().int(),
-  threshold_transactions: z.number().int(),
-  start_date: z.string().transform(v => new RFCDate(v)),
-  transaction_count: z.number().int().default(0),
-  transactions_amount: z.string().default("0.00"),
-  previous_transaction_count: z.number().int().default(0),
-  previous_transactions_amount: z.string().default("0.00"),
-  calculated_tax_liability: z.string().default("0.00"),
-  imported_tax_liability: z.string().default("0.00"),
-  tax_liability: z.string().default("0.00"),
-  nexus_met: z.boolean().default(false),
-  nexus_met_date: z.string().optional(),
-  economic_nexus_met: z.boolean().default(false),
-  economic_nexus_met_date: z.string().optional(),
-  physical_nexus_met: z.boolean().default(false),
-  physical_nexus_met_date: z.string().optional(),
-  collected_tax_nexus_met: z.boolean().default(false),
-  collected_tax_nexus_met_date: z.string().optional(),
-  period_model: PeriodModelEnum$inboundSchema,
-  period_start_date: z.string().transform(v => new RFCDate(v)),
-  period_end_date: z.string().transform(v => new RFCDate(v)),
-  previous_period_start_date: z.string(),
-  previous_period_end_date: z.string(),
-  earliest_transaction_date: z.string().optional(),
-  most_recent_transaction_date: z.string().optional(),
-  find_threshold_crossing_transaction_state:
-    FindThresholdCrossingTransactionState$inboundSchema.optional(),
-  earliest_collected_date: z.string().datetime({ offset: true }).default(
-    "2018-01-01T00:00:00",
-  ).transform(v => new Date(v)),
-  predicted_month_from_today: z.number().int().optional(),
-  vda_eligible: z.boolean().default(false),
-  confidence_level: z.number().optional(),
-  last_processed_at: z.string().optional(),
-  last_tax_liability_processed_at: z.string().optional(),
-  periods: z.array(z.record(z.any())).optional(),
-  currency: CurrencyEnum$inboundSchema.optional(),
-  id: z.string(),
-  created_at: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  updated_at: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  organization_id: z.string(),
-  registration: z.lazy(() => Registration$inboundSchema).optional(),
-  registration_regime: RegistrationsRegimeEnum$inboundSchema.optional(),
-  disregarded_at: z.string().optional(),
-  disregarded_by: z.string().optional(),
-  disregarded_nexus_types: z.array(z.string()).optional(),
-  is_currently_disregarded: z.boolean().default(false),
-  is_vda_eligible: z.boolean(),
-  nexus_type: NexusTypeEnum$inboundSchema,
-  total_transactions: z.number().int(),
-  total_transactions_included: z.number().int(),
-  total_transactions_exempted: z.number().int(),
-  total_transactions_marketplace: z.number().int(),
-  marketplace_included: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    "processing_status": "processingStatus",
-    "country_code": "countryCode",
-    "state_code": "stateCode",
-    "state_name": "stateName",
-    "treatment_of_exempt_transactions": "treatmentOfExemptTransactions",
-    "sales_or_transactions": "salesOrTransactions",
-    "threshold_sales": "thresholdSales",
-    "threshold_transactions": "thresholdTransactions",
-    "start_date": "startDate",
-    "transaction_count": "transactionCount",
-    "transactions_amount": "transactionsAmount",
-    "previous_transaction_count": "previousTransactionCount",
-    "previous_transactions_amount": "previousTransactionsAmount",
-    "calculated_tax_liability": "calculatedTaxLiability",
-    "imported_tax_liability": "importedTaxLiability",
-    "tax_liability": "taxLiability",
-    "nexus_met": "nexusMet",
-    "nexus_met_date": "nexusMetDate",
-    "economic_nexus_met": "economicNexusMet",
-    "economic_nexus_met_date": "economicNexusMetDate",
-    "physical_nexus_met": "physicalNexusMet",
-    "physical_nexus_met_date": "physicalNexusMetDate",
-    "collected_tax_nexus_met": "collectedTaxNexusMet",
-    "collected_tax_nexus_met_date": "collectedTaxNexusMetDate",
-    "period_model": "periodModel",
-    "period_start_date": "periodStartDate",
-    "period_end_date": "periodEndDate",
-    "previous_period_start_date": "previousPeriodStartDate",
-    "previous_period_end_date": "previousPeriodEndDate",
-    "earliest_transaction_date": "earliestTransactionDate",
-    "most_recent_transaction_date": "mostRecentTransactionDate",
-    "find_threshold_crossing_transaction_state":
-      "findThresholdCrossingTransactionState",
-    "earliest_collected_date": "earliestCollectedDate",
-    "predicted_month_from_today": "predictedMonthFromToday",
-    "vda_eligible": "vdaEligible",
-    "confidence_level": "confidenceLevel",
-    "last_processed_at": "lastProcessedAt",
-    "last_tax_liability_processed_at": "lastTaxLiabilityProcessedAt",
-    "created_at": "createdAt",
-    "updated_at": "updatedAt",
-    "organization_id": "organizationId",
-    "registration_regime": "registrationRegime",
-    "disregarded_at": "disregardedAt",
-    "disregarded_by": "disregardedBy",
-    "disregarded_nexus_types": "disregardedNexusTypes",
-    "is_currently_disregarded": "isCurrentlyDisregarded",
-    "is_vda_eligible": "isVdaEligible",
-    "nexus_type": "nexusType",
-    "total_transactions": "totalTransactions",
-    "total_transactions_included": "totalTransactionsIncluded",
-    "total_transactions_exempted": "totalTransactionsExempted",
-    "total_transactions_marketplace": "totalTransactionsMarketplace",
-    "marketplace_included": "marketplaceIncluded",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    processing_status: NexusStatusEnum$inboundSchema.optional(),
+    status: NexusStateEnum$inboundSchema.optional(),
+    country_code: CountryCodeEnum$inboundSchema,
+    state_code: z.string(),
+    state_name: z.string(),
+    treatment_of_exempt_transactions: TreatmentEnum$inboundSchema,
+    trigger: z.string(),
+    sales_or_transactions: SalesOrTransactionsEnum$inboundSchema,
+    threshold_sales_bigint: z.number().int().default(0),
+    threshold_transactions: z.nullable(z.number().int()),
+    start_date: z.string().transform(v => new RFCDate(v)),
+    transaction_count: z.number().int().default(0),
+    transactions_amount: z.string().default("0.00"),
+    previous_transaction_count: z.number().int().default(0),
+    previous_transactions_amount: z.string().default("0.00"),
+    calculated_tax_liability: z.nullable(z.string()).optional(),
+    imported_tax_liability: z.nullable(z.string()).optional(),
+    tax_liability: z.string().default("0.00"),
+    nexus_met: z.boolean().default(false),
+    nexus_met_date: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    tax_type: TaxTypeEnum$inboundSchema.optional(),
+    economic_nexus_met: z.boolean().default(false),
+    economic_nexus_met_date: z.nullable(
+      z.string().transform(v => new RFCDate(v)),
+    ).optional(),
+    physical_nexus_met: z.boolean().default(false),
+    physical_nexus_met_date: z.nullable(
+      z.string().transform(v => new RFCDate(v)),
+    ).optional(),
+    collected_tax_nexus_met: z.nullable(z.boolean()).optional(),
+    collected_tax_nexus_met_date: z.nullable(
+      z.string().transform(v => new RFCDate(v)),
+    ).optional(),
+    period_model: PeriodModelEnum$inboundSchema,
+    period_start_date: z.string().transform(v => new RFCDate(v)),
+    period_end_date: z.string().transform(v => new RFCDate(v)),
+    previous_period_start_date: z.nullable(
+      z.string().transform(v => new RFCDate(v)),
+    ),
+    previous_period_end_date: z.nullable(
+      z.string().transform(v => new RFCDate(v)),
+    ),
+    earliest_transaction_date: z.nullable(z.string()).optional(),
+    most_recent_transaction_date: z.nullable(z.string()).optional(),
+    find_threshold_crossing_transaction_state: z.nullable(
+      FindThresholdCrossingTransactionState$inboundSchema,
+    ).optional(),
+    earliest_collected_date: z.nullable(z.string()).optional(),
+    predicted_month_from_today: z.nullable(z.number().int()).optional(),
+    vda_eligible: z.nullable(z.boolean()).optional(),
+    confidence_level: z.nullable(z.number()).optional(),
+    last_processed_at: z.nullable(z.string()).optional(),
+    last_tax_liability_processed_at: z.nullable(z.string()).optional(),
+    periods: z.array(z.record(z.any())).optional(),
+    currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    id: z.string(),
+    created_at: z.nullable(z.string()),
+    updated_at: z.nullable(z.string()),
+    organization_id: z.string(),
+    registration: z.nullable(z.record(z.any())).optional(),
+    registration_regime: z.nullable(RegistrationsRegimeEnum$inboundSchema)
+      .optional(),
+    disregarded_at: z.nullable(z.string()).optional(),
+    disregarded_by: z.nullable(z.string()).optional(),
+    disregarded_type: z.nullable(DisregardedTypeEnum$inboundSchema).optional(),
+    disregarded_nexus_types: z.array(z.string()).optional(),
+    is_currently_disregarded: z.boolean().default(false),
+    ior_opt_out_eligible: z.boolean().default(false),
+    ior_eligible_at_registration: z.boolean().default(false),
+    requires_ior_number_to_register: z.boolean().default(false),
+    use_tax_registration_path: UseTaxRegistrationPath$inboundSchema.optional(),
+    threshold_sales: z.number().int(),
+    is_vda_eligible: z.boolean(),
+    nexus_type: NexusTypeEnum$inboundSchema,
+    total_transactions: z.number().int(),
+    total_transactions_included: z.number().int(),
+    total_transactions_exempted: z.number().int(),
+    total_transactions_marketplace: z.number().int(),
+    marketplace_included: z.nullable(z.boolean()),
+  }).transform((v) => {
+    return remap$(v, {
+      "processing_status": "processingStatus",
+      "country_code": "countryCode",
+      "state_code": "stateCode",
+      "state_name": "stateName",
+      "treatment_of_exempt_transactions": "treatmentOfExemptTransactions",
+      "sales_or_transactions": "salesOrTransactions",
+      "threshold_sales_bigint": "thresholdSalesBigint",
+      "threshold_transactions": "thresholdTransactions",
+      "start_date": "startDate",
+      "transaction_count": "transactionCount",
+      "transactions_amount": "transactionsAmount",
+      "previous_transaction_count": "previousTransactionCount",
+      "previous_transactions_amount": "previousTransactionsAmount",
+      "calculated_tax_liability": "calculatedTaxLiability",
+      "imported_tax_liability": "importedTaxLiability",
+      "tax_liability": "taxLiability",
+      "nexus_met": "nexusMet",
+      "nexus_met_date": "nexusMetDate",
+      "tax_type": "taxType",
+      "economic_nexus_met": "economicNexusMet",
+      "economic_nexus_met_date": "economicNexusMetDate",
+      "physical_nexus_met": "physicalNexusMet",
+      "physical_nexus_met_date": "physicalNexusMetDate",
+      "collected_tax_nexus_met": "collectedTaxNexusMet",
+      "collected_tax_nexus_met_date": "collectedTaxNexusMetDate",
+      "period_model": "periodModel",
+      "period_start_date": "periodStartDate",
+      "period_end_date": "periodEndDate",
+      "previous_period_start_date": "previousPeriodStartDate",
+      "previous_period_end_date": "previousPeriodEndDate",
+      "earliest_transaction_date": "earliestTransactionDate",
+      "most_recent_transaction_date": "mostRecentTransactionDate",
+      "find_threshold_crossing_transaction_state":
+        "findThresholdCrossingTransactionState",
+      "earliest_collected_date": "earliestCollectedDate",
+      "predicted_month_from_today": "predictedMonthFromToday",
+      "vda_eligible": "vdaEligible",
+      "confidence_level": "confidenceLevel",
+      "last_processed_at": "lastProcessedAt",
+      "last_tax_liability_processed_at": "lastTaxLiabilityProcessedAt",
+      "created_at": "createdAt",
+      "updated_at": "updatedAt",
+      "organization_id": "organizationId",
+      "registration_regime": "registrationRegime",
+      "disregarded_at": "disregardedAt",
+      "disregarded_by": "disregardedBy",
+      "disregarded_type": "disregardedType",
+      "disregarded_nexus_types": "disregardedNexusTypes",
+      "is_currently_disregarded": "isCurrentlyDisregarded",
+      "ior_opt_out_eligible": "iorOptOutEligible",
+      "ior_eligible_at_registration": "iorEligibleAtRegistration",
+      "requires_ior_number_to_register": "requiresIorNumberToRegister",
+      "use_tax_registration_path": "useTaxRegistrationPath",
+      "threshold_sales": "thresholdSales",
+      "is_vda_eligible": "isVdaEligible",
+      "nexus_type": "nexusType",
+      "total_transactions": "totalTransactions",
+      "total_transactions_included": "totalTransactionsIncluded",
+      "total_transactions_exempted": "totalTransactionsExempted",
+      "total_transactions_marketplace": "totalTransactionsMarketplace",
+      "marketplace_included": "marketplaceIncluded",
+    });
+  })
+);
 /** @internal */
 export type NexusResponse$Outbound = {
   processing_status?: string | undefined;
@@ -301,59 +345,67 @@ export type NexusResponse$Outbound = {
   treatment_of_exempt_transactions: string;
   trigger: string;
   sales_or_transactions: string;
-  threshold_sales: number;
-  threshold_transactions: number;
+  threshold_sales_bigint: number;
+  threshold_transactions: number | null;
   start_date: string;
   transaction_count: number;
   transactions_amount: string;
   previous_transaction_count: number;
   previous_transactions_amount: string;
-  calculated_tax_liability: string;
-  imported_tax_liability: string;
+  calculated_tax_liability?: string | null | undefined;
+  imported_tax_liability?: string | null | undefined;
   tax_liability: string;
   nexus_met: boolean;
-  nexus_met_date?: string | undefined;
+  nexus_met_date?: string | null | undefined;
+  tax_type?: string | undefined;
   economic_nexus_met: boolean;
-  economic_nexus_met_date?: string | undefined;
+  economic_nexus_met_date?: string | null | undefined;
   physical_nexus_met: boolean;
-  physical_nexus_met_date?: string | undefined;
-  collected_tax_nexus_met: boolean;
-  collected_tax_nexus_met_date?: string | undefined;
+  physical_nexus_met_date?: string | null | undefined;
+  collected_tax_nexus_met?: boolean | null | undefined;
+  collected_tax_nexus_met_date?: string | null | undefined;
   period_model: string;
   period_start_date: string;
   period_end_date: string;
-  previous_period_start_date: string;
-  previous_period_end_date: string;
-  earliest_transaction_date?: string | undefined;
-  most_recent_transaction_date?: string | undefined;
+  previous_period_start_date: string | null;
+  previous_period_end_date: string | null;
+  earliest_transaction_date?: string | null | undefined;
+  most_recent_transaction_date?: string | null | undefined;
   find_threshold_crossing_transaction_state?:
     | FindThresholdCrossingTransactionState$Outbound
+    | null
     | undefined;
-  earliest_collected_date: string;
-  predicted_month_from_today?: number | undefined;
-  vda_eligible: boolean;
-  confidence_level?: number | undefined;
-  last_processed_at?: string | undefined;
-  last_tax_liability_processed_at?: string | undefined;
+  earliest_collected_date?: string | null | undefined;
+  predicted_month_from_today?: number | null | undefined;
+  vda_eligible?: boolean | null | undefined;
+  confidence_level?: number | null | undefined;
+  last_processed_at?: string | null | undefined;
+  last_tax_liability_processed_at?: string | null | undefined;
   periods?: Array<{ [k: string]: any }> | undefined;
-  currency?: string | undefined;
+  currency?: string | null | undefined;
   id: string;
-  created_at: string;
-  updated_at: string;
+  created_at: string | null;
+  updated_at: string | null;
   organization_id: string;
-  registration?: Registration$Outbound | undefined;
-  registration_regime?: string | undefined;
-  disregarded_at?: string | undefined;
-  disregarded_by?: string | undefined;
+  registration?: { [k: string]: any } | null | undefined;
+  registration_regime?: string | null | undefined;
+  disregarded_at?: string | null | undefined;
+  disregarded_by?: string | null | undefined;
+  disregarded_type?: string | null | undefined;
   disregarded_nexus_types?: Array<string> | undefined;
   is_currently_disregarded: boolean;
+  ior_opt_out_eligible: boolean;
+  ior_eligible_at_registration: boolean;
+  requires_ior_number_to_register: boolean;
+  use_tax_registration_path?: string | undefined;
+  threshold_sales: number;
   is_vda_eligible: boolean;
   nexus_type: string;
   total_transactions: number;
   total_transactions_included: number;
   total_transactions_exempted: number;
   total_transactions_marketplace: number;
-  marketplace_included: boolean;
+  marketplace_included: boolean | null;
 };
 
 /** @internal */
@@ -361,126 +413,154 @@ export const NexusResponse$outboundSchema: z.ZodType<
   NexusResponse$Outbound,
   z.ZodTypeDef,
   NexusResponse
-> = z.object({
-  processingStatus: NexusStatusEnum$outboundSchema.optional(),
-  status: NexusStateEnum$outboundSchema.optional(),
-  countryCode: CountryCodeEnum$outboundSchema,
-  stateCode: z.string(),
-  stateName: z.string(),
-  treatmentOfExemptTransactions: TreatmentEnum$outboundSchema,
-  trigger: z.string(),
-  salesOrTransactions: SalesOrTransactionsEnum$outboundSchema,
-  thresholdSales: z.number().int(),
-  thresholdTransactions: z.number().int(),
-  startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  transactionCount: z.number().int().default(0),
-  transactionsAmount: z.string().default("0.00"),
-  previousTransactionCount: z.number().int().default(0),
-  previousTransactionsAmount: z.string().default("0.00"),
-  calculatedTaxLiability: z.string().default("0.00"),
-  importedTaxLiability: z.string().default("0.00"),
-  taxLiability: z.string().default("0.00"),
-  nexusMet: z.boolean().default(false),
-  nexusMetDate: z.string().optional(),
-  economicNexusMet: z.boolean().default(false),
-  economicNexusMetDate: z.string().optional(),
-  physicalNexusMet: z.boolean().default(false),
-  physicalNexusMetDate: z.string().optional(),
-  collectedTaxNexusMet: z.boolean().default(false),
-  collectedTaxNexusMetDate: z.string().optional(),
-  periodModel: PeriodModelEnum$outboundSchema,
-  periodStartDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  periodEndDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  previousPeriodStartDate: z.string(),
-  previousPeriodEndDate: z.string(),
-  earliestTransactionDate: z.string().optional(),
-  mostRecentTransactionDate: z.string().optional(),
-  findThresholdCrossingTransactionState:
-    FindThresholdCrossingTransactionState$outboundSchema.optional(),
-  earliestCollectedDate: z.date().default(() => new Date("2018-01-01T00:00:00"))
-    .transform(v => v.toISOString()),
-  predictedMonthFromToday: z.number().int().optional(),
-  vdaEligible: z.boolean().default(false),
-  confidenceLevel: z.number().optional(),
-  lastProcessedAt: z.string().optional(),
-  lastTaxLiabilityProcessedAt: z.string().optional(),
-  periods: z.array(z.record(z.any())).optional(),
-  currency: CurrencyEnum$outboundSchema.optional(),
-  id: z.string(),
-  createdAt: z.date().transform(v => v.toISOString()),
-  updatedAt: z.date().transform(v => v.toISOString()),
-  organizationId: z.string(),
-  registration: z.lazy(() => Registration$outboundSchema).optional(),
-  registrationRegime: RegistrationsRegimeEnum$outboundSchema.optional(),
-  disregardedAt: z.string().optional(),
-  disregardedBy: z.string().optional(),
-  disregardedNexusTypes: z.array(z.string()).optional(),
-  isCurrentlyDisregarded: z.boolean().default(false),
-  isVdaEligible: z.boolean(),
-  nexusType: NexusTypeEnum$outboundSchema,
-  totalTransactions: z.number().int(),
-  totalTransactionsIncluded: z.number().int(),
-  totalTransactionsExempted: z.number().int(),
-  totalTransactionsMarketplace: z.number().int(),
-  marketplaceIncluded: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    processingStatus: "processing_status",
-    countryCode: "country_code",
-    stateCode: "state_code",
-    stateName: "state_name",
-    treatmentOfExemptTransactions: "treatment_of_exempt_transactions",
-    salesOrTransactions: "sales_or_transactions",
-    thresholdSales: "threshold_sales",
-    thresholdTransactions: "threshold_transactions",
-    startDate: "start_date",
-    transactionCount: "transaction_count",
-    transactionsAmount: "transactions_amount",
-    previousTransactionCount: "previous_transaction_count",
-    previousTransactionsAmount: "previous_transactions_amount",
-    calculatedTaxLiability: "calculated_tax_liability",
-    importedTaxLiability: "imported_tax_liability",
-    taxLiability: "tax_liability",
-    nexusMet: "nexus_met",
-    nexusMetDate: "nexus_met_date",
-    economicNexusMet: "economic_nexus_met",
-    economicNexusMetDate: "economic_nexus_met_date",
-    physicalNexusMet: "physical_nexus_met",
-    physicalNexusMetDate: "physical_nexus_met_date",
-    collectedTaxNexusMet: "collected_tax_nexus_met",
-    collectedTaxNexusMetDate: "collected_tax_nexus_met_date",
-    periodModel: "period_model",
-    periodStartDate: "period_start_date",
-    periodEndDate: "period_end_date",
-    previousPeriodStartDate: "previous_period_start_date",
-    previousPeriodEndDate: "previous_period_end_date",
-    earliestTransactionDate: "earliest_transaction_date",
-    mostRecentTransactionDate: "most_recent_transaction_date",
-    findThresholdCrossingTransactionState:
-      "find_threshold_crossing_transaction_state",
-    earliestCollectedDate: "earliest_collected_date",
-    predictedMonthFromToday: "predicted_month_from_today",
-    vdaEligible: "vda_eligible",
-    confidenceLevel: "confidence_level",
-    lastProcessedAt: "last_processed_at",
-    lastTaxLiabilityProcessedAt: "last_tax_liability_processed_at",
-    createdAt: "created_at",
-    updatedAt: "updated_at",
-    organizationId: "organization_id",
-    registrationRegime: "registration_regime",
-    disregardedAt: "disregarded_at",
-    disregardedBy: "disregarded_by",
-    disregardedNexusTypes: "disregarded_nexus_types",
-    isCurrentlyDisregarded: "is_currently_disregarded",
-    isVdaEligible: "is_vda_eligible",
-    nexusType: "nexus_type",
-    totalTransactions: "total_transactions",
-    totalTransactionsIncluded: "total_transactions_included",
-    totalTransactionsExempted: "total_transactions_exempted",
-    totalTransactionsMarketplace: "total_transactions_marketplace",
-    marketplaceIncluded: "marketplace_included",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    processingStatus: NexusStatusEnum$outboundSchema.optional(),
+    status: NexusStateEnum$outboundSchema.optional(),
+    countryCode: CountryCodeEnum$outboundSchema,
+    stateCode: z.string(),
+    stateName: z.string(),
+    treatmentOfExemptTransactions: TreatmentEnum$outboundSchema,
+    trigger: z.string(),
+    salesOrTransactions: SalesOrTransactionsEnum$outboundSchema,
+    thresholdSalesBigint: z.number().int().default(0),
+    thresholdTransactions: z.nullable(z.number().int()),
+    startDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    transactionCount: z.number().int().default(0),
+    transactionsAmount: z.string().default("0.00"),
+    previousTransactionCount: z.number().int().default(0),
+    previousTransactionsAmount: z.string().default("0.00"),
+    calculatedTaxLiability: z.nullable(z.string()).optional(),
+    importedTaxLiability: z.nullable(z.string()).optional(),
+    taxLiability: z.string().default("0.00"),
+    nexusMet: z.boolean().default(false),
+    nexusMetDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    taxType: TaxTypeEnum$outboundSchema.optional(),
+    economicNexusMet: z.boolean().default(false),
+    economicNexusMetDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    physicalNexusMet: z.boolean().default(false),
+    physicalNexusMetDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    collectedTaxNexusMet: z.nullable(z.boolean()).optional(),
+    collectedTaxNexusMetDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    periodModel: PeriodModelEnum$outboundSchema,
+    periodStartDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    periodEndDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    previousPeriodStartDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ),
+    previousPeriodEndDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ),
+    earliestTransactionDate: z.nullable(z.string()).optional(),
+    mostRecentTransactionDate: z.nullable(z.string()).optional(),
+    findThresholdCrossingTransactionState: z.nullable(
+      FindThresholdCrossingTransactionState$outboundSchema,
+    ).optional(),
+    earliestCollectedDate: z.nullable(z.string()).optional(),
+    predictedMonthFromToday: z.nullable(z.number().int()).optional(),
+    vdaEligible: z.nullable(z.boolean()).optional(),
+    confidenceLevel: z.nullable(z.number()).optional(),
+    lastProcessedAt: z.nullable(z.string()).optional(),
+    lastTaxLiabilityProcessedAt: z.nullable(z.string()).optional(),
+    periods: z.array(z.record(z.any())).optional(),
+    currency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    id: z.string(),
+    createdAt: z.nullable(z.string()),
+    updatedAt: z.nullable(z.string()),
+    organizationId: z.string(),
+    registration: z.nullable(z.record(z.any())).optional(),
+    registrationRegime: z.nullable(RegistrationsRegimeEnum$outboundSchema)
+      .optional(),
+    disregardedAt: z.nullable(z.string()).optional(),
+    disregardedBy: z.nullable(z.string()).optional(),
+    disregardedType: z.nullable(DisregardedTypeEnum$outboundSchema).optional(),
+    disregardedNexusTypes: z.array(z.string()).optional(),
+    isCurrentlyDisregarded: z.boolean().default(false),
+    iorOptOutEligible: z.boolean().default(false),
+    iorEligibleAtRegistration: z.boolean().default(false),
+    requiresIorNumberToRegister: z.boolean().default(false),
+    useTaxRegistrationPath: UseTaxRegistrationPath$outboundSchema.optional(),
+    thresholdSales: z.number().int(),
+    isVdaEligible: z.boolean(),
+    nexusType: NexusTypeEnum$outboundSchema,
+    totalTransactions: z.number().int(),
+    totalTransactionsIncluded: z.number().int(),
+    totalTransactionsExempted: z.number().int(),
+    totalTransactionsMarketplace: z.number().int(),
+    marketplaceIncluded: z.nullable(z.boolean()),
+  }).transform((v) => {
+    return remap$(v, {
+      processingStatus: "processing_status",
+      countryCode: "country_code",
+      stateCode: "state_code",
+      stateName: "state_name",
+      treatmentOfExemptTransactions: "treatment_of_exempt_transactions",
+      salesOrTransactions: "sales_or_transactions",
+      thresholdSalesBigint: "threshold_sales_bigint",
+      thresholdTransactions: "threshold_transactions",
+      startDate: "start_date",
+      transactionCount: "transaction_count",
+      transactionsAmount: "transactions_amount",
+      previousTransactionCount: "previous_transaction_count",
+      previousTransactionsAmount: "previous_transactions_amount",
+      calculatedTaxLiability: "calculated_tax_liability",
+      importedTaxLiability: "imported_tax_liability",
+      taxLiability: "tax_liability",
+      nexusMet: "nexus_met",
+      nexusMetDate: "nexus_met_date",
+      taxType: "tax_type",
+      economicNexusMet: "economic_nexus_met",
+      economicNexusMetDate: "economic_nexus_met_date",
+      physicalNexusMet: "physical_nexus_met",
+      physicalNexusMetDate: "physical_nexus_met_date",
+      collectedTaxNexusMet: "collected_tax_nexus_met",
+      collectedTaxNexusMetDate: "collected_tax_nexus_met_date",
+      periodModel: "period_model",
+      periodStartDate: "period_start_date",
+      periodEndDate: "period_end_date",
+      previousPeriodStartDate: "previous_period_start_date",
+      previousPeriodEndDate: "previous_period_end_date",
+      earliestTransactionDate: "earliest_transaction_date",
+      mostRecentTransactionDate: "most_recent_transaction_date",
+      findThresholdCrossingTransactionState:
+        "find_threshold_crossing_transaction_state",
+      earliestCollectedDate: "earliest_collected_date",
+      predictedMonthFromToday: "predicted_month_from_today",
+      vdaEligible: "vda_eligible",
+      confidenceLevel: "confidence_level",
+      lastProcessedAt: "last_processed_at",
+      lastTaxLiabilityProcessedAt: "last_tax_liability_processed_at",
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      organizationId: "organization_id",
+      registrationRegime: "registration_regime",
+      disregardedAt: "disregarded_at",
+      disregardedBy: "disregarded_by",
+      disregardedType: "disregarded_type",
+      disregardedNexusTypes: "disregarded_nexus_types",
+      isCurrentlyDisregarded: "is_currently_disregarded",
+      iorOptOutEligible: "ior_opt_out_eligible",
+      iorEligibleAtRegistration: "ior_eligible_at_registration",
+      requiresIorNumberToRegister: "requires_ior_number_to_register",
+      useTaxRegistrationPath: "use_tax_registration_path",
+      thresholdSales: "threshold_sales",
+      isVdaEligible: "is_vda_eligible",
+      nexusType: "nexus_type",
+      totalTransactions: "total_transactions",
+      totalTransactionsIncluded: "total_transactions_included",
+      totalTransactionsExempted: "total_transactions_exempted",
+      totalTransactionsMarketplace: "total_transactions_marketplace",
+      marketplaceIncluded: "marketplace_included",
+    });
+  })
+);
 
 export function nexusResponseToJSON(nexusResponse: NexusResponse): string {
   return JSON.stringify(NexusResponse$outboundSchema.parse(nexusResponse));

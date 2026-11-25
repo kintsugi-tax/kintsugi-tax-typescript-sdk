@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery, encodeJSON } from "../lib/encodings.js";
+import { encodeFormQuery, encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -27,7 +28,7 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Estimate Tax
+ * Estimate tax
  *
  * @remarks
  * The Estimate Tax API calculates the estimated tax for a specific
@@ -40,7 +41,7 @@ export function taxEstimationEstimate(
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    models.PageTransactionEstimateResponse,
+    models.TransactionEstimateResponse,
     | errors.ErrorResponse
     | errors.BackendSrcTaxEstimationResponsesValidationErrorResponse
     | SDKError
@@ -67,7 +68,7 @@ async function $do(
 ): Promise<
   [
     Result<
-      models.PageTransactionEstimateResponse,
+      models.TransactionEstimateResponse,
       | errors.ErrorResponse
       | errors.BackendSrcTaxEstimationResponsesValidationErrorResponse
       | SDKError
@@ -107,9 +108,15 @@ async function $do(
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -120,7 +127,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -145,7 +152,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "404", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -159,7 +167,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    models.PageTransactionEstimateResponse,
+    models.TransactionEstimateResponse,
     | errors.ErrorResponse
     | errors.BackendSrcTaxEstimationResponsesValidationErrorResponse
     | SDKError
@@ -171,14 +179,14 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, models.PageTransactionEstimateResponse$inboundSchema),
-    M.jsonErr(401, errors.ErrorResponse$inboundSchema),
+    M.json(200, models.TransactionEstimateResponse$inboundSchema),
+    M.jsonErr([400, 401], errors.ErrorResponse$inboundSchema),
     M.jsonErr(
       422,
       errors
         .BackendSrcTaxEstimationResponsesValidationErrorResponse$inboundSchema,
     ),
-    M.jsonErr(500, errors.ErrorResponse$inboundSchema),
+    M.jsonErr([500, 503], errors.ErrorResponse$inboundSchema),
     M.fail([404, "4XX"]),
     M.fail("5XX"),
   )(response, req, { extraFields: responseFields });

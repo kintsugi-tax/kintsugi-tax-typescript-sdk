@@ -3,18 +3,18 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
-  BackendSrcExemptionsModelsExemptionRead,
-  BackendSrcExemptionsModelsExemptionRead$inboundSchema,
-  BackendSrcExemptionsModelsExemptionRead$Outbound,
-  BackendSrcExemptionsModelsExemptionRead$outboundSchema,
-} from "./backendsrcexemptionsmodelsexemptionread.js";
+  BackendSrcExemptionsSchemasExemptionExemptionRead,
+  BackendSrcExemptionsSchemasExemptionExemptionRead$inboundSchema,
+  BackendSrcExemptionsSchemasExemptionExemptionRead$Outbound,
+  BackendSrcExemptionsSchemasExemptionExemptionRead$outboundSchema,
+} from "./backendsrcexemptionsschemasexemptionexemptionread.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type FastapiPaginationDefaultPageExemptionRead2 = {
-  items: Array<BackendSrcExemptionsModelsExemptionRead>;
+  items: Array<BackendSrcExemptionsSchemasExemptionExemptionRead>;
   total: number;
   page: number;
   size: number;
@@ -24,16 +24,20 @@ export type FastapiPaginationDefaultPageExemptionRead2 = {
 /** @internal */
 export const FastapiPaginationDefaultPageExemptionRead2$inboundSchema:
   z.ZodType<FastapiPaginationDefaultPageExemptionRead2, z.ZodTypeDef, unknown> =
-    z.object({
-      items: z.array(BackendSrcExemptionsModelsExemptionRead$inboundSchema),
-      total: z.number().int(),
-      page: z.number().int(),
-      size: z.number().int(),
-      pages: z.number().int(),
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        items: z.array(
+          BackendSrcExemptionsSchemasExemptionExemptionRead$inboundSchema,
+        ),
+        total: z.number().int(),
+        page: z.number().int(),
+        size: z.number().int(),
+        pages: z.number().int(),
+      })
+    );
 /** @internal */
 export type FastapiPaginationDefaultPageExemptionRead2$Outbound = {
-  items: Array<BackendSrcExemptionsModelsExemptionRead$Outbound>;
+  items: Array<BackendSrcExemptionsSchemasExemptionExemptionRead$Outbound>;
   total: number;
   page: number;
   size: number;
@@ -46,13 +50,17 @@ export const FastapiPaginationDefaultPageExemptionRead2$outboundSchema:
     FastapiPaginationDefaultPageExemptionRead2$Outbound,
     z.ZodTypeDef,
     FastapiPaginationDefaultPageExemptionRead2
-  > = z.object({
-    items: z.array(BackendSrcExemptionsModelsExemptionRead$outboundSchema),
-    total: z.number().int(),
-    page: z.number().int(),
-    size: z.number().int(),
-    pages: z.number().int(),
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      items: z.array(
+        BackendSrcExemptionsSchemasExemptionExemptionRead$outboundSchema,
+      ),
+      total: z.number().int(),
+      page: z.number().int(),
+      size: z.number().int(),
+      pages: z.number().int(),
+    })
+  );
 
 export function fastapiPaginationDefaultPageExemptionRead2ToJSON(
   fastapiPaginationDefaultPageExemptionRead2:

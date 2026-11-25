@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -27,14 +28,14 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get Exemptions
+ * Get exemptions
  *
  * @remarks
  * Retrieve a list of exemptions based on filters.
  */
 export function exemptionsList(
   client: SDKCore,
-  request?: operations.GetExemptionsV1ExemptionsGetRequest | undefined,
+  request: operations.GetExemptionsV1ExemptionsGetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
@@ -60,7 +61,7 @@ export function exemptionsList(
 
 async function $do(
   client: SDKCore,
-  request?: operations.GetExemptionsV1ExemptionsGetRequest | undefined,
+  request: operations.GetExemptionsV1ExemptionsGetRequest,
   options?: RequestOptions,
 ): Promise<
   [
@@ -83,8 +84,9 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.GetExemptionsV1ExemptionsGetRequest$outboundSchema.optional()
-        .parse(value),
+      operations.GetExemptionsV1ExemptionsGetRequest$outboundSchema.parse(
+        value,
+      ),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -96,24 +98,31 @@ async function $do(
   const path = pathToFunc("/v1/exemptions")();
 
   const query = encodeFormQuery({
-    "country_code": payload?.country_code,
-    "customer_id": payload?.customer_id,
-    "end_date": payload?.end_date,
-    "jurisdiction": payload?.jurisdiction,
-    "order_by": payload?.order_by,
-    "page": payload?.page,
-    "search_query": payload?.search_query,
-    "size": payload?.size,
-    "start_date": payload?.start_date,
-    "status__in": payload?.status__in,
-    "transaction_id": payload?.transaction_id,
+    "connection_id__in": payload.connection_id__in,
+    "country_code": payload.country_code,
+    "customer_id": payload.customer_id,
+    "end_date": payload.end_date,
+    "jurisdiction": payload.jurisdiction,
+    "order_by": payload.order_by,
+    "page": payload.page,
+    "search_query": payload.search_query,
+    "size": payload.size,
+    "start_date": payload.start_date,
+    "status__in": payload.status__in,
+    "transaction_id": payload.transaction_id,
   });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -124,7 +133,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -149,7 +158,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });

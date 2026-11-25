@@ -43,14 +43,6 @@ export const startCommand = buildCommand({
           return z.string().parse(value);
         },
       },
-      "custom-header": {
-        kind: "parsed",
-        brief: "Sets the customHeader auth field for the API",
-        optional: true,
-        parse: (value) => {
-          return z.string().parse(value);
-        },
-      },
       "server-url": {
         kind: "parsed",
         brief: "Overrides the default server URL used by the SDK",

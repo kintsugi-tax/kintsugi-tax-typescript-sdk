@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 import { SDKError } from "./sdkerror.js";
 
@@ -39,21 +40,23 @@ export const BackendSrcTransactionsResponsesValidationErrorResponse$inboundSchem
     BackendSrcTransactionsResponsesValidationErrorResponse,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    detail: z.array(
-      models.BackendSrcTransactionsResponsesValidationErrorItem$inboundSchema,
-    ),
-    request$: z.instanceof(Request),
-    response$: z.instanceof(Response),
-    body$: z.string(),
-  })
-    .transform((v) => {
-      return new BackendSrcTransactionsResponsesValidationErrorResponse(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      detail: z.array(
+        models.BackendSrcTransactionsResponsesValidationErrorItem$inboundSchema,
+      ),
+      request$: z.instanceof(Request),
+      response$: z.instanceof(Response),
+      body$: z.string(),
+    })
+      .transform((v) => {
+        return new BackendSrcTransactionsResponsesValidationErrorResponse(v, {
+          request: v.request$,
+          response: v.response$,
+          body: v.body$,
+        });
+      })
+  );
 
 /** @internal */
 export type BackendSrcTransactionsResponsesValidationErrorResponse$Outbound = {
@@ -68,11 +71,13 @@ export const BackendSrcTransactionsResponsesValidationErrorResponse$outboundSche
     BackendSrcTransactionsResponsesValidationErrorResponse$Outbound,
     z.ZodTypeDef,
     BackendSrcTransactionsResponsesValidationErrorResponse
-  > = z.instanceof(BackendSrcTransactionsResponsesValidationErrorResponse)
-    .transform(v => v.data$)
-    .pipe(z.object({
-      detail: z.array(
-        models
-          .BackendSrcTransactionsResponsesValidationErrorItem$outboundSchema,
-      ),
-    }));
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.instanceof(BackendSrcTransactionsResponsesValidationErrorResponse)
+      .transform(v => v.data$)
+      .pipe(z.object({
+        detail: z.array(
+          models
+            .BackendSrcTransactionsResponsesValidationErrorItem$outboundSchema,
+        ),
+      }))
+  );

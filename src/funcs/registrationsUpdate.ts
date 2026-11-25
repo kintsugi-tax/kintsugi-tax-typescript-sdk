@@ -4,12 +4,12 @@
 
 import { SDKCore } from "../core.js";
 import { encodeJSON, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
-import { RequestOptions } from "../lib/sdks.js";
+import { encodePath, RequestOptions } from "../lib/sdks.js";
 import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
-import { pathToFunc } from "../lib/url.js";
 import {
   ConnectionError,
   InvalidRequestError,
@@ -27,11 +27,21 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Update Registration
+ * Update registration
  *
  * @remarks
  * The Update Registration API allows you to modify
- *     an existing registration using its unique registration_id.
+ *     an existing registration using its unique registration_id. Sending a value for,
+ *     or clearing, a credential that is already stored (username, password, security
+ *     questions or a portal access code) needs an Owner of the organization or a
+ *     Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+ *     to, and a service key as the user who created it. Other callers, and automated
+ *     assistant integrations, get 403, even when the value matches the stored one.
+ *     Any caller who can edit the registration may fill a credential that has no
+ *     stored value, except that a stored password also guards the username and security
+ *     questions. A masked username sent back unchanged is ignored. A password made
+ *     only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+ *     response come back masked.
  */
 export function registrationsUpdate(
   client: SDKCore,
@@ -103,15 +113,27 @@ async function $do(
       charEncoding: "percent",
     }),
   };
-
-  const path = pathToFunc("/v1/registrations/{registration_id}")(pathParams);
+  const pathResult = encodePath(
+    "/v1/registrations/{registration_id}",
+    pathParams,
+  );
+  if (!pathResult.ok) {
+    return [pathResult, { status: "invalid" }];
+  }
+  const path = pathResult.value;
 
   const headers = new Headers(compactMap({
     "Content-Type": "application/json",
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -122,7 +144,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -146,7 +168,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "404", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -173,7 +196,7 @@ async function $do(
     | SDKValidationError
   >(
     M.json(200, models.RegistrationRead$inboundSchema),
-    M.jsonErr(401, errors.ErrorResponse$inboundSchema),
+    M.jsonErr([401, 403], errors.ErrorResponse$inboundSchema),
     M.jsonErr(
       422,
       errors

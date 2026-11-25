@@ -3,16 +3,16 @@
  */
 
 import { customersCreate } from "../../funcs/customersCreate.js";
-import * as models from "../../models/index.js";
+import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: models.CustomerCreate$inboundSchema,
+  request: operations.CreateCustomerV1CustomersPostRequest$inboundSchema,
 };
 
 export const tool$customersCreate: ToolDefinition<typeof args> = {
   name: "customers-create",
-  description: `Create Customer
+  description: `Create customer
 
 The Create Customer API enables the creation of a new customer record with essential
 details like name, contact information, and address, along with optional metadata.`,
@@ -21,7 +21,7 @@ details like name, contact information, and address, along with optional metadat
     const [result, apiCall] = await customersCreate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

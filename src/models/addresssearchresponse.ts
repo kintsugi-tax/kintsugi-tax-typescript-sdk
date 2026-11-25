@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   AddressResponseData,
@@ -38,19 +38,21 @@ export const AddressSearchResponse$inboundSchema: z.ZodType<
   AddressSearchResponse,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  address_submitted: AddressSubmittedResponse$inboundSchema,
-  response_address: AddressResponseData$inboundSchema,
-  verification_status: z.string(),
-  enrich_fields: z.array(z.string()),
-}).transform((v) => {
-  return remap$(v, {
-    "address_submitted": "addressSubmitted",
-    "response_address": "responseAddress",
-    "verification_status": "verificationStatus",
-    "enrich_fields": "enrichFields",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    address_submitted: AddressSubmittedResponse$inboundSchema,
+    response_address: AddressResponseData$inboundSchema,
+    verification_status: z.string(),
+    enrich_fields: z.array(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "address_submitted": "addressSubmitted",
+      "response_address": "responseAddress",
+      "verification_status": "verificationStatus",
+      "enrich_fields": "enrichFields",
+    });
+  })
+);
 /** @internal */
 export type AddressSearchResponse$Outbound = {
   address_submitted: AddressSubmittedResponse$Outbound;
@@ -64,19 +66,21 @@ export const AddressSearchResponse$outboundSchema: z.ZodType<
   AddressSearchResponse$Outbound,
   z.ZodTypeDef,
   AddressSearchResponse
-> = z.object({
-  addressSubmitted: AddressSubmittedResponse$outboundSchema,
-  responseAddress: AddressResponseData$outboundSchema,
-  verificationStatus: z.string(),
-  enrichFields: z.array(z.string()),
-}).transform((v) => {
-  return remap$(v, {
-    addressSubmitted: "address_submitted",
-    responseAddress: "response_address",
-    verificationStatus: "verification_status",
-    enrichFields: "enrich_fields",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    addressSubmitted: AddressSubmittedResponse$outboundSchema,
+    responseAddress: AddressResponseData$outboundSchema,
+    verificationStatus: z.string(),
+    enrichFields: z.array(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      addressSubmitted: "address_submitted",
+      responseAddress: "response_address",
+      verificationStatus: "verification_status",
+      enrichFields: "enrich_fields",
+    });
+  })
+);
 
 export function addressSearchResponseToJSON(
   addressSearchResponse: AddressSearchResponse,

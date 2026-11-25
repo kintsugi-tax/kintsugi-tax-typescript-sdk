@@ -4,8 +4,9 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import { RFCDate } from "../types/rfcdate.js";
 import {
   ChangeRegimeStatusEnum,
   ChangeRegimeStatusEnum$inboundSchema,
@@ -27,45 +28,40 @@ export type RegistrationUpdateAPI = {
   /**
    * The date when the registration was created. Format: YYYY-MM-DD.
    */
-  registrationDate?: string | undefined;
+  registrationDate?: RFCDate | null | undefined;
   /**
    * Email address associated with the registration.
    */
-  registrationEmail?: string | undefined;
-  /**
-   * A unique key assigned to the registration.
-   */
-  registrationKey?: string | undefined;
-  /**
-   * A unique key assigned for deregistration.
-   */
-  deregistrationKey?: string | undefined;
+  registrationEmail?: string | null | undefined;
   /**
    * Timestamp when the registration was requested.
    */
-  registrationRequested?: string | undefined;
+  registrationRequested?: Date | null | undefined;
   /**
    * Timestamp when the registration was completed.
    */
-  registrationCompleted?: string | undefined;
+  registrationCompleted?: Date | null | undefined;
   /**
    * Timestamp when deregistration was requested.
    */
-  deregistrationRequested?: string | undefined;
+  deregistrationRequested?: Date | null | undefined;
   /**
    * Timestamp when the deregistration was completed.
    */
-  deregistrationCompleted?: string | undefined;
+  deregistrationCompleted?: Date | null | undefined;
   /**
    * Indicates whether the registration was completed automatically.
    */
-  autoRegistered?: boolean | undefined;
-  registrationsRegime?: RegistrationsRegimeEnum | undefined;
-  changeRegimeStatus?: ChangeRegimeStatusEnum | undefined;
+  autoRegistered?: boolean | null | undefined;
+  /**
+   * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+   */
+  registrationsRegime?: RegistrationsRegimeEnum | null | undefined;
+  changeRegimeStatus?: ChangeRegimeStatusEnum | null | undefined;
   /**
    * Indicates whether third-party access is enabled for this registration.
    */
-  thirdPartyEnabled?: boolean | undefined;
+  thirdPartyEnabled?: boolean | null | undefined;
   /**
    * If true, do not file for this registration (treated as False by default).
    */
@@ -73,40 +69,55 @@ export type RegistrationUpdateAPI = {
   /**
    * Indicates whether two-factor authentication (2FA) is enabled for this registration.
    */
-  twoFactorEnabled?: boolean | undefined;
+  twoFactorEnabled?: boolean | null | undefined;
   /**
    * Indicates whether the  registration is marked as collecting in shopify
    */
-  markedCollecting?: boolean | undefined;
+  markedCollecting?: boolean | null | undefined;
+  /**
+   * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+   */
+  isPreCollecting?: boolean | undefined;
   /**
    * The encrypted username for the registration.
    */
-  encryptedUsername?: string | undefined;
+  encryptedUsername?: string | null | undefined;
   /**
    * The username associated with the registration.
    */
-  username?: string | undefined;
-  filingFrequency?: FilingFrequencyEnum | undefined;
+  username?: string | null | undefined;
+  /**
+   * The updated filing frequency (MONTHLY, QUARTERLY, etc.).
+   */
+  filingFrequency?: FilingFrequencyEnum | null | undefined;
   /**
    * The updated date from which filings should start (YYYY-MM-DD).
    */
-  createFilingsFrom?: string | undefined;
+  createFilingsFrom?: RFCDate | null | undefined;
   /**
    * Indicates whether the registration is approaching an action (e.g., renewal).
    */
-  isApproaching?: boolean | undefined;
+  isApproaching?: boolean | null | undefined;
   /**
    * Additional notes or comments related to the registration.
    */
-  comment?: string | undefined;
+  comment?: string | null | undefined;
   /**
    * Indicates if the Voluntary Disclosure Agreement (VDA) applies.
    */
-  vda?: boolean | undefined;
+  vda?: boolean | null | undefined;
   /**
    * Organization-level tax ID (e.g., VAT number, Canada Business Number).
    */
-  taxId?: string | undefined;
+  taxId?: string | null | undefined;
+  /**
+   * The Importer of Record (IOR) number for the registration.
+   */
+  iorNumber?: string | null | undefined;
+  /**
+   * Whether to also file the single period preceding the first filing period.
+   */
+  createBackFiling?: boolean | undefined;
 };
 
 /** @internal */
@@ -114,79 +125,96 @@ export const RegistrationUpdateAPI$inboundSchema: z.ZodType<
   RegistrationUpdateAPI,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  registration_date: z.string().optional(),
-  registration_email: z.string().optional(),
-  registration_key: z.string().optional(),
-  deregistration_key: z.string().optional(),
-  registration_requested: z.string().optional(),
-  registration_completed: z.string().optional(),
-  deregistration_requested: z.string().optional(),
-  deregistration_completed: z.string().optional(),
-  auto_registered: z.boolean().default(false),
-  registrations_regime: RegistrationsRegimeEnum$inboundSchema.optional(),
-  change_regime_status: ChangeRegimeStatusEnum$inboundSchema.optional(),
-  third_party_enabled: z.boolean().default(false),
-  do_not_file: z.boolean().default(false),
-  two_factor_enabled: z.boolean().optional(),
-  marked_collecting: z.boolean().optional(),
-  encrypted_username: z.string().optional(),
-  username: z.string().optional(),
-  filing_frequency: FilingFrequencyEnum$inboundSchema.optional(),
-  create_filings_from: z.string().optional(),
-  is_approaching: z.boolean().optional(),
-  comment: z.string().optional(),
-  vda: z.boolean().optional(),
-  tax_id: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "registration_date": "registrationDate",
-    "registration_email": "registrationEmail",
-    "registration_key": "registrationKey",
-    "deregistration_key": "deregistrationKey",
-    "registration_requested": "registrationRequested",
-    "registration_completed": "registrationCompleted",
-    "deregistration_requested": "deregistrationRequested",
-    "deregistration_completed": "deregistrationCompleted",
-    "auto_registered": "autoRegistered",
-    "registrations_regime": "registrationsRegime",
-    "change_regime_status": "changeRegimeStatus",
-    "third_party_enabled": "thirdPartyEnabled",
-    "do_not_file": "doNotFile",
-    "two_factor_enabled": "twoFactorEnabled",
-    "marked_collecting": "markedCollecting",
-    "encrypted_username": "encryptedUsername",
-    "filing_frequency": "filingFrequency",
-    "create_filings_from": "createFilingsFrom",
-    "is_approaching": "isApproaching",
-    "tax_id": "taxId",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registration_date: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    registration_email: z.nullable(z.string()).optional(),
+    registration_requested: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    registration_completed: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    deregistration_requested: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    deregistration_completed: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    auto_registered: z.nullable(z.boolean()).optional(),
+    registrations_regime: z.nullable(RegistrationsRegimeEnum$inboundSchema)
+      .optional(),
+    change_regime_status: z.nullable(ChangeRegimeStatusEnum$inboundSchema)
+      .optional(),
+    third_party_enabled: z.nullable(z.boolean()).optional(),
+    do_not_file: z.boolean().default(false),
+    two_factor_enabled: z.nullable(z.boolean()).optional(),
+    marked_collecting: z.nullable(z.boolean()).optional(),
+    is_pre_collecting: z.boolean().default(false),
+    encrypted_username: z.nullable(z.string()).optional(),
+    username: z.nullable(z.string()).optional(),
+    filing_frequency: z.nullable(FilingFrequencyEnum$inboundSchema).optional(),
+    create_filings_from: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    is_approaching: z.nullable(z.boolean()).optional(),
+    comment: z.nullable(z.string()).optional(),
+    vda: z.nullable(z.boolean()).optional(),
+    tax_id: z.nullable(z.string()).optional(),
+    ior_number: z.nullable(z.string()).optional(),
+    create_back_filing: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      "registration_date": "registrationDate",
+      "registration_email": "registrationEmail",
+      "registration_requested": "registrationRequested",
+      "registration_completed": "registrationCompleted",
+      "deregistration_requested": "deregistrationRequested",
+      "deregistration_completed": "deregistrationCompleted",
+      "auto_registered": "autoRegistered",
+      "registrations_regime": "registrationsRegime",
+      "change_regime_status": "changeRegimeStatus",
+      "third_party_enabled": "thirdPartyEnabled",
+      "do_not_file": "doNotFile",
+      "two_factor_enabled": "twoFactorEnabled",
+      "marked_collecting": "markedCollecting",
+      "is_pre_collecting": "isPreCollecting",
+      "encrypted_username": "encryptedUsername",
+      "filing_frequency": "filingFrequency",
+      "create_filings_from": "createFilingsFrom",
+      "is_approaching": "isApproaching",
+      "tax_id": "taxId",
+      "ior_number": "iorNumber",
+      "create_back_filing": "createBackFiling",
+    });
+  })
+);
 /** @internal */
 export type RegistrationUpdateAPI$Outbound = {
-  registration_date?: string | undefined;
-  registration_email?: string | undefined;
-  registration_key?: string | undefined;
-  deregistration_key?: string | undefined;
-  registration_requested?: string | undefined;
-  registration_completed?: string | undefined;
-  deregistration_requested?: string | undefined;
-  deregistration_completed?: string | undefined;
-  auto_registered: boolean;
-  registrations_regime?: string | undefined;
-  change_regime_status?: string | undefined;
-  third_party_enabled: boolean;
+  registration_date?: string | null | undefined;
+  registration_email?: string | null | undefined;
+  registration_requested?: string | null | undefined;
+  registration_completed?: string | null | undefined;
+  deregistration_requested?: string | null | undefined;
+  deregistration_completed?: string | null | undefined;
+  auto_registered?: boolean | null | undefined;
+  registrations_regime?: string | null | undefined;
+  change_regime_status?: string | null | undefined;
+  third_party_enabled?: boolean | null | undefined;
   do_not_file: boolean;
-  two_factor_enabled?: boolean | undefined;
-  marked_collecting?: boolean | undefined;
-  encrypted_username?: string | undefined;
-  username?: string | undefined;
-  filing_frequency?: string | undefined;
-  create_filings_from?: string | undefined;
-  is_approaching?: boolean | undefined;
-  comment?: string | undefined;
-  vda?: boolean | undefined;
-  tax_id?: string | undefined;
+  two_factor_enabled?: boolean | null | undefined;
+  marked_collecting?: boolean | null | undefined;
+  is_pre_collecting: boolean;
+  encrypted_username?: string | null | undefined;
+  username?: string | null | undefined;
+  filing_frequency?: string | null | undefined;
+  create_filings_from?: string | null | undefined;
+  is_approaching?: boolean | null | undefined;
+  comment?: string | null | undefined;
+  vda?: boolean | null | undefined;
+  tax_id?: string | null | undefined;
+  ior_number?: string | null | undefined;
+  create_back_filing: boolean;
 };
 
 /** @internal */
@@ -194,54 +222,70 @@ export const RegistrationUpdateAPI$outboundSchema: z.ZodType<
   RegistrationUpdateAPI$Outbound,
   z.ZodTypeDef,
   RegistrationUpdateAPI
-> = z.object({
-  registrationDate: z.string().optional(),
-  registrationEmail: z.string().optional(),
-  registrationKey: z.string().optional(),
-  deregistrationKey: z.string().optional(),
-  registrationRequested: z.string().optional(),
-  registrationCompleted: z.string().optional(),
-  deregistrationRequested: z.string().optional(),
-  deregistrationCompleted: z.string().optional(),
-  autoRegistered: z.boolean().default(false),
-  registrationsRegime: RegistrationsRegimeEnum$outboundSchema.optional(),
-  changeRegimeStatus: ChangeRegimeStatusEnum$outboundSchema.optional(),
-  thirdPartyEnabled: z.boolean().default(false),
-  doNotFile: z.boolean().default(false),
-  twoFactorEnabled: z.boolean().optional(),
-  markedCollecting: z.boolean().optional(),
-  encryptedUsername: z.string().optional(),
-  username: z.string().optional(),
-  filingFrequency: FilingFrequencyEnum$outboundSchema.optional(),
-  createFilingsFrom: z.string().optional(),
-  isApproaching: z.boolean().optional(),
-  comment: z.string().optional(),
-  vda: z.boolean().optional(),
-  taxId: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    registrationDate: "registration_date",
-    registrationEmail: "registration_email",
-    registrationKey: "registration_key",
-    deregistrationKey: "deregistration_key",
-    registrationRequested: "registration_requested",
-    registrationCompleted: "registration_completed",
-    deregistrationRequested: "deregistration_requested",
-    deregistrationCompleted: "deregistration_completed",
-    autoRegistered: "auto_registered",
-    registrationsRegime: "registrations_regime",
-    changeRegimeStatus: "change_regime_status",
-    thirdPartyEnabled: "third_party_enabled",
-    doNotFile: "do_not_file",
-    twoFactorEnabled: "two_factor_enabled",
-    markedCollecting: "marked_collecting",
-    encryptedUsername: "encrypted_username",
-    filingFrequency: "filing_frequency",
-    createFilingsFrom: "create_filings_from",
-    isApproaching: "is_approaching",
-    taxId: "tax_id",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registrationDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    registrationEmail: z.nullable(z.string()).optional(),
+    registrationRequested: z.nullable(z.date().transform(v => v.toISOString()))
+      .optional(),
+    registrationCompleted: z.nullable(z.date().transform(v => v.toISOString()))
+      .optional(),
+    deregistrationRequested: z.nullable(
+      z.date().transform(v => v.toISOString()),
+    ).optional(),
+    deregistrationCompleted: z.nullable(
+      z.date().transform(v => v.toISOString()),
+    ).optional(),
+    autoRegistered: z.nullable(z.boolean()).optional(),
+    registrationsRegime: z.nullable(RegistrationsRegimeEnum$outboundSchema)
+      .optional(),
+    changeRegimeStatus: z.nullable(ChangeRegimeStatusEnum$outboundSchema)
+      .optional(),
+    thirdPartyEnabled: z.nullable(z.boolean()).optional(),
+    doNotFile: z.boolean().default(false),
+    twoFactorEnabled: z.nullable(z.boolean()).optional(),
+    markedCollecting: z.nullable(z.boolean()).optional(),
+    isPreCollecting: z.boolean().default(false),
+    encryptedUsername: z.nullable(z.string()).optional(),
+    username: z.nullable(z.string()).optional(),
+    filingFrequency: z.nullable(FilingFrequencyEnum$outboundSchema).optional(),
+    createFilingsFrom: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    isApproaching: z.nullable(z.boolean()).optional(),
+    comment: z.nullable(z.string()).optional(),
+    vda: z.nullable(z.boolean()).optional(),
+    taxId: z.nullable(z.string()).optional(),
+    iorNumber: z.nullable(z.string()).optional(),
+    createBackFiling: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      registrationDate: "registration_date",
+      registrationEmail: "registration_email",
+      registrationRequested: "registration_requested",
+      registrationCompleted: "registration_completed",
+      deregistrationRequested: "deregistration_requested",
+      deregistrationCompleted: "deregistration_completed",
+      autoRegistered: "auto_registered",
+      registrationsRegime: "registrations_regime",
+      changeRegimeStatus: "change_regime_status",
+      thirdPartyEnabled: "third_party_enabled",
+      doNotFile: "do_not_file",
+      twoFactorEnabled: "two_factor_enabled",
+      markedCollecting: "marked_collecting",
+      isPreCollecting: "is_pre_collecting",
+      encryptedUsername: "encrypted_username",
+      filingFrequency: "filing_frequency",
+      createFilingsFrom: "create_filings_from",
+      isApproaching: "is_approaching",
+      taxId: "tax_id",
+      iorNumber: "ior_number",
+      createBackFiling: "create_back_filing",
+    });
+  })
+);
 
 export function registrationUpdateAPIToJSON(
   registrationUpdateAPI: RegistrationUpdateAPI,

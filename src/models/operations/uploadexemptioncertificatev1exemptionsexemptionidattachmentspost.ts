@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
@@ -15,6 +15,10 @@ export type UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequ
      * The unique identifier for the exemption to which the attachment will be associated.
      */
     exemptionId: string;
+    /**
+     * The unique identifier for the organization making the request
+     */
+    xOrganizationId: string | null;
     bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:
       models.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
   };
@@ -25,22 +29,27 @@ export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    exemption_id: z.string(),
-    Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post:
-      models
-        .BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$inboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      "exemption_id": "exemptionId",
-      "Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post":
-        "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      exemption_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+      Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post:
+        models
+          .BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$inboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        "exemption_id": "exemptionId",
+        "x-organization-id": "xOrganizationId",
+        "Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post":
+          "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost",
+      });
+    })
+  );
 /** @internal */
 export type UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest$Outbound =
   {
     exemption_id: string;
+    "x-organization-id": string | null;
     Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post:
       models.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$Outbound;
   };
@@ -51,18 +60,22 @@ export const UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest$Outbound,
     z.ZodTypeDef,
     UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest
-  > = z.object({
-    exemptionId: z.string(),
-    bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:
-      models
-        .BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      exemptionId: "exemption_id",
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      exemptionId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
       bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:
-        "Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post",
-    });
-  });
+        models
+          .BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        exemptionId: "exemption_id",
+        xOrganizationId: "x-organization-id",
+        bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost:
+          "Body_upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post",
+      });
+    })
+  );
 
 export function uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestToJSON(
   uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest:

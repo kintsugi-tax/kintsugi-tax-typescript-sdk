@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
@@ -17,6 +17,10 @@ export type UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest = {
    *                                 nexus to update.
    */
   physicalNexusId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
   physicalNexusUpdate: models.PhysicalNexusUpdate;
 };
 
@@ -26,19 +30,24 @@ export const UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest$in
     UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    physical_nexus_id: z.string(),
-    PhysicalNexusUpdate: models.PhysicalNexusUpdate$inboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      "physical_nexus_id": "physicalNexusId",
-      "PhysicalNexusUpdate": "physicalNexusUpdate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      physical_nexus_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+      PhysicalNexusUpdate: models.PhysicalNexusUpdate$inboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        "physical_nexus_id": "physicalNexusId",
+        "x-organization-id": "xOrganizationId",
+        "PhysicalNexusUpdate": "physicalNexusUpdate",
+      });
+    })
+  );
 /** @internal */
 export type UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest$Outbound =
   {
     physical_nexus_id: string;
+    "x-organization-id": string | null;
     PhysicalNexusUpdate: models.PhysicalNexusUpdate$Outbound;
   };
 
@@ -48,15 +57,19 @@ export const UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest$ou
     UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest$Outbound,
     z.ZodTypeDef,
     UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest
-  > = z.object({
-    physicalNexusId: z.string(),
-    physicalNexusUpdate: models.PhysicalNexusUpdate$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      physicalNexusId: "physical_nexus_id",
-      physicalNexusUpdate: "PhysicalNexusUpdate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      physicalNexusId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      physicalNexusUpdate: models.PhysicalNexusUpdate$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        physicalNexusId: "physical_nexus_id",
+        xOrganizationId: "x-organization-id",
+        physicalNexusUpdate: "PhysicalNexusUpdate",
+      });
+    })
+  );
 
 export function updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestToJSON(
   updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest:

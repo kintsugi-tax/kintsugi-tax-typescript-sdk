@@ -7,14 +7,14 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.GetProductsV1ProductsGetRequest$inboundSchema.optional(),
+  request: operations.GetProductsV1ProductsGetRequest$inboundSchema,
 };
 
 export const tool$productsGetProductsV1ProductsGet: ToolDefinition<
   typeof args
 > = {
   name: "products-get-products-v1-products-get",
-  description: `Get Products
+  description: `Get products
 
 Retrieve a paginated list of products based on filters and search query.`,
   args,
@@ -22,7 +22,7 @@ Retrieve a paginated list of products based on filters and search query.`,
     const [result, apiCall] = await productsGetProductsV1ProductsGet(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

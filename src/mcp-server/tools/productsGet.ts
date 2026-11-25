@@ -12,7 +12,7 @@ const args = {
 
 export const tool$productsGet: ToolDefinition<typeof args> = {
   name: "products-get",
-  description: `Get Product By Id
+  description: `Get product by id
 
 The Get Product By ID API retrieves detailed information about
     a single product by its unique ID. This API helps in viewing the specific details
@@ -22,7 +22,7 @@ The Get Product By ID API retrieves detailed information about
     const [result, apiCall] = await productsGet(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {
