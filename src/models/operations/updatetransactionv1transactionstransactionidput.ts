@@ -4,13 +4,17 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type UpdateTransactionV1TransactionsTransactionIdPutRequest = {
   transactionId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
   transactionUpdate: models.TransactionUpdate;
 };
 
@@ -20,18 +24,23 @@ export const UpdateTransactionV1TransactionsTransactionIdPutRequest$inboundSchem
     UpdateTransactionV1TransactionsTransactionIdPutRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    transaction_id: z.string(),
-    TransactionUpdate: models.TransactionUpdate$inboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      "transaction_id": "transactionId",
-      "TransactionUpdate": "transactionUpdate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      transaction_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+      TransactionUpdate: models.TransactionUpdate$inboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        "transaction_id": "transactionId",
+        "x-organization-id": "xOrganizationId",
+        "TransactionUpdate": "transactionUpdate",
+      });
+    })
+  );
 /** @internal */
 export type UpdateTransactionV1TransactionsTransactionIdPutRequest$Outbound = {
   transaction_id: string;
+  "x-organization-id": string | null;
   TransactionUpdate: models.TransactionUpdate$Outbound;
 };
 
@@ -41,15 +50,19 @@ export const UpdateTransactionV1TransactionsTransactionIdPutRequest$outboundSche
     UpdateTransactionV1TransactionsTransactionIdPutRequest$Outbound,
     z.ZodTypeDef,
     UpdateTransactionV1TransactionsTransactionIdPutRequest
-  > = z.object({
-    transactionId: z.string(),
-    transactionUpdate: models.TransactionUpdate$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      transactionId: "transaction_id",
-      transactionUpdate: "TransactionUpdate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      transactionId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      transactionUpdate: models.TransactionUpdate$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        transactionId: "transaction_id",
+        xOrganizationId: "x-organization-id",
+        transactionUpdate: "TransactionUpdate",
+      });
+    })
+  );
 
 export function updateTransactionV1TransactionsTransactionIdPutRequestToJSON(
   updateTransactionV1TransactionsTransactionIdPutRequest:

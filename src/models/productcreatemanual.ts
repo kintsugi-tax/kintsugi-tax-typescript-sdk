@@ -4,24 +4,19 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
-import {
-  ProductCategoryEnum,
-  ProductCategoryEnum$inboundSchema,
-  ProductCategoryEnum$outboundSchema,
-} from "./productcategoryenum.js";
 import {
   ProductStatusEnum,
   ProductStatusEnum$inboundSchema,
   ProductStatusEnum$outboundSchema,
 } from "./productstatusenum.js";
 import {
-  ProductSubCategoryEnum,
-  ProductSubCategoryEnum$inboundSchema,
-  ProductSubCategoryEnum$outboundSchema,
-} from "./productsubcategoryenum.js";
+  PublicProductCategoryEnum,
+  PublicProductCategoryEnum$inboundSchema,
+  PublicProductCategoryEnum$outboundSchema,
+} from "./publicproductcategoryenum.js";
 import {
   SourceEnum,
   SourceEnum$inboundSchema,
@@ -40,10 +35,16 @@ export type ProductCreateManual = {
   /**
    * A description of the product.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   status?: ProductStatusEnum | undefined;
-  productCategory: ProductCategoryEnum;
-  productSubcategory: ProductSubCategoryEnum;
+  /**
+   * Top-level tax category for a product.
+   */
+  productCategory: PublicProductCategoryEnum;
+  /**
+   * Tax subcategory display label within the category (e.g. 'General Clothing'). Together with product_category it resolves to a product tax code; an unrecognized pair on a new product returns 400. List supported values from [GET /products/categories](/reference/api/products/get-product-categories).
+   */
+  productSubcategory: string;
   /**
    * Specifies whether the product is tax-exempt.
    */
@@ -56,28 +57,30 @@ export const ProductCreateManual$inboundSchema: z.ZodType<
   ProductCreateManual,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  external_id: z.string(),
-  name: z.string(),
-  description: z.string().optional(),
-  status: ProductStatusEnum$inboundSchema.optional(),
-  product_category: ProductCategoryEnum$inboundSchema,
-  product_subcategory: ProductSubCategoryEnum$inboundSchema,
-  tax_exempt: z.boolean(),
-  source: SourceEnum$inboundSchema.optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "product_category": "productCategory",
-    "product_subcategory": "productSubcategory",
-    "tax_exempt": "taxExempt",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    external_id: z.string(),
+    name: z.string(),
+    description: z.nullable(z.string()).optional(),
+    status: ProductStatusEnum$inboundSchema.optional(),
+    product_category: PublicProductCategoryEnum$inboundSchema,
+    product_subcategory: z.string(),
+    tax_exempt: z.boolean(),
+    source: SourceEnum$inboundSchema.optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "product_category": "productCategory",
+      "product_subcategory": "productSubcategory",
+      "tax_exempt": "taxExempt",
+    });
+  })
+);
 /** @internal */
 export type ProductCreateManual$Outbound = {
   external_id: string;
   name: string;
-  description?: string | undefined;
+  description?: string | null | undefined;
   status?: string | undefined;
   product_category: string;
   product_subcategory: string;
@@ -90,23 +93,25 @@ export const ProductCreateManual$outboundSchema: z.ZodType<
   ProductCreateManual$Outbound,
   z.ZodTypeDef,
   ProductCreateManual
-> = z.object({
-  externalId: z.string(),
-  name: z.string(),
-  description: z.string().optional(),
-  status: ProductStatusEnum$outboundSchema.optional(),
-  productCategory: ProductCategoryEnum$outboundSchema,
-  productSubcategory: ProductSubCategoryEnum$outboundSchema,
-  taxExempt: z.boolean(),
-  source: SourceEnum$outboundSchema.optional(),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    productCategory: "product_category",
-    productSubcategory: "product_subcategory",
-    taxExempt: "tax_exempt",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    externalId: z.string(),
+    name: z.string(),
+    description: z.nullable(z.string()).optional(),
+    status: ProductStatusEnum$outboundSchema.optional(),
+    productCategory: PublicProductCategoryEnum$outboundSchema,
+    productSubcategory: z.string(),
+    taxExempt: z.boolean(),
+    source: SourceEnum$outboundSchema.optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      productCategory: "product_category",
+      productSubcategory: "product_subcategory",
+      taxExempt: "tax_exempt",
+    });
+  })
+);
 
 export function productCreateManualToJSON(
   productCreateManual: ProductCreateManual,

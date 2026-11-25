@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   AppliedTo,
@@ -13,33 +13,72 @@ import {
 } from "./appliedto.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
+/**
+ * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes may use a negative value so subtotal = amount + total_discount stays coherent.
+ */
+export type DiscountAmount = number | string;
+
 export type DiscountBuilder = {
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   appliedTo: AppliedTo;
-  discountAmount?: number | undefined;
+  /**
+   * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes may use a negative value so subtotal = amount + total_discount stays coherent.
+   */
+  discountAmount?: number | string | undefined;
 };
+
+/** @internal */
+export const DiscountAmount$inboundSchema: z.ZodType<
+  DiscountAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type DiscountAmount$Outbound = number | string;
+
+/** @internal */
+export const DiscountAmount$outboundSchema: z.ZodType<
+  DiscountAmount$Outbound,
+  z.ZodTypeDef,
+  DiscountAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function discountAmountToJSON(discountAmount: DiscountAmount): string {
+  return JSON.stringify(DiscountAmount$outboundSchema.parse(discountAmount));
+}
+export function discountAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<DiscountAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => DiscountAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'DiscountAmount' from JSON`,
+  );
+}
 
 /** @internal */
 export const DiscountBuilder$inboundSchema: z.ZodType<
   DiscountBuilder,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  external_id: z.string().optional(),
-  applied_to: AppliedTo$inboundSchema,
-  discount_amount: z.number().default(0),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "applied_to": "appliedTo",
-    "discount_amount": "discountAmount",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    external_id: z.nullable(z.string()).optional(),
+    applied_to: AppliedTo$inboundSchema,
+    discount_amount: z.union([z.number(), z.string()]).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "applied_to": "appliedTo",
+      "discount_amount": "discountAmount",
+    });
+  })
+);
 /** @internal */
 export type DiscountBuilder$Outbound = {
-  external_id?: string | undefined;
+  external_id?: string | null | undefined;
   applied_to: string;
-  discount_amount: number;
+  discount_amount?: number | string | undefined;
 };
 
 /** @internal */
@@ -47,17 +86,19 @@ export const DiscountBuilder$outboundSchema: z.ZodType<
   DiscountBuilder$Outbound,
   z.ZodTypeDef,
   DiscountBuilder
-> = z.object({
-  externalId: z.string().optional(),
-  appliedTo: AppliedTo$outboundSchema,
-  discountAmount: z.number().default(0),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    appliedTo: "applied_to",
-    discountAmount: "discount_amount",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    externalId: z.nullable(z.string()).optional(),
+    appliedTo: AppliedTo$outboundSchema,
+    discountAmount: z.union([z.number(), z.string()]).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      appliedTo: "applied_to",
+      discountAmount: "discount_amount",
+    });
+  })
+);
 
 export function discountBuilderToJSON(
   discountBuilder: DiscountBuilder,

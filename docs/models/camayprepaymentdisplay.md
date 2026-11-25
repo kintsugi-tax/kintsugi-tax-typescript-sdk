@@ -1,0 +1,26 @@
+# CaMayPrepaymentDisplay
+
+Display-only CDTFA Option 2 amount for CA May quarterly prepayment filings.
+
+Populated for CA ``QUARTERLY_PREPAYMENT`` ``PREPAYMENT`` filings whose period
+starts in May. Does not change any stored amount on the filing. See KA-1240.
+
+## Example Usage
+
+```typescript
+import { CaMayPrepaymentDisplay } from "@kintsugi-tax/tax-platform-sdk/models";
+
+let value: CaMayPrepaymentDisplay = {
+  baseTaxLiability: "<value>",
+  prepaymentAmount: "<value>",
+  note: "<value>",
+};
+```
+
+## Fields
+
+| Field                                                          | Type                                                           | Required                                                       | Description                                                    |
+| -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
+| `baseTaxLiability`                                             | *string*                                                       | :heavy_check_mark:                                             | The filing's stored May total_tax_liability (100%).            |
+| `prepaymentAmount`                                             | *string*                                                       | :heavy_check_mark:                                             | CDTFA Option 2 prepayment: base_tax_liability × 1.35.          |
+| `note`                                                         | *string*                                                       | :heavy_check_mark:                                             | Explanatory note that the amount is 135% of May tax liability. |

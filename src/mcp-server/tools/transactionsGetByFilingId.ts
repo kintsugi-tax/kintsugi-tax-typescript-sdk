@@ -14,7 +14,7 @@ const args = {
 
 export const tool$transactionsGetByFilingId: ToolDefinition<typeof args> = {
   name: "transactions-get-by-filing-id",
-  description: `Get Transactions By Filing Id
+  description: `Get transactions by filing id
 
 Retrieve transactions by filing ID.`,
   args,
@@ -22,7 +22,7 @@ Retrieve transactions by filing ID.`,
     const [result, apiCall] = await transactionsGetByFilingId(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

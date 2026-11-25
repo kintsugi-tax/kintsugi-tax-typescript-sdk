@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -18,11 +18,8 @@ export type TaxItemEstimate = {
   name: string;
   amount?: string | undefined;
   exempt?: boolean | undefined;
-  /**
-   * We use this to understand the response from get_tax_items
-   */
-  exemptReason?: TaxItemReturnReasonEnum | undefined;
-  rule?: string | undefined;
+  exemptReason?: TaxItemReturnReasonEnum | null | undefined;
+  rule?: string | null | undefined;
 };
 
 /** @internal */
@@ -30,26 +27,28 @@ export const TaxItemEstimate$inboundSchema: z.ZodType<
   TaxItemEstimate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  rate: z.string().default("0.0"),
-  name: z.string(),
-  amount: z.string().default("0.0"),
-  exempt: z.boolean().default(false),
-  exempt_reason: TaxItemReturnReasonEnum$inboundSchema.optional(),
-  rule: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "exempt_reason": "exemptReason",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    rate: z.string().default("0.0"),
+    name: z.string(),
+    amount: z.string().default("0.0"),
+    exempt: z.boolean().default(false),
+    exempt_reason: z.nullable(TaxItemReturnReasonEnum$inboundSchema).optional(),
+    rule: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "exempt_reason": "exemptReason",
+    });
+  })
+);
 /** @internal */
 export type TaxItemEstimate$Outbound = {
   rate: string;
   name: string;
   amount: string;
   exempt: boolean;
-  exempt_reason?: string | undefined;
-  rule?: string | undefined;
+  exempt_reason?: string | null | undefined;
+  rule?: string | null | undefined;
 };
 
 /** @internal */
@@ -57,18 +56,20 @@ export const TaxItemEstimate$outboundSchema: z.ZodType<
   TaxItemEstimate$Outbound,
   z.ZodTypeDef,
   TaxItemEstimate
-> = z.object({
-  rate: z.string().default("0.0"),
-  name: z.string(),
-  amount: z.string().default("0.0"),
-  exempt: z.boolean().default(false),
-  exemptReason: TaxItemReturnReasonEnum$outboundSchema.optional(),
-  rule: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    exemptReason: "exempt_reason",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    rate: z.string().default("0.0"),
+    name: z.string(),
+    amount: z.string().default("0.0"),
+    exempt: z.boolean().default(false),
+    exemptReason: z.nullable(TaxItemReturnReasonEnum$outboundSchema).optional(),
+    rule: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      exemptReason: "exempt_reason",
+    });
+  })
+);
 
 export function taxItemEstimateToJSON(
   taxItemEstimate: TaxItemEstimate,

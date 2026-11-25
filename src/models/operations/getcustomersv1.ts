@@ -4,71 +4,122 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
+
+export type GetCustomersV1Country = models.CountryCodeEnum | string;
 
 export type GetCustomersV1Request = {
   /**
    * Search term to filter customers by name or other details
    */
-  searchQuery?: string | undefined;
+  searchQuery?: string | null | undefined;
   /**
    * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
    */
-  country?: Array<models.CountryCodeEnum> | undefined;
+  country?: Array<models.CountryCodeEnum | string> | null | undefined;
   /**
    * State or province code to filter customers
    */
-  state?: string | undefined;
+  state?: string | null | undefined;
   /**
    * Filter customers by source (comma-separated)
    */
-  sourceIn?: string | undefined;
+  sourceIn?: string | null | undefined;
+  /**
+   * Filter customers by connection ID (comma-separated)
+   */
+  connectionIdIn?: string | null | undefined;
   /**
    * Comma-separated list of fields to sort results by.
    */
-  orderBy?: string | undefined;
-  /**
-   * Page number
-   */
+  orderBy?: string | null | undefined;
   page?: number | undefined;
-  /**
-   * Page size
-   */
   size?: number | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
+
+/** @internal */
+export const GetCustomersV1Country$inboundSchema: z.ZodType<
+  GetCustomersV1Country,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$inboundSchema, z.string()])
+);
+/** @internal */
+export type GetCustomersV1Country$Outbound = string | string;
+
+/** @internal */
+export const GetCustomersV1Country$outboundSchema: z.ZodType<
+  GetCustomersV1Country$Outbound,
+  z.ZodTypeDef,
+  GetCustomersV1Country
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$outboundSchema, z.string()])
+);
+
+export function getCustomersV1CountryToJSON(
+  getCustomersV1Country: GetCustomersV1Country,
+): string {
+  return JSON.stringify(
+    GetCustomersV1Country$outboundSchema.parse(getCustomersV1Country),
+  );
+}
+export function getCustomersV1CountryFromJSON(
+  jsonString: string,
+): SafeParseResult<GetCustomersV1Country, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetCustomersV1Country$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetCustomersV1Country' from JSON`,
+  );
+}
 
 /** @internal */
 export const GetCustomersV1Request$inboundSchema: z.ZodType<
   GetCustomersV1Request,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  search_query: z.string().optional(),
-  country: z.array(models.CountryCodeEnum$inboundSchema).optional(),
-  state: z.string().optional(),
-  source__in: z.string().optional(),
-  order_by: z.string().optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    "search_query": "searchQuery",
-    "source__in": "sourceIn",
-    "order_by": "orderBy",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    search_query: z.nullable(z.string()).optional(),
+    country: z.nullable(
+      z.array(z.union([models.CountryCodeEnum$inboundSchema, z.string()])),
+    ).optional(),
+    state: z.nullable(z.string()).optional(),
+    source__in: z.nullable(z.string()).optional(),
+    connection_id__in: z.nullable(z.string()).optional(),
+    order_by: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    "x-organization-id": z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "search_query": "searchQuery",
+      "source__in": "sourceIn",
+      "connection_id__in": "connectionIdIn",
+      "order_by": "orderBy",
+      "x-organization-id": "xOrganizationId",
+    });
+  })
+);
 /** @internal */
 export type GetCustomersV1Request$Outbound = {
-  search_query?: string | undefined;
-  country?: Array<string> | undefined;
-  state?: string | undefined;
-  source__in?: string | undefined;
-  order_by?: string | undefined;
+  search_query?: string | null | undefined;
+  country?: Array<string | string> | null | undefined;
+  state?: string | null | undefined;
+  source__in?: string | null | undefined;
+  connection_id__in?: string | null | undefined;
+  order_by?: string | null | undefined;
   page: number;
   size: number;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -76,21 +127,29 @@ export const GetCustomersV1Request$outboundSchema: z.ZodType<
   GetCustomersV1Request$Outbound,
   z.ZodTypeDef,
   GetCustomersV1Request
-> = z.object({
-  searchQuery: z.string().optional(),
-  country: z.array(models.CountryCodeEnum$outboundSchema).optional(),
-  state: z.string().optional(),
-  sourceIn: z.string().optional(),
-  orderBy: z.string().optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    searchQuery: "search_query",
-    sourceIn: "source__in",
-    orderBy: "order_by",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    searchQuery: z.nullable(z.string()).optional(),
+    country: z.nullable(
+      z.array(z.union([models.CountryCodeEnum$outboundSchema, z.string()])),
+    ).optional(),
+    state: z.nullable(z.string()).optional(),
+    sourceIn: z.nullable(z.string()).optional(),
+    connectionIdIn: z.nullable(z.string()).optional(),
+    orderBy: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    xOrganizationId: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      searchQuery: "search_query",
+      sourceIn: "source__in",
+      connectionIdIn: "connection_id__in",
+      orderBy: "order_by",
+      xOrganizationId: "x-organization-id",
+    });
+  })
+);
 
 export function getCustomersV1RequestToJSON(
   getCustomersV1Request: GetCustomersV1Request,

@@ -14,7 +14,7 @@ const args = {
 
 export const tool$transactionsGetByExternalId: ToolDefinition<typeof args> = {
   name: "transactions-get-by-external-id",
-  description: `Get Transaction By External Id
+  description: `Get transaction by external id
 
 Retrieves a specific transaction based on its external ID.
     This allows users to fetch transaction details using an identifier from an external system.`,
@@ -23,7 +23,7 @@ Retrieves a specific transaction based on its external ID.
     const [result, apiCall] = await transactionsGetByExternalId(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

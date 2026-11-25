@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   AddressStatus,
@@ -32,60 +32,70 @@ export type CustomerBaseBase = {
   /**
    * Phone number associated with the address.
    */
-  phone?: string | undefined;
+  phone?: string | null | undefined;
   /**
    * Primary street address.
    */
-  street1?: string | undefined;
+  street1?: string | null | undefined;
   /**
    * Additional street address details, such as an apartment or suite number.
    */
-  street2?: string | undefined;
+  street2?: string | null | undefined;
   /**
    * City where the customer resides.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * County or district of the customer.
    */
-  county?: string | undefined;
+  county?: string | null | undefined;
   /**
    * State or province of the customer.
    */
-  state?: string | undefined;
+  state?: string | null | undefined;
   /**
    * ZIP or Postal code of the customer.
    */
-  postalCode?: string | undefined;
-  country?: CountryCodeEnum | undefined;
+  postalCode?: string | null | undefined;
+  /**
+   * Country code in ISO 3166-1 alpha-2 format
+   */
+  country?: CountryCodeEnum | null | undefined;
   /**
    * Complete address string of the customer, which can be used as an alternative to individual fields.
    */
-  fullAddress?: string | undefined;
+  fullAddress?: string | null | undefined;
   /**
    * Name of the customer.
    */
-  name?: string | undefined;
+  name?: string | null | undefined;
   /**
    * A unique identifier for the customer.
    */
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   status?: StatusEnum | undefined;
   /**
    * Email address of the customer.
    */
-  email?: string | undefined;
+  email?: string | null | undefined;
+  /**
+   * Registered or legal business name of the customer.
+   */
+  companyName?: string | null | undefined;
   addressStatus?: AddressStatus | undefined;
-  source?: SourceEnum | undefined;
-  registrationNumber?: string | undefined;
+  /**
+   * Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.).
+   */
+  source?: SourceEnum | null | undefined;
+  registrationNumber?: string | null | undefined;
   /**
    * Unique identifier of the connection related to the customer.
    */
-  connectionId?: string | undefined;
+  connectionId?: string | null | undefined;
   /**
    * Additional enriched fields for the customer, if available.
    */
-  enrichedFields?: string | undefined;
+  enrichedFields?: string | null | undefined;
   organizationId: string;
   isTestData?: boolean | undefined;
 };
@@ -95,62 +105,67 @@ export const CustomerBaseBase$inboundSchema: z.ZodType<
   CustomerBaseBase,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  phone: z.string().optional(),
-  street_1: z.string().optional(),
-  street_2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postal_code: z.string().optional(),
-  country: CountryCodeEnum$inboundSchema.optional(),
-  full_address: z.string().optional(),
-  name: z.string().optional(),
-  external_id: z.string().optional(),
-  status: StatusEnum$inboundSchema.optional(),
-  email: z.string().optional(),
-  address_status: AddressStatus$inboundSchema.optional(),
-  source: SourceEnum$inboundSchema.optional(),
-  registration_number: z.string().optional(),
-  connection_id: z.string().optional(),
-  enriched_fields: z.string().optional(),
-  organization_id: z.string(),
-  is_test_data: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    "street_1": "street1",
-    "street_2": "street2",
-    "postal_code": "postalCode",
-    "full_address": "fullAddress",
-    "external_id": "externalId",
-    "address_status": "addressStatus",
-    "registration_number": "registrationNumber",
-    "connection_id": "connectionId",
-    "enriched_fields": "enrichedFields",
-    "organization_id": "organizationId",
-    "is_test_data": "isTestData",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street_1: z.nullable(z.string()).optional(),
+    street_2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    full_address: z.nullable(z.string()).optional(),
+    name: z.nullable(z.string()).optional(),
+    external_id: z.nullable(z.string()).optional(),
+    status: StatusEnum$inboundSchema.optional(),
+    email: z.nullable(z.string()).optional(),
+    company_name: z.nullable(z.string()).optional(),
+    address_status: AddressStatus$inboundSchema.optional(),
+    source: z.nullable(SourceEnum$inboundSchema).optional(),
+    registration_number: z.nullable(z.string()).optional(),
+    connection_id: z.nullable(z.string()).optional(),
+    enriched_fields: z.nullable(z.string()).optional(),
+    organization_id: z.string(),
+    is_test_data: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      "street_1": "street1",
+      "street_2": "street2",
+      "postal_code": "postalCode",
+      "full_address": "fullAddress",
+      "external_id": "externalId",
+      "company_name": "companyName",
+      "address_status": "addressStatus",
+      "registration_number": "registrationNumber",
+      "connection_id": "connectionId",
+      "enriched_fields": "enrichedFields",
+      "organization_id": "organizationId",
+      "is_test_data": "isTestData",
+    });
+  })
+);
 /** @internal */
 export type CustomerBaseBase$Outbound = {
-  phone?: string | undefined;
-  street_1?: string | undefined;
-  street_2?: string | undefined;
-  city?: string | undefined;
-  county?: string | undefined;
-  state?: string | undefined;
-  postal_code?: string | undefined;
-  country?: string | undefined;
-  full_address?: string | undefined;
-  name?: string | undefined;
-  external_id?: string | undefined;
+  phone?: string | null | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
+  city?: string | null | undefined;
+  county?: string | null | undefined;
+  state?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  country?: string | null | undefined;
+  full_address?: string | null | undefined;
+  name?: string | null | undefined;
+  external_id?: string | null | undefined;
   status?: string | undefined;
-  email?: string | undefined;
+  email?: string | null | undefined;
+  company_name?: string | null | undefined;
   address_status?: string | undefined;
-  source?: string | undefined;
-  registration_number?: string | undefined;
-  connection_id?: string | undefined;
-  enriched_fields?: string | undefined;
+  source?: string | null | undefined;
+  registration_number?: string | null | undefined;
+  connection_id?: string | null | undefined;
+  enriched_fields?: string | null | undefined;
   organization_id: string;
   is_test_data: boolean;
 };
@@ -160,42 +175,46 @@ export const CustomerBaseBase$outboundSchema: z.ZodType<
   CustomerBaseBase$Outbound,
   z.ZodTypeDef,
   CustomerBaseBase
-> = z.object({
-  phone: z.string().optional(),
-  street1: z.string().optional(),
-  street2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: CountryCodeEnum$outboundSchema.optional(),
-  fullAddress: z.string().optional(),
-  name: z.string().optional(),
-  externalId: z.string().optional(),
-  status: StatusEnum$outboundSchema.optional(),
-  email: z.string().optional(),
-  addressStatus: AddressStatus$outboundSchema.optional(),
-  source: SourceEnum$outboundSchema.optional(),
-  registrationNumber: z.string().optional(),
-  connectionId: z.string().optional(),
-  enrichedFields: z.string().optional(),
-  organizationId: z.string(),
-  isTestData: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    street1: "street_1",
-    street2: "street_2",
-    postalCode: "postal_code",
-    fullAddress: "full_address",
-    externalId: "external_id",
-    addressStatus: "address_status",
-    registrationNumber: "registration_number",
-    connectionId: "connection_id",
-    enrichedFields: "enriched_fields",
-    organizationId: "organization_id",
-    isTestData: "is_test_data",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street1: z.nullable(z.string()).optional(),
+    street2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    fullAddress: z.nullable(z.string()).optional(),
+    name: z.nullable(z.string()).optional(),
+    externalId: z.nullable(z.string()).optional(),
+    status: StatusEnum$outboundSchema.optional(),
+    email: z.nullable(z.string()).optional(),
+    companyName: z.nullable(z.string()).optional(),
+    addressStatus: AddressStatus$outboundSchema.optional(),
+    source: z.nullable(SourceEnum$outboundSchema).optional(),
+    registrationNumber: z.nullable(z.string()).optional(),
+    connectionId: z.nullable(z.string()).optional(),
+    enrichedFields: z.nullable(z.string()).optional(),
+    organizationId: z.string(),
+    isTestData: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      street1: "street_1",
+      street2: "street_2",
+      postalCode: "postal_code",
+      fullAddress: "full_address",
+      externalId: "external_id",
+      companyName: "company_name",
+      addressStatus: "address_status",
+      registrationNumber: "registration_number",
+      connectionId: "connection_id",
+      enrichedFields: "enriched_fields",
+      organizationId: "organization_id",
+      isTestData: "is_test_data",
+    });
+  })
+);
 
 export function customerBaseBaseToJSON(
   customerBaseBase: CustomerBaseBase,

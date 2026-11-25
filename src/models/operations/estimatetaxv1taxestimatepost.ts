@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
@@ -16,6 +16,10 @@ export type EstimateTaxV1TaxEstimatePostRequest = {
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
   simulateNexusMet?: boolean | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
   transactionEstimatePublicRequest: models.TransactionEstimatePublicRequest;
 };
 
@@ -24,19 +28,24 @@ export const EstimateTaxV1TaxEstimatePostRequest$inboundSchema: z.ZodType<
   EstimateTaxV1TaxEstimatePostRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  simulate_nexus_met: z.boolean().optional(),
-  TransactionEstimatePublicRequest:
-    models.TransactionEstimatePublicRequest$inboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    "simulate_nexus_met": "simulateNexusMet",
-    "TransactionEstimatePublicRequest": "transactionEstimatePublicRequest",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    simulate_nexus_met: z.boolean().optional(),
+    "x-organization-id": z.nullable(z.string()),
+    TransactionEstimatePublicRequest:
+      models.TransactionEstimatePublicRequest$inboundSchema,
+  }).transform((v) => {
+    return remap$(v, {
+      "simulate_nexus_met": "simulateNexusMet",
+      "x-organization-id": "xOrganizationId",
+      "TransactionEstimatePublicRequest": "transactionEstimatePublicRequest",
+    });
+  })
+);
 /** @internal */
 export type EstimateTaxV1TaxEstimatePostRequest$Outbound = {
   simulate_nexus_met?: boolean | undefined;
+  "x-organization-id": string | null;
   TransactionEstimatePublicRequest:
     models.TransactionEstimatePublicRequest$Outbound;
 };
@@ -46,16 +55,20 @@ export const EstimateTaxV1TaxEstimatePostRequest$outboundSchema: z.ZodType<
   EstimateTaxV1TaxEstimatePostRequest$Outbound,
   z.ZodTypeDef,
   EstimateTaxV1TaxEstimatePostRequest
-> = z.object({
-  simulateNexusMet: z.boolean().optional(),
-  transactionEstimatePublicRequest:
-    models.TransactionEstimatePublicRequest$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    simulateNexusMet: "simulate_nexus_met",
-    transactionEstimatePublicRequest: "TransactionEstimatePublicRequest",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    simulateNexusMet: z.boolean().optional(),
+    xOrganizationId: z.nullable(z.string()),
+    transactionEstimatePublicRequest:
+      models.TransactionEstimatePublicRequest$outboundSchema,
+  }).transform((v) => {
+    return remap$(v, {
+      simulateNexusMet: "simulate_nexus_met",
+      xOrganizationId: "x-organization-id",
+      transactionEstimatePublicRequest: "TransactionEstimatePublicRequest",
+    });
+  })
+);
 
 export function estimateTaxV1TaxEstimatePostRequestToJSON(
   estimateTaxV1TaxEstimatePostRequest: EstimateTaxV1TaxEstimatePostRequest,

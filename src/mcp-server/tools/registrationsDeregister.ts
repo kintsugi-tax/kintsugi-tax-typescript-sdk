@@ -14,15 +14,16 @@ const args = {
 
 export const tool$registrationsDeregister: ToolDefinition<typeof args> = {
   name: "registrations-deregister",
-  description: `Deregister Registration
+  description: `Deregister registration
 
-Deregister an existing registration.`,
+Deregister an existing registration. Stored credential fields in the
+    response come back masked.`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await registrationsDeregister(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

@@ -7,12 +7,12 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.GetFilingsV1FilingsGetRequest$inboundSchema.optional(),
+  request: operations.GetFilingsV1FilingsGetRequest$inboundSchema,
 };
 
 export const tool$filingsList: ToolDefinition<typeof args> = {
   name: "filings-list",
-  description: `Get Filings
+  description: `Get filings
 
 The Get Filings API retrieves a paginated list of filings based on
     filters such as dates, jurisdiction, Country, status, etc. This helps track
@@ -22,7 +22,7 @@ The Get Filings API retrieves a paginated list of filings based on
     const [result, apiCall] = await filingsList(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

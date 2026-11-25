@@ -12,15 +12,15 @@ const args = {
 
 export const tool$transactionsCreateCreditNote: ToolDefinition<typeof args> = {
   name: "transactions-create-credit-note",
-  description: `Create Credit Note By Transaction Id
+  description: `Create credit note by transaction id
 
-Create a new credit note for a specific transaction.`,
+Create a new credit note for a specific transaction. Idempotent on \`\`(organization_id, connection_id, source, external_id)\`\` for the same parent: a re-POST returns \`\`200\`\` with the stored credit note unchanged. The same external id against a different parent still conflicts. Use PUT to update fields.`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await transactionsCreateCreditNote(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

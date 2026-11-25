@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   CurrencyEnum,
@@ -30,17 +30,86 @@ import {
   TaxItemBuilder$outboundSchema,
 } from "./taxitembuilder.js";
 
+/**
+ * Quantity of item.
+ */
+export type TransactionItemCreateUpdateQuantity = number | string;
+
+/**
+ * Item amount.
+ */
+export type TransactionItemCreateUpdateAmount = number | string;
+
+/**
+ * Imported tax amount for the item.
+ */
+export type TransactionItemCreateUpdateTaxAmountImported = number | string;
+
+/**
+ * Imported tax rate.
+ */
+export type TransactionItemCreateUpdateTaxRateImported = number | string;
+
+/**
+ * Calculated tax amount for the item.
+ */
+export type TransactionItemCreateUpdateTaxAmountCalculated = number | string;
+
+/**
+ * Calculated tax rate.
+ */
+export type TransactionItemCreateUpdateTaxRateCalculated = number | string;
+
+/**
+ * Converted item amount.
+ */
+export type TransactionItemCreateUpdateConvertedAmount = number | string;
+
+/**
+ * Converted taxable amount.
+ */
+export type TransactionItemCreateUpdateConvertedTaxableAmount = number | string;
+
+/**
+ * Converted imported tax amount.
+ */
+export type TransactionItemCreateUpdateConvertedTaxAmountImported =
+  | number
+  | string;
+
+/**
+ * Converted calculated tax amount
+ */
+export type TransactionItemCreateUpdateConvertedTaxAmountCalculated =
+  | number
+  | string;
+
+/**
+ * Converted total discount amount.
+ */
+export type TransactionItemCreateUpdateConvertedTotalDiscount = number | string;
+
+/**
+ * Converted subtotal amount.
+ */
+export type TransactionItemCreateUpdateConvertedSubtotal = number | string;
+
+/**
+ * Taxable amount for the item.
+ */
+export type TransactionItemCreateUpdateTaxableAmount = number | string;
+
 export type TransactionItemCreateUpdate = {
   /**
    * External item identifier.
    */
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   /**
    * Unique identifier of the organization. This field is deprecated, and should no longer be used. The value is populated through the 'x-organization-id' header.
    *
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
-  organizationId: string;
+  organizationId: string | null;
   /**
    * Date/time of item.
    */
@@ -48,7 +117,7 @@ export type TransactionItemCreateUpdate = {
   /**
    * Item description
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /**
    * External product identifier.
    */
@@ -56,175 +125,761 @@ export type TransactionItemCreateUpdate = {
   /**
    * Product name
    */
-  product?: string | undefined;
+  product?: string | null | undefined;
   /**
    * Product identifier.
    */
-  productId?: string | undefined;
+  productId?: string | null | undefined;
   /**
    * Product name (detailed)
    */
-  productName?: string | undefined;
+  productName?: string | null | undefined;
   /**
    * Product description
    */
-  productDescription?: string | undefined;
+  productDescription?: string | null | undefined;
   /**
    * Quantity of item.
    */
-  quantity?: number | undefined;
+  quantity?: number | string | undefined;
   /**
    * Item amount.
    */
-  amount?: number | undefined;
+  amount?: number | string | undefined;
   /**
    * Imported tax amount for the item.
    */
-  taxAmountImported?: number | undefined;
+  taxAmountImported?: number | string | undefined;
   /**
    * Imported tax rate.
    */
-  taxRateImported?: number | undefined;
+  taxRateImported?: number | string | undefined;
   /**
    * Calculated tax amount for the item.
    */
-  taxAmountCalculated?: number | undefined;
+  taxAmountCalculated?: number | string | undefined;
   /**
    * Calculated tax rate.
    */
-  taxRateCalculated?: number | undefined;
-  originalCurrency?: CurrencyEnum | undefined;
-  destinationCurrency?: CurrencyEnum | undefined;
+  taxRateCalculated?: number | string | undefined;
+  /**
+   * Original currency code.
+   */
+  originalCurrency?: CurrencyEnum | null | undefined;
+  /**
+   * Destination currency code.
+   */
+  destinationCurrency?: CurrencyEnum | null | undefined;
   /**
    * Converted item amount.
    */
-  convertedAmount?: number | undefined;
+  convertedAmount?: number | string | null | undefined;
   /**
    * Converted taxable amount.
    */
-  convertedTaxableAmount?: number | undefined;
+  convertedTaxableAmount?: number | string | null | undefined;
   /**
    * Converted imported tax amount.
    */
-  convertedTaxAmountImported?: number | undefined;
+  convertedTaxAmountImported?: number | string | null | undefined;
   /**
    * Converted calculated tax amount
    */
-  convertedTaxAmountCalculated?: number | undefined;
+  convertedTaxAmountCalculated?: number | string | null | undefined;
   /**
    * Converted total discount amount.
    */
-  convertedTotalDiscount?: number | undefined;
+  convertedTotalDiscount?: number | string | null | undefined;
   /**
    * Converted subtotal amount.
    */
-  convertedSubtotal?: number | undefined;
+  convertedSubtotal?: number | string | null | undefined;
   /**
    * Taxable amount for the item.
    */
-  taxableAmount?: number | undefined;
+  taxableAmount?: number | string | undefined;
   /**
-   * This enum is used to determine if a transaction is exempt from tax.
+   * Tax exemption status.
    */
-  taxExemption?: TaxExemptionEnum | undefined;
+  taxExemption?: TaxExemptionEnum | null | undefined;
   /**
    * Indicates if the item is exempt.
    */
   exempt?: boolean | undefined;
+  /**
+   * Whether this line's source amount includes tax. NULL means the source did not say.
+   */
+  isTaxInclusive?: boolean | null | undefined;
   taxItems?: Array<TaxItemBuilder> | undefined;
-  discountBuilder?: DiscountBuilder | undefined;
+  discountBuilder?: DiscountBuilder | null | undefined;
 };
+
+/** @internal */
+export const TransactionItemCreateUpdateQuantity$inboundSchema: z.ZodType<
+  TransactionItemCreateUpdateQuantity,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateQuantity$Outbound = number | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateQuantity$outboundSchema: z.ZodType<
+  TransactionItemCreateUpdateQuantity$Outbound,
+  z.ZodTypeDef,
+  TransactionItemCreateUpdateQuantity
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateQuantityToJSON(
+  transactionItemCreateUpdateQuantity: TransactionItemCreateUpdateQuantity,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateQuantity$outboundSchema.parse(
+      transactionItemCreateUpdateQuantity,
+    ),
+  );
+}
+export function transactionItemCreateUpdateQuantityFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionItemCreateUpdateQuantity, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateQuantity$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionItemCreateUpdateQuantity' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateAmount$inboundSchema: z.ZodType<
+  TransactionItemCreateUpdateAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateAmount$Outbound = number | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateAmount$outboundSchema: z.ZodType<
+  TransactionItemCreateUpdateAmount$Outbound,
+  z.ZodTypeDef,
+  TransactionItemCreateUpdateAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateAmountToJSON(
+  transactionItemCreateUpdateAmount: TransactionItemCreateUpdateAmount,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateAmount$outboundSchema.parse(
+      transactionItemCreateUpdateAmount,
+    ),
+  );
+}
+export function transactionItemCreateUpdateAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<TransactionItemCreateUpdateAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => TransactionItemCreateUpdateAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'TransactionItemCreateUpdateAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxAmountImported$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateTaxAmountImported,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateTaxAmountImported$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxAmountImported$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateTaxAmountImported$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateTaxAmountImported
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateTaxAmountImportedToJSON(
+  transactionItemCreateUpdateTaxAmountImported:
+    TransactionItemCreateUpdateTaxAmountImported,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateTaxAmountImported$outboundSchema.parse(
+      transactionItemCreateUpdateTaxAmountImported,
+    ),
+  );
+}
+export function transactionItemCreateUpdateTaxAmountImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateTaxAmountImported,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateTaxAmountImported$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateTaxAmountImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxRateImported$inboundSchema:
+  z.ZodType<TransactionItemCreateUpdateTaxRateImported, z.ZodTypeDef, unknown> =
+    /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateTaxRateImported$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxRateImported$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateTaxRateImported$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateTaxRateImported
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateTaxRateImportedToJSON(
+  transactionItemCreateUpdateTaxRateImported:
+    TransactionItemCreateUpdateTaxRateImported,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateTaxRateImported$outboundSchema.parse(
+      transactionItemCreateUpdateTaxRateImported,
+    ),
+  );
+}
+export function transactionItemCreateUpdateTaxRateImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateTaxRateImported,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateTaxRateImported$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateTaxRateImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxAmountCalculated$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateTaxAmountCalculated,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateTaxAmountCalculated$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxAmountCalculated$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateTaxAmountCalculated$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateTaxAmountCalculated
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateTaxAmountCalculatedToJSON(
+  transactionItemCreateUpdateTaxAmountCalculated:
+    TransactionItemCreateUpdateTaxAmountCalculated,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateTaxAmountCalculated$outboundSchema.parse(
+      transactionItemCreateUpdateTaxAmountCalculated,
+    ),
+  );
+}
+export function transactionItemCreateUpdateTaxAmountCalculatedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateTaxAmountCalculated,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateTaxAmountCalculated$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateTaxAmountCalculated' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxRateCalculated$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateTaxRateCalculated,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateTaxRateCalculated$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxRateCalculated$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateTaxRateCalculated$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateTaxRateCalculated
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateTaxRateCalculatedToJSON(
+  transactionItemCreateUpdateTaxRateCalculated:
+    TransactionItemCreateUpdateTaxRateCalculated,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateTaxRateCalculated$outboundSchema.parse(
+      transactionItemCreateUpdateTaxRateCalculated,
+    ),
+  );
+}
+export function transactionItemCreateUpdateTaxRateCalculatedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateTaxRateCalculated,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateTaxRateCalculated$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateTaxRateCalculated' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedAmount$inboundSchema:
+  z.ZodType<TransactionItemCreateUpdateConvertedAmount, z.ZodTypeDef, unknown> =
+    /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateConvertedAmount$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedAmount$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedAmount$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateConvertedAmount
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateConvertedAmountToJSON(
+  transactionItemCreateUpdateConvertedAmount:
+    TransactionItemCreateUpdateConvertedAmount,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateConvertedAmount$outboundSchema.parse(
+      transactionItemCreateUpdateConvertedAmount,
+    ),
+  );
+}
+export function transactionItemCreateUpdateConvertedAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateConvertedAmount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateConvertedAmount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateConvertedAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTaxableAmount$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTaxableAmount,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateConvertedTaxableAmount$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTaxableAmount$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTaxableAmount$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateConvertedTaxableAmount
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateConvertedTaxableAmountToJSON(
+  transactionItemCreateUpdateConvertedTaxableAmount:
+    TransactionItemCreateUpdateConvertedTaxableAmount,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateConvertedTaxableAmount$outboundSchema.parse(
+      transactionItemCreateUpdateConvertedTaxableAmount,
+    ),
+  );
+}
+export function transactionItemCreateUpdateConvertedTaxableAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateConvertedTaxableAmount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateConvertedTaxableAmount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateConvertedTaxableAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTaxAmountImported$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTaxAmountImported,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateConvertedTaxAmountImported$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTaxAmountImported$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTaxAmountImported$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateConvertedTaxAmountImported
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateConvertedTaxAmountImportedToJSON(
+  transactionItemCreateUpdateConvertedTaxAmountImported:
+    TransactionItemCreateUpdateConvertedTaxAmountImported,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateConvertedTaxAmountImported$outboundSchema.parse(
+      transactionItemCreateUpdateConvertedTaxAmountImported,
+    ),
+  );
+}
+export function transactionItemCreateUpdateConvertedTaxAmountImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateConvertedTaxAmountImported,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateConvertedTaxAmountImported$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateConvertedTaxAmountImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTaxAmountCalculated$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTaxAmountCalculated,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateConvertedTaxAmountCalculated$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTaxAmountCalculated$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTaxAmountCalculated$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateConvertedTaxAmountCalculated
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateConvertedTaxAmountCalculatedToJSON(
+  transactionItemCreateUpdateConvertedTaxAmountCalculated:
+    TransactionItemCreateUpdateConvertedTaxAmountCalculated,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateConvertedTaxAmountCalculated$outboundSchema
+      .parse(transactionItemCreateUpdateConvertedTaxAmountCalculated),
+  );
+}
+export function transactionItemCreateUpdateConvertedTaxAmountCalculatedFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateConvertedTaxAmountCalculated,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateConvertedTaxAmountCalculated$inboundSchema
+        .parse(JSON.parse(x)),
+    `Failed to parse 'TransactionItemCreateUpdateConvertedTaxAmountCalculated' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTotalDiscount$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTotalDiscount,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateConvertedTotalDiscount$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedTotalDiscount$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedTotalDiscount$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateConvertedTotalDiscount
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateConvertedTotalDiscountToJSON(
+  transactionItemCreateUpdateConvertedTotalDiscount:
+    TransactionItemCreateUpdateConvertedTotalDiscount,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateConvertedTotalDiscount$outboundSchema.parse(
+      transactionItemCreateUpdateConvertedTotalDiscount,
+    ),
+  );
+}
+export function transactionItemCreateUpdateConvertedTotalDiscountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateConvertedTotalDiscount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateConvertedTotalDiscount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateConvertedTotalDiscount' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedSubtotal$inboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedSubtotal,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateConvertedSubtotal$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateConvertedSubtotal$outboundSchema:
+  z.ZodType<
+    TransactionItemCreateUpdateConvertedSubtotal$Outbound,
+    z.ZodTypeDef,
+    TransactionItemCreateUpdateConvertedSubtotal
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateConvertedSubtotalToJSON(
+  transactionItemCreateUpdateConvertedSubtotal:
+    TransactionItemCreateUpdateConvertedSubtotal,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateConvertedSubtotal$outboundSchema.parse(
+      transactionItemCreateUpdateConvertedSubtotal,
+    ),
+  );
+}
+export function transactionItemCreateUpdateConvertedSubtotalFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateConvertedSubtotal,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateConvertedSubtotal$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateConvertedSubtotal' from JSON`,
+  );
+}
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxableAmount$inboundSchema: z.ZodType<
+  TransactionItemCreateUpdateTaxableAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TransactionItemCreateUpdateTaxableAmount$Outbound = number | string;
+
+/** @internal */
+export const TransactionItemCreateUpdateTaxableAmount$outboundSchema: z.ZodType<
+  TransactionItemCreateUpdateTaxableAmount$Outbound,
+  z.ZodTypeDef,
+  TransactionItemCreateUpdateTaxableAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function transactionItemCreateUpdateTaxableAmountToJSON(
+  transactionItemCreateUpdateTaxableAmount:
+    TransactionItemCreateUpdateTaxableAmount,
+): string {
+  return JSON.stringify(
+    TransactionItemCreateUpdateTaxableAmount$outboundSchema.parse(
+      transactionItemCreateUpdateTaxableAmount,
+    ),
+  );
+}
+export function transactionItemCreateUpdateTaxableAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TransactionItemCreateUpdateTaxableAmount,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TransactionItemCreateUpdateTaxableAmount$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TransactionItemCreateUpdateTaxableAmount' from JSON`,
+  );
+}
 
 /** @internal */
 export const TransactionItemCreateUpdate$inboundSchema: z.ZodType<
   TransactionItemCreateUpdate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  external_id: z.string().optional(),
-  organization_id: z.string(),
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.string().optional(),
-  external_product_id: z.string(),
-  product: z.string().optional(),
-  product_id: z.string().optional(),
-  product_name: z.string().optional(),
-  product_description: z.string().optional(),
-  quantity: z.number().default(1),
-  amount: z.number().default(0),
-  tax_amount_imported: z.number().default(0),
-  tax_rate_imported: z.number().default(0),
-  tax_amount_calculated: z.number().default(0),
-  tax_rate_calculated: z.number().default(0),
-  original_currency: CurrencyEnum$inboundSchema.optional(),
-  destination_currency: CurrencyEnum$inboundSchema.optional(),
-  converted_amount: z.number().optional(),
-  converted_taxable_amount: z.number().optional(),
-  converted_tax_amount_imported: z.number().optional(),
-  converted_tax_amount_calculated: z.number().optional(),
-  converted_total_discount: z.number().optional(),
-  converted_subtotal: z.number().optional(),
-  taxable_amount: z.number().default(0),
-  tax_exemption: TaxExemptionEnum$inboundSchema.optional(),
-  exempt: z.boolean().default(false),
-  tax_items: z.array(TaxItemBuilder$inboundSchema).optional(),
-  discount_builder: DiscountBuilder$inboundSchema.optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "organization_id": "organizationId",
-    "external_product_id": "externalProductId",
-    "product_id": "productId",
-    "product_name": "productName",
-    "product_description": "productDescription",
-    "tax_amount_imported": "taxAmountImported",
-    "tax_rate_imported": "taxRateImported",
-    "tax_amount_calculated": "taxAmountCalculated",
-    "tax_rate_calculated": "taxRateCalculated",
-    "original_currency": "originalCurrency",
-    "destination_currency": "destinationCurrency",
-    "converted_amount": "convertedAmount",
-    "converted_taxable_amount": "convertedTaxableAmount",
-    "converted_tax_amount_imported": "convertedTaxAmountImported",
-    "converted_tax_amount_calculated": "convertedTaxAmountCalculated",
-    "converted_total_discount": "convertedTotalDiscount",
-    "converted_subtotal": "convertedSubtotal",
-    "taxable_amount": "taxableAmount",
-    "tax_exemption": "taxExemption",
-    "tax_items": "taxItems",
-    "discount_builder": "discountBuilder",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    external_id: z.nullable(z.string()).optional(),
+    organization_id: z.nullable(z.string()),
+    date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    description: z.nullable(z.string()).optional(),
+    external_product_id: z.string(),
+    product: z.nullable(z.string()).optional(),
+    product_id: z.nullable(z.string()).optional(),
+    product_name: z.nullable(z.string()).optional(),
+    product_description: z.nullable(z.string()).optional(),
+    quantity: z.union([z.number(), z.string()]).optional(),
+    amount: z.union([z.number(), z.string()]).optional(),
+    tax_amount_imported: z.union([z.number(), z.string()]).optional(),
+    tax_rate_imported: z.union([z.number(), z.string()]).optional(),
+    tax_amount_calculated: z.union([z.number(), z.string()]).optional(),
+    tax_rate_calculated: z.union([z.number(), z.string()]).optional(),
+    original_currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    destination_currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    converted_amount: z.nullable(z.union([z.number(), z.string()])).optional(),
+    converted_taxable_amount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    converted_tax_amount_imported: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    converted_tax_amount_calculated: z.nullable(
+      z.union([z.number(), z.string()]),
+    ).optional(),
+    converted_total_discount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    converted_subtotal: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    taxable_amount: z.union([z.number(), z.string()]).optional(),
+    tax_exemption: z.nullable(TaxExemptionEnum$inboundSchema).optional(),
+    exempt: z.boolean().default(false),
+    is_tax_inclusive: z.nullable(z.boolean()).optional(),
+    tax_items: z.array(TaxItemBuilder$inboundSchema).optional(),
+    discount_builder: z.nullable(DiscountBuilder$inboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "organization_id": "organizationId",
+      "external_product_id": "externalProductId",
+      "product_id": "productId",
+      "product_name": "productName",
+      "product_description": "productDescription",
+      "tax_amount_imported": "taxAmountImported",
+      "tax_rate_imported": "taxRateImported",
+      "tax_amount_calculated": "taxAmountCalculated",
+      "tax_rate_calculated": "taxRateCalculated",
+      "original_currency": "originalCurrency",
+      "destination_currency": "destinationCurrency",
+      "converted_amount": "convertedAmount",
+      "converted_taxable_amount": "convertedTaxableAmount",
+      "converted_tax_amount_imported": "convertedTaxAmountImported",
+      "converted_tax_amount_calculated": "convertedTaxAmountCalculated",
+      "converted_total_discount": "convertedTotalDiscount",
+      "converted_subtotal": "convertedSubtotal",
+      "taxable_amount": "taxableAmount",
+      "tax_exemption": "taxExemption",
+      "is_tax_inclusive": "isTaxInclusive",
+      "tax_items": "taxItems",
+      "discount_builder": "discountBuilder",
+    });
+  })
+);
 /** @internal */
 export type TransactionItemCreateUpdate$Outbound = {
-  external_id?: string | undefined;
-  organization_id: string;
+  external_id?: string | null | undefined;
+  organization_id: string | null;
   date: string;
-  description?: string | undefined;
+  description?: string | null | undefined;
   external_product_id: string;
-  product?: string | undefined;
-  product_id?: string | undefined;
-  product_name?: string | undefined;
-  product_description?: string | undefined;
-  quantity: number;
-  amount: number;
-  tax_amount_imported: number;
-  tax_rate_imported: number;
-  tax_amount_calculated: number;
-  tax_rate_calculated: number;
-  original_currency?: string | undefined;
-  destination_currency?: string | undefined;
-  converted_amount?: number | undefined;
-  converted_taxable_amount?: number | undefined;
-  converted_tax_amount_imported?: number | undefined;
-  converted_tax_amount_calculated?: number | undefined;
-  converted_total_discount?: number | undefined;
-  converted_subtotal?: number | undefined;
-  taxable_amount: number;
-  tax_exemption?: string | undefined;
+  product?: string | null | undefined;
+  product_id?: string | null | undefined;
+  product_name?: string | null | undefined;
+  product_description?: string | null | undefined;
+  quantity?: number | string | undefined;
+  amount?: number | string | undefined;
+  tax_amount_imported?: number | string | undefined;
+  tax_rate_imported?: number | string | undefined;
+  tax_amount_calculated?: number | string | undefined;
+  tax_rate_calculated?: number | string | undefined;
+  original_currency?: string | null | undefined;
+  destination_currency?: string | null | undefined;
+  converted_amount?: number | string | null | undefined;
+  converted_taxable_amount?: number | string | null | undefined;
+  converted_tax_amount_imported?: number | string | null | undefined;
+  converted_tax_amount_calculated?: number | string | null | undefined;
+  converted_total_discount?: number | string | null | undefined;
+  converted_subtotal?: number | string | null | undefined;
+  taxable_amount?: number | string | undefined;
+  tax_exemption?: string | null | undefined;
   exempt: boolean;
+  is_tax_inclusive?: boolean | null | undefined;
   tax_items?: Array<TaxItemBuilder$Outbound> | undefined;
-  discount_builder?: DiscountBuilder$Outbound | undefined;
+  discount_builder?: DiscountBuilder$Outbound | null | undefined;
 };
 
 /** @internal */
@@ -232,61 +887,69 @@ export const TransactionItemCreateUpdate$outboundSchema: z.ZodType<
   TransactionItemCreateUpdate$Outbound,
   z.ZodTypeDef,
   TransactionItemCreateUpdate
-> = z.object({
-  externalId: z.string().optional(),
-  organizationId: z.string(),
-  date: z.date().transform(v => v.toISOString()),
-  description: z.string().optional(),
-  externalProductId: z.string(),
-  product: z.string().optional(),
-  productId: z.string().optional(),
-  productName: z.string().optional(),
-  productDescription: z.string().optional(),
-  quantity: z.number().default(1),
-  amount: z.number().default(0),
-  taxAmountImported: z.number().default(0),
-  taxRateImported: z.number().default(0),
-  taxAmountCalculated: z.number().default(0),
-  taxRateCalculated: z.number().default(0),
-  originalCurrency: CurrencyEnum$outboundSchema.optional(),
-  destinationCurrency: CurrencyEnum$outboundSchema.optional(),
-  convertedAmount: z.number().optional(),
-  convertedTaxableAmount: z.number().optional(),
-  convertedTaxAmountImported: z.number().optional(),
-  convertedTaxAmountCalculated: z.number().optional(),
-  convertedTotalDiscount: z.number().optional(),
-  convertedSubtotal: z.number().optional(),
-  taxableAmount: z.number().default(0),
-  taxExemption: TaxExemptionEnum$outboundSchema.optional(),
-  exempt: z.boolean().default(false),
-  taxItems: z.array(TaxItemBuilder$outboundSchema).optional(),
-  discountBuilder: DiscountBuilder$outboundSchema.optional(),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    organizationId: "organization_id",
-    externalProductId: "external_product_id",
-    productId: "product_id",
-    productName: "product_name",
-    productDescription: "product_description",
-    taxAmountImported: "tax_amount_imported",
-    taxRateImported: "tax_rate_imported",
-    taxAmountCalculated: "tax_amount_calculated",
-    taxRateCalculated: "tax_rate_calculated",
-    originalCurrency: "original_currency",
-    destinationCurrency: "destination_currency",
-    convertedAmount: "converted_amount",
-    convertedTaxableAmount: "converted_taxable_amount",
-    convertedTaxAmountImported: "converted_tax_amount_imported",
-    convertedTaxAmountCalculated: "converted_tax_amount_calculated",
-    convertedTotalDiscount: "converted_total_discount",
-    convertedSubtotal: "converted_subtotal",
-    taxableAmount: "taxable_amount",
-    taxExemption: "tax_exemption",
-    taxItems: "tax_items",
-    discountBuilder: "discount_builder",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    externalId: z.nullable(z.string()).optional(),
+    organizationId: z.nullable(z.string()),
+    date: z.date().transform(v => v.toISOString()),
+    description: z.nullable(z.string()).optional(),
+    externalProductId: z.string(),
+    product: z.nullable(z.string()).optional(),
+    productId: z.nullable(z.string()).optional(),
+    productName: z.nullable(z.string()).optional(),
+    productDescription: z.nullable(z.string()).optional(),
+    quantity: z.union([z.number(), z.string()]).optional(),
+    amount: z.union([z.number(), z.string()]).optional(),
+    taxAmountImported: z.union([z.number(), z.string()]).optional(),
+    taxRateImported: z.union([z.number(), z.string()]).optional(),
+    taxAmountCalculated: z.union([z.number(), z.string()]).optional(),
+    taxRateCalculated: z.union([z.number(), z.string()]).optional(),
+    originalCurrency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    destinationCurrency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    convertedAmount: z.nullable(z.union([z.number(), z.string()])).optional(),
+    convertedTaxableAmount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    convertedTaxAmountImported: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    convertedTaxAmountCalculated: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    convertedTotalDiscount: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    convertedSubtotal: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxableAmount: z.union([z.number(), z.string()]).optional(),
+    taxExemption: z.nullable(TaxExemptionEnum$outboundSchema).optional(),
+    exempt: z.boolean().default(false),
+    isTaxInclusive: z.nullable(z.boolean()).optional(),
+    taxItems: z.array(TaxItemBuilder$outboundSchema).optional(),
+    discountBuilder: z.nullable(DiscountBuilder$outboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      organizationId: "organization_id",
+      externalProductId: "external_product_id",
+      productId: "product_id",
+      productName: "product_name",
+      productDescription: "product_description",
+      taxAmountImported: "tax_amount_imported",
+      taxRateImported: "tax_rate_imported",
+      taxAmountCalculated: "tax_amount_calculated",
+      taxRateCalculated: "tax_rate_calculated",
+      originalCurrency: "original_currency",
+      destinationCurrency: "destination_currency",
+      convertedAmount: "converted_amount",
+      convertedTaxableAmount: "converted_taxable_amount",
+      convertedTaxAmountImported: "converted_tax_amount_imported",
+      convertedTaxAmountCalculated: "converted_tax_amount_calculated",
+      convertedTotalDiscount: "converted_total_discount",
+      convertedSubtotal: "converted_subtotal",
+      taxableAmount: "taxable_amount",
+      taxExemption: "tax_exemption",
+      isTaxInclusive: "is_tax_inclusive",
+      taxItems: "tax_items",
+      discountBuilder: "discount_builder",
+    });
+  })
+);
 
 export function transactionItemCreateUpdateToJSON(
   transactionItemCreateUpdate: TransactionItemCreateUpdate,

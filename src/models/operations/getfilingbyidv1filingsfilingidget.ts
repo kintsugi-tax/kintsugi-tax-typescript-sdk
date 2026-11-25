@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -13,6 +13,10 @@ export type GetFilingByIdV1FilingsFilingIdGetRequest = {
    * Unique identifier for the filing to retrieve.
    */
   filingId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -20,16 +24,21 @@ export const GetFilingByIdV1FilingsFilingIdGetRequest$inboundSchema: z.ZodType<
   GetFilingByIdV1FilingsFilingIdGetRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  filing_id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "filing_id": "filingId",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    filing_id: z.string(),
+    "x-organization-id": z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "filing_id": "filingId",
+      "x-organization-id": "xOrganizationId",
+    });
+  })
+);
 /** @internal */
 export type GetFilingByIdV1FilingsFilingIdGetRequest$Outbound = {
   filing_id: string;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -37,13 +46,17 @@ export const GetFilingByIdV1FilingsFilingIdGetRequest$outboundSchema: z.ZodType<
   GetFilingByIdV1FilingsFilingIdGetRequest$Outbound,
   z.ZodTypeDef,
   GetFilingByIdV1FilingsFilingIdGetRequest
-> = z.object({
-  filingId: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    filingId: "filing_id",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    filingId: z.string(),
+    xOrganizationId: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      filingId: "filing_id",
+      xOrganizationId: "x-organization-id",
+    });
+  })
+);
 
 export function getFilingByIdV1FilingsFilingIdGetRequestToJSON(
   getFilingByIdV1FilingsFilingIdGetRequest:

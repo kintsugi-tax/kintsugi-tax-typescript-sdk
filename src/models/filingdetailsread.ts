@@ -4,9 +4,15 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
+import {
+  CaMayPrepaymentDisplay,
+  CaMayPrepaymentDisplay$inboundSchema,
+  CaMayPrepaymentDisplay$Outbound,
+  CaMayPrepaymentDisplay$outboundSchema,
+} from "./camayprepaymentdisplay.js";
 import {
   CountryCodeEnum,
   CountryCodeEnum$inboundSchema,
@@ -19,17 +25,36 @@ import {
 } from "./currencyenum.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
+  FeeTypeEnum,
+  FeeTypeEnum$inboundSchema,
+  FeeTypeEnum$outboundSchema,
+} from "./feetypeenum.js";
+import {
   FilingStatusEnum,
   FilingStatusEnum$inboundSchema,
   FilingStatusEnum$outboundSchema,
 } from "./filingstatusenum.js";
-
-/**
- * List of attachments associated with the filing, if any.
- */
-export type Attachments = {};
+import {
+  QuarterlyPrepayBalanceDisplay,
+  QuarterlyPrepayBalanceDisplay$inboundSchema,
+  QuarterlyPrepayBalanceDisplay$Outbound,
+  QuarterlyPrepayBalanceDisplay$outboundSchema,
+} from "./quarterlyprepaybalancedisplay.js";
+import {
+  TaxTypeEnum,
+  TaxTypeEnum$inboundSchema,
+  TaxTypeEnum$outboundSchema,
+} from "./taxtypeenum.js";
 
 export type FilingDetailsRead = {
+  /**
+   * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for the filing's country and year, which means fully recoverable. Uses the definitive rate when set, otherwise the year's frozen provisional.
+   */
+  inputVatRecoveryRate?: string | null | undefined;
+  /**
+   * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional. Null when no rate exists.
+   */
+  inputVatRecoveryRateIsDefinitive?: boolean | null | undefined;
   status?: FilingStatusEnum | undefined;
   /**
    * The start date of the filing period.
@@ -42,60 +67,92 @@ export type FilingDetailsRead = {
   /**
    * The due date of the filing.
    */
-  dueDate?: string | undefined;
+  dueDate?: RFCDate | null | undefined;
   /**
    * The date the filing was completed, if applicable.
    */
-  dateFiled?: string | undefined;
+  dateFiled?: RFCDate | null | undefined;
   /**
    * Indicates if the filing was done manually.
    */
-  isManual?: boolean | undefined;
+  isManual?: boolean | null | undefined;
   /**
    * The code of the state associated with the filing (e.g., IA, NY).
    */
-  stateCode?: string | undefined;
+  stateCode?: string | null | undefined;
   /**
    * The name of the state associated with the filing
    *
    * @remarks
    *         (e.g., Iowa, New York).
    */
-  stateName?: string | undefined;
+  stateName?: string | null | undefined;
   countryCode: CountryCodeEnum;
-  /**
-   * The associated JIRA issue key for tracking the filing,
-   *
-   * @remarks
-   *         if available. Can be null.
-   */
-  jiraIssueKey?: string | undefined;
   /**
    * Indicates if the filing was auto-approved. Defaults to false.
    */
-  autoApproved?: boolean | undefined;
+  autoApproved?: boolean | null | undefined;
   /**
    * Indicates the date when filing will be unpaused.
    */
-  pausedUntilDate?: string | undefined;
+  pausedUntilDate?: RFCDate | null | undefined;
+  /**
+   * Opaque identifier of the support ticket for the active assistance-pause episode. Cleared when the filing is approved from PAUSED.
+   */
+  assistanceTicketId?: string | null | undefined;
   /**
    * Category of filing. Common values:
    *
    * @remarks
    *                                     REGULAR (standard periodic filing),
-   *                                     PREPAYMENT (prepayment or estimated tax),
+   *                                     BACK_FILING (past-due period),
    *                                     AMENDMENT (amended return).
+   *                                     Prepayment is ``is_prepayment``, not a category.
    *                                     Different categories can have overlapping periods.
    */
   filingCategory?: string | undefined;
   /**
+   * True when this filing is a prepayment obligation. Independent of filing_category so a past-due prepayment can still be BACK_FILING.
+   */
+  isPrepayment?: boolean | undefined;
+  /**
+   * True when this filing is a final return for deregistration. Independent of filing_category — finals stay REGULAR.
+   */
+  isFinal?: boolean | undefined;
+  /**
    * User ID of who approved the filing.
    */
-  approvedBy?: string | undefined;
+  approvedBy?: string | null | undefined;
   /**
    * Timestamp when the filing was approved.
    */
-  approvedAt?: string | undefined;
+  approvedAt?: Date | null | undefined;
+  /**
+   * Reason why the filing has an issue, if applicable.
+   */
+  issueReason?: string | null | undefined;
+  /**
+   * Reason why the filing was skipped, if applicable.
+   */
+  skipReason?: string | null | undefined;
+  /**
+   * Reason why the filing was cancelled, if applicable.
+   */
+  cancelledReason?: string | null | undefined;
+  /**
+   * Tax obligation on a nexus, registration, or filing row.
+   *
+   * @remarks
+   *
+   * Registrations and filings may be SALES_AND_USE_TAX: one state account and
+   * one return can cover both taxes, and each is stored as a single row.
+   * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+   * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+   * Swiss small-parcel threshold are separate obligations with their own met
+   * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+   * tax registration covers it, and it has no account and no return of its own.
+   */
+  taxType?: TaxTypeEnum | undefined;
   /**
    * The calculated amount for the filing. Defaults to 0.00.
    */
@@ -109,9 +166,13 @@ export type FilingDetailsRead = {
    */
   amountDiscounts?: string | undefined;
   /**
-   * Discounts applied to the amount.
+   * Fees applied to the filing.
    */
   amountFees?: string | undefined;
+  /**
+   * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+   */
+  feeType?: FeeTypeEnum | null | undefined;
   /**
    * Penalties applied to the filing.
    */
@@ -121,13 +182,49 @@ export type FilingDetailsRead = {
    */
   amountTaxCollected?: string | undefined;
   /**
+   * Gross tax the buyer owes on purchases. US use tax, or EU/UK reverse-charge self-assessed VAT. Not net of recoverable VAT. Defaults to 0.00.
+   */
+  amountUseTax?: string | undefined;
+  /**
+   * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT filings.
+   */
+  amountInputVatRecoverable?: string | undefined;
+  /**
+   * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always 0.00 until posted.
+   */
+  amountInputVatTrueUp?: string | undefined;
+  /**
+   * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+   */
+  amountInputVatRecoverableBase?: string | undefined;
+  /**
+   * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+   */
+  inputVatRecoveryRateApplied?: string | null | undefined;
+  /**
+   * Estimated purchase tax this return leaves out because the org does not have Use Tax or Input VAT/GST. 0.00 when nothing is left out.
+   */
+  excludedPurchaseTaxEstimate?: string | undefined;
+  /**
+   * Number of purchases a sales and use tax return covers.
+   */
+  purchaseCount?: number | undefined;
+  /**
+   * Gross purchases a sales and use tax return covers.
+   */
+  amountPurchases?: string | undefined;
+  /**
+   * Taxable purchases a sales and use tax return covers.
+   */
+  totalTaxablePurchases?: string | undefined;
+  /**
    * Total sales amount during the filing period.
    */
   amountSales?: string | undefined;
   /**
    * Total taxable amount during the filing period.
    */
-  totalTaxableSales?: string | undefined;
+  totalTaxableSales?: string | null | undefined;
   /**
    * Final amount due for the filing.
    */
@@ -145,27 +242,46 @@ export type FilingDetailsRead = {
    */
   marketplaceTransactionCount?: number | undefined;
   /**
+   * Estimated schedule line count (distinct jurisdictions). For Tax Ops workload ranking, not portal accuracy.
+   */
+  estimatedLineCount?: number | null | undefined;
+  /**
    * Notes or comments related to the filing.
    */
-  internalNotes?: string | undefined;
-  recentDetailsReportLink?: string | undefined;
+  internalNotes?: string | null | undefined;
+  recentDetailsReportLink?: string | null | undefined;
   /**
    * The amount of tax remitted.
    */
   taxRemitted?: string | undefined;
   /**
+   * Tax remitted when filing was first confirmed.
+   */
+  originalTaxRemitted?: string | null | undefined;
+  /**
    * Return confirmation ID, if applicable.
    */
-  returnConfirmationId?: string | undefined;
+  returnConfirmationId?: string | null | undefined;
   /**
    * Payment confirmation ID, if applicable.
    */
-  paymentConfirmationId?: string | undefined;
+  paymentConfirmationId?: string | null | undefined;
+  /**
+   * Return confirmation ID captured when the filing was moved to Submitted
+   */
+  submittedReturnConfirmationId?: string | null | undefined;
+  /**
+   * Payment confirmation ID captured when the filing was moved to Submitted
+   */
+  submittedPaymentConfirmationId?: string | null | undefined;
   /**
    * Indicates if the filing can be approved.
    */
-  blockApproval?: boolean | undefined;
-  currency?: CurrencyEnum | undefined;
+  blockApproval?: boolean | null | undefined;
+  /**
+   * Currency code for the filing (e.g., USD, CAD).
+   */
+  currency?: CurrencyEnum | null | undefined;
   /**
    * Unique identifier for the filing.
    */
@@ -175,169 +291,278 @@ export type FilingDetailsRead = {
    */
   registrationId: string;
   /**
-   * List of attachments associated with the filing, if any.
+   * Filing frequency from the associated registration.
    */
-  attachments?: Attachments | undefined;
+  filingFrequency?: string | null | undefined;
+  /**
+   * OSS scheme (UNION/NON_UNION/IOSS) from the associated registration, if any.
+   */
+  ossType?: string | null | undefined;
+  /**
+   * Display-only balance-due breakdown for CA Quarterly Prepayment reconciliation filings, populated only when the org toggle is on and the filing qualifies. When present, clients should show balance_due instead of total_tax_liability. Absent means show total_tax_liability as usual.
+   */
+  quarterlyPrepayBalance?: QuarterlyPrepayBalanceDisplay | null | undefined;
+  /**
+   * Display-only CDTFA Option 2 (135% of May liability) for CA Quarterly Prepayment May prepayment filings. When present, list/CSV/approve copy should prefer prepayment_amount; Tax Overview keeps Total Liability at 100% and adds a separate CDTFA Option 2 row. Absent means show total_tax_liability as usual.
+   */
+  caMayPrepayment?: CaMayPrepaymentDisplay | null | undefined;
+  /**
+   * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown (placeholder). Zero means the estimate found nothing owed. Some states charge a flat late penalty even when the tax is zero. For a filed return, the estimate stops at the filing date. Never persisted on the filing or used for billing.
+   */
+  estimatedPenaltyInterest?: string | null | undefined;
+  /**
+   * Customer-facing P&I timing tag for BACK_FILING rows, e.g. 'Paid with return' or 'State bills you later'.
+   */
+  penaltyInterestRemittanceTag?: string | null | undefined;
+  /**
+   * Identifier for the organization associated with the filing.
+   */
+  organizationId: string;
+  /**
+   * Map of attachment names to download URLs for the filing, if any.
+   */
+  attachments?: { [k: string]: string } | null | undefined;
+  /**
+   * Credits utilized for this filing.
+   */
   creditsUtilized?: string | undefined;
+  /**
+   * Number of transactions deferred from this filing period.
+   */
+  deferredTransactionCount?: number | undefined;
   /**
    * Get the filing website URL for this filing's jurisdiction
    */
-  filingWebsiteUrl: string;
+  filingWebsiteUrl: string | null;
 };
-
-/** @internal */
-export const Attachments$inboundSchema: z.ZodType<
-  Attachments,
-  z.ZodTypeDef,
-  unknown
-> = z.object({});
-/** @internal */
-export type Attachments$Outbound = {};
-
-/** @internal */
-export const Attachments$outboundSchema: z.ZodType<
-  Attachments$Outbound,
-  z.ZodTypeDef,
-  Attachments
-> = z.object({});
-
-export function attachmentsToJSON(attachments: Attachments): string {
-  return JSON.stringify(Attachments$outboundSchema.parse(attachments));
-}
-export function attachmentsFromJSON(
-  jsonString: string,
-): SafeParseResult<Attachments, SDKValidationError> {
-  return safeParse(
-    jsonString,
-    (x) => Attachments$inboundSchema.parse(JSON.parse(x)),
-    `Failed to parse 'Attachments' from JSON`,
-  );
-}
 
 /** @internal */
 export const FilingDetailsRead$inboundSchema: z.ZodType<
   FilingDetailsRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  status: FilingStatusEnum$inboundSchema.optional(),
-  start_date: z.string().transform(v => new RFCDate(v)),
-  end_date: z.string().transform(v => new RFCDate(v)),
-  due_date: z.string().optional(),
-  date_filed: z.string().optional(),
-  is_manual: z.boolean().optional(),
-  state_code: z.string().optional(),
-  state_name: z.string().optional(),
-  country_code: CountryCodeEnum$inboundSchema,
-  jira_issue_key: z.string().optional(),
-  auto_approved: z.boolean().default(false),
-  paused_until_date: z.string().optional(),
-  filing_category: z.string().default("REGULAR"),
-  approved_by: z.string().optional(),
-  approved_at: z.string().optional(),
-  amount_calculated: z.string().default("0.00"),
-  amount_adjusted: z.string().default("0.00"),
-  amount_discounts: z.string().default("0.00"),
-  amount_fees: z.string().default("0.00"),
-  amount_penalties: z.string().default("0.00"),
-  amount_tax_collected: z.string().default("0.00"),
-  amount_sales: z.string().default("0.00"),
-  total_taxable_sales: z.string().default("0.00"),
-  amount: z.string().default("0.00"),
-  total_tax_liability: z.string().default("0.00"),
-  transaction_count: z.number().int().default(0),
-  marketplace_transaction_count: z.number().int().default(0),
-  internal_notes: z.string().optional(),
-  recent_details_report_link: z.string().optional(),
-  tax_remitted: z.string().default("0.00"),
-  return_confirmation_id: z.string().optional(),
-  payment_confirmation_id: z.string().optional(),
-  block_approval: z.boolean().optional(),
-  currency: CurrencyEnum$inboundSchema.optional(),
-  id: z.string(),
-  registration_id: z.string(),
-  attachments: z.lazy(() => Attachments$inboundSchema).optional(),
-  credits_utilized: z.string().default("0.00"),
-  filing_website_url: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "start_date": "startDate",
-    "end_date": "endDate",
-    "due_date": "dueDate",
-    "date_filed": "dateFiled",
-    "is_manual": "isManual",
-    "state_code": "stateCode",
-    "state_name": "stateName",
-    "country_code": "countryCode",
-    "jira_issue_key": "jiraIssueKey",
-    "auto_approved": "autoApproved",
-    "paused_until_date": "pausedUntilDate",
-    "filing_category": "filingCategory",
-    "approved_by": "approvedBy",
-    "approved_at": "approvedAt",
-    "amount_calculated": "amountCalculated",
-    "amount_adjusted": "amountAdjusted",
-    "amount_discounts": "amountDiscounts",
-    "amount_fees": "amountFees",
-    "amount_penalties": "amountPenalties",
-    "amount_tax_collected": "amountTaxCollected",
-    "amount_sales": "amountSales",
-    "total_taxable_sales": "totalTaxableSales",
-    "total_tax_liability": "totalTaxLiability",
-    "transaction_count": "transactionCount",
-    "marketplace_transaction_count": "marketplaceTransactionCount",
-    "internal_notes": "internalNotes",
-    "recent_details_report_link": "recentDetailsReportLink",
-    "tax_remitted": "taxRemitted",
-    "return_confirmation_id": "returnConfirmationId",
-    "payment_confirmation_id": "paymentConfirmationId",
-    "block_approval": "blockApproval",
-    "registration_id": "registrationId",
-    "credits_utilized": "creditsUtilized",
-    "filing_website_url": "filingWebsiteUrl",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    input_vat_recovery_rate: z.nullable(z.string()).optional(),
+    input_vat_recovery_rate_is_definitive: z.nullable(z.boolean()).optional(),
+    status: FilingStatusEnum$inboundSchema.optional(),
+    start_date: z.string().transform(v => new RFCDate(v)),
+    end_date: z.string().transform(v => new RFCDate(v)),
+    due_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    date_filed: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    is_manual: z.nullable(z.boolean()).optional(),
+    state_code: z.nullable(z.string()).optional(),
+    state_name: z.nullable(z.string()).optional(),
+    country_code: CountryCodeEnum$inboundSchema,
+    auto_approved: z.nullable(z.boolean()).optional(),
+    paused_until_date: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    assistance_ticket_id: z.nullable(z.string()).optional(),
+    filing_category: z.string().default("REGULAR"),
+    is_prepayment: z.boolean().default(false),
+    is_final: z.boolean().default(false),
+    approved_by: z.nullable(z.string()).optional(),
+    approved_at: z.nullable(
+      z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    ).optional(),
+    issue_reason: z.nullable(z.string()).optional(),
+    skip_reason: z.nullable(z.string()).optional(),
+    cancelled_reason: z.nullable(z.string()).optional(),
+    tax_type: TaxTypeEnum$inboundSchema.optional(),
+    amount_calculated: z.string().default("0.00"),
+    amount_adjusted: z.string().default("0.00"),
+    amount_discounts: z.string().default("0.00"),
+    amount_fees: z.string().default("0.00"),
+    fee_type: z.nullable(FeeTypeEnum$inboundSchema).optional(),
+    amount_penalties: z.string().default("0.00"),
+    amount_tax_collected: z.string().default("0.00"),
+    amount_use_tax: z.string().default("0.00"),
+    amount_input_vat_recoverable: z.string().default("0.00"),
+    amount_input_vat_true_up: z.string().default("0.00"),
+    amount_input_vat_recoverable_base: z.string().default("0.00"),
+    input_vat_recovery_rate_applied: z.nullable(z.string()).optional(),
+    excluded_purchase_tax_estimate: z.string().default("0.00"),
+    purchase_count: z.number().int().default(0),
+    amount_purchases: z.string().default("0.00"),
+    total_taxable_purchases: z.string().default("0.00"),
+    amount_sales: z.string().default("0.00"),
+    total_taxable_sales: z.nullable(z.string()).optional(),
+    amount: z.string().default("0.00"),
+    total_tax_liability: z.string().default("0.00"),
+    transaction_count: z.number().int().default(0),
+    marketplace_transaction_count: z.number().int().default(0),
+    estimated_line_count: z.nullable(z.number().int()).optional(),
+    internal_notes: z.nullable(z.string()).optional(),
+    recent_details_report_link: z.nullable(z.string()).optional(),
+    tax_remitted: z.string().default("0.00"),
+    original_tax_remitted: z.nullable(z.string()).optional(),
+    return_confirmation_id: z.nullable(z.string()).optional(),
+    payment_confirmation_id: z.nullable(z.string()).optional(),
+    submitted_return_confirmation_id: z.nullable(z.string()).optional(),
+    submitted_payment_confirmation_id: z.nullable(z.string()).optional(),
+    block_approval: z.nullable(z.boolean()).optional(),
+    currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    id: z.string(),
+    registration_id: z.string(),
+    filing_frequency: z.nullable(z.string()).optional(),
+    oss_type: z.nullable(z.string()).optional(),
+    quarterly_prepay_balance: z.nullable(
+      QuarterlyPrepayBalanceDisplay$inboundSchema,
+    ).optional(),
+    ca_may_prepayment: z.nullable(CaMayPrepaymentDisplay$inboundSchema)
+      .optional(),
+    estimated_penalty_interest: z.nullable(z.string()).optional(),
+    penalty_interest_remittance_tag: z.nullable(z.string()).optional(),
+    organization_id: z.string(),
+    attachments: z.nullable(z.record(z.string())).optional(),
+    credits_utilized: z.string().default("0.00"),
+    deferred_transaction_count: z.number().int().default(0),
+    filing_website_url: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "input_vat_recovery_rate": "inputVatRecoveryRate",
+      "input_vat_recovery_rate_is_definitive":
+        "inputVatRecoveryRateIsDefinitive",
+      "start_date": "startDate",
+      "end_date": "endDate",
+      "due_date": "dueDate",
+      "date_filed": "dateFiled",
+      "is_manual": "isManual",
+      "state_code": "stateCode",
+      "state_name": "stateName",
+      "country_code": "countryCode",
+      "auto_approved": "autoApproved",
+      "paused_until_date": "pausedUntilDate",
+      "assistance_ticket_id": "assistanceTicketId",
+      "filing_category": "filingCategory",
+      "is_prepayment": "isPrepayment",
+      "is_final": "isFinal",
+      "approved_by": "approvedBy",
+      "approved_at": "approvedAt",
+      "issue_reason": "issueReason",
+      "skip_reason": "skipReason",
+      "cancelled_reason": "cancelledReason",
+      "tax_type": "taxType",
+      "amount_calculated": "amountCalculated",
+      "amount_adjusted": "amountAdjusted",
+      "amount_discounts": "amountDiscounts",
+      "amount_fees": "amountFees",
+      "fee_type": "feeType",
+      "amount_penalties": "amountPenalties",
+      "amount_tax_collected": "amountTaxCollected",
+      "amount_use_tax": "amountUseTax",
+      "amount_input_vat_recoverable": "amountInputVatRecoverable",
+      "amount_input_vat_true_up": "amountInputVatTrueUp",
+      "amount_input_vat_recoverable_base": "amountInputVatRecoverableBase",
+      "input_vat_recovery_rate_applied": "inputVatRecoveryRateApplied",
+      "excluded_purchase_tax_estimate": "excludedPurchaseTaxEstimate",
+      "purchase_count": "purchaseCount",
+      "amount_purchases": "amountPurchases",
+      "total_taxable_purchases": "totalTaxablePurchases",
+      "amount_sales": "amountSales",
+      "total_taxable_sales": "totalTaxableSales",
+      "total_tax_liability": "totalTaxLiability",
+      "transaction_count": "transactionCount",
+      "marketplace_transaction_count": "marketplaceTransactionCount",
+      "estimated_line_count": "estimatedLineCount",
+      "internal_notes": "internalNotes",
+      "recent_details_report_link": "recentDetailsReportLink",
+      "tax_remitted": "taxRemitted",
+      "original_tax_remitted": "originalTaxRemitted",
+      "return_confirmation_id": "returnConfirmationId",
+      "payment_confirmation_id": "paymentConfirmationId",
+      "submitted_return_confirmation_id": "submittedReturnConfirmationId",
+      "submitted_payment_confirmation_id": "submittedPaymentConfirmationId",
+      "block_approval": "blockApproval",
+      "registration_id": "registrationId",
+      "filing_frequency": "filingFrequency",
+      "oss_type": "ossType",
+      "quarterly_prepay_balance": "quarterlyPrepayBalance",
+      "ca_may_prepayment": "caMayPrepayment",
+      "estimated_penalty_interest": "estimatedPenaltyInterest",
+      "penalty_interest_remittance_tag": "penaltyInterestRemittanceTag",
+      "organization_id": "organizationId",
+      "credits_utilized": "creditsUtilized",
+      "deferred_transaction_count": "deferredTransactionCount",
+      "filing_website_url": "filingWebsiteUrl",
+    });
+  })
+);
 /** @internal */
 export type FilingDetailsRead$Outbound = {
+  input_vat_recovery_rate?: string | null | undefined;
+  input_vat_recovery_rate_is_definitive?: boolean | null | undefined;
   status?: string | undefined;
   start_date: string;
   end_date: string;
-  due_date?: string | undefined;
-  date_filed?: string | undefined;
-  is_manual?: boolean | undefined;
-  state_code?: string | undefined;
-  state_name?: string | undefined;
+  due_date?: string | null | undefined;
+  date_filed?: string | null | undefined;
+  is_manual?: boolean | null | undefined;
+  state_code?: string | null | undefined;
+  state_name?: string | null | undefined;
   country_code: string;
-  jira_issue_key?: string | undefined;
-  auto_approved: boolean;
-  paused_until_date?: string | undefined;
+  auto_approved?: boolean | null | undefined;
+  paused_until_date?: string | null | undefined;
+  assistance_ticket_id?: string | null | undefined;
   filing_category: string;
-  approved_by?: string | undefined;
-  approved_at?: string | undefined;
+  is_prepayment: boolean;
+  is_final: boolean;
+  approved_by?: string | null | undefined;
+  approved_at?: string | null | undefined;
+  issue_reason?: string | null | undefined;
+  skip_reason?: string | null | undefined;
+  cancelled_reason?: string | null | undefined;
+  tax_type?: string | undefined;
   amount_calculated: string;
   amount_adjusted: string;
   amount_discounts: string;
   amount_fees: string;
+  fee_type?: string | null | undefined;
   amount_penalties: string;
   amount_tax_collected: string;
+  amount_use_tax: string;
+  amount_input_vat_recoverable: string;
+  amount_input_vat_true_up: string;
+  amount_input_vat_recoverable_base: string;
+  input_vat_recovery_rate_applied?: string | null | undefined;
+  excluded_purchase_tax_estimate: string;
+  purchase_count: number;
+  amount_purchases: string;
+  total_taxable_purchases: string;
   amount_sales: string;
-  total_taxable_sales: string;
+  total_taxable_sales?: string | null | undefined;
   amount: string;
   total_tax_liability: string;
   transaction_count: number;
   marketplace_transaction_count: number;
-  internal_notes?: string | undefined;
-  recent_details_report_link?: string | undefined;
+  estimated_line_count?: number | null | undefined;
+  internal_notes?: string | null | undefined;
+  recent_details_report_link?: string | null | undefined;
   tax_remitted: string;
-  return_confirmation_id?: string | undefined;
-  payment_confirmation_id?: string | undefined;
-  block_approval?: boolean | undefined;
-  currency?: string | undefined;
+  original_tax_remitted?: string | null | undefined;
+  return_confirmation_id?: string | null | undefined;
+  payment_confirmation_id?: string | null | undefined;
+  submitted_return_confirmation_id?: string | null | undefined;
+  submitted_payment_confirmation_id?: string | null | undefined;
+  block_approval?: boolean | null | undefined;
+  currency?: string | null | undefined;
   id: string;
   registration_id: string;
-  attachments?: Attachments$Outbound | undefined;
+  filing_frequency?: string | null | undefined;
+  oss_type?: string | null | undefined;
+  quarterly_prepay_balance?:
+    | QuarterlyPrepayBalanceDisplay$Outbound
+    | null
+    | undefined;
+  ca_may_prepayment?: CaMayPrepaymentDisplay$Outbound | null | undefined;
+  estimated_penalty_interest?: string | null | undefined;
+  penalty_interest_remittance_tag?: string | null | undefined;
+  organization_id: string;
+  attachments?: { [k: string]: string } | null | undefined;
   credits_utilized: string;
-  filing_website_url: string;
+  deferred_transaction_count: number;
+  filing_website_url: string | null;
 };
 
 /** @internal */
@@ -345,84 +570,153 @@ export const FilingDetailsRead$outboundSchema: z.ZodType<
   FilingDetailsRead$Outbound,
   z.ZodTypeDef,
   FilingDetailsRead
-> = z.object({
-  status: FilingStatusEnum$outboundSchema.optional(),
-  startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  endDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  dueDate: z.string().optional(),
-  dateFiled: z.string().optional(),
-  isManual: z.boolean().optional(),
-  stateCode: z.string().optional(),
-  stateName: z.string().optional(),
-  countryCode: CountryCodeEnum$outboundSchema,
-  jiraIssueKey: z.string().optional(),
-  autoApproved: z.boolean().default(false),
-  pausedUntilDate: z.string().optional(),
-  filingCategory: z.string().default("REGULAR"),
-  approvedBy: z.string().optional(),
-  approvedAt: z.string().optional(),
-  amountCalculated: z.string().default("0.00"),
-  amountAdjusted: z.string().default("0.00"),
-  amountDiscounts: z.string().default("0.00"),
-  amountFees: z.string().default("0.00"),
-  amountPenalties: z.string().default("0.00"),
-  amountTaxCollected: z.string().default("0.00"),
-  amountSales: z.string().default("0.00"),
-  totalTaxableSales: z.string().default("0.00"),
-  amount: z.string().default("0.00"),
-  totalTaxLiability: z.string().default("0.00"),
-  transactionCount: z.number().int().default(0),
-  marketplaceTransactionCount: z.number().int().default(0),
-  internalNotes: z.string().optional(),
-  recentDetailsReportLink: z.string().optional(),
-  taxRemitted: z.string().default("0.00"),
-  returnConfirmationId: z.string().optional(),
-  paymentConfirmationId: z.string().optional(),
-  blockApproval: z.boolean().optional(),
-  currency: CurrencyEnum$outboundSchema.optional(),
-  id: z.string(),
-  registrationId: z.string(),
-  attachments: z.lazy(() => Attachments$outboundSchema).optional(),
-  creditsUtilized: z.string().default("0.00"),
-  filingWebsiteUrl: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    startDate: "start_date",
-    endDate: "end_date",
-    dueDate: "due_date",
-    dateFiled: "date_filed",
-    isManual: "is_manual",
-    stateCode: "state_code",
-    stateName: "state_name",
-    countryCode: "country_code",
-    jiraIssueKey: "jira_issue_key",
-    autoApproved: "auto_approved",
-    pausedUntilDate: "paused_until_date",
-    filingCategory: "filing_category",
-    approvedBy: "approved_by",
-    approvedAt: "approved_at",
-    amountCalculated: "amount_calculated",
-    amountAdjusted: "amount_adjusted",
-    amountDiscounts: "amount_discounts",
-    amountFees: "amount_fees",
-    amountPenalties: "amount_penalties",
-    amountTaxCollected: "amount_tax_collected",
-    amountSales: "amount_sales",
-    totalTaxableSales: "total_taxable_sales",
-    totalTaxLiability: "total_tax_liability",
-    transactionCount: "transaction_count",
-    marketplaceTransactionCount: "marketplace_transaction_count",
-    internalNotes: "internal_notes",
-    recentDetailsReportLink: "recent_details_report_link",
-    taxRemitted: "tax_remitted",
-    returnConfirmationId: "return_confirmation_id",
-    paymentConfirmationId: "payment_confirmation_id",
-    blockApproval: "block_approval",
-    registrationId: "registration_id",
-    creditsUtilized: "credits_utilized",
-    filingWebsiteUrl: "filing_website_url",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    inputVatRecoveryRate: z.nullable(z.string()).optional(),
+    inputVatRecoveryRateIsDefinitive: z.nullable(z.boolean()).optional(),
+    status: FilingStatusEnum$outboundSchema.optional(),
+    startDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    endDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    dueDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    dateFiled: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    isManual: z.nullable(z.boolean()).optional(),
+    stateCode: z.nullable(z.string()).optional(),
+    stateName: z.nullable(z.string()).optional(),
+    countryCode: CountryCodeEnum$outboundSchema,
+    autoApproved: z.nullable(z.boolean()).optional(),
+    pausedUntilDate: z.nullable(
+      z.instanceof(RFCDate).transform(v => v.toString()),
+    ).optional(),
+    assistanceTicketId: z.nullable(z.string()).optional(),
+    filingCategory: z.string().default("REGULAR"),
+    isPrepayment: z.boolean().default(false),
+    isFinal: z.boolean().default(false),
+    approvedBy: z.nullable(z.string()).optional(),
+    approvedAt: z.nullable(z.date().transform(v => v.toISOString())).optional(),
+    issueReason: z.nullable(z.string()).optional(),
+    skipReason: z.nullable(z.string()).optional(),
+    cancelledReason: z.nullable(z.string()).optional(),
+    taxType: TaxTypeEnum$outboundSchema.optional(),
+    amountCalculated: z.string().default("0.00"),
+    amountAdjusted: z.string().default("0.00"),
+    amountDiscounts: z.string().default("0.00"),
+    amountFees: z.string().default("0.00"),
+    feeType: z.nullable(FeeTypeEnum$outboundSchema).optional(),
+    amountPenalties: z.string().default("0.00"),
+    amountTaxCollected: z.string().default("0.00"),
+    amountUseTax: z.string().default("0.00"),
+    amountInputVatRecoverable: z.string().default("0.00"),
+    amountInputVatTrueUp: z.string().default("0.00"),
+    amountInputVatRecoverableBase: z.string().default("0.00"),
+    inputVatRecoveryRateApplied: z.nullable(z.string()).optional(),
+    excludedPurchaseTaxEstimate: z.string().default("0.00"),
+    purchaseCount: z.number().int().default(0),
+    amountPurchases: z.string().default("0.00"),
+    totalTaxablePurchases: z.string().default("0.00"),
+    amountSales: z.string().default("0.00"),
+    totalTaxableSales: z.nullable(z.string()).optional(),
+    amount: z.string().default("0.00"),
+    totalTaxLiability: z.string().default("0.00"),
+    transactionCount: z.number().int().default(0),
+    marketplaceTransactionCount: z.number().int().default(0),
+    estimatedLineCount: z.nullable(z.number().int()).optional(),
+    internalNotes: z.nullable(z.string()).optional(),
+    recentDetailsReportLink: z.nullable(z.string()).optional(),
+    taxRemitted: z.string().default("0.00"),
+    originalTaxRemitted: z.nullable(z.string()).optional(),
+    returnConfirmationId: z.nullable(z.string()).optional(),
+    paymentConfirmationId: z.nullable(z.string()).optional(),
+    submittedReturnConfirmationId: z.nullable(z.string()).optional(),
+    submittedPaymentConfirmationId: z.nullable(z.string()).optional(),
+    blockApproval: z.nullable(z.boolean()).optional(),
+    currency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    id: z.string(),
+    registrationId: z.string(),
+    filingFrequency: z.nullable(z.string()).optional(),
+    ossType: z.nullable(z.string()).optional(),
+    quarterlyPrepayBalance: z.nullable(
+      QuarterlyPrepayBalanceDisplay$outboundSchema,
+    ).optional(),
+    caMayPrepayment: z.nullable(CaMayPrepaymentDisplay$outboundSchema)
+      .optional(),
+    estimatedPenaltyInterest: z.nullable(z.string()).optional(),
+    penaltyInterestRemittanceTag: z.nullable(z.string()).optional(),
+    organizationId: z.string(),
+    attachments: z.nullable(z.record(z.string())).optional(),
+    creditsUtilized: z.string().default("0.00"),
+    deferredTransactionCount: z.number().int().default(0),
+    filingWebsiteUrl: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      inputVatRecoveryRate: "input_vat_recovery_rate",
+      inputVatRecoveryRateIsDefinitive: "input_vat_recovery_rate_is_definitive",
+      startDate: "start_date",
+      endDate: "end_date",
+      dueDate: "due_date",
+      dateFiled: "date_filed",
+      isManual: "is_manual",
+      stateCode: "state_code",
+      stateName: "state_name",
+      countryCode: "country_code",
+      autoApproved: "auto_approved",
+      pausedUntilDate: "paused_until_date",
+      assistanceTicketId: "assistance_ticket_id",
+      filingCategory: "filing_category",
+      isPrepayment: "is_prepayment",
+      isFinal: "is_final",
+      approvedBy: "approved_by",
+      approvedAt: "approved_at",
+      issueReason: "issue_reason",
+      skipReason: "skip_reason",
+      cancelledReason: "cancelled_reason",
+      taxType: "tax_type",
+      amountCalculated: "amount_calculated",
+      amountAdjusted: "amount_adjusted",
+      amountDiscounts: "amount_discounts",
+      amountFees: "amount_fees",
+      feeType: "fee_type",
+      amountPenalties: "amount_penalties",
+      amountTaxCollected: "amount_tax_collected",
+      amountUseTax: "amount_use_tax",
+      amountInputVatRecoverable: "amount_input_vat_recoverable",
+      amountInputVatTrueUp: "amount_input_vat_true_up",
+      amountInputVatRecoverableBase: "amount_input_vat_recoverable_base",
+      inputVatRecoveryRateApplied: "input_vat_recovery_rate_applied",
+      excludedPurchaseTaxEstimate: "excluded_purchase_tax_estimate",
+      purchaseCount: "purchase_count",
+      amountPurchases: "amount_purchases",
+      totalTaxablePurchases: "total_taxable_purchases",
+      amountSales: "amount_sales",
+      totalTaxableSales: "total_taxable_sales",
+      totalTaxLiability: "total_tax_liability",
+      transactionCount: "transaction_count",
+      marketplaceTransactionCount: "marketplace_transaction_count",
+      estimatedLineCount: "estimated_line_count",
+      internalNotes: "internal_notes",
+      recentDetailsReportLink: "recent_details_report_link",
+      taxRemitted: "tax_remitted",
+      originalTaxRemitted: "original_tax_remitted",
+      returnConfirmationId: "return_confirmation_id",
+      paymentConfirmationId: "payment_confirmation_id",
+      submittedReturnConfirmationId: "submitted_return_confirmation_id",
+      submittedPaymentConfirmationId: "submitted_payment_confirmation_id",
+      blockApproval: "block_approval",
+      registrationId: "registration_id",
+      filingFrequency: "filing_frequency",
+      ossType: "oss_type",
+      quarterlyPrepayBalance: "quarterly_prepay_balance",
+      caMayPrepayment: "ca_may_prepayment",
+      estimatedPenaltyInterest: "estimated_penalty_interest",
+      penaltyInterestRemittanceTag: "penalty_interest_remittance_tag",
+      organizationId: "organization_id",
+      creditsUtilized: "credits_utilized",
+      deferredTransactionCount: "deferred_transaction_count",
+      filingWebsiteUrl: "filing_website_url",
+    });
+  })
+);
 
 export function filingDetailsReadToJSON(
   filingDetailsRead: FilingDetailsRead,

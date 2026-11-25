@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 /**
@@ -26,6 +27,7 @@ export const ProcessingStatusEnum = {
   Archived: "ARCHIVED",
   NeedsRefetch: "NEEDS_REFETCH",
   ExcludedInCalculation: "EXCLUDED_IN_CALCULATION",
+  DeferredFromFiling: "DEFERRED_FROM_FILING",
 } as const;
 /**
  * Our transaction state, used to determine when/if a transaction needs additional
@@ -38,7 +40,7 @@ export type ProcessingStatusEnum = ClosedEnum<typeof ProcessingStatusEnum>;
 /** @internal */
 export const ProcessingStatusEnum$inboundSchema: z.ZodNativeEnum<
   typeof ProcessingStatusEnum
-> = z.nativeEnum(ProcessingStatusEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(ProcessingStatusEnum));
 /** @internal */
 export const ProcessingStatusEnum$outboundSchema: z.ZodNativeEnum<
   typeof ProcessingStatusEnum

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   CurrencyEnum,
@@ -30,17 +30,17 @@ export type TaxItemRead = {
   ruleId?: string | undefined;
   rate: string;
   amount: string;
-  convertedAmount?: string | undefined;
-  currency?: CurrencyEnum | undefined;
-  destinationCurrency?: CurrencyEnum | undefined;
-  externalId?: string | undefined;
+  convertedAmount?: string | null | undefined;
+  currency?: CurrencyEnum | null | undefined;
+  destinationCurrency?: CurrencyEnum | null | undefined;
+  externalId?: string | null | undefined;
   /**
    * Deprecated: use `jurisdiction_type` instead
    */
   name: string;
   type?: TaxItemTypeEnum | undefined;
-  jurisdictionType?: JurisdictionType | undefined;
-  jurisdictionName?: string | undefined;
+  jurisdictionType?: JurisdictionType | null | undefined;
+  jurisdictionName?: string | null | undefined;
 };
 
 /** @internal */
@@ -48,41 +48,43 @@ export const TaxItemRead$inboundSchema: z.ZodType<
   TaxItemRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  rule_id: z.string().default("0000"),
-  rate: z.string(),
-  amount: z.string(),
-  converted_amount: z.string().optional(),
-  currency: CurrencyEnum$inboundSchema.optional(),
-  destination_currency: CurrencyEnum$inboundSchema.optional(),
-  external_id: z.string().optional(),
-  name: z.string(),
-  type: TaxItemTypeEnum$inboundSchema.optional(),
-  jurisdiction_type: JurisdictionType$inboundSchema.optional(),
-  jurisdiction_name: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "rule_id": "ruleId",
-    "converted_amount": "convertedAmount",
-    "destination_currency": "destinationCurrency",
-    "external_id": "externalId",
-    "jurisdiction_type": "jurisdictionType",
-    "jurisdiction_name": "jurisdictionName",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    rule_id: z.string().default("0000"),
+    rate: z.string(),
+    amount: z.string(),
+    converted_amount: z.nullable(z.string()).optional(),
+    currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    destination_currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    external_id: z.nullable(z.string()).optional(),
+    name: z.string(),
+    type: TaxItemTypeEnum$inboundSchema.optional(),
+    jurisdiction_type: z.nullable(JurisdictionType$inboundSchema).optional(),
+    jurisdiction_name: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "rule_id": "ruleId",
+      "converted_amount": "convertedAmount",
+      "destination_currency": "destinationCurrency",
+      "external_id": "externalId",
+      "jurisdiction_type": "jurisdictionType",
+      "jurisdiction_name": "jurisdictionName",
+    });
+  })
+);
 /** @internal */
 export type TaxItemRead$Outbound = {
   rule_id: string;
   rate: string;
   amount: string;
-  converted_amount?: string | undefined;
-  currency?: string | undefined;
-  destination_currency?: string | undefined;
-  external_id?: string | undefined;
+  converted_amount?: string | null | undefined;
+  currency?: string | null | undefined;
+  destination_currency?: string | null | undefined;
+  external_id?: string | null | undefined;
   name: string;
   type?: string | undefined;
-  jurisdiction_type?: string | undefined;
-  jurisdiction_name?: string | undefined;
+  jurisdiction_type?: string | null | undefined;
+  jurisdiction_name?: string | null | undefined;
 };
 
 /** @internal */
@@ -90,28 +92,30 @@ export const TaxItemRead$outboundSchema: z.ZodType<
   TaxItemRead$Outbound,
   z.ZodTypeDef,
   TaxItemRead
-> = z.object({
-  ruleId: z.string().default("0000"),
-  rate: z.string(),
-  amount: z.string(),
-  convertedAmount: z.string().optional(),
-  currency: CurrencyEnum$outboundSchema.optional(),
-  destinationCurrency: CurrencyEnum$outboundSchema.optional(),
-  externalId: z.string().optional(),
-  name: z.string(),
-  type: TaxItemTypeEnum$outboundSchema.optional(),
-  jurisdictionType: JurisdictionType$outboundSchema.optional(),
-  jurisdictionName: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    ruleId: "rule_id",
-    convertedAmount: "converted_amount",
-    destinationCurrency: "destination_currency",
-    externalId: "external_id",
-    jurisdictionType: "jurisdiction_type",
-    jurisdictionName: "jurisdiction_name",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    ruleId: z.string().default("0000"),
+    rate: z.string(),
+    amount: z.string(),
+    convertedAmount: z.nullable(z.string()).optional(),
+    currency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    destinationCurrency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    externalId: z.nullable(z.string()).optional(),
+    name: z.string(),
+    type: TaxItemTypeEnum$outboundSchema.optional(),
+    jurisdictionType: z.nullable(JurisdictionType$outboundSchema).optional(),
+    jurisdictionName: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      ruleId: "rule_id",
+      convertedAmount: "converted_amount",
+      destinationCurrency: "destination_currency",
+      externalId: "external_id",
+      jurisdictionType: "jurisdiction_type",
+      jurisdictionName: "jurisdiction_name",
+    });
+  })
+);
 
 export function taxItemReadToJSON(taxItemRead: TaxItemRead): string {
   return JSON.stringify(TaxItemRead$outboundSchema.parse(taxItemRead));

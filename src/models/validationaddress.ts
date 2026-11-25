@@ -3,8 +3,7 @@
  */
 
 import * as z from "zod/v3";
-import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
@@ -12,23 +11,23 @@ export type ValidationAddress = {
   /**
    * Primary address line, such as street name and number
    */
-  line1?: string | undefined;
+  line1?: string | null | undefined;
   /**
    * Additional address details, such as an apartment or suite number
    */
-  line2?: string | undefined;
+  line2?: string | null | undefined;
   /**
    * Additional address details for complex addresses
    */
-  line3?: string | undefined;
+  line3?: string | null | undefined;
   /**
    * The city or town name for the address
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * State, province, or region of the address
    */
-  state?: string | undefined;
+  state?: string | null | undefined;
   /**
    * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
    *
@@ -37,26 +36,26 @@ export type ValidationAddress = {
    *         should not be empty. Not validating here as the validation
    *         structure can be different for different providers
    */
-  country?: string | undefined;
+  country?: string | null | undefined;
   /**
    * ZIP or postal code for the address. Can be empty for some locales.
    *
    * @remarks
    *         Not validating here as the validation structure can be different for different providers
    */
-  postalCode?: string | undefined;
+  postalCode?: string | null | undefined;
   /**
    * Unique identifier for the request, if applicable
    */
-  id?: number | undefined;
+  id?: number | null | undefined;
   /**
    * County or district name for the address
    */
-  county?: string | undefined;
+  county?: string | null | undefined;
   /**
    * A complete address string that can be used as an alternative to providing individual fields.
    */
-  fullAddress?: string | undefined;
+  fullAddress?: string | null | undefined;
 };
 
 /** @internal */
@@ -64,34 +63,32 @@ export const ValidationAddress$inboundSchema: z.ZodType<
   ValidationAddress,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  line1: z.string().optional(),
-  line2: z.string().optional(),
-  line3: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  country: z.string().default("US"),
-  postalCode: z.string().default(""),
-  id: z.number().int().optional(),
-  county: z.string().optional(),
-  full_address: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "full_address": "fullAddress",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    line1: z.nullable(z.string()).optional(),
+    line2: z.nullable(z.string()).optional(),
+    line3: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    country: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    id: z.nullable(z.number().int()).optional(),
+    county: z.nullable(z.string()).optional(),
+    fullAddress: z.nullable(z.string()).optional(),
+  })
+);
 /** @internal */
 export type ValidationAddress$Outbound = {
-  line1?: string | undefined;
-  line2?: string | undefined;
-  line3?: string | undefined;
-  city?: string | undefined;
-  state?: string | undefined;
-  country: string;
-  postalCode: string;
-  id?: number | undefined;
-  county?: string | undefined;
-  full_address?: string | undefined;
+  line1?: string | null | undefined;
+  line2?: string | null | undefined;
+  line3?: string | null | undefined;
+  city?: string | null | undefined;
+  state?: string | null | undefined;
+  country?: string | null | undefined;
+  postalCode?: string | null | undefined;
+  id?: number | null | undefined;
+  county?: string | null | undefined;
+  fullAddress?: string | null | undefined;
 };
 
 /** @internal */
@@ -99,22 +96,20 @@ export const ValidationAddress$outboundSchema: z.ZodType<
   ValidationAddress$Outbound,
   z.ZodTypeDef,
   ValidationAddress
-> = z.object({
-  line1: z.string().optional(),
-  line2: z.string().optional(),
-  line3: z.string().optional(),
-  city: z.string().optional(),
-  state: z.string().optional(),
-  country: z.string().default("US"),
-  postalCode: z.string().default(""),
-  id: z.number().int().optional(),
-  county: z.string().optional(),
-  fullAddress: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    fullAddress: "full_address",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    line1: z.nullable(z.string()).optional(),
+    line2: z.nullable(z.string()).optional(),
+    line3: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    country: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    id: z.nullable(z.number().int()).optional(),
+    county: z.nullable(z.string()).optional(),
+    fullAddress: z.nullable(z.string()).optional(),
+  })
+);
 
 export function validationAddressToJSON(
   validationAddress: ValidationAddress,

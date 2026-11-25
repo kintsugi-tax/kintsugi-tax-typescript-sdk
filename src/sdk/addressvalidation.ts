@@ -20,13 +20,11 @@ export class AddressValidation extends ClientSDK {
    *     The API also adds additional fields, such as county, when possible.
    */
   async search(
-    security: operations.SearchV1AddressValidationSearchPostSecurity,
     request: models.AddressBase,
     options?: RequestOptions,
   ): Promise<Array<models.AddressSearchResponse>> {
     return unwrapAsync(addressValidationSearch(
       this,
-      security,
       request,
       options,
     ));
@@ -43,7 +41,7 @@ export class AddressValidation extends ClientSDK {
    *     and streamlines the data entry process.
    */
   async suggest(
-    request: models.ValidationAddress,
+    request: operations.SuggestionsV1AddressValidationSuggestionsPostRequest,
     options?: RequestOptions,
   ): Promise<any> {
     return unwrapAsync(addressValidationSuggest(

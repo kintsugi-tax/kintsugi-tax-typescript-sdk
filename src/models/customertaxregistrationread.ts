@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   CountryCodeEnum,
@@ -35,22 +35,24 @@ export const CustomerTaxRegistrationRead$inboundSchema: z.ZodType<
   CustomerTaxRegistrationRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  id: z.string(),
-  customer_id: z.string(),
-  country_code: CountryCodeEnum$inboundSchema,
-  tax_type: CustomerTaxTypeEnum$inboundSchema,
-  tax_id: z.string(),
-  is_valid: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    "customer_id": "customerId",
-    "country_code": "countryCode",
-    "tax_type": "taxType",
-    "tax_id": "taxId",
-    "is_valid": "isValid",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.string(),
+    customer_id: z.string(),
+    country_code: CountryCodeEnum$inboundSchema,
+    tax_type: CustomerTaxTypeEnum$inboundSchema,
+    tax_id: z.string(),
+    is_valid: z.boolean(),
+  }).transform((v) => {
+    return remap$(v, {
+      "customer_id": "customerId",
+      "country_code": "countryCode",
+      "tax_type": "taxType",
+      "tax_id": "taxId",
+      "is_valid": "isValid",
+    });
+  })
+);
 /** @internal */
 export type CustomerTaxRegistrationRead$Outbound = {
   id: string;
@@ -66,22 +68,24 @@ export const CustomerTaxRegistrationRead$outboundSchema: z.ZodType<
   CustomerTaxRegistrationRead$Outbound,
   z.ZodTypeDef,
   CustomerTaxRegistrationRead
-> = z.object({
-  id: z.string(),
-  customerId: z.string(),
-  countryCode: CountryCodeEnum$outboundSchema,
-  taxType: CustomerTaxTypeEnum$outboundSchema,
-  taxId: z.string(),
-  isValid: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    customerId: "customer_id",
-    countryCode: "country_code",
-    taxType: "tax_type",
-    taxId: "tax_id",
-    isValid: "is_valid",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.string(),
+    customerId: z.string(),
+    countryCode: CountryCodeEnum$outboundSchema,
+    taxType: CustomerTaxTypeEnum$outboundSchema,
+    taxId: z.string(),
+    isValid: z.boolean(),
+  }).transform((v) => {
+    return remap$(v, {
+      customerId: "customer_id",
+      countryCode: "country_code",
+      taxType: "tax_type",
+      taxId: "tax_id",
+      isValid: "is_valid",
+    });
+  })
+);
 
 export function customerTaxRegistrationReadToJSON(
   customerTaxRegistrationRead: CustomerTaxRegistrationRead,

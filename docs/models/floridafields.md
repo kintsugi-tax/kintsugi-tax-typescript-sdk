@@ -1,0 +1,29 @@
+# FloridaFields
+
+State-specific fields for Florida (eFile & Pay) registration import.
+
+Florida requires no 2FA/MFA setup, so there is no ``mfa_completed`` field, and
+the portal grants no customer-facing third-party access step, so there is no
+``third_party_access_enabled``
+
+## Example Usage
+
+```typescript
+import { FloridaFields } from "@kintsugi-tax/tax-platform-sdk/models";
+
+let value: FloridaFields = {
+  registrationType: "SALES_TAX",
+  businessName: "<value>",
+  flCertificateNumber: "<value>",
+  businessPartnerNumber: "<value>",
+};
+```
+
+## Fields
+
+| Field                                                                                                                                                                | Type                                                                                                                                                                 | Required                                                                                                                                                             | Description                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `registrationType`                                                                                                                                                   | *"SALES_TAX"*                                                                                                                                                        | :heavy_check_mark:                                                                                                                                                   | Registration type for this Florida import: sales tax.                                                                                                                |
+| `businessName`                                                                                                                                                       | *string*                                                                                                                                                             | :heavy_check_mark:                                                                                                                                                   | State-registered business name as shown on the Florida DOR account.                                                                                                  |
+| `flCertificateNumber`                                                                                                                                                | *string*                                                                                                                                                             | :heavy_check_mark:                                                                                                                                                   | Florida Certificate of Registration number (Sales Tax Certificate Number) issued by the Florida Department of Revenue. Also stored as the registration Sales Tax ID. |
+| `businessPartnerNumber`                                                                                                                                              | *string*                                                                                                                                                             | :heavy_check_mark:                                                                                                                                                   | Florida Business Partner Number: a 7- or 10-digit number assigned by the state. 7-digit values are normalized to 10 digits by prepending three zeros.                |

@@ -14,7 +14,7 @@ const args = {
 
 export const tool$customersCreateTransaction: ToolDefinition<typeof args> = {
   name: "customers-create-transaction",
-  description: `Create Transaction By Customer Id
+  description: `Create transaction by customer id
 
 Create a new transaction for a specific customer.`,
   args,
@@ -22,7 +22,7 @@ Create a new transaction for a specific customer.`,
     const [result, apiCall] = await customersCreateTransaction(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

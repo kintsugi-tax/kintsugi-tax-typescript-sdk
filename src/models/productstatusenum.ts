@@ -3,19 +3,21 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const ProductStatusEnum = {
   Approved: "APPROVED",
   PartiallyApproved: "PARTIALLY_APPROVED",
   Pending: "PENDING",
+  Archived: "ARCHIVED",
 } as const;
 export type ProductStatusEnum = ClosedEnum<typeof ProductStatusEnum>;
 
 /** @internal */
 export const ProductStatusEnum$inboundSchema: z.ZodNativeEnum<
   typeof ProductStatusEnum
-> = z.nativeEnum(ProductStatusEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(ProductStatusEnum));
 /** @internal */
 export const ProductStatusEnum$outboundSchema: z.ZodNativeEnum<
   typeof ProductStatusEnum

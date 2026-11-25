@@ -1,11 +1,11 @@
 # Standalone Functions
 
 > [!NOTE]
-> This section is useful if you are using a bundler and targetting browsers and
+> This section is useful if you are using a bundler and targeting browsers and
 > runtimes where the size of an application affects performance and load times. 
 
 Every method in this SDK is also available as a standalone function. This
-alternative API is suitable when targetting the browser or serverless runtimes
+alternative API is suitable when targeting the browser or serverless runtimes
 and using a bundler to build your application since all unused functionality
 will be tree-shaken away. This includes code for unused methods, Zod schemas,
 encoding helpers and response handlers. The result is dramatically smaller
@@ -24,12 +24,12 @@ import { addressValidationSearch } from "@kintsugi-tax/tax-platform-sdk/funcs/ad
 
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
-const sdk = new SDKCore();
+const sdk = new SDKCore({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
 
 async function run() {
   const res = await addressValidationSearch(sdk, {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-  }, {
     phone: "555-123-4567",
     street1: "1600 Amphitheatre Parkway",
     street2: "Building 40",

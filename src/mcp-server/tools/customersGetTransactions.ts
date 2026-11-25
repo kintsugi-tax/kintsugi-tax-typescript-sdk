@@ -14,15 +14,15 @@ const args = {
 
 export const tool$customersGetTransactions: ToolDefinition<typeof args> = {
   name: "customers-get-transactions",
-  description: `Get Transactions By Customer Id
+  description: `Get transactions by customer id
 
-Get a list of transactions for a customer by their unique ID.`,
+Get a list of transactions for a customer by their unique ID. When pagination params are provided, this endpoint returns a paginated response. When omitted, it returns the legacy list response format (deprecated).`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await customersGetTransactions(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

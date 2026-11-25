@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -26,13 +26,15 @@ export const PageTransactionRead$inboundSchema: z.ZodType<
   PageTransactionRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  items: z.array(TransactionRead$inboundSchema),
-  total: z.number().int(),
-  page: z.number().int(),
-  size: z.number().int(),
-  pages: z.number().int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    items: z.array(TransactionRead$inboundSchema),
+    total: z.number().int(),
+    page: z.number().int(),
+    size: z.number().int(),
+    pages: z.number().int(),
+  })
+);
 /** @internal */
 export type PageTransactionRead$Outbound = {
   items: Array<TransactionRead$Outbound>;
@@ -47,13 +49,15 @@ export const PageTransactionRead$outboundSchema: z.ZodType<
   PageTransactionRead$Outbound,
   z.ZodTypeDef,
   PageTransactionRead
-> = z.object({
-  items: z.array(TransactionRead$outboundSchema),
-  total: z.number().int(),
-  page: z.number().int(),
-  size: z.number().int(),
-  pages: z.number().int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    items: z.array(TransactionRead$outboundSchema),
+    total: z.number().int(),
+    page: z.number().int(),
+    size: z.number().int(),
+    pages: z.number().int(),
+  })
+);
 
 export function pageTransactionReadToJSON(
   pageTransactionRead: PageTransactionRead,

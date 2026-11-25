@@ -10,7 +10,7 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class TaxEstimation extends ClientSDK {
   /**
-   * Estimate Tax
+   * Estimate tax
    *
    * @remarks
    * The Estimate Tax API calculates the estimated tax for a specific
@@ -20,7 +20,7 @@ export class TaxEstimation extends ClientSDK {
   async estimate(
     request: operations.EstimateTaxV1TaxEstimatePostRequest,
     options?: RequestOptions,
-  ): Promise<models.PageTransactionEstimateResponse> {
+  ): Promise<models.TransactionEstimateResponse> {
     return unwrapAsync(taxEstimationEstimate(
       this,
       request,

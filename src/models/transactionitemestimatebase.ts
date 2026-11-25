@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -13,11 +13,21 @@ import {
   SourceEnum$outboundSchema,
 } from "./sourceenum.js";
 
+/**
+ * Defaults to 1.0. The quantity of the item.
+ */
+export type QuantityOfTheProduct = number | string;
+
+/**
+ * The total amount of the item.
+ */
+export type TotalAmountOfThisTransactionItemAfterDiscounts = number | string;
+
 export type TransactionItemEstimateBase = {
   /**
    * A unique identifier for the transaction item.
    */
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   /**
    * The date of the transaction item.
    */
@@ -25,94 +35,188 @@ export type TransactionItemEstimateBase = {
   /**
    * A description of the item.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /**
    * External product identifier. If not found and product_subcategory
    *
    * @remarks
    *         and product_category are not provided, an error occurs.
    */
-  externalProductId?: string | undefined;
+  externalProductId?: string | null | undefined;
   /**
    * Name of the product. Used if creating a new product.
    */
-  productName?: string | undefined;
+  productName?: string | null | undefined;
   /**
    * Description of the product. Used if creating a new product.
    */
-  productDescription?: string | undefined;
-  productSource?: SourceEnum | undefined;
+  productDescription?: string | null | undefined;
+  productSource?: SourceEnum | null | undefined;
   /**
    * Subcategory of the product. Required if product_category is used
    *
    * @remarks
    *         in place of external_product_id.
    */
-  productSubcategory?: string | undefined;
+  productSubcategory?: string | null | undefined;
   /**
    * Category of the product. Required if product_subcategory is used
    *
    * @remarks
    *         in place of external_product_id.
    */
-  productCategory?: string | undefined;
+  productCategory?: string | null | undefined;
   /**
    * Defaults to 1.0. The quantity of the item.
    */
-  quantity?: number | undefined;
+  quantity?: number | string | undefined;
   /**
    * The total amount of the item.
    */
-  amount: number;
+  amount: number | string;
   /**
    * Defaults to false. Indicates whether the item is exempt from tax.
    */
   exempt?: boolean | undefined;
+  /**
+   * Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net base.
+   *
+   * @remarks
+   *
+   * When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+   *
+   * This applies to the estimate in this request only. Connection imports that report an inclusive price store the gross amount and the inclusive flag, and recalc backs the tax out the same way as this estimate.
+   */
+  isTaxInclusive?: boolean | undefined;
 };
+
+/** @internal */
+export const QuantityOfTheProduct$inboundSchema: z.ZodType<
+  QuantityOfTheProduct,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type QuantityOfTheProduct$Outbound = number | string;
+
+/** @internal */
+export const QuantityOfTheProduct$outboundSchema: z.ZodType<
+  QuantityOfTheProduct$Outbound,
+  z.ZodTypeDef,
+  QuantityOfTheProduct
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function quantityOfTheProductToJSON(
+  quantityOfTheProduct: QuantityOfTheProduct,
+): string {
+  return JSON.stringify(
+    QuantityOfTheProduct$outboundSchema.parse(quantityOfTheProduct),
+  );
+}
+export function quantityOfTheProductFromJSON(
+  jsonString: string,
+): SafeParseResult<QuantityOfTheProduct, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => QuantityOfTheProduct$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'QuantityOfTheProduct' from JSON`,
+  );
+}
+
+/** @internal */
+export const TotalAmountOfThisTransactionItemAfterDiscounts$inboundSchema:
+  z.ZodType<
+    TotalAmountOfThisTransactionItemAfterDiscounts,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type TotalAmountOfThisTransactionItemAfterDiscounts$Outbound =
+  | number
+  | string;
+
+/** @internal */
+export const TotalAmountOfThisTransactionItemAfterDiscounts$outboundSchema:
+  z.ZodType<
+    TotalAmountOfThisTransactionItemAfterDiscounts$Outbound,
+    z.ZodTypeDef,
+    TotalAmountOfThisTransactionItemAfterDiscounts
+  > = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function totalAmountOfThisTransactionItemAfterDiscountsToJSON(
+  totalAmountOfThisTransactionItemAfterDiscounts:
+    TotalAmountOfThisTransactionItemAfterDiscounts,
+): string {
+  return JSON.stringify(
+    TotalAmountOfThisTransactionItemAfterDiscounts$outboundSchema.parse(
+      totalAmountOfThisTransactionItemAfterDiscounts,
+    ),
+  );
+}
+export function totalAmountOfThisTransactionItemAfterDiscountsFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  TotalAmountOfThisTransactionItemAfterDiscounts,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      TotalAmountOfThisTransactionItemAfterDiscounts$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'TotalAmountOfThisTransactionItemAfterDiscounts' from JSON`,
+  );
+}
 
 /** @internal */
 export const TransactionItemEstimateBase$inboundSchema: z.ZodType<
   TransactionItemEstimateBase,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  external_id: z.string().optional(),
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.string().optional(),
-  external_product_id: z.string().optional(),
-  product_name: z.string().optional(),
-  product_description: z.string().optional(),
-  product_source: SourceEnum$inboundSchema.optional(),
-  product_subcategory: z.string().optional(),
-  product_category: z.string().optional(),
-  quantity: z.number().default(1),
-  amount: z.number(),
-  exempt: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "external_product_id": "externalProductId",
-    "product_name": "productName",
-    "product_description": "productDescription",
-    "product_source": "productSource",
-    "product_subcategory": "productSubcategory",
-    "product_category": "productCategory",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    external_id: z.nullable(z.string()).optional(),
+    date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    description: z.nullable(z.string()).optional(),
+    external_product_id: z.nullable(z.string()).optional(),
+    product_name: z.nullable(z.string()).optional(),
+    product_description: z.nullable(z.string()).optional(),
+    product_source: z.nullable(SourceEnum$inboundSchema).optional(),
+    product_subcategory: z.nullable(z.string()).optional(),
+    product_category: z.nullable(z.string()).optional(),
+    quantity: z.union([z.number(), z.string()]).optional(),
+    amount: z.union([z.number(), z.string()]),
+    exempt: z.boolean().default(false),
+    is_tax_inclusive: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "external_product_id": "externalProductId",
+      "product_name": "productName",
+      "product_description": "productDescription",
+      "product_source": "productSource",
+      "product_subcategory": "productSubcategory",
+      "product_category": "productCategory",
+      "is_tax_inclusive": "isTaxInclusive",
+    });
+  })
+);
 /** @internal */
 export type TransactionItemEstimateBase$Outbound = {
-  external_id?: string | undefined;
+  external_id?: string | null | undefined;
   date: string;
-  description?: string | undefined;
-  external_product_id?: string | undefined;
-  product_name?: string | undefined;
-  product_description?: string | undefined;
-  product_source?: string | undefined;
-  product_subcategory?: string | undefined;
-  product_category?: string | undefined;
-  quantity: number;
-  amount: number;
+  description?: string | null | undefined;
+  external_product_id?: string | null | undefined;
+  product_name?: string | null | undefined;
+  product_description?: string | null | undefined;
+  product_source?: string | null | undefined;
+  product_subcategory?: string | null | undefined;
+  product_category?: string | null | undefined;
+  quantity?: number | string | undefined;
+  amount: number | string;
   exempt: boolean;
+  is_tax_inclusive: boolean;
 };
 
 /** @internal */
@@ -120,30 +224,34 @@ export const TransactionItemEstimateBase$outboundSchema: z.ZodType<
   TransactionItemEstimateBase$Outbound,
   z.ZodTypeDef,
   TransactionItemEstimateBase
-> = z.object({
-  externalId: z.string().optional(),
-  date: z.date().transform(v => v.toISOString()),
-  description: z.string().optional(),
-  externalProductId: z.string().optional(),
-  productName: z.string().optional(),
-  productDescription: z.string().optional(),
-  productSource: SourceEnum$outboundSchema.optional(),
-  productSubcategory: z.string().optional(),
-  productCategory: z.string().optional(),
-  quantity: z.number().default(1),
-  amount: z.number(),
-  exempt: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    externalProductId: "external_product_id",
-    productName: "product_name",
-    productDescription: "product_description",
-    productSource: "product_source",
-    productSubcategory: "product_subcategory",
-    productCategory: "product_category",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    externalId: z.nullable(z.string()).optional(),
+    date: z.date().transform(v => v.toISOString()),
+    description: z.nullable(z.string()).optional(),
+    externalProductId: z.nullable(z.string()).optional(),
+    productName: z.nullable(z.string()).optional(),
+    productDescription: z.nullable(z.string()).optional(),
+    productSource: z.nullable(SourceEnum$outboundSchema).optional(),
+    productSubcategory: z.nullable(z.string()).optional(),
+    productCategory: z.nullable(z.string()).optional(),
+    quantity: z.union([z.number(), z.string()]).optional(),
+    amount: z.union([z.number(), z.string()]),
+    exempt: z.boolean().default(false),
+    isTaxInclusive: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      externalProductId: "external_product_id",
+      productName: "product_name",
+      productDescription: "product_description",
+      productSource: "product_source",
+      productSubcategory: "product_subcategory",
+      productCategory: "product_category",
+      isTaxInclusive: "is_tax_inclusive",
+    });
+  })
+);
 
 export function transactionItemEstimateBaseToJSON(
   transactionItemEstimateBase: TransactionItemEstimateBase,

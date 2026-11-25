@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -28,7 +28,7 @@ export type TransactionItemEstimateResponse = {
   /**
    * A unique identifier for the transaction item.
    */
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   /**
    * The date of the transaction item.
    */
@@ -36,37 +36,37 @@ export type TransactionItemEstimateResponse = {
   /**
    * A description of the item.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /**
    * External product identifier. If not found and product_subcategory
    *
    * @remarks
    *         and product_category are not provided, an error occurs.
    */
-  externalProductId?: string | undefined;
+  externalProductId?: string | null | undefined;
   /**
    * Name of the product. Used if creating a new product.
    */
-  productName?: string | undefined;
+  productName?: string | null | undefined;
   /**
    * Description of the product. Used if creating a new product.
    */
-  productDescription?: string | undefined;
-  productSource?: SourceEnum | undefined;
+  productDescription?: string | null | undefined;
+  productSource?: SourceEnum | null | undefined;
   /**
    * Subcategory of the product. Required if product_category is used
    *
    * @remarks
    *         in place of external_product_id.
    */
-  productSubcategory?: string | undefined;
+  productSubcategory?: string | null | undefined;
   /**
    * Category of the product. Required if product_subcategory is used
    *
    * @remarks
    *         in place of external_product_id.
    */
-  productCategory?: string | undefined;
+  productCategory?: string | null | undefined;
   /**
    * Defaults to 1.0. The quantity of the item.
    */
@@ -80,6 +80,16 @@ export type TransactionItemEstimateResponse = {
    */
   exempt?: boolean | undefined;
   /**
+   * Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net base.
+   *
+   * @remarks
+   *
+   * When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+   *
+   * This applies to the estimate in this request only. Connection imports that report an inclusive price store the gross amount and the inclusive flag, and recalc backs the tax out the same way as this estimate.
+   */
+  isTaxInclusive?: boolean | undefined;
+  /**
    * The total tax amount for the transaction item.
    */
   taxAmount?: string | undefined;
@@ -92,9 +102,9 @@ export type TransactionItemEstimateResponse = {
    */
   taxRate?: string | undefined;
   /**
-   * This enum is used to determine if a transaction is exempt from tax.
+   * Reason for exemption, if applicable.
    */
-  exemptReason?: TaxExemptionEnum | undefined;
+  exemptReason?: TaxExemptionEnum | null | undefined;
   /**
    * List of tax items applied to the transaction item.
    */
@@ -106,58 +116,63 @@ export const TransactionItemEstimateResponse$inboundSchema: z.ZodType<
   TransactionItemEstimateResponse,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  external_id: z.string().optional(),
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  description: z.string().optional(),
-  external_product_id: z.string().optional(),
-  product_name: z.string().optional(),
-  product_description: z.string().optional(),
-  product_source: SourceEnum$inboundSchema.optional(),
-  product_subcategory: z.string().optional(),
-  product_category: z.string().optional(),
-  quantity: z.string().default("1.0"),
-  amount: z.string(),
-  exempt: z.boolean().default(false),
-  tax_amount: z.string().default("0.00"),
-  taxable_amount: z.string().default("0.00"),
-  tax_rate: z.string().default("0.00"),
-  exempt_reason: TaxExemptionEnum$inboundSchema.optional(),
-  tax_items: z.array(TaxItemEstimate$inboundSchema).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "external_product_id": "externalProductId",
-    "product_name": "productName",
-    "product_description": "productDescription",
-    "product_source": "productSource",
-    "product_subcategory": "productSubcategory",
-    "product_category": "productCategory",
-    "tax_amount": "taxAmount",
-    "taxable_amount": "taxableAmount",
-    "tax_rate": "taxRate",
-    "exempt_reason": "exemptReason",
-    "tax_items": "taxItems",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    external_id: z.nullable(z.string()).optional(),
+    date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    description: z.nullable(z.string()).optional(),
+    external_product_id: z.nullable(z.string()).optional(),
+    product_name: z.nullable(z.string()).optional(),
+    product_description: z.nullable(z.string()).optional(),
+    product_source: z.nullable(SourceEnum$inboundSchema).optional(),
+    product_subcategory: z.nullable(z.string()).optional(),
+    product_category: z.nullable(z.string()).optional(),
+    quantity: z.string().default("1.0"),
+    amount: z.string(),
+    exempt: z.boolean().default(false),
+    is_tax_inclusive: z.boolean().default(false),
+    tax_amount: z.string().default("0.00"),
+    taxable_amount: z.string().default("0.00"),
+    tax_rate: z.string().default("0.00"),
+    exempt_reason: z.nullable(TaxExemptionEnum$inboundSchema).optional(),
+    tax_items: z.array(TaxItemEstimate$inboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "external_product_id": "externalProductId",
+      "product_name": "productName",
+      "product_description": "productDescription",
+      "product_source": "productSource",
+      "product_subcategory": "productSubcategory",
+      "product_category": "productCategory",
+      "is_tax_inclusive": "isTaxInclusive",
+      "tax_amount": "taxAmount",
+      "taxable_amount": "taxableAmount",
+      "tax_rate": "taxRate",
+      "exempt_reason": "exemptReason",
+      "tax_items": "taxItems",
+    });
+  })
+);
 /** @internal */
 export type TransactionItemEstimateResponse$Outbound = {
-  external_id?: string | undefined;
+  external_id?: string | null | undefined;
   date: string;
-  description?: string | undefined;
-  external_product_id?: string | undefined;
-  product_name?: string | undefined;
-  product_description?: string | undefined;
-  product_source?: string | undefined;
-  product_subcategory?: string | undefined;
-  product_category?: string | undefined;
+  description?: string | null | undefined;
+  external_product_id?: string | null | undefined;
+  product_name?: string | null | undefined;
+  product_description?: string | null | undefined;
+  product_source?: string | null | undefined;
+  product_subcategory?: string | null | undefined;
+  product_category?: string | null | undefined;
   quantity: string;
   amount: string;
   exempt: boolean;
+  is_tax_inclusive: boolean;
   tax_amount: string;
   taxable_amount: string;
   tax_rate: string;
-  exempt_reason?: string | undefined;
+  exempt_reason?: string | null | undefined;
   tax_items?: Array<TaxItemEstimate$Outbound> | undefined;
 };
 
@@ -166,40 +181,44 @@ export const TransactionItemEstimateResponse$outboundSchema: z.ZodType<
   TransactionItemEstimateResponse$Outbound,
   z.ZodTypeDef,
   TransactionItemEstimateResponse
-> = z.object({
-  externalId: z.string().optional(),
-  date: z.date().transform(v => v.toISOString()),
-  description: z.string().optional(),
-  externalProductId: z.string().optional(),
-  productName: z.string().optional(),
-  productDescription: z.string().optional(),
-  productSource: SourceEnum$outboundSchema.optional(),
-  productSubcategory: z.string().optional(),
-  productCategory: z.string().optional(),
-  quantity: z.string().default("1.0"),
-  amount: z.string(),
-  exempt: z.boolean().default(false),
-  taxAmount: z.string().default("0.00"),
-  taxableAmount: z.string().default("0.00"),
-  taxRate: z.string().default("0.00"),
-  exemptReason: TaxExemptionEnum$outboundSchema.optional(),
-  taxItems: z.array(TaxItemEstimate$outboundSchema).optional(),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    externalProductId: "external_product_id",
-    productName: "product_name",
-    productDescription: "product_description",
-    productSource: "product_source",
-    productSubcategory: "product_subcategory",
-    productCategory: "product_category",
-    taxAmount: "tax_amount",
-    taxableAmount: "taxable_amount",
-    taxRate: "tax_rate",
-    exemptReason: "exempt_reason",
-    taxItems: "tax_items",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    externalId: z.nullable(z.string()).optional(),
+    date: z.date().transform(v => v.toISOString()),
+    description: z.nullable(z.string()).optional(),
+    externalProductId: z.nullable(z.string()).optional(),
+    productName: z.nullable(z.string()).optional(),
+    productDescription: z.nullable(z.string()).optional(),
+    productSource: z.nullable(SourceEnum$outboundSchema).optional(),
+    productSubcategory: z.nullable(z.string()).optional(),
+    productCategory: z.nullable(z.string()).optional(),
+    quantity: z.string().default("1.0"),
+    amount: z.string(),
+    exempt: z.boolean().default(false),
+    isTaxInclusive: z.boolean().default(false),
+    taxAmount: z.string().default("0.00"),
+    taxableAmount: z.string().default("0.00"),
+    taxRate: z.string().default("0.00"),
+    exemptReason: z.nullable(TaxExemptionEnum$outboundSchema).optional(),
+    taxItems: z.array(TaxItemEstimate$outboundSchema).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      externalProductId: "external_product_id",
+      productName: "product_name",
+      productDescription: "product_description",
+      productSource: "product_source",
+      productSubcategory: "product_subcategory",
+      productCategory: "product_category",
+      isTaxInclusive: "is_tax_inclusive",
+      taxAmount: "tax_amount",
+      taxableAmount: "taxable_amount",
+      taxRate: "tax_rate",
+      exemptReason: "exempt_reason",
+      taxItems: "tax_items",
+    });
+  })
+);
 
 export function transactionItemEstimateResponseToJSON(
   transactionItemEstimateResponse: TransactionItemEstimateResponse,

@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   CustomerRead,
@@ -26,13 +26,15 @@ export const PageCustomerRead$inboundSchema: z.ZodType<
   PageCustomerRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  items: z.array(CustomerRead$inboundSchema),
-  total: z.number().int(),
-  page: z.number().int(),
-  size: z.number().int(),
-  pages: z.number().int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    items: z.array(CustomerRead$inboundSchema),
+    total: z.number().int(),
+    page: z.number().int(),
+    size: z.number().int(),
+    pages: z.number().int(),
+  })
+);
 /** @internal */
 export type PageCustomerRead$Outbound = {
   items: Array<CustomerRead$Outbound>;
@@ -47,13 +49,15 @@ export const PageCustomerRead$outboundSchema: z.ZodType<
   PageCustomerRead$Outbound,
   z.ZodTypeDef,
   PageCustomerRead
-> = z.object({
-  items: z.array(CustomerRead$outboundSchema),
-  total: z.number().int(),
-  page: z.number().int(),
-  size: z.number().int(),
-  pages: z.number().int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    items: z.array(CustomerRead$outboundSchema),
+    total: z.number().int(),
+    page: z.number().int(),
+    size: z.number().int(),
+    pages: z.number().int(),
+  })
+);
 
 export function pageCustomerReadToJSON(
   pageCustomerRead: PageCustomerRead,

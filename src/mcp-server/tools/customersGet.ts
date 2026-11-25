@@ -13,7 +13,7 @@ const args = {
 
 export const tool$customersGet: ToolDefinition<typeof args> = {
   name: "customers-get",
-  description: `Get Customer By Id
+  description: `Get customer by id
 
 The Get Customer By ID API retrieves the details of a single customer
     using their unique identifier. It returns customer-specific data,
@@ -23,7 +23,7 @@ The Get Customer By ID API retrieves the details of a single customer
     const [result, apiCall] = await customersGet(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

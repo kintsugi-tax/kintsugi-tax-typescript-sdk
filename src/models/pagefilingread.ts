@@ -3,7 +3,7 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -26,13 +26,15 @@ export const PageFilingRead$inboundSchema: z.ZodType<
   PageFilingRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  items: z.array(FilingRead$inboundSchema),
-  total: z.number().int(),
-  page: z.number().int(),
-  size: z.number().int(),
-  pages: z.number().int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    items: z.array(FilingRead$inboundSchema),
+    total: z.number().int(),
+    page: z.number().int(),
+    size: z.number().int(),
+    pages: z.number().int(),
+  })
+);
 /** @internal */
 export type PageFilingRead$Outbound = {
   items: Array<FilingRead$Outbound>;
@@ -47,13 +49,15 @@ export const PageFilingRead$outboundSchema: z.ZodType<
   PageFilingRead$Outbound,
   z.ZodTypeDef,
   PageFilingRead
-> = z.object({
-  items: z.array(FilingRead$outboundSchema),
-  total: z.number().int(),
-  page: z.number().int(),
-  size: z.number().int(),
-  pages: z.number().int(),
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    items: z.array(FilingRead$outboundSchema),
+    total: z.number().int(),
+    page: z.number().int(),
+    size: z.number().int(),
+    pages: z.number().int(),
+  })
+);
 
 export function pageFilingReadToJSON(pageFilingRead: PageFilingRead): string {
   return JSON.stringify(PageFilingRead$outboundSchema.parse(pageFilingRead));

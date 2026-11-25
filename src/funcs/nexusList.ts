@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -21,24 +22,23 @@ import * as errors from "../models/errors/index.js";
 import { ResponseValidationError } from "../models/errors/responsevalidationerror.js";
 import { SDKError } from "../models/errors/sdkerror.js";
 import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
-import * as models from "../models/index.js";
 import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get Nexus For Org
+ * Get nexus for org
  *
  * @remarks
  * Get a list of all nexuses for the organization.
  */
 export function nexusList(
   client: SDKCore,
-  request?: operations.GetNexusForOrgV1NexusGetRequest | undefined,
+  request: operations.GetNexusForOrgV1NexusGetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    models.PageNexusResponse,
+    operations.ResponseGetNexusForOrgV1NexusGet,
     | errors.HTTPValidationError
     | SDKError
     | ResponseValidationError
@@ -59,12 +59,12 @@ export function nexusList(
 
 async function $do(
   client: SDKCore,
-  request?: operations.GetNexusForOrgV1NexusGetRequest | undefined,
+  request: operations.GetNexusForOrgV1NexusGetRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      models.PageNexusResponse,
+      operations.ResponseGetNexusForOrgV1NexusGet,
       | errors.HTTPValidationError
       | SDKError
       | ResponseValidationError
@@ -81,8 +81,7 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.GetNexusForOrgV1NexusGetRequest$outboundSchema.optional()
-        .parse(value),
+      operations.GetNexusForOrgV1NexusGetRequest$outboundSchema.parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -94,22 +93,31 @@ async function $do(
   const path = pathToFunc("/v1/nexus")();
 
   const query = encodeFormQuery({
-    "collected_tax_nexus_met": payload?.collected_tax_nexus_met,
-    "country_code__in": payload?.country_code__in,
-    "disregard_view": payload?.disregard_view,
-    "order_by": payload?.order_by,
-    "page": payload?.page,
-    "size": payload?.size,
-    "state_code": payload?.state_code,
-    "status__in": payload?.status__in,
-    "without_pagination": payload?.without_pagination,
+    "collected_tax_nexus_met": payload.collected_tax_nexus_met,
+    "country_code__in": payload.country_code__in,
+    "disregard_view": payload.disregard_view,
+    "order_by": payload.order_by,
+    "page": payload.page,
+    "search_query": payload.search_query,
+    "size": payload.size,
+    "state_code": payload.state_code,
+    "state_code__in": payload.state_code__in,
+    "status__in": payload.status__in,
+    "tax_type__in": payload.tax_type__in,
+    "without_pagination": payload.without_pagination,
   });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -120,7 +128,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -145,7 +153,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["422", "4XX", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -159,7 +168,7 @@ async function $do(
   };
 
   const [result] = await M.match<
-    models.PageNexusResponse,
+    operations.ResponseGetNexusForOrgV1NexusGet,
     | errors.HTTPValidationError
     | SDKError
     | ResponseValidationError
@@ -170,7 +179,7 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, models.PageNexusResponse$inboundSchema),
+    M.json(200, operations.ResponseGetNexusForOrgV1NexusGet$inboundSchema),
     M.jsonErr(422, errors.HTTPValidationError$inboundSchema),
     M.fail("4XX"),
     M.fail("5XX"),

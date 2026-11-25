@@ -4,31 +4,40 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type POSTCreateCreditNoteByTransactionIdRequest = {
   originalTransactionId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
   creditNoteCreate: models.CreditNoteCreate;
 };
 
 /** @internal */
 export const POSTCreateCreditNoteByTransactionIdRequest$inboundSchema:
   z.ZodType<POSTCreateCreditNoteByTransactionIdRequest, z.ZodTypeDef, unknown> =
-    z.object({
-      original_transaction_id: z.string(),
-      CreditNoteCreate: models.CreditNoteCreate$inboundSchema,
-    }).transform((v) => {
-      return remap$(v, {
-        "original_transaction_id": "originalTransactionId",
-        "CreditNoteCreate": "creditNoteCreate",
-      });
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        original_transaction_id: z.string(),
+        "x-organization-id": z.nullable(z.string()),
+        CreditNoteCreate: models.CreditNoteCreate$inboundSchema,
+      }).transform((v) => {
+        return remap$(v, {
+          "original_transaction_id": "originalTransactionId",
+          "x-organization-id": "xOrganizationId",
+          "CreditNoteCreate": "creditNoteCreate",
+        });
+      })
+    );
 /** @internal */
 export type POSTCreateCreditNoteByTransactionIdRequest$Outbound = {
   original_transaction_id: string;
+  "x-organization-id": string | null;
   CreditNoteCreate: models.CreditNoteCreate$Outbound;
 };
 
@@ -38,15 +47,19 @@ export const POSTCreateCreditNoteByTransactionIdRequest$outboundSchema:
     POSTCreateCreditNoteByTransactionIdRequest$Outbound,
     z.ZodTypeDef,
     POSTCreateCreditNoteByTransactionIdRequest
-  > = z.object({
-    originalTransactionId: z.string(),
-    creditNoteCreate: models.CreditNoteCreate$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      originalTransactionId: "original_transaction_id",
-      creditNoteCreate: "CreditNoteCreate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      originalTransactionId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      creditNoteCreate: models.CreditNoteCreate$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        originalTransactionId: "original_transaction_id",
+        xOrganizationId: "x-organization-id",
+        creditNoteCreate: "CreditNoteCreate",
+      });
+    })
+  );
 
 export function postCreateCreditNoteByTransactionIdRequestToJSON(
   postCreateCreditNoteByTransactionIdRequest:

@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 import { SDKError } from "./sdkerror.js";
 
@@ -39,21 +40,23 @@ export const BackendSrcExemptionsResponsesValidationErrorResponse$inboundSchema:
     BackendSrcExemptionsResponsesValidationErrorResponse,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    detail: z.array(
-      models.BackendSrcExemptionsResponsesValidationErrorItem$inboundSchema,
-    ),
-    request$: z.instanceof(Request),
-    response$: z.instanceof(Response),
-    body$: z.string(),
-  })
-    .transform((v) => {
-      return new BackendSrcExemptionsResponsesValidationErrorResponse(v, {
-        request: v.request$,
-        response: v.response$,
-        body: v.body$,
-      });
-    });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      detail: z.array(
+        models.BackendSrcExemptionsResponsesValidationErrorItem$inboundSchema,
+      ),
+      request$: z.instanceof(Request),
+      response$: z.instanceof(Response),
+      body$: z.string(),
+    })
+      .transform((v) => {
+        return new BackendSrcExemptionsResponsesValidationErrorResponse(v, {
+          request: v.request$,
+          response: v.response$,
+          body: v.body$,
+        });
+      })
+  );
 
 /** @internal */
 export type BackendSrcExemptionsResponsesValidationErrorResponse$Outbound = {
@@ -68,10 +71,13 @@ export const BackendSrcExemptionsResponsesValidationErrorResponse$outboundSchema
     BackendSrcExemptionsResponsesValidationErrorResponse$Outbound,
     z.ZodTypeDef,
     BackendSrcExemptionsResponsesValidationErrorResponse
-  > = z.instanceof(BackendSrcExemptionsResponsesValidationErrorResponse)
-    .transform(v => v.data$)
-    .pipe(z.object({
-      detail: z.array(
-        models.BackendSrcExemptionsResponsesValidationErrorItem$outboundSchema,
-      ),
-    }));
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.instanceof(BackendSrcExemptionsResponsesValidationErrorResponse)
+      .transform(v => v.data$)
+      .pipe(z.object({
+        detail: z.array(
+          models
+            .BackendSrcExemptionsResponsesValidationErrorItem$outboundSchema,
+        ),
+      }))
+  );

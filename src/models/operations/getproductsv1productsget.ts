@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -12,35 +12,37 @@ export type GetProductsV1ProductsGetRequest = {
   /**
    * Search term to filter products by name or other details.
    */
-  query?: string | undefined;
+  query?: string | null | undefined;
   /**
    * Filter products by status (comma-separated)
    */
-  statusIn?: string | undefined;
+  statusIn?: string | null | undefined;
   /**
    * Filter products by category (comma-separated)
    */
-  productCategoryIn?: string | undefined;
+  productCategoryIn?: string | null | undefined;
   /**
    * Filter products by subcategory (comma-separated)
    */
-  productSubcategoryIn?: string | undefined;
+  productSubcategoryIn?: string | null | undefined;
   /**
    * Filter products by source (comma-separated)
    */
-  sourceIn?: string | undefined;
+  sourceIn?: string | null | undefined;
+  /**
+   * Filter products by connection ID (comma-separated). Use __direct_api__ for products without a connection.
+   */
+  connectionIdIn?: string | null | undefined;
   /**
    * Order results by specified fields (comma-separated)
    */
-  orderBy?: string | undefined;
-  /**
-   * Page number
-   */
+  orderBy?: string | null | undefined;
   page?: number | undefined;
-  /**
-   * Page size
-   */
   size?: number | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -48,34 +50,42 @@ export const GetProductsV1ProductsGetRequest$inboundSchema: z.ZodType<
   GetProductsV1ProductsGetRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  query: z.string().optional(),
-  status__in: z.string().optional(),
-  product_category__in: z.string().optional(),
-  product_subcategory__in: z.string().optional(),
-  source__in: z.string().optional(),
-  order_by: z.string().optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    "status__in": "statusIn",
-    "product_category__in": "productCategoryIn",
-    "product_subcategory__in": "productSubcategoryIn",
-    "source__in": "sourceIn",
-    "order_by": "orderBy",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    query: z.nullable(z.string()).optional(),
+    status__in: z.nullable(z.string()).optional(),
+    product_category__in: z.nullable(z.string()).optional(),
+    product_subcategory__in: z.nullable(z.string()).optional(),
+    source__in: z.nullable(z.string()).optional(),
+    connection_id__in: z.nullable(z.string()).optional(),
+    order_by: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    "x-organization-id": z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "status__in": "statusIn",
+      "product_category__in": "productCategoryIn",
+      "product_subcategory__in": "productSubcategoryIn",
+      "source__in": "sourceIn",
+      "connection_id__in": "connectionIdIn",
+      "order_by": "orderBy",
+      "x-organization-id": "xOrganizationId",
+    });
+  })
+);
 /** @internal */
 export type GetProductsV1ProductsGetRequest$Outbound = {
-  query?: string | undefined;
-  status__in?: string | undefined;
-  product_category__in?: string | undefined;
-  product_subcategory__in?: string | undefined;
-  source__in?: string | undefined;
-  order_by?: string | undefined;
+  query?: string | null | undefined;
+  status__in?: string | null | undefined;
+  product_category__in?: string | null | undefined;
+  product_subcategory__in?: string | null | undefined;
+  source__in?: string | null | undefined;
+  connection_id__in?: string | null | undefined;
+  order_by?: string | null | undefined;
   page: number;
   size: number;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -83,24 +93,30 @@ export const GetProductsV1ProductsGetRequest$outboundSchema: z.ZodType<
   GetProductsV1ProductsGetRequest$Outbound,
   z.ZodTypeDef,
   GetProductsV1ProductsGetRequest
-> = z.object({
-  query: z.string().optional(),
-  statusIn: z.string().optional(),
-  productCategoryIn: z.string().optional(),
-  productSubcategoryIn: z.string().optional(),
-  sourceIn: z.string().optional(),
-  orderBy: z.string().optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    statusIn: "status__in",
-    productCategoryIn: "product_category__in",
-    productSubcategoryIn: "product_subcategory__in",
-    sourceIn: "source__in",
-    orderBy: "order_by",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    query: z.nullable(z.string()).optional(),
+    statusIn: z.nullable(z.string()).optional(),
+    productCategoryIn: z.nullable(z.string()).optional(),
+    productSubcategoryIn: z.nullable(z.string()).optional(),
+    sourceIn: z.nullable(z.string()).optional(),
+    connectionIdIn: z.nullable(z.string()).optional(),
+    orderBy: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    xOrganizationId: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      statusIn: "status__in",
+      productCategoryIn: "product_category__in",
+      productSubcategoryIn: "product_subcategory__in",
+      sourceIn: "source__in",
+      connectionIdIn: "connection_id__in",
+      orderBy: "order_by",
+      xOrganizationId: "x-organization-id",
+    });
+  })
+);
 
 export function getProductsV1ProductsGetRequestToJSON(
   getProductsV1ProductsGetRequest: GetProductsV1ProductsGetRequest,

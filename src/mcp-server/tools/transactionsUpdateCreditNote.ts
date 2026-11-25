@@ -12,7 +12,7 @@ const args = {
 
 export const tool$transactionsUpdateCreditNote: ToolDefinition<typeof args> = {
   name: "transactions-update-credit-note",
-  description: `Update Credit Note By Transaction Id
+  description: `Update credit note by transaction id
 
 Update an existing credit note for a specific transaction.`,
   args,
@@ -20,7 +20,7 @@ Update an existing credit note for a specific transaction.`,
     const [result, apiCall] = await transactionsUpdateCreditNote(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

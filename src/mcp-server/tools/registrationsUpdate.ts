@@ -14,16 +14,26 @@ const args = {
 
 export const tool$registrationsUpdate: ToolDefinition<typeof args> = {
   name: "registrations-update",
-  description: `Update Registration
+  description: `Update registration
 
 The Update Registration API allows you to modify
-    an existing registration using its unique registration_id.`,
+    an existing registration using its unique registration_id. Sending a value for,
+    or clearing, a credential that is already stored (username, password, security
+    questions or a portal access code) needs an Owner of the organization or a
+    Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+    to, and a service key as the user who created it. Other callers, and automated
+    assistant integrations, get 403, even when the value matches the stored one.
+    Any caller who can edit the registration may fill a credential that has no
+    stored value, except that a stored password also guards the username and security
+    questions. A masked username sent back unchanged is ignored. A password made
+    only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+    response come back masked.`,
   args,
   tool: async (client, args, ctx) => {
     const [result, apiCall] = await registrationsUpdate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

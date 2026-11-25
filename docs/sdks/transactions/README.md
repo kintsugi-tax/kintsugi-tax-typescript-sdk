@@ -4,14 +4,16 @@
 
 ### Available Operations
 
-* [get](#get) - Get Transactions
-* [create](#create) - Create Transaction
-* [getByExternalId](#getbyexternalid) - Get Transaction By External Id
-* [update](#update) - Update Transaction
-* [getById](#getbyid) - Get Transaction By Id
-* [getByFilingId](#getbyfilingid) - Get Transactions By Filing Id
-* [createCreditNote](#createcreditnote) - Create Credit Note By Transaction Id
-* [updateCreditNote](#updatecreditnote) - Update Credit Note By Transaction Id
+* [get](#get) - Get transactions
+* [create](#create) - Create transaction
+* [archiveTransactionByIdV1TransactionsArchivePost](#archivetransactionbyidv1transactionsarchivepost) - Archive transaction by id
+* [getByExternalId](#getbyexternalid) - Get transaction by external id
+* [getByFilingId](#getbyfilingid) - Get transactions by filing id
+* [createCreditNote](#createcreditnote) - Create credit note by transaction id
+* [updateCreditNote](#updatecreditnote) - Update credit note by transaction id
+* [getById](#getbyid) - Get transaction by id
+* [update](#update) - Update transaction
+* [setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost](#settransactiontaxonlyv1transactionstransactionidtaxonlypost) - Set transaction tax only
 
 ## get
 
@@ -25,14 +27,16 @@ The Get Transactions API retrieves a list of transactions with
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
-  const result = await sdk.transactions.get({});
+  const result = await sdk.transactions.get({
+    addressStatusIn: "UNVERIFIED,INVALID,PARTIALLY_VERIFIED,VERIFIED,UNVERIFIABLE",
+    orderBy: "date,state,customer_name,status",
+    connectionIdIn: "conn_abc123,conn_def456",
+    xOrganizationId: "org_12345",
+  });
 
   console.log(result);
 }
@@ -51,14 +55,16 @@ import { transactionsGet } from "@kintsugi-tax/tax-platform-sdk/funcs/transactio
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
-  const res = await transactionsGet(sdk, {});
+  const res = await transactionsGet(sdk, {
+    addressStatusIn: "UNVERIFIED,INVALID,PARTIALLY_VERIFIED,VERIFIED,UNVERIFIABLE",
+    orderBy: "date,state,customer_name,status",
+    connectionIdIn: "conn_abc123,conn_def456",
+    xOrganizationId: "org_12345",
+  });
   if (res.ok) {
     const { value: result } = res;
     console.log(result);
@@ -94,7 +100,7 @@ run();
 
 ## create
 
-Create a transaction.
+Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was remitted externally; gross sales still count toward nexus, but tax liability is excluded.
 
 ### Example Usage: connection_mismatch
 
@@ -103,23 +109,24 @@ Create a transaction.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -139,23 +146,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -174,23 +182,24 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -210,23 +219,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -245,23 +255,24 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -281,23 +292,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -316,23 +328,24 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -352,23 +365,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -387,23 +401,24 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -423,23 +438,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -458,23 +474,24 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -494,23 +511,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -529,23 +547,24 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -565,23 +584,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -600,23 +620,24 @@ run();
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.create({
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
 
   console.log(result);
@@ -636,23 +657,24 @@ import { transactionsCreate } from "@kintsugi-tax/tax-platform-sdk/funcs/transac
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreate(sdk, {
-    organizationId: "<id>",
-    externalId: "<id>",
-    date: new Date("2025-11-05T23:48:53.053Z"),
-    addresses: [],
-    transactionItems: [],
-    customer: {
+    xOrganizationId: "org_12345",
+    transactionPublicRequest: {
       organizationId: "<id>",
+      externalId: "<id>",
+      date: new Date("2025-11-05T23:48:53.053Z"),
+      addresses: [],
+      transactionItems: [],
+      customer: {
+        organizationId: "<id>",
+        isTestData: false,
+      },
+      type: "ARCHIVE",
     },
-    type: "ARCHIVE",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -669,7 +691,7 @@ run();
 
 | Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [models.TransactionPublicRequest](../../models/transactionpublicrequest.md)                                                                                                    | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `request`                                                                                                                                                                      | [operations.CreateTransactionV1TransactionsPostRequest](../../models/operations/createtransactionv1transactionspostrequest.md)                                                 | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
 | `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
 | `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
 | `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
@@ -687,6 +709,82 @@ run();
 | errors.ErrorResponse                                          | 500                                                           | application/json                                              |
 | errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
 
+## archiveTransactionByIdV1TransactionsArchivePost
+
+Archive transactions by transaction id
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="archive_transaction_by_id_v1_transactions_archive_post" method="post" path="/v1/transactions/archive" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  const result = await sdk.transactions.archiveTransactionByIdV1TransactionsArchivePost({
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsArchiveTransactionByIdV1TransactionsArchivePost } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsArchiveTransactionByIdV1TransactionsArchivePost.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  const res = await transactionsArchiveTransactionByIdV1TransactionsArchivePost(sdk, {
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsArchiveTransactionByIdV1TransactionsArchivePost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.ArchiveTransactionByIdV1TransactionsArchivePostRequest](../../models/operations/archivetransactionbyidv1transactionsarchivepostrequest.md)                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[any](../../models/.md)\>**
+
+### Errors
+
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.HTTPValidationError | 422                        | application/json           |
+| errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
+
 ## getByExternalId
 
 Retrieves a specific transaction based on its external ID.
@@ -699,15 +797,13 @@ Retrieves a specific transaction based on its external ID.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.getByExternalId({
     externalId: "<id>",
+    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -727,15 +823,13 @@ import { transactionsGetByExternalId } from "@kintsugi-tax/tax-platform-sdk/func
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsGetByExternalId(sdk, {
     externalId: "<id>",
+    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -770,205 +864,6 @@ run();
 | errors.ErrorResponse                                          | 500                                                           | application/json                                              |
 | errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
 
-## update
-
-Update a specific transaction by its ID.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="update_transaction_v1_transactions__transaction_id__put" method="put" path="/v1/transactions/{transaction_id}" -->
-```typescript
-import { SDK } from "@kintsugi-tax/tax-platform-sdk";
-
-const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
-});
-
-async function run() {
-  const result = await sdk.transactions.update({
-    transactionId: "<id>",
-    transactionUpdate: {
-      organizationId: "orgn_argaLQwMy2fJc",
-      externalId: "EXT12345",
-      date: new Date("2025-04-02T17:36:59.814Z"),
-      addresses: [
-        {
-          type: "BILL_TO",
-        },
-      ],
-      transactionItems: [
-        {
-          organizationId: "orgn_argaLQwMy2fJc",
-          date: new Date("2025-04-02T17:36:59.814Z"),
-          externalProductId: "1186DUMMYITEM",
-        },
-      ],
-      customer: {},
-    },
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsUpdate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsUpdate.js";
-
-// Use `SDKCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
-});
-
-async function run() {
-  const res = await transactionsUpdate(sdk, {
-    transactionId: "<id>",
-    transactionUpdate: {
-      organizationId: "orgn_argaLQwMy2fJc",
-      externalId: "EXT12345",
-      date: new Date("2025-04-02T17:36:59.814Z"),
-      addresses: [
-        {
-          type: "BILL_TO",
-        },
-      ],
-      transactionItems: [
-        {
-          organizationId: "orgn_argaLQwMy2fJc",
-          date: new Date("2025-04-02T17:36:59.814Z"),
-          externalProductId: "1186DUMMYITEM",
-        },
-      ],
-      customer: {},
-    },
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("transactionsUpdate failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.UpdateTransactionV1TransactionsTransactionIdPutRequest](../../models/operations/updatetransactionv1transactionstransactionidputrequest.md)                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.TransactionRead](../../models/transactionread.md)\>**
-
-### Errors
-
-| Error Type                 | Status Code                | Content Type               |
-| -------------------------- | -------------------------- | -------------------------- |
-| errors.HTTPValidationError | 422                        | application/json           |
-| errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
-
-## getById
-
-The Get Transaction By Id API retrieves detailed information
-    about a specific transaction by providing its unique transaction ID.
-
-### Example Usage
-
-<!-- UsageSnippet language="typescript" operationID="get_transaction_by_id_v1_transactions__transaction_id__get" method="get" path="/v1/transactions/{transaction_id}" -->
-```typescript
-import { SDK } from "@kintsugi-tax/tax-platform-sdk";
-
-const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
-});
-
-async function run() {
-  const result = await sdk.transactions.getById({
-    transactionId: "<id>",
-  });
-
-  console.log(result);
-}
-
-run();
-```
-
-### Standalone function
-
-The standalone function version of this method:
-
-```typescript
-import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
-import { transactionsGetById } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetById.js";
-
-// Use `SDKCore` for best tree-shaking performance.
-// You can create one instance of it to use across an application.
-const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
-});
-
-async function run() {
-  const res = await transactionsGetById(sdk, {
-    transactionId: "<id>",
-  });
-  if (res.ok) {
-    const { value: result } = res;
-    console.log(result);
-  } else {
-    console.log("transactionsGetById failed:", res.error);
-  }
-}
-
-run();
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                                                      | [operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest](../../models/operations/gettransactionbyidv1transactionstransactionidgetrequest.md)                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
-| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
-| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
-| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
-
-### Response
-
-**Promise\<[models.TransactionRead](../../models/transactionread.md)\>**
-
-### Errors
-
-| Error Type                                                    | Status Code                                                   | Content Type                                                  |
-| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
-| errors.ErrorResponse                                          | 401, 404                                                      | application/json                                              |
-| errors.BackendSrcTransactionsResponsesValidationErrorResponse | 422                                                           | application/json                                              |
-| errors.ErrorResponse                                          | 500                                                           | application/json                                              |
-| errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
-
 ## getByFilingId
 
 Retrieve transactions by filing ID.
@@ -980,15 +875,13 @@ Retrieve transactions by filing ID.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.getByFilingId({
     filingId: "<id>",
+    xOrganizationId: "org_12345",
   });
 
   console.log(result);
@@ -1008,15 +901,13 @@ import { transactionsGetByFilingId } from "@kintsugi-tax/tax-platform-sdk/funcs/
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsGetByFilingId(sdk, {
     filingId: "<id>",
+    xOrganizationId: "org_12345",
   });
   if (res.ok) {
     const { value: result } = res;
@@ -1053,7 +944,7 @@ run();
 
 ## createCreditNote
 
-Create a new credit note for a specific transaction.
+Create a new credit note for a specific transaction. Idempotent on ``(organization_id, connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored credit note unchanged. The same external id against a different parent still conflicts. Use PUT to update fields.
 
 ### Example Usage
 
@@ -1062,15 +953,13 @@ Create a new credit note for a specific transaction.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.createCreditNote({
     originalTransactionId: "<id>",
+    xOrganizationId: "org_12345",
     creditNoteCreate: {
       externalId: "CN-12345",
       date: new Date("2024-10-27T14:30:00Z"),
@@ -1107,15 +996,13 @@ import { transactionsCreateCreditNote } from "@kintsugi-tax/tax-platform-sdk/fun
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsCreateCreditNote(sdk, {
     originalTransactionId: "<id>",
+    xOrganizationId: "org_12345",
     creditNoteCreate: {
       externalId: "CN-12345",
       date: new Date("2024-10-27T14:30:00Z"),
@@ -1176,16 +1063,14 @@ Update an existing credit note for a specific transaction.
 import { SDK } from "@kintsugi-tax/tax-platform-sdk";
 
 const sdk = new SDK({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const result = await sdk.transactions.updateCreditNote({
     originalTransactionId: "<id>",
     creditNoteId: "<id>",
+    xOrganizationId: "org_12345",
     creditNoteCreate: {
       externalId: "<id>",
       date: new Date("2023-07-25T11:01:44.924Z"),
@@ -1221,16 +1106,14 @@ import { transactionsUpdateCreditNote } from "@kintsugi-tax/tax-platform-sdk/fun
 // Use `SDKCore` for best tree-shaking performance.
 // You can create one instance of it to use across an application.
 const sdk = new SDKCore({
-  security: {
-    apiKeyHeader: "<YOUR_API_KEY_HERE>",
-    customHeader: "<YOUR_API_KEY_HERE>",
-  },
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
 });
 
 async function run() {
   const res = await transactionsUpdateCreditNote(sdk, {
     originalTransactionId: "<id>",
     creditNoteId: "<id>",
+    xOrganizationId: "org_12345",
     creditNoteCreate: {
       externalId: "<id>",
       date: new Date("2023-07-25T11:01:44.924Z"),
@@ -1271,6 +1154,279 @@ run();
 ### Response
 
 **Promise\<[any](../../models/.md)\>**
+
+### Errors
+
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.HTTPValidationError | 422                        | application/json           |
+| errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
+
+## getById
+
+The Get Transaction By Id API retrieves detailed information
+    about a specific transaction by providing its unique transaction ID.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="get_transaction_by_id_v1_transactions__transaction_id__get" method="get" path="/v1/transactions/{transaction_id}" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  const result = await sdk.transactions.getById({
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsGetById } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsGetById.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  const res = await transactionsGetById(sdk, {
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsGetById failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest](../../models/operations/gettransactionbyidv1transactionstransactionidgetrequest.md)                       | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.TransactionRead](../../models/transactionread.md)\>**
+
+### Errors
+
+| Error Type                                                    | Status Code                                                   | Content Type                                                  |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| errors.ErrorResponse                                          | 401, 404                                                      | application/json                                              |
+| errors.BackendSrcTransactionsResponsesValidationErrorResponse | 422                                                           | application/json                                              |
+| errors.ErrorResponse                                          | 500                                                           | application/json                                              |
+| errors.SDKDefaultError                                        | 4XX, 5XX                                                      | \*/\*                                                         |
+
+## update
+
+Update a specific transaction by its ID.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="update_transaction_v1_transactions__transaction_id__put" method="put" path="/v1/transactions/{transaction_id}" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  const result = await sdk.transactions.update({
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+    transactionUpdate: {
+      organizationId: "orgn_argaLQwMy2fJc",
+      externalId: "EXT12345",
+      date: new Date("2025-04-02T17:36:59.814Z"),
+      addresses: [
+        {
+          type: "BILL_TO",
+        },
+      ],
+      transactionItems: [
+        {
+          organizationId: "orgn_argaLQwMy2fJc",
+          date: new Date("2025-04-02T17:36:59.814Z"),
+          externalProductId: "1186DUMMYITEM",
+        },
+      ],
+      customer: {},
+    },
+  });
+
+  console.log(result);
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsUpdate } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsUpdate.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  const res = await transactionsUpdate(sdk, {
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+    transactionUpdate: {
+      organizationId: "orgn_argaLQwMy2fJc",
+      externalId: "EXT12345",
+      date: new Date("2025-04-02T17:36:59.814Z"),
+      addresses: [
+        {
+          type: "BILL_TO",
+        },
+      ],
+      transactionItems: [
+        {
+          organizationId: "orgn_argaLQwMy2fJc",
+          date: new Date("2025-04-02T17:36:59.814Z"),
+          externalProductId: "1186DUMMYITEM",
+        },
+      ],
+      customer: {},
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    console.log(result);
+  } else {
+    console.log("transactionsUpdate failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.UpdateTransactionV1TransactionsTransactionIdPutRequest](../../models/operations/updatetransactionv1transactionstransactionidputrequest.md)                         | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<[models.TransactionRead](../../models/transactionread.md)\>**
+
+### Errors
+
+| Error Type                 | Status Code                | Content Type               |
+| -------------------------- | -------------------------- | -------------------------- |
+| errors.HTTPValidationError | 422                        | application/json           |
+| errors.SDKDefaultError     | 4XX, 5XX                   | \*/\*                      |
+
+## setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost
+
+Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note. Only the type is changed; amounts are preserved.
+
+### Example Usage
+
+<!-- UsageSnippet language="typescript" operationID="set_transaction_tax_only_v1_transactions__transaction_id__tax_only_post" method="post" path="/v1/transactions/{transaction_id}/tax_only" -->
+```typescript
+import { SDK } from "@kintsugi-tax/tax-platform-sdk";
+
+const sdk = new SDK({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  await sdk.transactions.setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost({
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+    taxOnlyUpdate: {
+      taxOnly: false,
+    },
+  });
+
+
+}
+
+run();
+```
+
+### Standalone function
+
+The standalone function version of this method:
+
+```typescript
+import { SDKCore } from "@kintsugi-tax/tax-platform-sdk/core.js";
+import { transactionsSetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost } from "@kintsugi-tax/tax-platform-sdk/funcs/transactionsSetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost.js";
+
+// Use `SDKCore` for best tree-shaking performance.
+// You can create one instance of it to use across an application.
+const sdk = new SDKCore({
+  apiKeyHeader: "<YOUR_API_KEY_HERE>",
+});
+
+async function run() {
+  const res = await transactionsSetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(sdk, {
+    transactionId: "<id>",
+    xOrganizationId: "org_12345",
+    taxOnlyUpdate: {
+      taxOnly: false,
+    },
+  });
+  if (res.ok) {
+    const { value: result } = res;
+    
+  } else {
+    console.log("transactionsSetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost failed:", res.error);
+  }
+}
+
+run();
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                                      | Type                                                                                                                                                                           | Required                                                                                                                                                                       | Description                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `request`                                                                                                                                                                      | [operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest](../../models/operations/settransactiontaxonlyv1transactionstransactionidtaxonlypostrequest.md) | :heavy_check_mark:                                                                                                                                                             | The request object to use for the request.                                                                                                                                     |
+| `options`                                                                                                                                                                      | RequestOptions                                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                                             | Used to set various options for making HTTP requests.                                                                                                                          |
+| `options.fetchOptions`                                                                                                                                                         | [RequestInit](https://developer.mozilla.org/en-US/docs/Web/API/Request/Request#options)                                                                                        | :heavy_minus_sign:                                                                                                                                                             | Options that are passed to the underlying HTTP request. This can be used to inject extra headers for examples. All `Request` options, except `method` and `body`, are allowed. |
+| `options.retries`                                                                                                                                                              | [RetryConfig](../../lib/utils/retryconfig.md)                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                             | Enables retrying HTTP requests under certain failure conditions.                                                                                                               |
+
+### Response
+
+**Promise\<void\>**
 
 ### Errors
 

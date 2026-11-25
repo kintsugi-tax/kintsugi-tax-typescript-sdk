@@ -12,7 +12,7 @@ const args = {
 
 export const tool$taxEstimationEstimate: ToolDefinition<typeof args> = {
   name: "tax-estimation-estimate",
-  description: `Estimate Tax
+  description: `Estimate tax
 
 The Estimate Tax API calculates the estimated tax for a specific
     transaction based on the provided details, including organization nexus,
@@ -22,7 +22,7 @@ The Estimate Tax API calculates the estimated tax for a specific
     const [result, apiCall] = await taxEstimationEstimate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

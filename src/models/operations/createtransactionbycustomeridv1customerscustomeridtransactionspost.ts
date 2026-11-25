@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
@@ -12,6 +12,10 @@ import * as models from "../index.js";
 export type CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest =
   {
     customerId: string;
+    /**
+     * The unique identifier for the organization making the request
+     */
+    xOrganizationId: string | null;
     transactionCreate: models.TransactionCreate;
   };
 
@@ -21,19 +25,24 @@ export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    customer_id: z.string(),
-    TransactionCreate: models.TransactionCreate$inboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      "customer_id": "customerId",
-      "TransactionCreate": "transactionCreate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customer_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+      TransactionCreate: models.TransactionCreate$inboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        "customer_id": "customerId",
+        "x-organization-id": "xOrganizationId",
+        "TransactionCreate": "transactionCreate",
+      });
+    })
+  );
 /** @internal */
 export type CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest$Outbound =
   {
     customer_id: string;
+    "x-organization-id": string | null;
     TransactionCreate: models.TransactionCreate$Outbound;
   };
 
@@ -43,15 +52,19 @@ export const CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest$Outbound,
     z.ZodTypeDef,
     CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest
-  > = z.object({
-    customerId: z.string(),
-    transactionCreate: models.TransactionCreate$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      customerId: "customer_id",
-      transactionCreate: "TransactionCreate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customerId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      transactionCreate: models.TransactionCreate$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        customerId: "customer_id",
+        xOrganizationId: "x-organization-id",
+        transactionCreate: "TransactionCreate",
+      });
+    })
+  );
 
 export function createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestToJSON(
   createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest:

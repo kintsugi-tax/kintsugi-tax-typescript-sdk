@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
@@ -12,19 +12,23 @@ export type SSTRegistrationCreatePayload = {
   /**
    * Specifies this is an SST registration import.
    */
-  registrationImportType: "SST";
+  registrationImportType?: "SST" | undefined;
   /**
    * The plaintext password for accessing the tax registration account.
    */
-  passwordPlainText?: string | undefined;
+  passwordPlainText?: string | null | undefined;
   /**
    * Metadata related to the password.
    */
-  passwordMetadataPlainText?: string | undefined;
+  passwordMetadataPlainText?: string | null | undefined;
   /**
    * Username for accessing the tax registration account.
    */
-  username?: string | undefined;
+  username?: string | null | undefined;
+  /**
+   * Optional client-minted id for this confirm attempt.
+   */
+  requestId?: string | null | undefined;
 };
 
 /** @internal */
@@ -32,24 +36,29 @@ export const SSTRegistrationCreatePayload$inboundSchema: z.ZodType<
   SSTRegistrationCreatePayload,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  registration_import_type: z.literal("SST"),
-  password_plain_text: z.string().optional(),
-  password_metadata_plain_text: z.string().optional(),
-  username: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "registration_import_type": "registrationImportType",
-    "password_plain_text": "passwordPlainText",
-    "password_metadata_plain_text": "passwordMetadataPlainText",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registration_import_type: z.literal("SST").default("SST"),
+    password_plain_text: z.nullable(z.string()).optional(),
+    password_metadata_plain_text: z.nullable(z.string()).optional(),
+    username: z.nullable(z.string()).optional(),
+    request_id: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "registration_import_type": "registrationImportType",
+      "password_plain_text": "passwordPlainText",
+      "password_metadata_plain_text": "passwordMetadataPlainText",
+      "request_id": "requestId",
+    });
+  })
+);
 /** @internal */
 export type SSTRegistrationCreatePayload$Outbound = {
   registration_import_type: "SST";
-  password_plain_text?: string | undefined;
-  password_metadata_plain_text?: string | undefined;
-  username?: string | undefined;
+  password_plain_text?: string | null | undefined;
+  password_metadata_plain_text?: string | null | undefined;
+  username?: string | null | undefined;
+  request_id?: string | null | undefined;
 };
 
 /** @internal */
@@ -57,18 +66,22 @@ export const SSTRegistrationCreatePayload$outboundSchema: z.ZodType<
   SSTRegistrationCreatePayload$Outbound,
   z.ZodTypeDef,
   SSTRegistrationCreatePayload
-> = z.object({
-  registrationImportType: z.literal("SST"),
-  passwordPlainText: z.string().optional(),
-  passwordMetadataPlainText: z.string().optional(),
-  username: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    registrationImportType: "registration_import_type",
-    passwordPlainText: "password_plain_text",
-    passwordMetadataPlainText: "password_metadata_plain_text",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    registrationImportType: z.literal("SST").default("SST" as const),
+    passwordPlainText: z.nullable(z.string()).optional(),
+    passwordMetadataPlainText: z.nullable(z.string()).optional(),
+    username: z.nullable(z.string()).optional(),
+    requestId: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      registrationImportType: "registration_import_type",
+      passwordPlainText: "password_plain_text",
+      passwordMetadataPlainText: "password_metadata_plain_text",
+      requestId: "request_id",
+    });
+  })
+);
 
 export function sstRegistrationCreatePayloadToJSON(
   sstRegistrationCreatePayload: SSTRegistrationCreatePayload,

@@ -3,13 +3,16 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const PeriodModelEnum = {
   CurrentOrPrevious: "CURRENT_OR_PREVIOUS",
+  CurrentOrTwoPrevious: "CURRENT_OR_TWO_PREVIOUS",
   PrecedingYearFromOctober: "PRECEDING_YEAR_FROM_OCTOBER",
   CalendarYear: "CALENDAR_YEAR",
   Previous12Months: "PREVIOUS_12_MONTHS",
+  CurrentOrPrevious12Months: "CURRENT_OR_PREVIOUS_12_MONTHS",
   Previous4Quarters: "PREVIOUS_4_QUARTERS",
   Previous4QuartersOffset: "PREVIOUS_4_QUARTERS_OFFSET",
   PrecedingYear: "PRECEDING_YEAR",
@@ -21,7 +24,7 @@ export type PeriodModelEnum = ClosedEnum<typeof PeriodModelEnum>;
 /** @internal */
 export const PeriodModelEnum$inboundSchema: z.ZodNativeEnum<
   typeof PeriodModelEnum
-> = z.nativeEnum(PeriodModelEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(PeriodModelEnum));
 /** @internal */
 export const PeriodModelEnum$outboundSchema: z.ZodNativeEnum<
   typeof PeriodModelEnum

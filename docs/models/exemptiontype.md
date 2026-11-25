@@ -5,11 +5,11 @@
 ```typescript
 import { ExemptionType } from "@kintsugi-tax/tax-platform-sdk/models";
 
-let value: ExemptionType = "transaction";
+let value: ExemptionType = "reverse_charge";
 ```
 
 ## Values
 
 ```typescript
-"customer" | "wholesale" | "transaction"
+"customer" | "wholesale" | "transaction" | "reverse_charge" | "partial"
 ```

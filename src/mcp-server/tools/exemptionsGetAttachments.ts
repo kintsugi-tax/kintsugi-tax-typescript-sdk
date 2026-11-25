@@ -14,7 +14,7 @@ const args = {
 
 export const tool$exemptionsGetAttachments: ToolDefinition<typeof args> = {
   name: "exemptions-get-attachments",
-  description: `Get Attachments For Exemption
+  description: `Get attachments for exemption
 
 The Get Attachments for Exemption API retrieves all
     attachments associated with a specific exemption.
@@ -25,7 +25,7 @@ The Get Attachments for Exemption API retrieves all
     const [result, apiCall] = await exemptionsGetAttachments(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

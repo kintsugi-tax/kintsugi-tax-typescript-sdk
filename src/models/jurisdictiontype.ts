@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const JurisdictionType = {
@@ -20,7 +21,7 @@ export type JurisdictionType = ClosedEnum<typeof JurisdictionType>;
 /** @internal */
 export const JurisdictionType$inboundSchema: z.ZodNativeEnum<
   typeof JurisdictionType
-> = z.nativeEnum(JurisdictionType);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(JurisdictionType));
 /** @internal */
 export const JurisdictionType$outboundSchema: z.ZodNativeEnum<
   typeof JurisdictionType

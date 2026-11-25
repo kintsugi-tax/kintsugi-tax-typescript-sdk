@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -25,6 +25,10 @@ export type GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequ
      * Page size
      */
     size?: number | undefined;
+    /**
+     * The unique identifier for the organization making the request
+     */
+    xOrganizationId: string | null;
   };
 
 /** @internal */
@@ -33,21 +37,26 @@ export const GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
     GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    registration_id: z.string(),
-    page: z.number().int().default(1),
-    size: z.number().int().default(50),
-  }).transform((v) => {
-    return remap$(v, {
-      "registration_id": "registrationId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registration_id: z.string(),
+      page: z.number().int().default(1),
+      size: z.number().int().default(50),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "registration_id": "registrationId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest$Outbound =
   {
     registration_id: string;
     page: number;
     size: number;
+    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -56,15 +65,19 @@ export const GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
     GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest$Outbound,
     z.ZodTypeDef,
     GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest
-  > = z.object({
-    registrationId: z.string(),
-    page: z.number().int().default(1),
-    size: z.number().int().default(50),
-  }).transform((v) => {
-    return remap$(v, {
-      registrationId: "registration_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registrationId: z.string(),
+      page: z.number().int().default(1),
+      size: z.number().int().default(50),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        registrationId: "registration_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestToJSON(
   getFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest:

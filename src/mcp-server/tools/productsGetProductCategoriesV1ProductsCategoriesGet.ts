@@ -3,21 +3,29 @@
  */
 
 import { productsGetProductCategoriesV1ProductsCategoriesGet } from "../../funcs/productsGetProductCategoriesV1ProductsCategoriesGet.js";
+import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
+const args = {
+  request:
+    operations.GetProductCategoriesV1ProductsCategoriesGetRequest$inboundSchema,
+};
+
 export const tool$productsGetProductCategoriesV1ProductsCategoriesGet:
-  ToolDefinition = {
+  ToolDefinition<typeof args> = {
     name: "products-get-product-categories-v1-products-categories-get",
-    description: `Get Product Categories
+    description: `Get product categories
 
 The Get Product Categories API retrieves all
     product categories.  This endpoint helps users understand and select the
     appropriate categories for their products.`,
-    tool: async (client, ctx) => {
+    args,
+    tool: async (client, args, ctx) => {
       const [result, apiCall] =
         await productsGetProductCategoriesV1ProductsCategoriesGet(
           client,
-          { fetchOptions: { signal: ctx.signal } },
+          args.request,
+          { fetchOptions: { signal: ctx.mcpReq.signal } },
         ).$inspect();
 
       if (!result.ok) {

@@ -4,44 +4,58 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
+import { RFCDate } from "../../types/rfcdate.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
+
+export type GetFilingsV1FilingsGetCountryCode = models.CountryCodeEnum | string;
 
 export type GetFilingsV1FilingsGetRequest = {
   /**
    * Filter filings by status
    */
-  statusIn?: string | undefined;
+  statusIn?: string | null | undefined;
   /**
    * Filter filings with a start date greater than or equal to this date.
    */
-  startDate?: string | undefined;
+  startDate?: RFCDate | null | undefined;
   /**
    * Filter filings with an end date less than or equal to this date.
    */
-  endDate?: string | undefined;
+  endDate?: RFCDate | null | undefined;
   /**
    * Filter filings filed on or after this date.
    */
-  dateFiledGte?: string | undefined;
+  dateFiledGte?: RFCDate | null | undefined;
   /**
    * Filter filings filed on or before this date.
    */
-  dateFiledLte?: string | undefined;
+  dateFiledLte?: RFCDate | null | undefined;
   /**
    * Comma-separated list of fields to sort the results.
    */
-  orderBy?: string | undefined;
+  orderBy?: string | null | undefined;
   /**
    * Filter filings by state code (e.g., CA for California).
    */
-  stateCode?: string | undefined;
+  stateCode?: string | null | undefined;
   /**
    * Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US).
    */
-  countryCode?: Array<models.CountryCodeEnum> | undefined;
+  countryCode?: Array<models.CountryCodeEnum | string> | null | undefined;
+  /**
+   * Filter filings by category (e.g., REGULAR, BACK_FILING, AMENDMENT).
+   */
+  filingCategoryIn?: string | null | undefined;
+  /**
+   * Filter filings by tax type. Multiple tax types can be
+   *
+   * @remarks
+   *         passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+   */
+  taxTypeIn?: string | null | undefined;
   /**
    * Page number
    */
@@ -50,48 +64,107 @@ export type GetFilingsV1FilingsGetRequest = {
    * Page size
    */
   size?: number | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
+
+/** @internal */
+export const GetFilingsV1FilingsGetCountryCode$inboundSchema: z.ZodType<
+  GetFilingsV1FilingsGetCountryCode,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$inboundSchema, z.string()])
+);
+/** @internal */
+export type GetFilingsV1FilingsGetCountryCode$Outbound = string | string;
+
+/** @internal */
+export const GetFilingsV1FilingsGetCountryCode$outboundSchema: z.ZodType<
+  GetFilingsV1FilingsGetCountryCode$Outbound,
+  z.ZodTypeDef,
+  GetFilingsV1FilingsGetCountryCode
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$outboundSchema, z.string()])
+);
+
+export function getFilingsV1FilingsGetCountryCodeToJSON(
+  getFilingsV1FilingsGetCountryCode: GetFilingsV1FilingsGetCountryCode,
+): string {
+  return JSON.stringify(
+    GetFilingsV1FilingsGetCountryCode$outboundSchema.parse(
+      getFilingsV1FilingsGetCountryCode,
+    ),
+  );
+}
+export function getFilingsV1FilingsGetCountryCodeFromJSON(
+  jsonString: string,
+): SafeParseResult<GetFilingsV1FilingsGetCountryCode, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => GetFilingsV1FilingsGetCountryCode$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'GetFilingsV1FilingsGetCountryCode' from JSON`,
+  );
+}
 
 /** @internal */
 export const GetFilingsV1FilingsGetRequest$inboundSchema: z.ZodType<
   GetFilingsV1FilingsGetRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  status__in: z.string().default("FILED,FILING,UNFILED,PAUSED"),
-  start_date: z.string().optional(),
-  end_date: z.string().optional(),
-  date_filed__gte: z.string().optional(),
-  date_filed__lte: z.string().optional(),
-  order_by: z.string().optional(),
-  state_code: z.string().optional(),
-  country_code: z.array(models.CountryCodeEnum$inboundSchema).optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    "status__in": "statusIn",
-    "start_date": "startDate",
-    "end_date": "endDate",
-    "date_filed__gte": "dateFiledGte",
-    "date_filed__lte": "dateFiledLte",
-    "order_by": "orderBy",
-    "state_code": "stateCode",
-    "country_code": "countryCode",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    status__in: z.nullable(z.string()).optional(),
+    start_date: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    date_filed__gte: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    date_filed__lte: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    order_by: z.nullable(z.string()).optional(),
+    state_code: z.nullable(z.string()).optional(),
+    country_code: z.nullable(
+      z.array(z.union([models.CountryCodeEnum$inboundSchema, z.string()])),
+    ).optional(),
+    filing_category__in: z.nullable(z.string()).optional(),
+    tax_type__in: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    "x-organization-id": z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "status__in": "statusIn",
+      "start_date": "startDate",
+      "end_date": "endDate",
+      "date_filed__gte": "dateFiledGte",
+      "date_filed__lte": "dateFiledLte",
+      "order_by": "orderBy",
+      "state_code": "stateCode",
+      "country_code": "countryCode",
+      "filing_category__in": "filingCategoryIn",
+      "tax_type__in": "taxTypeIn",
+      "x-organization-id": "xOrganizationId",
+    });
+  })
+);
 /** @internal */
 export type GetFilingsV1FilingsGetRequest$Outbound = {
-  status__in: string;
-  start_date?: string | undefined;
-  end_date?: string | undefined;
-  date_filed__gte?: string | undefined;
-  date_filed__lte?: string | undefined;
-  order_by?: string | undefined;
-  state_code?: string | undefined;
-  country_code?: Array<string> | undefined;
+  status__in?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  date_filed__gte?: string | null | undefined;
+  date_filed__lte?: string | null | undefined;
+  order_by?: string | null | undefined;
+  state_code?: string | null | undefined;
+  country_code?: Array<string | string> | null | undefined;
+  filing_category__in?: string | null | undefined;
+  tax_type__in?: string | null | undefined;
   page: number;
   size: number;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -99,29 +172,43 @@ export const GetFilingsV1FilingsGetRequest$outboundSchema: z.ZodType<
   GetFilingsV1FilingsGetRequest$Outbound,
   z.ZodTypeDef,
   GetFilingsV1FilingsGetRequest
-> = z.object({
-  statusIn: z.string().default("FILED,FILING,UNFILED,PAUSED"),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  dateFiledGte: z.string().optional(),
-  dateFiledLte: z.string().optional(),
-  orderBy: z.string().optional(),
-  stateCode: z.string().optional(),
-  countryCode: z.array(models.CountryCodeEnum$outboundSchema).optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    statusIn: "status__in",
-    startDate: "start_date",
-    endDate: "end_date",
-    dateFiledGte: "date_filed__gte",
-    dateFiledLte: "date_filed__lte",
-    orderBy: "order_by",
-    stateCode: "state_code",
-    countryCode: "country_code",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    statusIn: z.nullable(z.string()).optional(),
+    startDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    dateFiledGte: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    dateFiledLte: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    orderBy: z.nullable(z.string()).optional(),
+    stateCode: z.nullable(z.string()).optional(),
+    countryCode: z.nullable(
+      z.array(z.union([models.CountryCodeEnum$outboundSchema, z.string()])),
+    ).optional(),
+    filingCategoryIn: z.nullable(z.string()).optional(),
+    taxTypeIn: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    xOrganizationId: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      statusIn: "status__in",
+      startDate: "start_date",
+      endDate: "end_date",
+      dateFiledGte: "date_filed__gte",
+      dateFiledLte: "date_filed__lte",
+      orderBy: "order_by",
+      stateCode: "state_code",
+      countryCode: "country_code",
+      filingCategoryIn: "filing_category__in",
+      taxTypeIn: "tax_type__in",
+      xOrganizationId: "x-organization-id",
+    });
+  })
+);
 
 export function getFilingsV1FilingsGetRequestToJSON(
   getFilingsV1FilingsGetRequest: GetFilingsV1FilingsGetRequest,

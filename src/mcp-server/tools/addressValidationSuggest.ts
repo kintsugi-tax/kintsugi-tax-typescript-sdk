@@ -3,11 +3,13 @@
  */
 
 import { addressValidationSuggest } from "../../funcs/addressValidationSuggest.js";
-import * as models from "../../models/index.js";
+import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: models.ValidationAddress$inboundSchema,
+  request:
+    operations
+      .SuggestionsV1AddressValidationSuggestionsPostRequest$inboundSchema,
 };
 
 export const tool$addressValidationSuggest: ToolDefinition<typeof args> = {
@@ -24,7 +26,7 @@ This API endpoint provides address suggestions based on
     const [result, apiCall] = await addressValidationSuggest(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

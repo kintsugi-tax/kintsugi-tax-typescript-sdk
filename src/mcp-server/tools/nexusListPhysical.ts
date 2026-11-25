@@ -7,13 +7,13 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations
-    .GetPhysicalNexusV1NexusPhysicalNexusGetRequest$inboundSchema.optional(),
+  request:
+    operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest$inboundSchema,
 };
 
 export const tool$nexusListPhysical: ToolDefinition<typeof args> = {
   name: "nexus-list-physical",
-  description: `Get Physical Nexus
+  description: `Get physical nexus
 
 Retrieve a paginated list of
     physical nexuses for a specific organization.`,
@@ -22,7 +22,7 @@ Retrieve a paginated list of
     const [result, apiCall] = await nexusListPhysical(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

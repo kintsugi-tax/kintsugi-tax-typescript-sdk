@@ -4,35 +4,87 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
+
+export type Product = models.ProductUpdateV2 | models.ProductUpdate;
 
 export type UpdateProductV1ProductsProductIdPutRequest = {
   /**
    * Unique identifier of the product to be updated.
    */
   productId: string;
-  productUpdate: models.ProductUpdate;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
+  requestBody: models.ProductUpdateV2 | models.ProductUpdate;
 };
+
+/** @internal */
+export const Product$inboundSchema: z.ZodType<Product, z.ZodTypeDef, unknown> =
+  /* @__PURE__ */ lazySchema$(() =>
+    z.union([
+      models.ProductUpdateV2$inboundSchema,
+      models.ProductUpdate$inboundSchema,
+    ])
+  );
+/** @internal */
+export type Product$Outbound =
+  | models.ProductUpdateV2$Outbound
+  | models.ProductUpdate$Outbound;
+
+/** @internal */
+export const Product$outboundSchema: z.ZodType<
+  Product$Outbound,
+  z.ZodTypeDef,
+  Product
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    models.ProductUpdateV2$outboundSchema,
+    models.ProductUpdate$outboundSchema,
+  ])
+);
+
+export function productToJSON(product: Product): string {
+  return JSON.stringify(Product$outboundSchema.parse(product));
+}
+export function productFromJSON(
+  jsonString: string,
+): SafeParseResult<Product, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => Product$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'Product' from JSON`,
+  );
+}
 
 /** @internal */
 export const UpdateProductV1ProductsProductIdPutRequest$inboundSchema:
   z.ZodType<UpdateProductV1ProductsProductIdPutRequest, z.ZodTypeDef, unknown> =
-    z.object({
-      product_id: z.string(),
-      ProductUpdate: models.ProductUpdate$inboundSchema,
-    }).transform((v) => {
-      return remap$(v, {
-        "product_id": "productId",
-        "ProductUpdate": "productUpdate",
-      });
-    });
+    /* @__PURE__ */ lazySchema$(() =>
+      z.object({
+        product_id: z.string(),
+        "x-organization-id": z.nullable(z.string()),
+        RequestBody: z.union([
+          models.ProductUpdateV2$inboundSchema,
+          models.ProductUpdate$inboundSchema,
+        ]),
+      }).transform((v) => {
+        return remap$(v, {
+          "product_id": "productId",
+          "x-organization-id": "xOrganizationId",
+          "RequestBody": "requestBody",
+        });
+      })
+    );
 /** @internal */
 export type UpdateProductV1ProductsProductIdPutRequest$Outbound = {
   product_id: string;
-  ProductUpdate: models.ProductUpdate$Outbound;
+  "x-organization-id": string | null;
+  RequestBody: models.ProductUpdateV2$Outbound | models.ProductUpdate$Outbound;
 };
 
 /** @internal */
@@ -41,15 +93,22 @@ export const UpdateProductV1ProductsProductIdPutRequest$outboundSchema:
     UpdateProductV1ProductsProductIdPutRequest$Outbound,
     z.ZodTypeDef,
     UpdateProductV1ProductsProductIdPutRequest
-  > = z.object({
-    productId: z.string(),
-    productUpdate: models.ProductUpdate$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      productId: "product_id",
-      productUpdate: "ProductUpdate",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      productId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      requestBody: z.union([
+        models.ProductUpdateV2$outboundSchema,
+        models.ProductUpdate$outboundSchema,
+      ]),
+    }).transform((v) => {
+      return remap$(v, {
+        productId: "product_id",
+        xOrganizationId: "x-organization-id",
+        requestBody: "RequestBody",
+      });
+    })
+  );
 
 export function updateProductV1ProductsProductIdPutRequestToJSON(
   updateProductV1ProductsProductIdPutRequest:

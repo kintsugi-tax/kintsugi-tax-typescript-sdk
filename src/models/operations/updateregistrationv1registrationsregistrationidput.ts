@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
@@ -14,6 +14,10 @@ export type UpdateRegistrationV1RegistrationsRegistrationIdPutRequest = {
    * The unique identifier of the registration to be updated.
    */
   registrationId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
   registrationUpdateAPI: models.RegistrationUpdateAPI;
 };
 
@@ -23,19 +27,24 @@ export const UpdateRegistrationV1RegistrationsRegistrationIdPutRequest$inboundSc
     UpdateRegistrationV1RegistrationsRegistrationIdPutRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    registration_id: z.string(),
-    RegistrationUpdateAPI: models.RegistrationUpdateAPI$inboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      "registration_id": "registrationId",
-      "RegistrationUpdateAPI": "registrationUpdateAPI",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registration_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+      RegistrationUpdateAPI: models.RegistrationUpdateAPI$inboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        "registration_id": "registrationId",
+        "x-organization-id": "xOrganizationId",
+        "RegistrationUpdateAPI": "registrationUpdateAPI",
+      });
+    })
+  );
 /** @internal */
 export type UpdateRegistrationV1RegistrationsRegistrationIdPutRequest$Outbound =
   {
     registration_id: string;
+    "x-organization-id": string | null;
     RegistrationUpdateAPI: models.RegistrationUpdateAPI$Outbound;
   };
 
@@ -45,15 +54,19 @@ export const UpdateRegistrationV1RegistrationsRegistrationIdPutRequest$outboundS
     UpdateRegistrationV1RegistrationsRegistrationIdPutRequest$Outbound,
     z.ZodTypeDef,
     UpdateRegistrationV1RegistrationsRegistrationIdPutRequest
-  > = z.object({
-    registrationId: z.string(),
-    registrationUpdateAPI: models.RegistrationUpdateAPI$outboundSchema,
-  }).transform((v) => {
-    return remap$(v, {
-      registrationId: "registration_id",
-      registrationUpdateAPI: "RegistrationUpdateAPI",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      registrationId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+      registrationUpdateAPI: models.RegistrationUpdateAPI$outboundSchema,
+    }).transform((v) => {
+      return remap$(v, {
+        registrationId: "registration_id",
+        xOrganizationId: "x-organization-id",
+        registrationUpdateAPI: "RegistrationUpdateAPI",
+      });
+    })
+  );
 
 export function updateRegistrationV1RegistrationsRegistrationIdPutRequestToJSON(
   updateRegistrationV1RegistrationsRegistrationIdPutRequest:

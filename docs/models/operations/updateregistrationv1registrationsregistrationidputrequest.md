@@ -7,13 +7,15 @@ import { UpdateRegistrationV1RegistrationsRegistrationIdPutRequest } from "@kint
 
 let value: UpdateRegistrationV1RegistrationsRegistrationIdPutRequest = {
   registrationId: "<id>",
+  xOrganizationId: "org_12345",
   registrationUpdateAPI: {},
 };
 ```
 
 ## Fields
 
-| Field                                                                 | Type                                                                  | Required                                                              | Description                                                           |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `registrationId`                                                      | *string*                                                              | :heavy_check_mark:                                                    | The unique identifier of the registration to be updated.              |
-| `registrationUpdateAPI`                                               | [models.RegistrationUpdateAPI](../../models/registrationupdateapi.md) | :heavy_check_mark:                                                    | N/A                                                                   |
+| Field                                                                 | Type                                                                  | Required                                                              | Description                                                           | Example                                                               |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `registrationId`                                                      | *string*                                                              | :heavy_check_mark:                                                    | The unique identifier of the registration to be updated.              |                                                                       |
+| `xOrganizationId`                                                     | *string*                                                              | :heavy_check_mark:                                                    | The unique identifier for the organization making the request         | org_12345                                                             |
+| `registrationUpdateAPI`                                               | [models.RegistrationUpdateAPI](../../models/registrationupdateapi.md) | :heavy_check_mark:                                                    | N/A                                                                   |                                                                       |

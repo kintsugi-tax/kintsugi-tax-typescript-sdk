@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -17,6 +17,10 @@ export type DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest 
      *                                 nexus to delete.
      */
     physicalNexusId: string;
+    /**
+     * The unique identifier for the organization making the request
+     */
+    xOrganizationId: string | null;
   };
 
 /** @internal */
@@ -25,17 +29,22 @@ export const DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
     DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    physical_nexus_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "physical_nexus_id": "physicalNexusId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      physical_nexus_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "physical_nexus_id": "physicalNexusId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest$Outbound =
   {
     physical_nexus_id: string;
+    "x-organization-id": string | null;
   };
 
 /** @internal */
@@ -44,13 +53,17 @@ export const DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
     DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest$Outbound,
     z.ZodTypeDef,
     DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
-  > = z.object({
-    physicalNexusId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      physicalNexusId: "physical_nexus_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      physicalNexusId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        physicalNexusId: "physical_nexus_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestToJSON(
   deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest:

@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
 export const RegistrationStatusEnum = {
@@ -11,15 +12,17 @@ export const RegistrationStatusEnum = {
   Unregistered: "UNREGISTERED",
   Deregistering: "DEREGISTERING",
   Deregistered: "DEREGISTERED",
+  Cancelled: "CANCELLED",
   Validating: "VALIDATING",
   AwaitingClarification: "AWAITING_CLARIFICATION",
+  SelfManaged: "SELF_MANAGED",
 } as const;
 export type RegistrationStatusEnum = ClosedEnum<typeof RegistrationStatusEnum>;
 
 /** @internal */
 export const RegistrationStatusEnum$inboundSchema: z.ZodNativeEnum<
   typeof RegistrationStatusEnum
-> = z.nativeEnum(RegistrationStatusEnum);
+> = /* @__PURE__ */ lazySchema$(() => z.nativeEnum(RegistrationStatusEnum));
 /** @internal */
 export const RegistrationStatusEnum$outboundSchema: z.ZodNativeEnum<
   typeof RegistrationStatusEnum

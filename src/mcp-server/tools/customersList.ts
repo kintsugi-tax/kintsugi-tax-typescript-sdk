@@ -7,12 +7,12 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.GetCustomersV1Request$inboundSchema.optional(),
+  request: operations.GetCustomersV1Request$inboundSchema,
 };
 
 export const tool$customersList: ToolDefinition<typeof args> = {
   name: "customers-list",
-  description: `Get Customers
+  description: `Get customers
 
 The Get Customers API retrieves
     a paginated list of customers based on specified filters.
@@ -22,7 +22,7 @@ The Get Customers API retrieves
     const [result, apiCall] = await customersList(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

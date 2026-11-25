@@ -14,7 +14,7 @@ const args = {
 
 export const tool$registrationsGetById: ToolDefinition<typeof args> = {
   name: "registrations-get-by-id",
-  description: `Get Registration By Id
+  description: `Get registration by id
 
 The Get Registration By ID API retrieves a single registration record
     based on its unique identifier.`,
@@ -23,7 +23,7 @@ The Get Registration By ID API retrieves a single registration record
     const [result, apiCall] = await registrationsGetById(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

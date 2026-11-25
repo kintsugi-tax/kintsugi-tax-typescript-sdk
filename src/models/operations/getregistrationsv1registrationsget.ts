@@ -4,10 +4,12 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
+
+export type CountryCodeIn = models.CountryCodeEnum | string;
 
 export type GetRegistrationsV1RegistrationsGetRequest = {
   /**
@@ -34,11 +36,18 @@ export type GetRegistrationsV1RegistrationsGetRequest = {
    * @remarks
    *         (e.g., US, CA).
    */
-  countryCodeIn?: Array<models.CountryCodeEnum> | undefined;
+  countryCodeIn?: Array<models.CountryCodeEnum | string> | null | undefined;
+  /**
+   * Filter registrations by tax type. Multiple tax types can be
+   *
+   * @remarks
+   *         passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+   */
+  taxTypeIn?: string | null | undefined;
   /**
    * Order results by specified fields (comma-separated)
    */
-  orderBy?: string | undefined;
+  orderBy?: string | null | undefined;
   /**
    * Page number
    */
@@ -47,41 +56,88 @@ export type GetRegistrationsV1RegistrationsGetRequest = {
    * Page size
    */
   size?: number | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
+
+/** @internal */
+export const CountryCodeIn$inboundSchema: z.ZodType<
+  CountryCodeIn,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$inboundSchema, z.string()])
+);
+/** @internal */
+export type CountryCodeIn$Outbound = string | string;
+
+/** @internal */
+export const CountryCodeIn$outboundSchema: z.ZodType<
+  CountryCodeIn$Outbound,
+  z.ZodTypeDef,
+  CountryCodeIn
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$outboundSchema, z.string()])
+);
+
+export function countryCodeInToJSON(countryCodeIn: CountryCodeIn): string {
+  return JSON.stringify(CountryCodeIn$outboundSchema.parse(countryCodeIn));
+}
+export function countryCodeInFromJSON(
+  jsonString: string,
+): SafeParseResult<CountryCodeIn, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CountryCodeIn$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CountryCodeIn' from JSON`,
+  );
+}
 
 /** @internal */
 export const GetRegistrationsV1RegistrationsGetRequest$inboundSchema: z.ZodType<
   GetRegistrationsV1RegistrationsGetRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  status__in: z.string().default(
-    "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,VALIDATING,AWAITING_CLARIFICATION",
-  ),
-  state_code: z.string().optional(),
-  filing_frequency__in: z.string().optional(),
-  country_code__in: z.array(models.CountryCodeEnum$inboundSchema).optional(),
-  order_by: z.string().optional(),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    "status__in": "statusIn",
-    "state_code": "stateCode",
-    "filing_frequency__in": "filingFrequencyIn",
-    "country_code__in": "countryCodeIn",
-    "order_by": "orderBy",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    status__in: z.string().default(
+      "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,CANCELLED,VALIDATING,AWAITING_CLARIFICATION,SELF_MANAGED",
+    ),
+    state_code: z.string().optional(),
+    filing_frequency__in: z.string().optional(),
+    country_code__in: z.nullable(
+      z.array(z.union([models.CountryCodeEnum$inboundSchema, z.string()])),
+    ).optional(),
+    tax_type__in: z.nullable(z.string()).optional(),
+    order_by: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    "x-organization-id": z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "status__in": "statusIn",
+      "state_code": "stateCode",
+      "filing_frequency__in": "filingFrequencyIn",
+      "country_code__in": "countryCodeIn",
+      "tax_type__in": "taxTypeIn",
+      "order_by": "orderBy",
+      "x-organization-id": "xOrganizationId",
+    });
+  })
+);
 /** @internal */
 export type GetRegistrationsV1RegistrationsGetRequest$Outbound = {
   status__in: string;
   state_code?: string | undefined;
   filing_frequency__in?: string | undefined;
-  country_code__in?: Array<string> | undefined;
-  order_by?: string | undefined;
+  country_code__in?: Array<string | string> | null | undefined;
+  tax_type__in?: string | null | undefined;
+  order_by?: string | null | undefined;
   page: number;
   size: number;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -90,25 +146,33 @@ export const GetRegistrationsV1RegistrationsGetRequest$outboundSchema:
     GetRegistrationsV1RegistrationsGetRequest$Outbound,
     z.ZodTypeDef,
     GetRegistrationsV1RegistrationsGetRequest
-  > = z.object({
-    statusIn: z.string().default(
-      "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,VALIDATING,AWAITING_CLARIFICATION",
-    ),
-    stateCode: z.string().optional(),
-    filingFrequencyIn: z.string().optional(),
-    countryCodeIn: z.array(models.CountryCodeEnum$outboundSchema).optional(),
-    orderBy: z.string().optional(),
-    page: z.number().int().default(1),
-    size: z.number().int().default(50),
-  }).transform((v) => {
-    return remap$(v, {
-      statusIn: "status__in",
-      stateCode: "state_code",
-      filingFrequencyIn: "filing_frequency__in",
-      countryCodeIn: "country_code__in",
-      orderBy: "order_by",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      statusIn: z.string().default(
+        "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,CANCELLED,VALIDATING,AWAITING_CLARIFICATION,SELF_MANAGED",
+      ),
+      stateCode: z.string().optional(),
+      filingFrequencyIn: z.string().optional(),
+      countryCodeIn: z.nullable(
+        z.array(z.union([models.CountryCodeEnum$outboundSchema, z.string()])),
+      ).optional(),
+      taxTypeIn: z.nullable(z.string()).optional(),
+      orderBy: z.nullable(z.string()).optional(),
+      page: z.number().int().default(1),
+      size: z.number().int().default(50),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        statusIn: "status__in",
+        stateCode: "state_code",
+        filingFrequencyIn: "filing_frequency__in",
+        countryCodeIn: "country_code__in",
+        taxTypeIn: "tax_type__in",
+        orderBy: "order_by",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getRegistrationsV1RegistrationsGetRequestToJSON(
   getRegistrationsV1RegistrationsGetRequest:

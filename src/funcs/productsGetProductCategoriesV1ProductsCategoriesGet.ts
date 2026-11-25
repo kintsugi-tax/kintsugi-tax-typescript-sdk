@@ -3,8 +3,11 @@
  */
 
 import { SDKCore } from "../core.js";
+import { encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
+import { safeParse } from "../lib/schemas.js";
 import { RequestOptions } from "../lib/sdks.js";
 import { extractSecurity, resolveGlobalSecurity } from "../lib/security.js";
 import { pathToFunc } from "../lib/url.js";
@@ -20,11 +23,12 @@ import { ResponseValidationError } from "../models/errors/responsevalidationerro
 import { SDKError } from "../models/errors/sdkerror.js";
 import { SDKValidationError } from "../models/errors/sdkvalidationerror.js";
 import * as models from "../models/index.js";
+import * as operations from "../models/operations/index.js";
 import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get Product Categories
+ * Get product categories
  *
  * @remarks
  * The Get Product Categories API retrieves all
@@ -33,12 +37,13 @@ import { Result } from "../types/fp.js";
  */
 export function productsGetProductCategoriesV1ProductsCategoriesGet(
   client: SDKCore,
+  request: operations.GetProductCategoriesV1ProductsCategoriesGetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
-    models.ProductCategories,
+    models.ProductCategoryRead,
     | errors.ErrorResponse
-    | errors.BackendSrcProductsResponsesValidationErrorResponse
+    | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -51,19 +56,21 @@ export function productsGetProductCategoriesV1ProductsCategoriesGet(
 > {
   return new APIPromise($do(
     client,
+    request,
     options,
   ));
 }
 
 async function $do(
   client: SDKCore,
+  request: operations.GetProductCategoriesV1ProductsCategoriesGetRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
-      models.ProductCategories,
+      models.ProductCategoryRead,
       | errors.ErrorResponse
-      | errors.BackendSrcProductsResponsesValidationErrorResponse
+      | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
       | SDKError
       | ResponseValidationError
       | ConnectionError
@@ -76,13 +83,33 @@ async function $do(
     APICall,
   ]
 > {
+  const parsed = safeParse(
+    request,
+    (value) =>
+      operations
+        .GetProductCategoriesV1ProductsCategoriesGetRequest$outboundSchema
+        .parse(value),
+    "Input validation failed",
+  );
+  if (!parsed.ok) {
+    return [parsed, { status: "invalid" }];
+  }
+  const payload = parsed.value;
+  const body = null;
+
   const path = pathToFunc("/v1/products/categories")();
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -93,7 +120,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -106,6 +133,7 @@ async function $do(
     baseURL: options?.serverURL,
     path: path,
     headers: headers,
+    body: body,
     userAgent: client._options.userAgent,
     timeoutMs: options?.timeoutMs || client._options.timeoutMs || -1,
   }, options);
@@ -116,7 +144,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "404", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -130,9 +159,9 @@ async function $do(
   };
 
   const [result] = await M.match<
-    models.ProductCategories,
+    models.ProductCategoryRead,
     | errors.ErrorResponse
-    | errors.BackendSrcProductsResponsesValidationErrorResponse
+    | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -142,11 +171,12 @@ async function $do(
     | UnexpectedClientError
     | SDKValidationError
   >(
-    M.json(200, models.ProductCategories$inboundSchema),
+    M.json(200, models.ProductCategoryRead$inboundSchema),
     M.jsonErr(401, errors.ErrorResponse$inboundSchema),
     M.jsonErr(
       422,
-      errors.BackendSrcProductsResponsesValidationErrorResponse$inboundSchema,
+      errors
+        .BackendSrcProductsSchemasResponsesValidationErrorResponse$inboundSchema,
     ),
     M.jsonErr(500, errors.ErrorResponse$inboundSchema),
     M.fail([404, "4XX"]),

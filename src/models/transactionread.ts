@@ -4,8 +4,9 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
+import { RFCDate } from "../types/rfcdate.js";
 import {
   AddressStatus,
   AddressStatus$inboundSchema,
@@ -27,13 +28,12 @@ import {
   CustomerRead$Outbound,
   CustomerRead$outboundSchema,
 } from "./customerread.js";
-import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
-  Exemption,
-  Exemption$inboundSchema,
-  Exemption$Outbound,
-  Exemption$outboundSchema,
-} from "./exemption.js";
+  DocumentTypeEnum,
+  DocumentTypeEnum$inboundSchema,
+  DocumentTypeEnum$outboundSchema,
+} from "./documenttypeenum.js";
+import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
   ExemptionRequired,
   ExemptionRequired$inboundSchema,
@@ -62,6 +62,17 @@ import {
   TransactionAddressReadOutput$outboundSchema,
 } from "./transactionaddressreadoutput.js";
 import {
+  TransactionDirectionEnum,
+  TransactionDirectionEnum$inboundSchema,
+  TransactionDirectionEnum$outboundSchema,
+} from "./transactiondirectionenum.js";
+import {
+  TransactionEmbeddedExemption,
+  TransactionEmbeddedExemption$inboundSchema,
+  TransactionEmbeddedExemption$Outbound,
+  TransactionEmbeddedExemption$outboundSchema,
+} from "./transactionembeddedexemption.js";
+import {
   TransactionExemptStatusEnum,
   TransactionExemptStatusEnum$inboundSchema,
   TransactionExemptStatusEnum$outboundSchema,
@@ -89,7 +100,10 @@ import {
 } from "./transactiontypeenum.js";
 
 export type TransactionRead = {
-  requiresExemption?: ExemptionRequired | undefined;
+  /**
+   * Indicates if transaction requires tax exemption.
+   */
+  requiresExemption?: ExemptionRequired | null | undefined;
   /**
    * Unique identifier of the organization. This field is deprecated, and should no longer be used. The value is populated through the 'x-organization-id' header.
    *
@@ -103,27 +117,23 @@ export type TransactionRead = {
   /**
    * Transaction date and time
    */
-  date: Date;
+  date: string;
   /**
    * Transaction date in the shop's local timezone
    */
-  shopDate?: string | undefined;
+  shopDate?: RFCDate | null | undefined;
   /**
    * Timezone of the shop
    */
-  shopDateTz?: string | undefined;
+  shopDateTz?: string | null | undefined;
   /**
    * Description of the transaction.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /**
-   * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-   *
-   * @remarks
-   * If the given order has different status from these 2, we will set the
-   * transaction's refund_status to PARTIALLY_REFUNDED by default.
+   * Status of refund, if applicable
    */
-  refundStatus?: TransactionRefundStatus | undefined;
+  refundStatus?: TransactionRefundStatus | null | undefined;
   /**
    * Total amount of the transaction.
    */
@@ -131,41 +141,35 @@ export type TransactionRead = {
   /**
    * Unique identifier of the customer.
    */
-  customerId?: string | undefined;
+  customerId?: string | null | undefined;
   /**
    * Indicates if transaction is marketplace-based.
    */
-  marketplace?: boolean | undefined;
+  marketplace?: boolean | null | undefined;
   /**
-   * Based on transaction item exempt status.
-   *
-   * @remarks
-   * NOT EXEMPT: None of the items are NOT EXEMPT
-   * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-   * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-   * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+   * Exemption status (e.g., NOT_EXEMPT)
    */
-  exempt?: TransactionExemptStatusEnum | undefined;
+  exempt?: TransactionExemptStatusEnum | null | undefined;
   /**
    * List of exemptions applied (if any).
    */
-  exemptions?: Array<Exemption> | undefined;
+  exemptions?: Array<TransactionEmbeddedExemption> | null | undefined;
   /**
    * Related transaction identifier.
    */
-  relatedTo?: string | undefined;
+  relatedTo?: string | null | undefined;
   /**
    * Secondary External Identifier.
    */
-  secondaryExternalId?: string | undefined;
+  secondaryExternalId?: string | null | undefined;
   /**
    * Secondary source information
    */
-  secondarySource?: string | undefined;
+  secondarySource?: string | null | undefined;
   /**
    * Friendly identifier of the original item.
    */
-  externalFriendlyId?: string | undefined;
+  externalFriendlyId?: string | null | undefined;
   /**
    * Imported tax amount.
    */
@@ -186,11 +190,21 @@ export type TransactionRead = {
    * Total tax liability amount.
    */
   totalTaxLiabilityAmount?: string | undefined;
-  taxLiabilitySource?: TaxLiabilitySourceEnum | undefined;
+  /**
+   * Source of tax liability.
+   */
+  taxLiabilitySource?: TaxLiabilitySourceEnum | null | undefined;
   /**
    * Taxable amount.
    */
   taxableAmount?: string | undefined;
+  /**
+   * Whether source amounts include tax. NULL means the source did not say.
+   */
+  isTaxInclusive?: boolean | null | undefined;
+  /**
+   * ISO-4217 currency code. Pair with a monetary amount on the same object.
+   */
   currency?: CurrencyEnum | undefined;
   /**
    * Transaction lock status.
@@ -200,35 +214,46 @@ export type TransactionRead = {
   /**
    * Connection Identifier
    */
-  connectionId?: string | undefined;
+  connectionId?: string | null | undefined;
   /**
    * Filing identifier.
    */
-  filingId?: string | undefined;
+  filingId?: string | null | undefined;
   /**
    * City of the transaction address.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * County of the transaction address.
    */
-  county?: string | undefined;
+  county?: string | null | undefined;
   /**
    * State of the transaction address.
    */
-  state?: string | undefined;
-  country?: CountryCodeEnum | undefined;
+  state?: string | null | undefined;
+  /**
+   * Country code (ISO Alpha-2).
+   */
+  country?: CountryCodeEnum | null | undefined;
   /**
    * Postal code of the transaction.
    */
-  postalCode?: string | undefined;
+  postalCode?: string | null | undefined;
   /**
    * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks integrations and will be removed in a future version.
    *
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
-  taxId?: string | undefined;
+  taxId?: string | null | undefined;
   status?: TransactionStatusEnum | undefined;
+  /**
+   * Document type distinguishing invoices from sales orders.
+   */
+  documentType?: DocumentTypeEnum | null | undefined;
+  /**
+   * Identifier of the invoice that created from a sales order.
+   */
+  createdFrom?: string | null | undefined;
   addressStatus?: AddressStatus | undefined;
   /**
    * Our transaction state, used to determine when/if a transaction needs additional
@@ -237,43 +262,56 @@ export type TransactionRead = {
    * processing.
    */
   processingStatus?: ProcessingStatusEnum | undefined;
-  destinationCurrency?: CurrencyEnum | undefined;
+  isDuplicate?: boolean | undefined;
+  /**
+   * Destination currency code (ISO 4217, e.g., USD)
+   */
+  destinationCurrency?: CurrencyEnum | null | undefined;
   /**
    * Converted total amount.
    */
-  convertedTotalAmount?: string | undefined;
+  convertedTotalAmount?: string | null | undefined;
   /**
    * Converted imported tax amount.
    */
-  convertedTotalTaxAmountImported?: string | undefined;
+  convertedTotalTaxAmountImported?: string | null | undefined;
   /**
    * Converted calculated tax amount.
    */
-  convertedTotalTaxAmountCalculated?: string | undefined;
+  convertedTotalTaxAmountCalculated?: string | null | undefined;
   /**
    * Currency conversion rate.
    */
-  conversionRate?: string | undefined;
+  conversionRate?: string | null | undefined;
   /**
    * Converted taxable amount.
    */
-  convertedTaxableAmount?: string | undefined;
+  convertedTaxableAmount?: string | null | undefined;
   /**
    * Converted total discount amount.
    */
-  convertedTotalDiscount?: string | undefined;
+  convertedTotalDiscount?: string | null | undefined;
   /**
    * Converted subtotal amount.
    */
-  convertedSubtotal?: string | undefined;
+  convertedSubtotal?: string | null | undefined;
   /**
    * Converted total tax liability amount.
    */
-  convertedTotalTaxLiabilityAmount?: string | undefined;
+  convertedTotalTaxLiabilityAmount?: string | null | undefined;
   /**
    * The unique transaction identifier.
    */
   id: string;
+  /**
+   * Display name of the store when the organization has multiple stores for a source.
+   */
+  storeName?: string | null | undefined;
+  /**
+   * Whether this transaction was deferred (rolled over) from a prior filing period.
+   */
+  isDeferredTransaction?: boolean | undefined;
+  direction?: TransactionDirectionEnum | undefined;
   /**
    * List of addresses associated.
    */
@@ -282,24 +320,39 @@ export type TransactionRead = {
    * List of items in the transaction.
    */
   transactionItems: Array<TransactionItemRead>;
-  customer?: CustomerRead | undefined;
+  /**
+   * Recoverable input VAT across this transaction's lines, in the transaction's currency. 0.00 for sales and outside the EU and UK.
+   */
+  totalRecoverableInputVat?: string | undefined;
+  /**
+   * Recoverable input VAT across this transaction's lines in the destination currency. Null when the transaction is unconverted.
+   */
+  convertedTotalRecoverableInputVat?: string | null | undefined;
+  /**
+   * Pro-rata coefficient 0-100 used to scale recoverable input VAT on this purchase. Null for sales and outside the EU and UK. 100 when the organization has no partial exemption rate for the tax-point year.
+   */
+  inputVatRecoveryRate?: string | null | undefined;
+  /**
+   * Customer information associated with the transaction.
+   */
+  customer?: CustomerRead | null | undefined;
   type: TransactionTypeEnum;
   /**
    * Total amount of all discounts applied to the transaction.
    */
-  totalDiscount?: string | undefined;
+  totalDiscount?: string | null | undefined;
   /**
    * Subtotal amount before any discounts are applied.
    */
-  subtotal?: string | undefined;
+  subtotal?: string | null | undefined;
   /**
    * Final total amount including tax liability.
    */
-  finalTotalAmount?: string | undefined;
+  finalTotalAmount?: string | null | undefined;
   /**
    * Converted final total amount including tax liability.
    */
-  convertedFinalTotalAmount?: string | undefined;
+  convertedFinalTotalAmount?: string | null | undefined;
 };
 
 /** @internal */
@@ -307,164 +360,199 @@ export const TransactionRead$inboundSchema: z.ZodType<
   TransactionRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  requires_exemption: ExemptionRequired$inboundSchema.optional(),
-  organization_id: z.string(),
-  external_id: z.string(),
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  shop_date: z.string().optional(),
-  shop_date_tz: z.string().optional(),
-  description: z.string().optional(),
-  refund_status: TransactionRefundStatus$inboundSchema.optional(),
-  total_amount: z.string().default("0.00"),
-  customer_id: z.string().optional(),
-  marketplace: z.boolean().default(false),
-  exempt: TransactionExemptStatusEnum$inboundSchema.optional(),
-  exemptions: z.array(Exemption$inboundSchema).optional(),
-  related_to: z.string().optional(),
-  secondary_external_id: z.string().optional(),
-  secondary_source: z.string().optional(),
-  external_friendly_id: z.string().optional(),
-  total_tax_amount_imported: z.string().default("0.00"),
-  tax_rate_imported: z.string().default("0.00"),
-  total_tax_amount_calculated: z.string().default("0.00"),
-  tax_rate_calculated: z.string().default("0.00"),
-  total_tax_liability_amount: z.string().default("0.00"),
-  tax_liability_source: TaxLiabilitySourceEnum$inboundSchema.optional(),
-  taxable_amount: z.string().default("0.00"),
-  currency: CurrencyEnum$inboundSchema.optional(),
-  locked: z.boolean().default(false),
-  source: SourceEnum$inboundSchema.optional(),
-  connection_id: z.string().optional(),
-  filing_id: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  country: CountryCodeEnum$inboundSchema.optional(),
-  postal_code: z.string().optional(),
-  tax_id: z.string().optional(),
-  status: TransactionStatusEnum$inboundSchema.optional(),
-  address_status: AddressStatus$inboundSchema.optional(),
-  processing_status: ProcessingStatusEnum$inboundSchema.optional(),
-  destination_currency: CurrencyEnum$inboundSchema.optional(),
-  converted_total_amount: z.string().optional(),
-  converted_total_tax_amount_imported: z.string().optional(),
-  converted_total_tax_amount_calculated: z.string().optional(),
-  conversion_rate: z.string().optional(),
-  converted_taxable_amount: z.string().optional(),
-  converted_total_discount: z.string().optional(),
-  converted_subtotal: z.string().optional(),
-  converted_total_tax_liability_amount: z.string().optional(),
-  id: z.string(),
-  addresses: z.array(TransactionAddressReadOutput$inboundSchema),
-  transaction_items: z.array(TransactionItemRead$inboundSchema),
-  customer: CustomerRead$inboundSchema.optional(),
-  type: TransactionTypeEnum$inboundSchema,
-  total_discount: z.string().optional(),
-  subtotal: z.string().optional(),
-  final_total_amount: z.string().optional(),
-  converted_final_total_amount: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "requires_exemption": "requiresExemption",
-    "organization_id": "organizationId",
-    "external_id": "externalId",
-    "shop_date": "shopDate",
-    "shop_date_tz": "shopDateTz",
-    "refund_status": "refundStatus",
-    "total_amount": "totalAmount",
-    "customer_id": "customerId",
-    "related_to": "relatedTo",
-    "secondary_external_id": "secondaryExternalId",
-    "secondary_source": "secondarySource",
-    "external_friendly_id": "externalFriendlyId",
-    "total_tax_amount_imported": "totalTaxAmountImported",
-    "tax_rate_imported": "taxRateImported",
-    "total_tax_amount_calculated": "totalTaxAmountCalculated",
-    "tax_rate_calculated": "taxRateCalculated",
-    "total_tax_liability_amount": "totalTaxLiabilityAmount",
-    "tax_liability_source": "taxLiabilitySource",
-    "taxable_amount": "taxableAmount",
-    "connection_id": "connectionId",
-    "filing_id": "filingId",
-    "postal_code": "postalCode",
-    "tax_id": "taxId",
-    "address_status": "addressStatus",
-    "processing_status": "processingStatus",
-    "destination_currency": "destinationCurrency",
-    "converted_total_amount": "convertedTotalAmount",
-    "converted_total_tax_amount_imported": "convertedTotalTaxAmountImported",
-    "converted_total_tax_amount_calculated":
-      "convertedTotalTaxAmountCalculated",
-    "conversion_rate": "conversionRate",
-    "converted_taxable_amount": "convertedTaxableAmount",
-    "converted_total_discount": "convertedTotalDiscount",
-    "converted_subtotal": "convertedSubtotal",
-    "converted_total_tax_liability_amount": "convertedTotalTaxLiabilityAmount",
-    "transaction_items": "transactionItems",
-    "total_discount": "totalDiscount",
-    "final_total_amount": "finalTotalAmount",
-    "converted_final_total_amount": "convertedFinalTotalAmount",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    requires_exemption: z.nullable(ExemptionRequired$inboundSchema).optional(),
+    organization_id: z.string(),
+    external_id: z.string(),
+    date: z.string(),
+    shop_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    shop_date_tz: z.nullable(z.string()).optional(),
+    description: z.nullable(z.string()).optional(),
+    refund_status: z.nullable(TransactionRefundStatus$inboundSchema).optional(),
+    total_amount: z.string().default("0.00"),
+    customer_id: z.nullable(z.string()).optional(),
+    marketplace: z.nullable(z.boolean()).optional(),
+    exempt: z.nullable(TransactionExemptStatusEnum$inboundSchema).optional(),
+    exemptions: z.nullable(z.array(TransactionEmbeddedExemption$inboundSchema))
+      .optional(),
+    related_to: z.nullable(z.string()).optional(),
+    secondary_external_id: z.nullable(z.string()).optional(),
+    secondary_source: z.nullable(z.string()).optional(),
+    external_friendly_id: z.nullable(z.string()).optional(),
+    total_tax_amount_imported: z.string().default("0.00"),
+    tax_rate_imported: z.string().default("0.00"),
+    total_tax_amount_calculated: z.string().default("0.00"),
+    tax_rate_calculated: z.string().default("0.00"),
+    total_tax_liability_amount: z.string().default("0.00"),
+    tax_liability_source: z.nullable(TaxLiabilitySourceEnum$inboundSchema)
+      .optional(),
+    taxable_amount: z.string().default("0.00"),
+    is_tax_inclusive: z.nullable(z.boolean()).optional(),
+    currency: CurrencyEnum$inboundSchema.optional(),
+    locked: z.boolean().default(false),
+    source: SourceEnum$inboundSchema.optional(),
+    connection_id: z.nullable(z.string()).optional(),
+    filing_id: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+    tax_id: z.nullable(z.string()).optional(),
+    status: TransactionStatusEnum$inboundSchema.optional(),
+    document_type: z.nullable(DocumentTypeEnum$inboundSchema).optional(),
+    created_from: z.nullable(z.string()).optional(),
+    address_status: AddressStatus$inboundSchema.optional(),
+    processing_status: ProcessingStatusEnum$inboundSchema.optional(),
+    is_duplicate: z.boolean().default(false),
+    destination_currency: z.nullable(CurrencyEnum$inboundSchema).optional(),
+    converted_total_amount: z.nullable(z.string()).optional(),
+    converted_total_tax_amount_imported: z.nullable(z.string()).optional(),
+    converted_total_tax_amount_calculated: z.nullable(z.string()).optional(),
+    conversion_rate: z.nullable(z.string()).optional(),
+    converted_taxable_amount: z.nullable(z.string()).optional(),
+    converted_total_discount: z.nullable(z.string()).optional(),
+    converted_subtotal: z.nullable(z.string()).optional(),
+    converted_total_tax_liability_amount: z.nullable(z.string()).optional(),
+    id: z.string(),
+    store_name: z.nullable(z.string()).optional(),
+    is_deferred_transaction: z.boolean().default(false),
+    direction: TransactionDirectionEnum$inboundSchema.optional(),
+    addresses: z.array(TransactionAddressReadOutput$inboundSchema),
+    transaction_items: z.array(TransactionItemRead$inboundSchema),
+    total_recoverable_input_vat: z.string().default("0.00"),
+    converted_total_recoverable_input_vat: z.nullable(z.string()).optional(),
+    input_vat_recovery_rate: z.nullable(z.string()).optional(),
+    customer: z.nullable(CustomerRead$inboundSchema).optional(),
+    type: TransactionTypeEnum$inboundSchema,
+    total_discount: z.nullable(z.string()).optional(),
+    subtotal: z.nullable(z.string()).optional(),
+    final_total_amount: z.nullable(z.string()).optional(),
+    converted_final_total_amount: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "requires_exemption": "requiresExemption",
+      "organization_id": "organizationId",
+      "external_id": "externalId",
+      "shop_date": "shopDate",
+      "shop_date_tz": "shopDateTz",
+      "refund_status": "refundStatus",
+      "total_amount": "totalAmount",
+      "customer_id": "customerId",
+      "related_to": "relatedTo",
+      "secondary_external_id": "secondaryExternalId",
+      "secondary_source": "secondarySource",
+      "external_friendly_id": "externalFriendlyId",
+      "total_tax_amount_imported": "totalTaxAmountImported",
+      "tax_rate_imported": "taxRateImported",
+      "total_tax_amount_calculated": "totalTaxAmountCalculated",
+      "tax_rate_calculated": "taxRateCalculated",
+      "total_tax_liability_amount": "totalTaxLiabilityAmount",
+      "tax_liability_source": "taxLiabilitySource",
+      "taxable_amount": "taxableAmount",
+      "is_tax_inclusive": "isTaxInclusive",
+      "connection_id": "connectionId",
+      "filing_id": "filingId",
+      "postal_code": "postalCode",
+      "tax_id": "taxId",
+      "document_type": "documentType",
+      "created_from": "createdFrom",
+      "address_status": "addressStatus",
+      "processing_status": "processingStatus",
+      "is_duplicate": "isDuplicate",
+      "destination_currency": "destinationCurrency",
+      "converted_total_amount": "convertedTotalAmount",
+      "converted_total_tax_amount_imported": "convertedTotalTaxAmountImported",
+      "converted_total_tax_amount_calculated":
+        "convertedTotalTaxAmountCalculated",
+      "conversion_rate": "conversionRate",
+      "converted_taxable_amount": "convertedTaxableAmount",
+      "converted_total_discount": "convertedTotalDiscount",
+      "converted_subtotal": "convertedSubtotal",
+      "converted_total_tax_liability_amount":
+        "convertedTotalTaxLiabilityAmount",
+      "store_name": "storeName",
+      "is_deferred_transaction": "isDeferredTransaction",
+      "transaction_items": "transactionItems",
+      "total_recoverable_input_vat": "totalRecoverableInputVat",
+      "converted_total_recoverable_input_vat":
+        "convertedTotalRecoverableInputVat",
+      "input_vat_recovery_rate": "inputVatRecoveryRate",
+      "total_discount": "totalDiscount",
+      "final_total_amount": "finalTotalAmount",
+      "converted_final_total_amount": "convertedFinalTotalAmount",
+    });
+  })
+);
 /** @internal */
 export type TransactionRead$Outbound = {
-  requires_exemption?: ExemptionRequired$Outbound | undefined;
+  requires_exemption?: ExemptionRequired$Outbound | null | undefined;
   organization_id: string;
   external_id: string;
   date: string;
-  shop_date?: string | undefined;
-  shop_date_tz?: string | undefined;
-  description?: string | undefined;
-  refund_status?: string | undefined;
+  shop_date?: string | null | undefined;
+  shop_date_tz?: string | null | undefined;
+  description?: string | null | undefined;
+  refund_status?: string | null | undefined;
   total_amount: string;
-  customer_id?: string | undefined;
-  marketplace: boolean;
-  exempt?: string | undefined;
-  exemptions?: Array<Exemption$Outbound> | undefined;
-  related_to?: string | undefined;
-  secondary_external_id?: string | undefined;
-  secondary_source?: string | undefined;
-  external_friendly_id?: string | undefined;
+  customer_id?: string | null | undefined;
+  marketplace?: boolean | null | undefined;
+  exempt?: string | null | undefined;
+  exemptions?: Array<TransactionEmbeddedExemption$Outbound> | null | undefined;
+  related_to?: string | null | undefined;
+  secondary_external_id?: string | null | undefined;
+  secondary_source?: string | null | undefined;
+  external_friendly_id?: string | null | undefined;
   total_tax_amount_imported: string;
   tax_rate_imported: string;
   total_tax_amount_calculated: string;
   tax_rate_calculated: string;
   total_tax_liability_amount: string;
-  tax_liability_source?: string | undefined;
+  tax_liability_source?: string | null | undefined;
   taxable_amount: string;
+  is_tax_inclusive?: boolean | null | undefined;
   currency?: string | undefined;
   locked: boolean;
   source?: string | undefined;
-  connection_id?: string | undefined;
-  filing_id?: string | undefined;
-  city?: string | undefined;
-  county?: string | undefined;
-  state?: string | undefined;
-  country?: string | undefined;
-  postal_code?: string | undefined;
-  tax_id?: string | undefined;
+  connection_id?: string | null | undefined;
+  filing_id?: string | null | undefined;
+  city?: string | null | undefined;
+  county?: string | null | undefined;
+  state?: string | null | undefined;
+  country?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  tax_id?: string | null | undefined;
   status?: string | undefined;
+  document_type?: string | null | undefined;
+  created_from?: string | null | undefined;
   address_status?: string | undefined;
   processing_status?: string | undefined;
-  destination_currency?: string | undefined;
-  converted_total_amount?: string | undefined;
-  converted_total_tax_amount_imported?: string | undefined;
-  converted_total_tax_amount_calculated?: string | undefined;
-  conversion_rate?: string | undefined;
-  converted_taxable_amount?: string | undefined;
-  converted_total_discount?: string | undefined;
-  converted_subtotal?: string | undefined;
-  converted_total_tax_liability_amount?: string | undefined;
+  is_duplicate: boolean;
+  destination_currency?: string | null | undefined;
+  converted_total_amount?: string | null | undefined;
+  converted_total_tax_amount_imported?: string | null | undefined;
+  converted_total_tax_amount_calculated?: string | null | undefined;
+  conversion_rate?: string | null | undefined;
+  converted_taxable_amount?: string | null | undefined;
+  converted_total_discount?: string | null | undefined;
+  converted_subtotal?: string | null | undefined;
+  converted_total_tax_liability_amount?: string | null | undefined;
   id: string;
+  store_name?: string | null | undefined;
+  is_deferred_transaction: boolean;
+  direction?: string | undefined;
   addresses: Array<TransactionAddressReadOutput$Outbound>;
   transaction_items: Array<TransactionItemRead$Outbound>;
-  customer?: CustomerRead$Outbound | undefined;
+  total_recoverable_input_vat: string;
+  converted_total_recoverable_input_vat?: string | null | undefined;
+  input_vat_recovery_rate?: string | null | undefined;
+  customer?: CustomerRead$Outbound | null | undefined;
   type: string;
-  total_discount?: string | undefined;
-  subtotal?: string | undefined;
-  final_total_amount?: string | undefined;
-  converted_final_total_amount?: string | undefined;
+  total_discount?: string | null | undefined;
+  subtotal?: string | null | undefined;
+  final_total_amount?: string | null | undefined;
+  converted_final_total_amount?: string | null | undefined;
 };
 
 /** @internal */
@@ -472,105 +560,131 @@ export const TransactionRead$outboundSchema: z.ZodType<
   TransactionRead$Outbound,
   z.ZodTypeDef,
   TransactionRead
-> = z.object({
-  requiresExemption: ExemptionRequired$outboundSchema.optional(),
-  organizationId: z.string(),
-  externalId: z.string(),
-  date: z.date().transform(v => v.toISOString()),
-  shopDate: z.string().optional(),
-  shopDateTz: z.string().optional(),
-  description: z.string().optional(),
-  refundStatus: TransactionRefundStatus$outboundSchema.optional(),
-  totalAmount: z.string().default("0.00"),
-  customerId: z.string().optional(),
-  marketplace: z.boolean().default(false),
-  exempt: TransactionExemptStatusEnum$outboundSchema.optional(),
-  exemptions: z.array(Exemption$outboundSchema).optional(),
-  relatedTo: z.string().optional(),
-  secondaryExternalId: z.string().optional(),
-  secondarySource: z.string().optional(),
-  externalFriendlyId: z.string().optional(),
-  totalTaxAmountImported: z.string().default("0.00"),
-  taxRateImported: z.string().default("0.00"),
-  totalTaxAmountCalculated: z.string().default("0.00"),
-  taxRateCalculated: z.string().default("0.00"),
-  totalTaxLiabilityAmount: z.string().default("0.00"),
-  taxLiabilitySource: TaxLiabilitySourceEnum$outboundSchema.optional(),
-  taxableAmount: z.string().default("0.00"),
-  currency: CurrencyEnum$outboundSchema.optional(),
-  locked: z.boolean().default(false),
-  source: SourceEnum$outboundSchema.optional(),
-  connectionId: z.string().optional(),
-  filingId: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  country: CountryCodeEnum$outboundSchema.optional(),
-  postalCode: z.string().optional(),
-  taxId: z.string().optional(),
-  status: TransactionStatusEnum$outboundSchema.optional(),
-  addressStatus: AddressStatus$outboundSchema.optional(),
-  processingStatus: ProcessingStatusEnum$outboundSchema.optional(),
-  destinationCurrency: CurrencyEnum$outboundSchema.optional(),
-  convertedTotalAmount: z.string().optional(),
-  convertedTotalTaxAmountImported: z.string().optional(),
-  convertedTotalTaxAmountCalculated: z.string().optional(),
-  conversionRate: z.string().optional(),
-  convertedTaxableAmount: z.string().optional(),
-  convertedTotalDiscount: z.string().optional(),
-  convertedSubtotal: z.string().optional(),
-  convertedTotalTaxLiabilityAmount: z.string().optional(),
-  id: z.string(),
-  addresses: z.array(TransactionAddressReadOutput$outboundSchema),
-  transactionItems: z.array(TransactionItemRead$outboundSchema),
-  customer: CustomerRead$outboundSchema.optional(),
-  type: TransactionTypeEnum$outboundSchema,
-  totalDiscount: z.string().optional(),
-  subtotal: z.string().optional(),
-  finalTotalAmount: z.string().optional(),
-  convertedFinalTotalAmount: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    requiresExemption: "requires_exemption",
-    organizationId: "organization_id",
-    externalId: "external_id",
-    shopDate: "shop_date",
-    shopDateTz: "shop_date_tz",
-    refundStatus: "refund_status",
-    totalAmount: "total_amount",
-    customerId: "customer_id",
-    relatedTo: "related_to",
-    secondaryExternalId: "secondary_external_id",
-    secondarySource: "secondary_source",
-    externalFriendlyId: "external_friendly_id",
-    totalTaxAmountImported: "total_tax_amount_imported",
-    taxRateImported: "tax_rate_imported",
-    totalTaxAmountCalculated: "total_tax_amount_calculated",
-    taxRateCalculated: "tax_rate_calculated",
-    totalTaxLiabilityAmount: "total_tax_liability_amount",
-    taxLiabilitySource: "tax_liability_source",
-    taxableAmount: "taxable_amount",
-    connectionId: "connection_id",
-    filingId: "filing_id",
-    postalCode: "postal_code",
-    taxId: "tax_id",
-    addressStatus: "address_status",
-    processingStatus: "processing_status",
-    destinationCurrency: "destination_currency",
-    convertedTotalAmount: "converted_total_amount",
-    convertedTotalTaxAmountImported: "converted_total_tax_amount_imported",
-    convertedTotalTaxAmountCalculated: "converted_total_tax_amount_calculated",
-    conversionRate: "conversion_rate",
-    convertedTaxableAmount: "converted_taxable_amount",
-    convertedTotalDiscount: "converted_total_discount",
-    convertedSubtotal: "converted_subtotal",
-    convertedTotalTaxLiabilityAmount: "converted_total_tax_liability_amount",
-    transactionItems: "transaction_items",
-    totalDiscount: "total_discount",
-    finalTotalAmount: "final_total_amount",
-    convertedFinalTotalAmount: "converted_final_total_amount",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    requiresExemption: z.nullable(ExemptionRequired$outboundSchema).optional(),
+    organizationId: z.string(),
+    externalId: z.string(),
+    date: z.string(),
+    shopDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    shopDateTz: z.nullable(z.string()).optional(),
+    description: z.nullable(z.string()).optional(),
+    refundStatus: z.nullable(TransactionRefundStatus$outboundSchema).optional(),
+    totalAmount: z.string().default("0.00"),
+    customerId: z.nullable(z.string()).optional(),
+    marketplace: z.nullable(z.boolean()).optional(),
+    exempt: z.nullable(TransactionExemptStatusEnum$outboundSchema).optional(),
+    exemptions: z.nullable(z.array(TransactionEmbeddedExemption$outboundSchema))
+      .optional(),
+    relatedTo: z.nullable(z.string()).optional(),
+    secondaryExternalId: z.nullable(z.string()).optional(),
+    secondarySource: z.nullable(z.string()).optional(),
+    externalFriendlyId: z.nullable(z.string()).optional(),
+    totalTaxAmountImported: z.string().default("0.00"),
+    taxRateImported: z.string().default("0.00"),
+    totalTaxAmountCalculated: z.string().default("0.00"),
+    taxRateCalculated: z.string().default("0.00"),
+    totalTaxLiabilityAmount: z.string().default("0.00"),
+    taxLiabilitySource: z.nullable(TaxLiabilitySourceEnum$outboundSchema)
+      .optional(),
+    taxableAmount: z.string().default("0.00"),
+    isTaxInclusive: z.nullable(z.boolean()).optional(),
+    currency: CurrencyEnum$outboundSchema.optional(),
+    locked: z.boolean().default(false),
+    source: SourceEnum$outboundSchema.optional(),
+    connectionId: z.nullable(z.string()).optional(),
+    filingId: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    taxId: z.nullable(z.string()).optional(),
+    status: TransactionStatusEnum$outboundSchema.optional(),
+    documentType: z.nullable(DocumentTypeEnum$outboundSchema).optional(),
+    createdFrom: z.nullable(z.string()).optional(),
+    addressStatus: AddressStatus$outboundSchema.optional(),
+    processingStatus: ProcessingStatusEnum$outboundSchema.optional(),
+    isDuplicate: z.boolean().default(false),
+    destinationCurrency: z.nullable(CurrencyEnum$outboundSchema).optional(),
+    convertedTotalAmount: z.nullable(z.string()).optional(),
+    convertedTotalTaxAmountImported: z.nullable(z.string()).optional(),
+    convertedTotalTaxAmountCalculated: z.nullable(z.string()).optional(),
+    conversionRate: z.nullable(z.string()).optional(),
+    convertedTaxableAmount: z.nullable(z.string()).optional(),
+    convertedTotalDiscount: z.nullable(z.string()).optional(),
+    convertedSubtotal: z.nullable(z.string()).optional(),
+    convertedTotalTaxLiabilityAmount: z.nullable(z.string()).optional(),
+    id: z.string(),
+    storeName: z.nullable(z.string()).optional(),
+    isDeferredTransaction: z.boolean().default(false),
+    direction: TransactionDirectionEnum$outboundSchema.optional(),
+    addresses: z.array(TransactionAddressReadOutput$outboundSchema),
+    transactionItems: z.array(TransactionItemRead$outboundSchema),
+    totalRecoverableInputVat: z.string().default("0.00"),
+    convertedTotalRecoverableInputVat: z.nullable(z.string()).optional(),
+    inputVatRecoveryRate: z.nullable(z.string()).optional(),
+    customer: z.nullable(CustomerRead$outboundSchema).optional(),
+    type: TransactionTypeEnum$outboundSchema,
+    totalDiscount: z.nullable(z.string()).optional(),
+    subtotal: z.nullable(z.string()).optional(),
+    finalTotalAmount: z.nullable(z.string()).optional(),
+    convertedFinalTotalAmount: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      requiresExemption: "requires_exemption",
+      organizationId: "organization_id",
+      externalId: "external_id",
+      shopDate: "shop_date",
+      shopDateTz: "shop_date_tz",
+      refundStatus: "refund_status",
+      totalAmount: "total_amount",
+      customerId: "customer_id",
+      relatedTo: "related_to",
+      secondaryExternalId: "secondary_external_id",
+      secondarySource: "secondary_source",
+      externalFriendlyId: "external_friendly_id",
+      totalTaxAmountImported: "total_tax_amount_imported",
+      taxRateImported: "tax_rate_imported",
+      totalTaxAmountCalculated: "total_tax_amount_calculated",
+      taxRateCalculated: "tax_rate_calculated",
+      totalTaxLiabilityAmount: "total_tax_liability_amount",
+      taxLiabilitySource: "tax_liability_source",
+      taxableAmount: "taxable_amount",
+      isTaxInclusive: "is_tax_inclusive",
+      connectionId: "connection_id",
+      filingId: "filing_id",
+      postalCode: "postal_code",
+      taxId: "tax_id",
+      documentType: "document_type",
+      createdFrom: "created_from",
+      addressStatus: "address_status",
+      processingStatus: "processing_status",
+      isDuplicate: "is_duplicate",
+      destinationCurrency: "destination_currency",
+      convertedTotalAmount: "converted_total_amount",
+      convertedTotalTaxAmountImported: "converted_total_tax_amount_imported",
+      convertedTotalTaxAmountCalculated:
+        "converted_total_tax_amount_calculated",
+      conversionRate: "conversion_rate",
+      convertedTaxableAmount: "converted_taxable_amount",
+      convertedTotalDiscount: "converted_total_discount",
+      convertedSubtotal: "converted_subtotal",
+      convertedTotalTaxLiabilityAmount: "converted_total_tax_liability_amount",
+      storeName: "store_name",
+      isDeferredTransaction: "is_deferred_transaction",
+      transactionItems: "transaction_items",
+      totalRecoverableInputVat: "total_recoverable_input_vat",
+      convertedTotalRecoverableInputVat:
+        "converted_total_recoverable_input_vat",
+      inputVatRecoveryRate: "input_vat_recovery_rate",
+      totalDiscount: "total_discount",
+      finalTotalAmount: "final_total_amount",
+      convertedFinalTotalAmount: "converted_final_total_amount",
+    });
+  })
+);
 
 export function transactionReadToJSON(
   transactionRead: TransactionRead,

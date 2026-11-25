@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import { SDKError } from "./sdkerror.js";
 
 export type ErrorResponseData = {
@@ -41,19 +42,21 @@ export const ErrorResponse$inboundSchema: z.ZodType<
   ErrorResponse,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  detail: z.string(),
-  request$: z.instanceof(Request),
-  response$: z.instanceof(Response),
-  body$: z.string(),
-})
-  .transform((v) => {
-    return new ErrorResponse(v, {
-      request: v.request$,
-      response: v.response$,
-      body: v.body$,
-    });
-  });
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    detail: z.string(),
+    request$: z.instanceof(Request),
+    response$: z.instanceof(Response),
+    body$: z.string(),
+  })
+    .transform((v) => {
+      return new ErrorResponse(v, {
+        request: v.request$,
+        response: v.response$,
+        body: v.body$,
+      });
+    })
+);
 
 /** @internal */
 export type ErrorResponse$Outbound = {
@@ -65,8 +68,10 @@ export const ErrorResponse$outboundSchema: z.ZodType<
   ErrorResponse$Outbound,
   z.ZodTypeDef,
   ErrorResponse
-> = z.instanceof(ErrorResponse)
-  .transform(v => v.data$)
-  .pipe(z.object({
-    detail: z.string(),
-  }));
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.instanceof(ErrorResponse)
+    .transform(v => v.data$)
+    .pipe(z.object({
+      detail: z.string(),
+    }))
+);

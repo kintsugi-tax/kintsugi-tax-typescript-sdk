@@ -13,7 +13,7 @@ const args = {
 
 export const tool$exemptionsGet: ToolDefinition<typeof args> = {
   name: "exemptions-get",
-  description: `Get Exemption By Id
+  description: `Get exemption by id
 
 The Get Exemption By ID API retrieves a specific exemption record by
     its unique ID. This API is useful for retrieving detailed information
@@ -24,7 +24,7 @@ The Get Exemption By ID API retrieves a specific exemption record by
     const [result, apiCall] = await exemptionsGet(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

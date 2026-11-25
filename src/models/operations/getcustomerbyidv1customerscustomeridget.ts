@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 
@@ -13,6 +13,10 @@ export type GetCustomerByIdV1CustomersCustomerIdGetRequest = {
    * Unique identifier of the customer
    */
   customerId: string;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
 
 /** @internal */
@@ -21,16 +25,21 @@ export const GetCustomerByIdV1CustomersCustomerIdGetRequest$inboundSchema:
     GetCustomerByIdV1CustomersCustomerIdGetRequest,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    customer_id: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      "customer_id": "customerId",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customer_id: z.string(),
+      "x-organization-id": z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        "customer_id": "customerId",
+        "x-organization-id": "xOrganizationId",
+      });
+    })
+  );
 /** @internal */
 export type GetCustomerByIdV1CustomersCustomerIdGetRequest$Outbound = {
   customer_id: string;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -39,13 +48,17 @@ export const GetCustomerByIdV1CustomersCustomerIdGetRequest$outboundSchema:
     GetCustomerByIdV1CustomersCustomerIdGetRequest$Outbound,
     z.ZodTypeDef,
     GetCustomerByIdV1CustomersCustomerIdGetRequest
-  > = z.object({
-    customerId: z.string(),
-  }).transform((v) => {
-    return remap$(v, {
-      customerId: "customer_id",
-    });
-  });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      customerId: z.string(),
+      xOrganizationId: z.nullable(z.string()),
+    }).transform((v) => {
+      return remap$(v, {
+        customerId: "customer_id",
+        xOrganizationId: "x-organization-id",
+      });
+    })
+  );
 
 export function getCustomerByIdV1CustomersCustomerIdGetRequestToJSON(
   getCustomerByIdV1CustomersCustomerIdGetRequest:

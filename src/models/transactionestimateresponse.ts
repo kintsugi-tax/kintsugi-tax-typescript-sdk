@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
@@ -96,7 +96,7 @@ export type TransactionEstimateResponseAddress = {
    */
   fullAddress?: string | undefined;
   /**
-   * Status of the address. Deprecated and ignored.
+   * Deprecated: ignored on estimate. Accepted for backward compatibility; each address is validated from structured fields.
    *
    * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
    */
@@ -105,6 +105,10 @@ export type TransactionEstimateResponseAddress = {
    * Additional enriched fields related to the address.
    */
   enrichedFields?: string | undefined;
+  /**
+   * If true, city-level tax rates are not applied for this address.
+   */
+  isUnincorporated?: boolean | undefined;
 };
 
 export type TransactionEstimateResponse = {
@@ -116,20 +120,31 @@ export type TransactionEstimateResponse = {
    * Unique identifier of this transaction in the source system.
    */
   externalId: string;
+  /**
+   * ISO-4217 currency code. Pair with a monetary amount on the same object.
+   */
   currency: CurrencyEnum;
   /**
    * An optional description of the transaction.
    */
-  description?: string | undefined;
-  source?: SourceEnum | undefined;
+  description?: string | null | undefined;
+  /**
+   * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
+   *
+   * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+   */
+  source?: SourceEnum | null | undefined;
   /**
    * Indicates if the transaction involves a marketplace.
    */
-  marketplace?: boolean | undefined;
+  marketplace?: boolean | null | undefined;
   transactionItems: Array<TransactionItemEstimateResponse>;
-  customer?: CustomerBase | undefined;
   /**
-   * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
+   * Details about the customer. If the customer is not found, it will be ignored.
+   */
+  customer?: CustomerBase | null | undefined;
+  /**
+   * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. Optional per-address `status` is deprecated, accepted for backward compatibility, and ignored; estimation always validates from structured address fields.
    */
   addresses: Array<TransactionEstimateResponseAddress>;
   /**
@@ -159,7 +174,9 @@ export type TransactionEstimateResponse = {
 /** @internal */
 export const TransactionEstimateResponseType$inboundSchema: z.ZodNativeEnum<
   typeof TransactionEstimateResponseType
-> = z.nativeEnum(TransactionEstimateResponseType);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.nativeEnum(TransactionEstimateResponseType)
+);
 /** @internal */
 export const TransactionEstimateResponseType$outboundSchema: z.ZodNativeEnum<
   typeof TransactionEstimateResponseType
@@ -170,28 +187,32 @@ export const TransactionEstimateResponseAddress$inboundSchema: z.ZodType<
   TransactionEstimateResponseAddress,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  type: TransactionEstimateResponseType$inboundSchema,
-  phone: z.string().optional(),
-  street_1: z.string().optional(),
-  street_2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string(),
-  postal_code: z.string(),
-  country: z.string(),
-  full_address: z.string().optional(),
-  status: z.string().optional(),
-  enriched_fields: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "street_1": "street1",
-    "street_2": "street2",
-    "postal_code": "postalCode",
-    "full_address": "fullAddress",
-    "enriched_fields": "enrichedFields",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: TransactionEstimateResponseType$inboundSchema,
+    phone: z.string().optional(),
+    street_1: z.string().optional(),
+    street_2: z.string().optional(),
+    city: z.string().optional(),
+    county: z.string().optional(),
+    state: z.string(),
+    postal_code: z.string(),
+    country: z.string(),
+    full_address: z.string().optional(),
+    status: z.string().optional(),
+    enriched_fields: z.string().optional(),
+    is_unincorporated: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      "street_1": "street1",
+      "street_2": "street2",
+      "postal_code": "postalCode",
+      "full_address": "fullAddress",
+      "enriched_fields": "enrichedFields",
+      "is_unincorporated": "isUnincorporated",
+    });
+  })
+);
 /** @internal */
 export type TransactionEstimateResponseAddress$Outbound = {
   type: string;
@@ -206,6 +227,7 @@ export type TransactionEstimateResponseAddress$Outbound = {
   full_address?: string | undefined;
   status?: string | undefined;
   enriched_fields?: string | undefined;
+  is_unincorporated: boolean;
 };
 
 /** @internal */
@@ -213,28 +235,32 @@ export const TransactionEstimateResponseAddress$outboundSchema: z.ZodType<
   TransactionEstimateResponseAddress$Outbound,
   z.ZodTypeDef,
   TransactionEstimateResponseAddress
-> = z.object({
-  type: TransactionEstimateResponseType$outboundSchema,
-  phone: z.string().optional(),
-  street1: z.string().optional(),
-  street2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string(),
-  postalCode: z.string(),
-  country: z.string(),
-  fullAddress: z.string().optional(),
-  status: z.string().optional(),
-  enrichedFields: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    street1: "street_1",
-    street2: "street_2",
-    postalCode: "postal_code",
-    fullAddress: "full_address",
-    enrichedFields: "enriched_fields",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    type: TransactionEstimateResponseType$outboundSchema,
+    phone: z.string().optional(),
+    street1: z.string().optional(),
+    street2: z.string().optional(),
+    city: z.string().optional(),
+    county: z.string().optional(),
+    state: z.string(),
+    postalCode: z.string(),
+    country: z.string(),
+    fullAddress: z.string().optional(),
+    status: z.string().optional(),
+    enrichedFields: z.string().optional(),
+    isUnincorporated: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      street1: "street_1",
+      street2: "street_2",
+      postalCode: "postal_code",
+      fullAddress: "full_address",
+      enrichedFields: "enriched_fields",
+      isUnincorporated: "is_unincorporated",
+    });
+  })
+);
 
 export function transactionEstimateResponseAddressToJSON(
   transactionEstimateResponseAddress: TransactionEstimateResponseAddress,
@@ -261,44 +287,46 @@ export const TransactionEstimateResponse$inboundSchema: z.ZodType<
   TransactionEstimateResponse,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  external_id: z.string(),
-  currency: CurrencyEnum$inboundSchema,
-  description: z.string().optional(),
-  source: SourceEnum$inboundSchema.optional(),
-  marketplace: z.boolean().default(false),
-  transaction_items: z.array(TransactionItemEstimateResponse$inboundSchema),
-  customer: CustomerBase$inboundSchema.optional(),
-  addresses: z.array(
-    z.lazy(() => TransactionEstimateResponseAddress$inboundSchema),
-  ),
-  total_tax_amount_calculated: z.string().default("0.00"),
-  taxable_amount: z.string().default("0.00"),
-  tax_rate_calculated: z.string().default("0.00"),
-  nexus_met: z.boolean().default(false),
-  has_active_registration: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "transaction_items": "transactionItems",
-    "total_tax_amount_calculated": "totalTaxAmountCalculated",
-    "taxable_amount": "taxableAmount",
-    "tax_rate_calculated": "taxRateCalculated",
-    "nexus_met": "nexusMet",
-    "has_active_registration": "hasActiveRegistration",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    external_id: z.string(),
+    currency: CurrencyEnum$inboundSchema,
+    description: z.nullable(z.string()).optional(),
+    source: z.nullable(SourceEnum$inboundSchema).optional(),
+    marketplace: z.nullable(z.boolean()).optional(),
+    transaction_items: z.array(TransactionItemEstimateResponse$inboundSchema),
+    customer: z.nullable(CustomerBase$inboundSchema).optional(),
+    addresses: z.array(
+      z.lazy(() => TransactionEstimateResponseAddress$inboundSchema),
+    ),
+    total_tax_amount_calculated: z.string().default("0.00"),
+    taxable_amount: z.string().default("0.00"),
+    tax_rate_calculated: z.string().default("0.00"),
+    nexus_met: z.boolean().default(false),
+    has_active_registration: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "transaction_items": "transactionItems",
+      "total_tax_amount_calculated": "totalTaxAmountCalculated",
+      "taxable_amount": "taxableAmount",
+      "tax_rate_calculated": "taxRateCalculated",
+      "nexus_met": "nexusMet",
+      "has_active_registration": "hasActiveRegistration",
+    });
+  })
+);
 /** @internal */
 export type TransactionEstimateResponse$Outbound = {
   date: string;
   external_id: string;
   currency: string;
-  description?: string | undefined;
-  source?: string | undefined;
-  marketplace: boolean;
+  description?: string | null | undefined;
+  source?: string | null | undefined;
+  marketplace?: boolean | null | undefined;
   transaction_items: Array<TransactionItemEstimateResponse$Outbound>;
-  customer?: CustomerBase$Outbound | undefined;
+  customer?: CustomerBase$Outbound | null | undefined;
   addresses: Array<TransactionEstimateResponseAddress$Outbound>;
   total_tax_amount_calculated: string;
   taxable_amount: string;
@@ -312,34 +340,36 @@ export const TransactionEstimateResponse$outboundSchema: z.ZodType<
   TransactionEstimateResponse$Outbound,
   z.ZodTypeDef,
   TransactionEstimateResponse
-> = z.object({
-  date: z.date().transform(v => v.toISOString()),
-  externalId: z.string(),
-  currency: CurrencyEnum$outboundSchema,
-  description: z.string().optional(),
-  source: SourceEnum$outboundSchema.optional(),
-  marketplace: z.boolean().default(false),
-  transactionItems: z.array(TransactionItemEstimateResponse$outboundSchema),
-  customer: CustomerBase$outboundSchema.optional(),
-  addresses: z.array(
-    z.lazy(() => TransactionEstimateResponseAddress$outboundSchema),
-  ),
-  totalTaxAmountCalculated: z.string().default("0.00"),
-  taxableAmount: z.string().default("0.00"),
-  taxRateCalculated: z.string().default("0.00"),
-  nexusMet: z.boolean().default(false),
-  hasActiveRegistration: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    transactionItems: "transaction_items",
-    totalTaxAmountCalculated: "total_tax_amount_calculated",
-    taxableAmount: "taxable_amount",
-    taxRateCalculated: "tax_rate_calculated",
-    nexusMet: "nexus_met",
-    hasActiveRegistration: "has_active_registration",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    date: z.date().transform(v => v.toISOString()),
+    externalId: z.string(),
+    currency: CurrencyEnum$outboundSchema,
+    description: z.nullable(z.string()).optional(),
+    source: z.nullable(SourceEnum$outboundSchema).optional(),
+    marketplace: z.nullable(z.boolean()).optional(),
+    transactionItems: z.array(TransactionItemEstimateResponse$outboundSchema),
+    customer: z.nullable(CustomerBase$outboundSchema).optional(),
+    addresses: z.array(
+      z.lazy(() => TransactionEstimateResponseAddress$outboundSchema),
+    ),
+    totalTaxAmountCalculated: z.string().default("0.00"),
+    taxableAmount: z.string().default("0.00"),
+    taxRateCalculated: z.string().default("0.00"),
+    nexusMet: z.boolean().default(false),
+    hasActiveRegistration: z.boolean().default(false),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      transactionItems: "transaction_items",
+      totalTaxAmountCalculated: "total_tax_amount_calculated",
+      taxableAmount: "taxable_amount",
+      taxRateCalculated: "tax_rate_calculated",
+      nexusMet: "nexus_met",
+      hasActiveRegistration: "has_active_registration",
+    });
+  })
+);
 
 export function transactionEstimateResponseToJSON(
   transactionEstimateResponse: TransactionEstimateResponse,

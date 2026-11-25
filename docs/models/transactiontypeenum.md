@@ -11,5 +11,5 @@ let value: TransactionTypeEnum = "SALE";
 ## Values
 
 ```typescript
-"SALE" | "FULL_CREDIT_NOTE" | "PARTIAL_CREDIT_NOTE" | "TAX_REFUND" | "ARCHIVE"
+"SALE" | "FULL_CREDIT_NOTE" | "PARTIAL_CREDIT_NOTE" | "TAX_REFUND" | "TAX_COLLECTION" | "ARCHIVE"
 ```

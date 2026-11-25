@@ -3,6 +3,7 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../../lib/schemas.js";
 import * as models from "../index.js";
 import { SDKError } from "./sdkerror.js";
 
@@ -39,21 +40,23 @@ export const BackendSrcAddressValidationResponsesValidationErrorResponse$inbound
     BackendSrcAddressValidationResponsesValidationErrorResponse,
     z.ZodTypeDef,
     unknown
-  > = z.object({
-    detail: z.array(
-      models
-        .BackendSrcAddressValidationResponsesValidationErrorItem$inboundSchema,
-    ),
-    request$: z.instanceof(Request),
-    response$: z.instanceof(Response),
-    body$: z.string(),
-  })
-    .transform((v) => {
-      return new BackendSrcAddressValidationResponsesValidationErrorResponse(
-        v,
-        { request: v.request$, response: v.response$, body: v.body$ },
-      );
-    });
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      detail: z.array(
+        models
+          .BackendSrcAddressValidationResponsesValidationErrorItem$inboundSchema,
+      ),
+      request$: z.instanceof(Request),
+      response$: z.instanceof(Response),
+      body$: z.string(),
+    })
+      .transform((v) => {
+        return new BackendSrcAddressValidationResponsesValidationErrorResponse(
+          v,
+          { request: v.request$, response: v.response$, body: v.body$ },
+        );
+      })
+  );
 
 /** @internal */
 export type BackendSrcAddressValidationResponsesValidationErrorResponse$Outbound =
@@ -69,11 +72,13 @@ export const BackendSrcAddressValidationResponsesValidationErrorResponse$outboun
     BackendSrcAddressValidationResponsesValidationErrorResponse$Outbound,
     z.ZodTypeDef,
     BackendSrcAddressValidationResponsesValidationErrorResponse
-  > = z.instanceof(BackendSrcAddressValidationResponsesValidationErrorResponse)
-    .transform(v => v.data$)
-    .pipe(z.object({
-      detail: z.array(
-        models
-          .BackendSrcAddressValidationResponsesValidationErrorItem$outboundSchema,
-      ),
-    }));
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.instanceof(BackendSrcAddressValidationResponsesValidationErrorResponse)
+      .transform(v => v.data$)
+      .pipe(z.object({
+        detail: z.array(
+          models
+            .BackendSrcAddressValidationResponsesValidationErrorItem$outboundSchema,
+        ),
+      }))
+  );

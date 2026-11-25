@@ -14,13 +14,13 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Products extends ClientSDK {
   /**
-   * Get Products
+   * Get products
    *
    * @remarks
    * Retrieve a paginated list of products based on filters and search query.
    */
   async getProductsV1ProductsGet(
-    request?: operations.GetProductsV1ProductsGetRequest | undefined,
+    request: operations.GetProductsV1ProductsGetRequest,
     options?: RequestOptions,
   ): Promise<models.PageProductRead> {
     return unwrapAsync(productsGetProductsV1ProductsGet(
@@ -31,17 +31,24 @@ export class Products extends ClientSDK {
   }
 
   /**
-   * Create Product
+   * Create product
    *
    * @remarks
    * The Create Product API allows users to manually create a new product
    *     in the system. This includes specifying product details such as category,
    *     subcategory, and tax exemption status, etc. You can
-   *     retrieve supported categories and subcategories from
-   *     [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+   *     retrieve supported categories and subcategories from the
+   *     [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+   *     or browse the full catalog with descriptions and examples in the
+   *     [Product Categories guide](/docs/guides/product-categories).
+   *
+   *     Idempotent on ``(organization_id, external_id, source)`` for connectionless
+   *     creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+   *     match is unchanged; a previously deleted match is revived (status returns to
+   *     ``PENDING``). Use PUT to update fields.
    */
   async createProductV1ProductsPost(
-    request: models.ProductCreateManual,
+    request: operations.CreateProductV1ProductsPostRequest,
     options?: RequestOptions,
   ): Promise<models.ProductRead> {
     return unwrapAsync(productsCreateProductV1ProductsPost(
@@ -52,7 +59,7 @@ export class Products extends ClientSDK {
   }
 
   /**
-   * Get Product Categories
+   * Get product categories
    *
    * @remarks
    * The Get Product Categories API retrieves all
@@ -60,16 +67,18 @@ export class Products extends ClientSDK {
    *     appropriate categories for their products.
    */
   async getProductCategoriesV1ProductsCategoriesGet(
+    request: operations.GetProductCategoriesV1ProductsCategoriesGetRequest,
     options?: RequestOptions,
-  ): Promise<models.ProductCategories> {
+  ): Promise<models.ProductCategoryRead> {
     return unwrapAsync(productsGetProductCategoriesV1ProductsCategoriesGet(
       this,
+      request,
       options,
     ));
   }
 
   /**
-   * Get Product By Id
+   * Get product by id
    *
    * @remarks
    * The Get Product By ID API retrieves detailed information about
@@ -88,13 +97,15 @@ export class Products extends ClientSDK {
   }
 
   /**
-   * Update Product
+   * Update product
    *
    * @remarks
    * The Update Product API allows users to modify the details of
    *     an existing product identified by its unique product_id. You can
-   *     retrieve supported categories and subcategories from
-   *     [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+   *     retrieve supported categories and subcategories from the
+   *     [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+   *     or browse the full catalog with descriptions and examples in the
+   *     [Product Categories guide](/docs/guides/product-categories)
    */
   async update(
     request: operations.UpdateProductV1ProductsProductIdPutRequest,

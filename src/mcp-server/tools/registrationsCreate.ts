@@ -7,12 +7,13 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.CreateRegistration$inboundSchema,
+  request:
+    operations.CreateRegistrationV1RegistrationsPostRequest$inboundSchema,
 };
 
 export const tool$registrationsCreate: ToolDefinition<typeof args> = {
   name: "registrations-create",
-  description: `Create Registration
+  description: `Create registration
 
 The Create Registration API allows users to create a new registration
     for tracking and managing tax filings efficiently across multiple jurisdictions.`,
@@ -21,7 +22,7 @@ The Create Registration API allows users to create a new registration
     const [result, apiCall] = await registrationsCreate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

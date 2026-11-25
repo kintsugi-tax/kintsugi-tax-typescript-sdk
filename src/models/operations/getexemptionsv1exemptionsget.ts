@@ -4,48 +4,57 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../../lib/primitives.js";
-import { safeParse } from "../../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
+import { RFCDate } from "../../types/rfcdate.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
+
+export type GetExemptionsV1ExemptionsGetCountryCode =
+  | models.CountryCodeEnum
+  | string;
 
 export type GetExemptionsV1ExemptionsGetRequest = {
   /**
    * Search term to filter exemptions by exemption ID, customer name, or customer email
    */
-  searchQuery?: string | undefined;
+  searchQuery?: string | null | undefined;
   /**
    * Filter exemptions by their status
    */
-  statusIn?: string | undefined;
+  statusIn?: string | null | undefined;
   /**
    * Country code in ISO 3166-1 alpha-2 format
    */
-  countryCode?: Array<models.CountryCodeEnum> | undefined;
+  countryCode?: Array<models.CountryCodeEnum | string> | null | undefined;
   /**
    * Jurisdiction identifier
    */
-  jurisdiction?: string | undefined;
+  jurisdiction?: string | null | undefined;
   /**
-   * Start date for filtering exemptions
+   * Include exemptions whose validity start date is on or after this date (YYYY-MM-DD)
    */
-  startDate?: string | undefined;
+  startDate?: RFCDate | null | undefined;
   /**
-   * End date for filtering exemptions
+   * Include exemptions whose validity end date is on or before this date (YYYY-MM-DD). Open-ended exemptions (null end date) are excluded when this filter is set.
    */
-  endDate?: string | undefined;
+  endDate?: RFCDate | null | undefined;
   /**
    * Customer ID to filter exemptions
    */
-  customerId?: string | undefined;
+  customerId?: string | null | undefined;
   /**
    * Transaction ID to filter exemptions
    */
-  transactionId?: string | undefined;
+  transactionId?: string | null | undefined;
+  /**
+   * Filter exemptions by customer connection ID (comma-separated)
+   */
+  connectionIdIn?: string | null | undefined;
   /**
    * Fields to sort by (comma-separated)
    */
-  orderBy?: string | undefined;
+  orderBy?: string | null | undefined;
   /**
    * Page number
    */
@@ -54,50 +63,111 @@ export type GetExemptionsV1ExemptionsGetRequest = {
    * Page size
    */
   size?: number | undefined;
+  /**
+   * The unique identifier for the organization making the request
+   */
+  xOrganizationId: string | null;
 };
+
+/** @internal */
+export const GetExemptionsV1ExemptionsGetCountryCode$inboundSchema: z.ZodType<
+  GetExemptionsV1ExemptionsGetCountryCode,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$inboundSchema, z.string()])
+);
+/** @internal */
+export type GetExemptionsV1ExemptionsGetCountryCode$Outbound = string | string;
+
+/** @internal */
+export const GetExemptionsV1ExemptionsGetCountryCode$outboundSchema: z.ZodType<
+  GetExemptionsV1ExemptionsGetCountryCode$Outbound,
+  z.ZodTypeDef,
+  GetExemptionsV1ExemptionsGetCountryCode
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([models.CountryCodeEnum$outboundSchema, z.string()])
+);
+
+export function getExemptionsV1ExemptionsGetCountryCodeToJSON(
+  getExemptionsV1ExemptionsGetCountryCode:
+    GetExemptionsV1ExemptionsGetCountryCode,
+): string {
+  return JSON.stringify(
+    GetExemptionsV1ExemptionsGetCountryCode$outboundSchema.parse(
+      getExemptionsV1ExemptionsGetCountryCode,
+    ),
+  );
+}
+export function getExemptionsV1ExemptionsGetCountryCodeFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  GetExemptionsV1ExemptionsGetCountryCode,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      GetExemptionsV1ExemptionsGetCountryCode$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'GetExemptionsV1ExemptionsGetCountryCode' from JSON`,
+  );
+}
 
 /** @internal */
 export const GetExemptionsV1ExemptionsGetRequest$inboundSchema: z.ZodType<
   GetExemptionsV1ExemptionsGetRequest,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  search_query: z.string().optional(),
-  status__in: z.string().default("ACTIVE,INACTIVE,EXPIRED"),
-  country_code: z.array(models.CountryCodeEnum$inboundSchema).optional(),
-  jurisdiction: z.string().optional(),
-  start_date: z.string().optional(),
-  end_date: z.string().optional(),
-  customer_id: z.string().optional(),
-  transaction_id: z.string().optional(),
-  order_by: z.string().default("end_date,FEIN,sales_tax_id,status"),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    "search_query": "searchQuery",
-    "status__in": "statusIn",
-    "country_code": "countryCode",
-    "start_date": "startDate",
-    "end_date": "endDate",
-    "customer_id": "customerId",
-    "transaction_id": "transactionId",
-    "order_by": "orderBy",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    search_query: z.nullable(z.string()).optional(),
+    status__in: z.nullable(z.string()).optional(),
+    country_code: z.nullable(
+      z.array(z.union([models.CountryCodeEnum$inboundSchema, z.string()])),
+    ).optional(),
+    jurisdiction: z.nullable(z.string()).optional(),
+    start_date: z.nullable(z.string().transform(v => new RFCDate(v)))
+      .optional(),
+    end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    customer_id: z.nullable(z.string()).optional(),
+    transaction_id: z.nullable(z.string()).optional(),
+    connection_id__in: z.nullable(z.string()).optional(),
+    order_by: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    "x-organization-id": z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      "search_query": "searchQuery",
+      "status__in": "statusIn",
+      "country_code": "countryCode",
+      "start_date": "startDate",
+      "end_date": "endDate",
+      "customer_id": "customerId",
+      "transaction_id": "transactionId",
+      "connection_id__in": "connectionIdIn",
+      "order_by": "orderBy",
+      "x-organization-id": "xOrganizationId",
+    });
+  })
+);
 /** @internal */
 export type GetExemptionsV1ExemptionsGetRequest$Outbound = {
-  search_query?: string | undefined;
-  status__in: string;
-  country_code?: Array<string> | undefined;
-  jurisdiction?: string | undefined;
-  start_date?: string | undefined;
-  end_date?: string | undefined;
-  customer_id?: string | undefined;
-  transaction_id?: string | undefined;
-  order_by: string;
+  search_query?: string | null | undefined;
+  status__in?: string | null | undefined;
+  country_code?: Array<string | string> | null | undefined;
+  jurisdiction?: string | null | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  customer_id?: string | null | undefined;
+  transaction_id?: string | null | undefined;
+  connection_id__in?: string | null | undefined;
+  order_by?: string | null | undefined;
   page: number;
   size: number;
+  "x-organization-id": string | null;
 };
 
 /** @internal */
@@ -105,30 +175,40 @@ export const GetExemptionsV1ExemptionsGetRequest$outboundSchema: z.ZodType<
   GetExemptionsV1ExemptionsGetRequest$Outbound,
   z.ZodTypeDef,
   GetExemptionsV1ExemptionsGetRequest
-> = z.object({
-  searchQuery: z.string().optional(),
-  statusIn: z.string().default("ACTIVE,INACTIVE,EXPIRED"),
-  countryCode: z.array(models.CountryCodeEnum$outboundSchema).optional(),
-  jurisdiction: z.string().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  customerId: z.string().optional(),
-  transactionId: z.string().optional(),
-  orderBy: z.string().default("end_date,FEIN,sales_tax_id,status"),
-  page: z.number().int().default(1),
-  size: z.number().int().default(50),
-}).transform((v) => {
-  return remap$(v, {
-    searchQuery: "search_query",
-    statusIn: "status__in",
-    countryCode: "country_code",
-    startDate: "start_date",
-    endDate: "end_date",
-    customerId: "customer_id",
-    transactionId: "transaction_id",
-    orderBy: "order_by",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    searchQuery: z.nullable(z.string()).optional(),
+    statusIn: z.nullable(z.string()).optional(),
+    countryCode: z.nullable(
+      z.array(z.union([models.CountryCodeEnum$outboundSchema, z.string()])),
+    ).optional(),
+    jurisdiction: z.nullable(z.string()).optional(),
+    startDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    customerId: z.nullable(z.string()).optional(),
+    transactionId: z.nullable(z.string()).optional(),
+    connectionIdIn: z.nullable(z.string()).optional(),
+    orderBy: z.nullable(z.string()).optional(),
+    page: z.number().int().default(1),
+    size: z.number().int().default(50),
+    xOrganizationId: z.nullable(z.string()),
+  }).transform((v) => {
+    return remap$(v, {
+      searchQuery: "search_query",
+      statusIn: "status__in",
+      countryCode: "country_code",
+      startDate: "start_date",
+      endDate: "end_date",
+      customerId: "customer_id",
+      transactionId: "transaction_id",
+      connectionIdIn: "connection_id__in",
+      orderBy: "order_by",
+      xOrganizationId: "x-organization-id",
+    });
+  })
+);
 
 export function getExemptionsV1ExemptionsGetRequestToJSON(
   getExemptionsV1ExemptionsGetRequest: GetExemptionsV1ExemptionsGetRequest,

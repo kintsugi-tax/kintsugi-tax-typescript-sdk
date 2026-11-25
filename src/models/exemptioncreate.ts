@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
 import {
@@ -29,8 +29,11 @@ export type ExemptionCreate = {
   /**
    * The jurisdiction identifier for the exemption
    */
-  jurisdiction?: string | undefined;
-  countryCode?: CountryCodeEnum | undefined;
+  jurisdiction?: string | null | undefined;
+  /**
+   * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
+   */
+  countryCode?: CountryCodeEnum | null | undefined;
   /**
    * Start date for the exemption validity period (YYYY-MM-DD format)
    */
@@ -38,7 +41,7 @@ export type ExemptionCreate = {
   /**
    * End date for the exemption validity period (YYYY-MM-DD format)
    */
-  endDate?: string | undefined;
+  endDate?: RFCDate | null | undefined;
   /**
    * Unique identifier for the customer associated with the exemption
    */
@@ -46,7 +49,7 @@ export type ExemptionCreate = {
   /**
    * Unique identifier for the transaction, if applicable
    */
-  transactionId?: string | undefined;
+  transactionId?: string | null | undefined;
   /**
    * Indicates whether the exemption is for a reseller
    */
@@ -60,6 +63,10 @@ export type ExemptionCreate = {
    */
   salesTaxId: string;
   status: ExemptionStatus;
+  /**
+   * Partial-exemption certificate form code. Required when exemption_type is partial; must be absent otherwise.
+   */
+  certificateType?: string | null | undefined;
 };
 
 /** @internal */
@@ -67,43 +74,48 @@ export const ExemptionCreate$inboundSchema: z.ZodType<
   ExemptionCreate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  exemption_type: ExemptionType$inboundSchema,
-  jurisdiction: z.string().optional(),
-  country_code: CountryCodeEnum$inboundSchema.optional(),
-  start_date: z.string().transform(v => new RFCDate(v)),
-  end_date: z.string().optional(),
-  customer_id: z.string(),
-  transaction_id: z.string().optional(),
-  reseller: z.boolean().default(false),
-  FEIN: z.string(),
-  sales_tax_id: z.string(),
-  status: ExemptionStatus$inboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    "exemption_type": "exemptionType",
-    "country_code": "countryCode",
-    "start_date": "startDate",
-    "end_date": "endDate",
-    "customer_id": "customerId",
-    "transaction_id": "transactionId",
-    "FEIN": "fein",
-    "sales_tax_id": "salesTaxId",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    exemption_type: ExemptionType$inboundSchema,
+    jurisdiction: z.nullable(z.string()).optional(),
+    country_code: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    start_date: z.string().transform(v => new RFCDate(v)),
+    end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    customer_id: z.string(),
+    transaction_id: z.nullable(z.string()).optional(),
+    reseller: z.boolean().default(false),
+    FEIN: z.string(),
+    sales_tax_id: z.string(),
+    status: ExemptionStatus$inboundSchema,
+    certificate_type: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "exemption_type": "exemptionType",
+      "country_code": "countryCode",
+      "start_date": "startDate",
+      "end_date": "endDate",
+      "customer_id": "customerId",
+      "transaction_id": "transactionId",
+      "FEIN": "fein",
+      "sales_tax_id": "salesTaxId",
+      "certificate_type": "certificateType",
+    });
+  })
+);
 /** @internal */
 export type ExemptionCreate$Outbound = {
   exemption_type: string;
-  jurisdiction?: string | undefined;
-  country_code?: string | undefined;
+  jurisdiction?: string | null | undefined;
+  country_code?: string | null | undefined;
   start_date: string;
-  end_date?: string | undefined;
+  end_date?: string | null | undefined;
   customer_id: string;
-  transaction_id?: string | undefined;
+  transaction_id?: string | null | undefined;
   reseller: boolean;
   FEIN: string;
   sales_tax_id: string;
   status: string;
+  certificate_type?: string | null | undefined;
 };
 
 /** @internal */
@@ -111,30 +123,35 @@ export const ExemptionCreate$outboundSchema: z.ZodType<
   ExemptionCreate$Outbound,
   z.ZodTypeDef,
   ExemptionCreate
-> = z.object({
-  exemptionType: ExemptionType$outboundSchema,
-  jurisdiction: z.string().optional(),
-  countryCode: CountryCodeEnum$outboundSchema.optional(),
-  startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  endDate: z.string().optional(),
-  customerId: z.string(),
-  transactionId: z.string().optional(),
-  reseller: z.boolean().default(false),
-  fein: z.string(),
-  salesTaxId: z.string(),
-  status: ExemptionStatus$outboundSchema,
-}).transform((v) => {
-  return remap$(v, {
-    exemptionType: "exemption_type",
-    countryCode: "country_code",
-    startDate: "start_date",
-    endDate: "end_date",
-    customerId: "customer_id",
-    transactionId: "transaction_id",
-    fein: "FEIN",
-    salesTaxId: "sales_tax_id",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    exemptionType: ExemptionType$outboundSchema,
+    jurisdiction: z.nullable(z.string()).optional(),
+    countryCode: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    startDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    customerId: z.string(),
+    transactionId: z.nullable(z.string()).optional(),
+    reseller: z.boolean().default(false),
+    fein: z.string(),
+    salesTaxId: z.string(),
+    status: ExemptionStatus$outboundSchema,
+    certificateType: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      exemptionType: "exemption_type",
+      countryCode: "country_code",
+      startDate: "start_date",
+      endDate: "end_date",
+      customerId: "customer_id",
+      transactionId: "transaction_id",
+      fein: "FEIN",
+      salesTaxId: "sales_tax_id",
+      certificateType: "certificate_type",
+    });
+  })
+);
 
 export function exemptionCreateToJSON(
   exemptionCreate: ExemptionCreate,

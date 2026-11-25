@@ -5,6 +5,7 @@
 import { ClientSDK } from "../lib/sdks.js";
 import { AddressValidation } from "./addressvalidation.js";
 import { Customers } from "./customers.js";
+import { CustomerTaxRegistration } from "./customertaxregistration.js";
 import { Exemptions } from "./exemptions.js";
 import { Filings } from "./filings.js";
 import { Nexus } from "./nexus.js";
@@ -22,6 +23,13 @@ export class SDK extends ClientSDK {
   private _customers?: Customers;
   get customers(): Customers {
     return (this._customers ??= new Customers(this._options));
+  }
+
+  private _customerTaxRegistration?: CustomerTaxRegistration;
+  get customerTaxRegistration(): CustomerTaxRegistration {
+    return (this._customerTaxRegistration ??= new CustomerTaxRegistration(
+      this._options,
+    ));
   }
 
   private _exemptions?: Exemptions;
@@ -49,13 +57,13 @@ export class SDK extends ClientSDK {
     return (this._registrations ??= new Registrations(this._options));
   }
 
-  private _transactions?: Transactions;
-  get transactions(): Transactions {
-    return (this._transactions ??= new Transactions(this._options));
-  }
-
   private _taxEstimation?: TaxEstimation;
   get taxEstimation(): TaxEstimation {
     return (this._taxEstimation ??= new TaxEstimation(this._options));
+  }
+
+  private _transactions?: Transactions;
+  get transactions(): Transactions {
+    return (this._transactions ??= new Transactions(this._options));
   }
 }

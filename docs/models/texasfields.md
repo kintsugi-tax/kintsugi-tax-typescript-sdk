@@ -1,0 +1,28 @@
+# TexasFields
+
+State-specific fields for Texas Comptroller sales tax registration import (Webfile).
+
+## Example Usage
+
+```typescript
+import { TexasFields } from "@kintsugi-tax/tax-platform-sdk/models";
+
+let value: TexasFields = {
+  registrationType: "REMOTE_SELLER",
+  businessName: "<value>",
+  texasTaxpayerNumber: "<value>",
+  webfileNumber: "<value>",
+};
+```
+
+## Fields
+
+| Field                                                                                     | Type                                                                                      | Required                                                                                  | Description                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `registrationType`                                                                        | [models.TexasRegistrationType](../models/texasregistrationtype.md)                        | :heavy_check_mark:                                                                        | N/A                                                                                       |
+| `mfaCompleted`                                                                            | *boolean*                                                                                 | :heavy_minus_sign:                                                                        | Whether the customer completed MFA with Kintsugi virtual mail on their Texas tax account. |
+| `businessName`                                                                            | *string*                                                                                  | :heavy_check_mark:                                                                        | State registered business name on the Texas sales tax license.                            |
+| `texasTaxpayerNumber`                                                                     | *string*                                                                                  | :heavy_check_mark:                                                                        | 11-digit Texas Taxpayer Number from the Comptroller (begins with 1 or 3).                 |
+| `webfileNumber`                                                                           | *string*                                                                                  | :heavy_check_mark:                                                                        | 8-character WebFile ID for sales tax (RT plus six digits; not XT franchise tax).          |
+| `registeredLocationNumber`                                                                | *string*                                                                                  | :heavy_minus_sign:                                                                        | Registered location number from Texas sales tax paperwork or taxpayer record.             |
+| `registeredAddress`                                                                       | *string*                                                                                  | :heavy_minus_sign:                                                                        | Address provided when registering for the Texas sales tax license.                        |

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { RFCDate } from "../types/rfcdate.js";
 import {
@@ -46,7 +46,7 @@ export type PhysicalNexusRead = {
    * @remarks
    *                                         nexus ended, if applicable.
    */
-  endDate?: string | undefined;
+  endDate?: RFCDate | null | undefined;
   category: PhysicalNexusCategory;
   /**
    * Optional
@@ -54,24 +54,24 @@ export type PhysicalNexusRead = {
    * @remarks
    *                                         external identifier for the nexus.
    */
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   source?: PhysicalNexusSource | undefined;
   /**
    * Primary street address for the physical presence location.
    */
-  street1?: string | undefined;
+  street1?: string | null | undefined;
   /**
    * Additional street address details, such as suite or unit number.
    */
-  street2?: string | undefined;
+  street2?: string | null | undefined;
   /**
    * City of the physical presence location.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * ZIP or postal code of the physical presence location.
    */
-  postalCode?: string | undefined;
+  postalCode?: string | null | undefined;
   /**
    * The unique identifier for the physical nexus.
    */
@@ -83,44 +83,46 @@ export const PhysicalNexusRead$inboundSchema: z.ZodType<
   PhysicalNexusRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  country_code: CountryCodeEnum$inboundSchema,
-  state_code: z.string(),
-  start_date: z.string().transform(v => new RFCDate(v)),
-  end_date: z.string().optional(),
-  category: PhysicalNexusCategory$inboundSchema,
-  external_id: z.string().optional(),
-  source: PhysicalNexusSource$inboundSchema.optional(),
-  street_1: z.string().optional(),
-  street_2: z.string().optional(),
-  city: z.string().optional(),
-  postal_code: z.string().optional(),
-  id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "country_code": "countryCode",
-    "state_code": "stateCode",
-    "start_date": "startDate",
-    "end_date": "endDate",
-    "external_id": "externalId",
-    "street_1": "street1",
-    "street_2": "street2",
-    "postal_code": "postalCode",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    country_code: CountryCodeEnum$inboundSchema,
+    state_code: z.string(),
+    start_date: z.string().transform(v => new RFCDate(v)),
+    end_date: z.nullable(z.string().transform(v => new RFCDate(v))).optional(),
+    category: PhysicalNexusCategory$inboundSchema,
+    external_id: z.nullable(z.string()).optional(),
+    source: PhysicalNexusSource$inboundSchema.optional(),
+    street_1: z.nullable(z.string()).optional(),
+    street_2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+    id: z.string(),
+  }).transform((v) => {
+    return remap$(v, {
+      "country_code": "countryCode",
+      "state_code": "stateCode",
+      "start_date": "startDate",
+      "end_date": "endDate",
+      "external_id": "externalId",
+      "street_1": "street1",
+      "street_2": "street2",
+      "postal_code": "postalCode",
+    });
+  })
+);
 /** @internal */
 export type PhysicalNexusRead$Outbound = {
   country_code: string;
   state_code: string;
   start_date: string;
-  end_date?: string | undefined;
+  end_date?: string | null | undefined;
   category: string;
-  external_id?: string | undefined;
+  external_id?: string | null | undefined;
   source?: string | undefined;
-  street_1?: string | undefined;
-  street_2?: string | undefined;
-  city?: string | undefined;
-  postal_code?: string | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
+  city?: string | null | undefined;
+  postal_code?: string | null | undefined;
   id: string;
 };
 
@@ -129,31 +131,34 @@ export const PhysicalNexusRead$outboundSchema: z.ZodType<
   PhysicalNexusRead$Outbound,
   z.ZodTypeDef,
   PhysicalNexusRead
-> = z.object({
-  countryCode: CountryCodeEnum$outboundSchema,
-  stateCode: z.string(),
-  startDate: z.instanceof(RFCDate).transform(v => v.toString()),
-  endDate: z.string().optional(),
-  category: PhysicalNexusCategory$outboundSchema,
-  externalId: z.string().optional(),
-  source: PhysicalNexusSource$outboundSchema.optional(),
-  street1: z.string().optional(),
-  street2: z.string().optional(),
-  city: z.string().optional(),
-  postalCode: z.string().optional(),
-  id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    countryCode: "country_code",
-    stateCode: "state_code",
-    startDate: "start_date",
-    endDate: "end_date",
-    externalId: "external_id",
-    street1: "street_1",
-    street2: "street_2",
-    postalCode: "postal_code",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    countryCode: CountryCodeEnum$outboundSchema,
+    stateCode: z.string(),
+    startDate: z.instanceof(RFCDate).transform(v => v.toString()),
+    endDate: z.nullable(z.instanceof(RFCDate).transform(v => v.toString()))
+      .optional(),
+    category: PhysicalNexusCategory$outboundSchema,
+    externalId: z.nullable(z.string()).optional(),
+    source: PhysicalNexusSource$outboundSchema.optional(),
+    street1: z.nullable(z.string()).optional(),
+    street2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    id: z.string(),
+  }).transform((v) => {
+    return remap$(v, {
+      countryCode: "country_code",
+      stateCode: "state_code",
+      startDate: "start_date",
+      endDate: "end_date",
+      externalId: "external_id",
+      street1: "street_1",
+      street2: "street_2",
+      postalCode: "postal_code",
+    });
+  })
+);
 
 export function physicalNexusReadToJSON(
   physicalNexusRead: PhysicalNexusRead,

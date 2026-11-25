@@ -13,7 +13,7 @@ const args = {
 
 export const tool$customersUpdate: ToolDefinition<typeof args> = {
   name: "customers-update",
-  description: `Update Customer
+  description: `Update customer
 
 The Update Customer API allows you to modify an existing customer's
     information using their unique identifier,
@@ -23,7 +23,7 @@ The Update Customer API allows you to modify an existing customer's
     const [result, apiCall] = await customersUpdate(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

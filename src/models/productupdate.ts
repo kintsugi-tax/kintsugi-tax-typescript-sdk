@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -17,15 +17,15 @@ export type ProductUpdate = {
   /**
    * The unique identifier of the product to be updated.
    */
-  id?: string | undefined;
+  id?: string | null | undefined;
   /**
    * External identifier provided for the product,
    *
    * @remarks
    *         typically by the source system.
    */
-  externalId?: string | undefined;
-  sku?: Array<string> | undefined;
+  externalId?: string | null | undefined;
+  sku?: Array<string> | null | undefined;
   /**
    * Name of the product.
    */
@@ -33,7 +33,7 @@ export type ProductUpdate = {
   /**
    * Description of the product.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   status?: ProductStatusEnum | undefined;
   /**
    * Main category of the product.
@@ -58,7 +58,7 @@ export type ProductUpdate = {
   /**
    * Indicates if the product classification failed.
    */
-  classificationFailed?: boolean | undefined;
+  classificationFailed?: boolean | null | undefined;
 };
 
 /** @internal */
@@ -66,38 +66,40 @@ export const ProductUpdate$inboundSchema: z.ZodType<
   ProductUpdate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  id: z.string().optional(),
-  external_id: z.string().optional(),
-  sku: z.array(z.string()).optional(),
-  name: z.string(),
-  description: z.string().optional(),
-  status: ProductStatusEnum$inboundSchema.optional(),
-  product_category: z.string(),
-  product_subcategory: z.string(),
-  tax_exempt: z.boolean(),
-  classification_failed: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "product_category": "productCategory",
-    "product_subcategory": "productSubcategory",
-    "tax_exempt": "taxExempt",
-    "classification_failed": "classificationFailed",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.nullable(z.string()).optional(),
+    external_id: z.nullable(z.string()).optional(),
+    sku: z.nullable(z.array(z.string())).optional(),
+    name: z.string(),
+    description: z.nullable(z.string()).optional(),
+    status: ProductStatusEnum$inboundSchema.optional(),
+    product_category: z.string(),
+    product_subcategory: z.string(),
+    tax_exempt: z.boolean(),
+    classification_failed: z.nullable(z.boolean()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "product_category": "productCategory",
+      "product_subcategory": "productSubcategory",
+      "tax_exempt": "taxExempt",
+      "classification_failed": "classificationFailed",
+    });
+  })
+);
 /** @internal */
 export type ProductUpdate$Outbound = {
-  id?: string | undefined;
-  external_id?: string | undefined;
-  sku?: Array<string> | undefined;
+  id?: string | null | undefined;
+  external_id?: string | null | undefined;
+  sku?: Array<string> | null | undefined;
   name: string;
-  description?: string | undefined;
+  description?: string | null | undefined;
   status?: string | undefined;
   product_category: string;
   product_subcategory: string;
   tax_exempt: boolean;
-  classification_failed: boolean;
+  classification_failed?: boolean | null | undefined;
 };
 
 /** @internal */
@@ -105,26 +107,28 @@ export const ProductUpdate$outboundSchema: z.ZodType<
   ProductUpdate$Outbound,
   z.ZodTypeDef,
   ProductUpdate
-> = z.object({
-  id: z.string().optional(),
-  externalId: z.string().optional(),
-  sku: z.array(z.string()).optional(),
-  name: z.string(),
-  description: z.string().optional(),
-  status: ProductStatusEnum$outboundSchema.optional(),
-  productCategory: z.string(),
-  productSubcategory: z.string(),
-  taxExempt: z.boolean(),
-  classificationFailed: z.boolean().default(false),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    productCategory: "product_category",
-    productSubcategory: "product_subcategory",
-    taxExempt: "tax_exempt",
-    classificationFailed: "classification_failed",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.nullable(z.string()).optional(),
+    externalId: z.nullable(z.string()).optional(),
+    sku: z.nullable(z.array(z.string())).optional(),
+    name: z.string(),
+    description: z.nullable(z.string()).optional(),
+    status: ProductStatusEnum$outboundSchema.optional(),
+    productCategory: z.string(),
+    productSubcategory: z.string(),
+    taxExempt: z.boolean(),
+    classificationFailed: z.nullable(z.boolean()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      productCategory: "product_category",
+      productSubcategory: "product_subcategory",
+      taxExempt: "tax_exempt",
+      classificationFailed: "classification_failed",
+    });
+  })
+);
 
 export function productUpdateToJSON(productUpdate: ProductUpdate): string {
   return JSON.stringify(ProductUpdate$outboundSchema.parse(productUpdate));

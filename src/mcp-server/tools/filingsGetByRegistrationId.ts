@@ -14,7 +14,7 @@ const args = {
 
 export const tool$filingsGetByRegistrationId: ToolDefinition<typeof args> = {
   name: "filings-get-by-registration-id",
-  description: `Get Filings By Registration Id
+  description: `Get filings by registration id
 
 The Get Filings By Registration ID API
     retrieves all filings
@@ -26,7 +26,7 @@ The Get Filings By Registration ID API
     const [result, apiCall] = await filingsGetByRegistrationId(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

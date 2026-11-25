@@ -14,7 +14,7 @@ const args = {
 
 export const tool$nexusDeletePhysical: ToolDefinition<typeof args> = {
   name: "nexus-delete-physical",
-  description: `Delete Physical Nexus
+  description: `Delete physical nexus
 
 The Delete Physical Nexus API allows you to remove an existing
     physical nexus by its unique ID.`,
@@ -23,7 +23,7 @@ The Delete Physical Nexus API allows you to remove an existing
     const [result, apiCall] = await nexusDeletePhysical(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

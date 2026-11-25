@@ -7,13 +7,12 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.GetExemptionsV1ExemptionsGetRequest$inboundSchema
-    .optional(),
+  request: operations.GetExemptionsV1ExemptionsGetRequest$inboundSchema,
 };
 
 export const tool$exemptionsList: ToolDefinition<typeof args> = {
   name: "exemptions-list",
-  description: `Get Exemptions
+  description: `Get exemptions
 
 Retrieve a list of exemptions based on filters.`,
   args,
@@ -21,7 +20,7 @@ Retrieve a list of exemptions based on filters.`,
     const [result, apiCall] = await exemptionsList(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
@@ -39,11 +39,39 @@ export const Status = {
  */
 export type Status = ClosedEnum<typeof Status>;
 
+/**
+ * Total monetary value of the credit note, including all items and taxes.
+ */
+export type CreditNoteCreateTotalAmount = number | string;
+
+/**
+ * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
+ */
+export type CreditNoteCreateTaxAmountImported = number | string;
+
+/**
+ * Pre-calculated overall tax rate for the credit note, if provided by the external system.
+ */
+export type CreditNoteCreateTaxRateImported = number | string;
+
+/**
+ * Total portion of the credit note amount subject to taxation.
+ */
+export type CreditNoteCreateTaxableAmount = number | string;
+
 export type CreditNoteCreate = {
   /**
    * Unique identifier for the credit note in the external system.
    */
   externalId: string;
+  /**
+   * Human-readable identifier for the credit note, often used for display purposes.
+   */
+  externalFriendlyId?: string | null | undefined;
+  /**
+   * Secondary external identifier, reserved for marketplace/channel source ids (paired with secondary_source).
+   */
+  secondaryExternalId?: string | null | undefined;
   /**
    * Date when the credit note was issued or created.
    */
@@ -55,32 +83,39 @@ export type CreditNoteCreate = {
   /**
    * Brief explanation or reason for issuing the credit note.
    */
-  description?: string | undefined;
+  description?: string | null | undefined;
   /**
    * Total monetary value of the credit note, including all items and taxes.
    */
-  totalAmount: number;
+  totalAmount: number | string;
   /**
    * Indicates whether this credit note is associated with a marketplace transaction.
    */
-  marketplace?: boolean | undefined;
+  marketplace?: boolean | null | undefined;
   /**
    * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
    */
-  taxAmountImported?: number | undefined;
+  taxAmountImported?: number | string | null | undefined;
   /**
    * Pre-calculated overall tax rate for the credit note, if provided by the external system.
    */
-  taxRateImported?: number | undefined;
+  taxRateImported?: number | string | null | undefined;
   /**
    * Total portion of the credit note amount subject to taxation.
    */
-  taxableAmount?: number | undefined;
+  taxableAmount?: number | string | null | undefined;
+  /**
+   * ISO-4217 currency code. Pair with a monetary amount on the same object.
+   */
   currency: CurrencyEnum;
   /**
    * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
    */
-  addresses?: Array<TransactionAddressBuilder> | undefined;
+  addresses?: Array<TransactionAddressBuilder> | null | undefined;
+  /**
+   * Whether the source amounts include tax (EI-1534). None means the source did not say. Mirrors the parent order's signal; netting stays EI-1538.
+   */
+  isTaxInclusive?: boolean | null | undefined;
   /**
    * Detailed list of individual items included in this credit note.
    */
@@ -88,53 +123,206 @@ export type CreditNoteCreate = {
 };
 
 /** @internal */
-export const Status$inboundSchema: z.ZodNativeEnum<typeof Status> = z
-  .nativeEnum(Status);
+export const Status$inboundSchema: z.ZodNativeEnum<typeof Status> =
+  /* @__PURE__ */ lazySchema$(() => z.nativeEnum(Status));
 /** @internal */
 export const Status$outboundSchema: z.ZodNativeEnum<typeof Status> =
   Status$inboundSchema;
+
+/** @internal */
+export const CreditNoteCreateTotalAmount$inboundSchema: z.ZodType<
+  CreditNoteCreateTotalAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteCreateTotalAmount$Outbound = number | string;
+
+/** @internal */
+export const CreditNoteCreateTotalAmount$outboundSchema: z.ZodType<
+  CreditNoteCreateTotalAmount$Outbound,
+  z.ZodTypeDef,
+  CreditNoteCreateTotalAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteCreateTotalAmountToJSON(
+  creditNoteCreateTotalAmount: CreditNoteCreateTotalAmount,
+): string {
+  return JSON.stringify(
+    CreditNoteCreateTotalAmount$outboundSchema.parse(
+      creditNoteCreateTotalAmount,
+    ),
+  );
+}
+export function creditNoteCreateTotalAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<CreditNoteCreateTotalAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreditNoteCreateTotalAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreditNoteCreateTotalAmount' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreditNoteCreateTaxAmountImported$inboundSchema: z.ZodType<
+  CreditNoteCreateTaxAmountImported,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteCreateTaxAmountImported$Outbound = number | string;
+
+/** @internal */
+export const CreditNoteCreateTaxAmountImported$outboundSchema: z.ZodType<
+  CreditNoteCreateTaxAmountImported$Outbound,
+  z.ZodTypeDef,
+  CreditNoteCreateTaxAmountImported
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteCreateTaxAmountImportedToJSON(
+  creditNoteCreateTaxAmountImported: CreditNoteCreateTaxAmountImported,
+): string {
+  return JSON.stringify(
+    CreditNoteCreateTaxAmountImported$outboundSchema.parse(
+      creditNoteCreateTaxAmountImported,
+    ),
+  );
+}
+export function creditNoteCreateTaxAmountImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<CreditNoteCreateTaxAmountImported, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreditNoteCreateTaxAmountImported$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreditNoteCreateTaxAmountImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreditNoteCreateTaxRateImported$inboundSchema: z.ZodType<
+  CreditNoteCreateTaxRateImported,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteCreateTaxRateImported$Outbound = number | string;
+
+/** @internal */
+export const CreditNoteCreateTaxRateImported$outboundSchema: z.ZodType<
+  CreditNoteCreateTaxRateImported$Outbound,
+  z.ZodTypeDef,
+  CreditNoteCreateTaxRateImported
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteCreateTaxRateImportedToJSON(
+  creditNoteCreateTaxRateImported: CreditNoteCreateTaxRateImported,
+): string {
+  return JSON.stringify(
+    CreditNoteCreateTaxRateImported$outboundSchema.parse(
+      creditNoteCreateTaxRateImported,
+    ),
+  );
+}
+export function creditNoteCreateTaxRateImportedFromJSON(
+  jsonString: string,
+): SafeParseResult<CreditNoteCreateTaxRateImported, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreditNoteCreateTaxRateImported$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreditNoteCreateTaxRateImported' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreditNoteCreateTaxableAmount$inboundSchema: z.ZodType<
+  CreditNoteCreateTaxableAmount,
+  z.ZodTypeDef,
+  unknown
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+/** @internal */
+export type CreditNoteCreateTaxableAmount$Outbound = number | string;
+
+/** @internal */
+export const CreditNoteCreateTaxableAmount$outboundSchema: z.ZodType<
+  CreditNoteCreateTaxableAmount$Outbound,
+  z.ZodTypeDef,
+  CreditNoteCreateTaxableAmount
+> = /* @__PURE__ */ lazySchema$(() => z.union([z.number(), z.string()]));
+
+export function creditNoteCreateTaxableAmountToJSON(
+  creditNoteCreateTaxableAmount: CreditNoteCreateTaxableAmount,
+): string {
+  return JSON.stringify(
+    CreditNoteCreateTaxableAmount$outboundSchema.parse(
+      creditNoteCreateTaxableAmount,
+    ),
+  );
+}
+export function creditNoteCreateTaxableAmountFromJSON(
+  jsonString: string,
+): SafeParseResult<CreditNoteCreateTaxableAmount, SDKValidationError> {
+  return safeParse(
+    jsonString,
+    (x) => CreditNoteCreateTaxableAmount$inboundSchema.parse(JSON.parse(x)),
+    `Failed to parse 'CreditNoteCreateTaxableAmount' from JSON`,
+  );
+}
 
 /** @internal */
 export const CreditNoteCreate$inboundSchema: z.ZodType<
   CreditNoteCreate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  external_id: z.string(),
-  date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
-  status: Status$inboundSchema,
-  description: z.string().optional(),
-  total_amount: z.number(),
-  marketplace: z.boolean().default(false),
-  tax_amount_imported: z.number().optional(),
-  tax_rate_imported: z.number().optional(),
-  taxable_amount: z.number().optional(),
-  currency: CurrencyEnum$inboundSchema,
-  addresses: z.array(TransactionAddressBuilder$inboundSchema).optional(),
-  transaction_items: z.array(CreditNoteItemCreateUpdate$inboundSchema),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "total_amount": "totalAmount",
-    "tax_amount_imported": "taxAmountImported",
-    "tax_rate_imported": "taxRateImported",
-    "taxable_amount": "taxableAmount",
-    "transaction_items": "transactionItems",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    external_id: z.string(),
+    external_friendly_id: z.nullable(z.string()).optional(),
+    secondary_external_id: z.nullable(z.string()).optional(),
+    date: z.string().datetime({ offset: true }).transform(v => new Date(v)),
+    status: Status$inboundSchema,
+    description: z.nullable(z.string()).optional(),
+    total_amount: z.union([z.number(), z.string()]),
+    marketplace: z.nullable(z.boolean()).optional(),
+    tax_amount_imported: z.nullable(z.union([z.number(), z.string()]))
+      .optional(),
+    tax_rate_imported: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxable_amount: z.nullable(z.union([z.number(), z.string()])).optional(),
+    currency: CurrencyEnum$inboundSchema,
+    addresses: z.nullable(z.array(TransactionAddressBuilder$inboundSchema))
+      .optional(),
+    is_tax_inclusive: z.nullable(z.boolean()).optional(),
+    transaction_items: z.array(CreditNoteItemCreateUpdate$inboundSchema),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "external_friendly_id": "externalFriendlyId",
+      "secondary_external_id": "secondaryExternalId",
+      "total_amount": "totalAmount",
+      "tax_amount_imported": "taxAmountImported",
+      "tax_rate_imported": "taxRateImported",
+      "taxable_amount": "taxableAmount",
+      "is_tax_inclusive": "isTaxInclusive",
+      "transaction_items": "transactionItems",
+    });
+  })
+);
 /** @internal */
 export type CreditNoteCreate$Outbound = {
   external_id: string;
+  external_friendly_id?: string | null | undefined;
+  secondary_external_id?: string | null | undefined;
   date: string;
   status: string;
-  description?: string | undefined;
-  total_amount: number;
-  marketplace: boolean;
-  tax_amount_imported?: number | undefined;
-  tax_rate_imported?: number | undefined;
-  taxable_amount?: number | undefined;
+  description?: string | null | undefined;
+  total_amount: number | string;
+  marketplace?: boolean | null | undefined;
+  tax_amount_imported?: number | string | null | undefined;
+  tax_rate_imported?: number | string | null | undefined;
+  taxable_amount?: number | string | null | undefined;
   currency: string;
-  addresses?: Array<TransactionAddressBuilder$Outbound> | undefined;
+  addresses?: Array<TransactionAddressBuilder$Outbound> | null | undefined;
+  is_tax_inclusive?: boolean | null | undefined;
   transaction_items: Array<CreditNoteItemCreateUpdate$Outbound>;
 };
 
@@ -143,29 +331,38 @@ export const CreditNoteCreate$outboundSchema: z.ZodType<
   CreditNoteCreate$Outbound,
   z.ZodTypeDef,
   CreditNoteCreate
-> = z.object({
-  externalId: z.string(),
-  date: z.date().transform(v => v.toISOString()),
-  status: Status$outboundSchema,
-  description: z.string().optional(),
-  totalAmount: z.number(),
-  marketplace: z.boolean().default(false),
-  taxAmountImported: z.number().optional(),
-  taxRateImported: z.number().optional(),
-  taxableAmount: z.number().optional(),
-  currency: CurrencyEnum$outboundSchema,
-  addresses: z.array(TransactionAddressBuilder$outboundSchema).optional(),
-  transactionItems: z.array(CreditNoteItemCreateUpdate$outboundSchema),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    totalAmount: "total_amount",
-    taxAmountImported: "tax_amount_imported",
-    taxRateImported: "tax_rate_imported",
-    taxableAmount: "taxable_amount",
-    transactionItems: "transaction_items",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    externalId: z.string(),
+    externalFriendlyId: z.nullable(z.string()).optional(),
+    secondaryExternalId: z.nullable(z.string()).optional(),
+    date: z.date().transform(v => v.toISOString()),
+    status: Status$outboundSchema,
+    description: z.nullable(z.string()).optional(),
+    totalAmount: z.union([z.number(), z.string()]),
+    marketplace: z.nullable(z.boolean()).optional(),
+    taxAmountImported: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxRateImported: z.nullable(z.union([z.number(), z.string()])).optional(),
+    taxableAmount: z.nullable(z.union([z.number(), z.string()])).optional(),
+    currency: CurrencyEnum$outboundSchema,
+    addresses: z.nullable(z.array(TransactionAddressBuilder$outboundSchema))
+      .optional(),
+    isTaxInclusive: z.nullable(z.boolean()).optional(),
+    transactionItems: z.array(CreditNoteItemCreateUpdate$outboundSchema),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      externalFriendlyId: "external_friendly_id",
+      secondaryExternalId: "secondary_external_id",
+      totalAmount: "total_amount",
+      taxAmountImported: "tax_amount_imported",
+      taxRateImported: "tax_rate_imported",
+      taxableAmount: "taxable_amount",
+      isTaxInclusive: "is_tax_inclusive",
+      transactionItems: "transaction_items",
+    });
+  })
+);
 
 export function creditNoteCreateToJSON(
   creditNoteCreate: CreditNoteCreate,

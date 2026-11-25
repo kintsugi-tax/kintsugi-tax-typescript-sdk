@@ -7,13 +7,12 @@ import * as operations from "../../models/operations/index.js";
 import { formatResult, ToolDefinition } from "../tools.js";
 
 const args = {
-  request: operations.GetTransactionsV1TransactionsGetRequest$inboundSchema
-    .optional(),
+  request: operations.GetTransactionsV1TransactionsGetRequest$inboundSchema,
 };
 
 export const tool$transactionsGet: ToolDefinition<typeof args> = {
   name: "transactions-get",
-  description: `Get Transactions
+  description: `Get transactions
 
 The Get Transactions API retrieves a list of transactions with
     optional filtering, sorting, and pagination.`,
@@ -22,7 +21,7 @@ The Get Transactions API retrieves a list of transactions with
     const [result, apiCall] = await transactionsGet(
       client,
       args.request,
-      { fetchOptions: { signal: ctx.signal } },
+      { fetchOptions: { signal: ctx.mcpReq.signal } },
     ).$inspect();
 
     if (!result.ok) {

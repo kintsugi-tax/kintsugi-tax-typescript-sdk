@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import {
   AddressStatus,
@@ -32,55 +32,68 @@ export type CustomerUpdate = {
   /**
    * Phone number associated with the customer.
    */
-  phone?: string | undefined;
+  phone?: string | null | undefined;
   /**
    * Primary street address.
    */
-  street1?: string | undefined;
+  street1?: string | null | undefined;
   /**
    * Additional street address details, such as an apartment or suite number.
    */
-  street2?: string | undefined;
+  street2?: string | null | undefined;
   /**
    * City where the customer resides.
    */
-  city?: string | undefined;
+  city?: string | null | undefined;
   /**
    * County or district of the customer.
    */
-  county?: string | undefined;
+  county?: string | null | undefined;
   /**
    * State or province of the customer.
    */
-  state?: string | undefined;
+  state?: string | null | undefined;
   /**
    * ZIP or Postal code of the customer.
    */
-  postalCode?: string | undefined;
-  country?: CountryCodeEnum | undefined;
+  postalCode?: string | null | undefined;
+  /**
+   * Country code in ISO 3166-1 alpha-2 format
+   */
+  country?: CountryCodeEnum | null | undefined;
   /**
    * Complete address string of the customer, which can be used as an alternative to individual fields.
    */
-  fullAddress?: string | undefined;
+  fullAddress?: string | null | undefined;
   /**
    * Name of the customer.
    */
-  name?: string | undefined;
-  status?: StatusEnum | undefined;
+  name?: string | null | undefined;
+  /**
+   * Status of the customer.
+   */
+  status?: StatusEnum | null | undefined;
   /**
    * Email address of the customer.
    */
-  email?: string | undefined;
-  source?: SourceEnum | undefined;
+  email?: string | null | undefined;
+  /**
+   * Registered or legal business name of the customer.
+   */
+  companyName?: string | null | undefined;
+  /**
+   * Source of the customer's record
+   */
+  source?: SourceEnum | null | undefined;
   addressStatus?: AddressStatus | undefined;
   /**
    * External identifier associated with the customer
    */
-  externalId?: string | undefined;
+  externalId?: string | null | undefined;
   /**
    * External friendly identifier associated with the customer. We need it for netsuite.
    */
-  externalFriendlyId?: string | undefined;
+  externalFriendlyId?: string | null | undefined;
 };
 
 /** @internal */
@@ -88,52 +101,57 @@ export const CustomerUpdate$inboundSchema: z.ZodType<
   CustomerUpdate,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  phone: z.string().optional(),
-  street_1: z.string().optional(),
-  street_2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postal_code: z.string().optional(),
-  country: CountryCodeEnum$inboundSchema.optional(),
-  full_address: z.string().optional(),
-  name: z.string().optional(),
-  status: StatusEnum$inboundSchema.optional(),
-  email: z.string().optional(),
-  source: SourceEnum$inboundSchema.optional(),
-  address_status: AddressStatus$inboundSchema.optional(),
-  external_id: z.string().optional(),
-  external_friendly_id: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    "street_1": "street1",
-    "street_2": "street2",
-    "postal_code": "postalCode",
-    "full_address": "fullAddress",
-    "address_status": "addressStatus",
-    "external_id": "externalId",
-    "external_friendly_id": "externalFriendlyId",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street_1: z.nullable(z.string()).optional(),
+    street_2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postal_code: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$inboundSchema).optional(),
+    full_address: z.nullable(z.string()).optional(),
+    name: z.nullable(z.string()).optional(),
+    status: z.nullable(StatusEnum$inboundSchema).optional(),
+    email: z.nullable(z.string()).optional(),
+    company_name: z.nullable(z.string()).optional(),
+    source: z.nullable(SourceEnum$inboundSchema).optional(),
+    address_status: AddressStatus$inboundSchema.optional(),
+    external_id: z.nullable(z.string()).optional(),
+    external_friendly_id: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "street_1": "street1",
+      "street_2": "street2",
+      "postal_code": "postalCode",
+      "full_address": "fullAddress",
+      "company_name": "companyName",
+      "address_status": "addressStatus",
+      "external_id": "externalId",
+      "external_friendly_id": "externalFriendlyId",
+    });
+  })
+);
 /** @internal */
 export type CustomerUpdate$Outbound = {
-  phone?: string | undefined;
-  street_1?: string | undefined;
-  street_2?: string | undefined;
-  city?: string | undefined;
-  county?: string | undefined;
-  state?: string | undefined;
-  postal_code?: string | undefined;
-  country?: string | undefined;
-  full_address?: string | undefined;
-  name?: string | undefined;
-  status?: string | undefined;
-  email?: string | undefined;
-  source?: string | undefined;
+  phone?: string | null | undefined;
+  street_1?: string | null | undefined;
+  street_2?: string | null | undefined;
+  city?: string | null | undefined;
+  county?: string | null | undefined;
+  state?: string | null | undefined;
+  postal_code?: string | null | undefined;
+  country?: string | null | undefined;
+  full_address?: string | null | undefined;
+  name?: string | null | undefined;
+  status?: string | null | undefined;
+  email?: string | null | undefined;
+  company_name?: string | null | undefined;
+  source?: string | null | undefined;
   address_status?: string | undefined;
-  external_id?: string | undefined;
-  external_friendly_id?: string | undefined;
+  external_id?: string | null | undefined;
+  external_friendly_id?: string | null | undefined;
 };
 
 /** @internal */
@@ -141,34 +159,38 @@ export const CustomerUpdate$outboundSchema: z.ZodType<
   CustomerUpdate$Outbound,
   z.ZodTypeDef,
   CustomerUpdate
-> = z.object({
-  phone: z.string().optional(),
-  street1: z.string().optional(),
-  street2: z.string().optional(),
-  city: z.string().optional(),
-  county: z.string().optional(),
-  state: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: CountryCodeEnum$outboundSchema.optional(),
-  fullAddress: z.string().optional(),
-  name: z.string().optional(),
-  status: StatusEnum$outboundSchema.optional(),
-  email: z.string().optional(),
-  source: SourceEnum$outboundSchema.optional(),
-  addressStatus: AddressStatus$outboundSchema.optional(),
-  externalId: z.string().optional(),
-  externalFriendlyId: z.string().optional(),
-}).transform((v) => {
-  return remap$(v, {
-    street1: "street_1",
-    street2: "street_2",
-    postalCode: "postal_code",
-    fullAddress: "full_address",
-    addressStatus: "address_status",
-    externalId: "external_id",
-    externalFriendlyId: "external_friendly_id",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    phone: z.nullable(z.string()).optional(),
+    street1: z.nullable(z.string()).optional(),
+    street2: z.nullable(z.string()).optional(),
+    city: z.nullable(z.string()).optional(),
+    county: z.nullable(z.string()).optional(),
+    state: z.nullable(z.string()).optional(),
+    postalCode: z.nullable(z.string()).optional(),
+    country: z.nullable(CountryCodeEnum$outboundSchema).optional(),
+    fullAddress: z.nullable(z.string()).optional(),
+    name: z.nullable(z.string()).optional(),
+    status: z.nullable(StatusEnum$outboundSchema).optional(),
+    email: z.nullable(z.string()).optional(),
+    companyName: z.nullable(z.string()).optional(),
+    source: z.nullable(SourceEnum$outboundSchema).optional(),
+    addressStatus: AddressStatus$outboundSchema.optional(),
+    externalId: z.nullable(z.string()).optional(),
+    externalFriendlyId: z.nullable(z.string()).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      street1: "street_1",
+      street2: "street_2",
+      postalCode: "postal_code",
+      fullAddress: "full_address",
+      companyName: "company_name",
+      addressStatus: "address_status",
+      externalId: "external_id",
+      externalFriendlyId: "external_friendly_id",
+    });
+  })
+);
 
 export function customerUpdateToJSON(customerUpdate: CustomerUpdate): string {
   return JSON.stringify(CustomerUpdate$outboundSchema.parse(customerUpdate));

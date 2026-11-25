@@ -3,28 +3,219 @@
  */
 
 import * as z from "zod/v3";
-import { safeParse } from "../../lib/schemas.js";
+import { remap as remap$ } from "../../lib/primitives.js";
+import { lazySchema as lazySchema$, safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import * as models from "../index.js";
 
 export type CreateRegistration =
+  | models.AlabamaRegistrationPayload
+  | models.ArizonaRegistrationPayload
+  | models.ArkansasRegistrationPayload
+  | models.CaliforniaRegistrationPayload
+  | models.ConnecticutRegistrationPayload
+  | models.DistrictOfColumbiaRegistrationPayload
+  | models.GeorgiaRegistrationPayload
+  | models.HawaiiRegistrationPayload
+  | models.IdahoRegistrationPayload
+  | models.IllinoisRegistrationPayload
+  | models.IndianaRegistrationPayload
+  | models.IowaRegistrationPayload
+  | models.KansasRegistrationPayload
+  | models.MassachusettsRegistrationPayload
+  | models.MississippiRegistrationPayload
+  | models.MichiganRegistrationPayload
+  | models.MissouriRegistrationPayload
+  | models.TennesseeRegistrationPayload
+  | models.TexasRegistrationPayload
+  | models.UtahRegistrationPayload
+  | models.VermontRegistrationPayload
+  | models.VirginiaRegistrationPayload
+  | models.WashingtonRegistrationPayload
+  | models.WestVirginiaRegistrationPayload
+  | models.WisconsinRegistrationPayload
+  | models.MaineRegistrationPayload
+  | models.MinnesotaRegistrationPayload
+  | models.KentuckyRegistrationPayload
+  | models.MarylandRegistrationPayload
+  | models.NebraskaRegistrationPayload
+  | models.NevadaRegistrationPayload
+  | models.NewJerseyRegistrationPayload
+  | models.NewMexicoRegistrationPayload
+  | models.NewYorkRegistrationPayload
+  | models.NorthDakotaRegistrationPayload
+  | models.SouthCarolinaRegistrationPayload
+  | models.OklahomaRegistrationPayload
+  | models.LouisianaRegistrationPayload
+  | models.OhioRegistrationPayload
+  | models.PennsylvaniaRegistrationPayload
+  | models.RhodeIslandRegistrationPayload
+  | models.SouthDakotaRegistrationPayload
+  | models.FloridaRegistrationPayload
+  | models.NorthCarolinaRegistrationPayload
+  | models.WyomingRegistrationPayload
   | models.RegistrationCreatePayload
   | models.OSSRegistrationCreatePayload
   | models.SSTRegistrationCreatePayload;
+
+export type CreateRegistrationV1RegistrationsPostRequest = {
+  xOrganizationId: string | null;
+  requestBody:
+    | models.AlabamaRegistrationPayload
+    | models.ArizonaRegistrationPayload
+    | models.ArkansasRegistrationPayload
+    | models.CaliforniaRegistrationPayload
+    | models.ConnecticutRegistrationPayload
+    | models.DistrictOfColumbiaRegistrationPayload
+    | models.GeorgiaRegistrationPayload
+    | models.HawaiiRegistrationPayload
+    | models.IdahoRegistrationPayload
+    | models.IllinoisRegistrationPayload
+    | models.IndianaRegistrationPayload
+    | models.IowaRegistrationPayload
+    | models.KansasRegistrationPayload
+    | models.MassachusettsRegistrationPayload
+    | models.MississippiRegistrationPayload
+    | models.MichiganRegistrationPayload
+    | models.MissouriRegistrationPayload
+    | models.TennesseeRegistrationPayload
+    | models.TexasRegistrationPayload
+    | models.UtahRegistrationPayload
+    | models.VermontRegistrationPayload
+    | models.VirginiaRegistrationPayload
+    | models.WashingtonRegistrationPayload
+    | models.WestVirginiaRegistrationPayload
+    | models.WisconsinRegistrationPayload
+    | models.MaineRegistrationPayload
+    | models.MinnesotaRegistrationPayload
+    | models.KentuckyRegistrationPayload
+    | models.MarylandRegistrationPayload
+    | models.NebraskaRegistrationPayload
+    | models.NevadaRegistrationPayload
+    | models.NewJerseyRegistrationPayload
+    | models.NewMexicoRegistrationPayload
+    | models.NewYorkRegistrationPayload
+    | models.NorthDakotaRegistrationPayload
+    | models.SouthCarolinaRegistrationPayload
+    | models.OklahomaRegistrationPayload
+    | models.LouisianaRegistrationPayload
+    | models.OhioRegistrationPayload
+    | models.PennsylvaniaRegistrationPayload
+    | models.RhodeIslandRegistrationPayload
+    | models.SouthDakotaRegistrationPayload
+    | models.FloridaRegistrationPayload
+    | models.NorthCarolinaRegistrationPayload
+    | models.WyomingRegistrationPayload
+    | models.RegistrationCreatePayload
+    | models.OSSRegistrationCreatePayload
+    | models.SSTRegistrationCreatePayload;
+};
 
 /** @internal */
 export const CreateRegistration$inboundSchema: z.ZodType<
   CreateRegistration,
   z.ZodTypeDef,
   unknown
-> = z.union([
-  models.RegistrationCreatePayload$inboundSchema,
-  models.OSSRegistrationCreatePayload$inboundSchema,
-  models.SSTRegistrationCreatePayload$inboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    models.AlabamaRegistrationPayload$inboundSchema,
+    models.ArizonaRegistrationPayload$inboundSchema,
+    models.ArkansasRegistrationPayload$inboundSchema,
+    models.CaliforniaRegistrationPayload$inboundSchema,
+    models.ConnecticutRegistrationPayload$inboundSchema,
+    models.DistrictOfColumbiaRegistrationPayload$inboundSchema,
+    models.GeorgiaRegistrationPayload$inboundSchema,
+    models.HawaiiRegistrationPayload$inboundSchema,
+    models.IdahoRegistrationPayload$inboundSchema,
+    models.IllinoisRegistrationPayload$inboundSchema,
+    models.IndianaRegistrationPayload$inboundSchema,
+    models.IowaRegistrationPayload$inboundSchema,
+    models.KansasRegistrationPayload$inboundSchema,
+    models.MassachusettsRegistrationPayload$inboundSchema,
+    models.MississippiRegistrationPayload$inboundSchema,
+    models.MichiganRegistrationPayload$inboundSchema,
+    models.MissouriRegistrationPayload$inboundSchema,
+    models.TennesseeRegistrationPayload$inboundSchema,
+    models.TexasRegistrationPayload$inboundSchema,
+    models.UtahRegistrationPayload$inboundSchema,
+    models.VermontRegistrationPayload$inboundSchema,
+    models.VirginiaRegistrationPayload$inboundSchema,
+    models.WashingtonRegistrationPayload$inboundSchema,
+    models.WestVirginiaRegistrationPayload$inboundSchema,
+    models.WisconsinRegistrationPayload$inboundSchema,
+    models.MaineRegistrationPayload$inboundSchema,
+    models.MinnesotaRegistrationPayload$inboundSchema,
+    models.KentuckyRegistrationPayload$inboundSchema,
+    models.MarylandRegistrationPayload$inboundSchema,
+    models.NebraskaRegistrationPayload$inboundSchema,
+    models.NevadaRegistrationPayload$inboundSchema,
+    models.NewJerseyRegistrationPayload$inboundSchema,
+    models.NewMexicoRegistrationPayload$inboundSchema,
+    models.NewYorkRegistrationPayload$inboundSchema,
+    models.NorthDakotaRegistrationPayload$inboundSchema,
+    models.SouthCarolinaRegistrationPayload$inboundSchema,
+    models.OklahomaRegistrationPayload$inboundSchema,
+    models.LouisianaRegistrationPayload$inboundSchema,
+    models.OhioRegistrationPayload$inboundSchema,
+    models.PennsylvaniaRegistrationPayload$inboundSchema,
+    models.RhodeIslandRegistrationPayload$inboundSchema,
+    models.SouthDakotaRegistrationPayload$inboundSchema,
+    models.FloridaRegistrationPayload$inboundSchema,
+    models.NorthCarolinaRegistrationPayload$inboundSchema,
+    models.WyomingRegistrationPayload$inboundSchema,
+    models.RegistrationCreatePayload$inboundSchema,
+    models.OSSRegistrationCreatePayload$inboundSchema,
+    models.SSTRegistrationCreatePayload$inboundSchema,
+  ])
+);
 /** @internal */
 export type CreateRegistration$Outbound =
+  | models.AlabamaRegistrationPayload$Outbound
+  | models.ArizonaRegistrationPayload$Outbound
+  | models.ArkansasRegistrationPayload$Outbound
+  | models.CaliforniaRegistrationPayload$Outbound
+  | models.ConnecticutRegistrationPayload$Outbound
+  | models.DistrictOfColumbiaRegistrationPayload$Outbound
+  | models.GeorgiaRegistrationPayload$Outbound
+  | models.HawaiiRegistrationPayload$Outbound
+  | models.IdahoRegistrationPayload$Outbound
+  | models.IllinoisRegistrationPayload$Outbound
+  | models.IndianaRegistrationPayload$Outbound
+  | models.IowaRegistrationPayload$Outbound
+  | models.KansasRegistrationPayload$Outbound
+  | models.MassachusettsRegistrationPayload$Outbound
+  | models.MississippiRegistrationPayload$Outbound
+  | models.MichiganRegistrationPayload$Outbound
+  | models.MissouriRegistrationPayload$Outbound
+  | models.TennesseeRegistrationPayload$Outbound
+  | models.TexasRegistrationPayload$Outbound
+  | models.UtahRegistrationPayload$Outbound
+  | models.VermontRegistrationPayload$Outbound
+  | models.VirginiaRegistrationPayload$Outbound
+  | models.WashingtonRegistrationPayload$Outbound
+  | models.WestVirginiaRegistrationPayload$Outbound
+  | models.WisconsinRegistrationPayload$Outbound
+  | models.MaineRegistrationPayload$Outbound
+  | models.MinnesotaRegistrationPayload$Outbound
+  | models.KentuckyRegistrationPayload$Outbound
+  | models.MarylandRegistrationPayload$Outbound
+  | models.NebraskaRegistrationPayload$Outbound
+  | models.NevadaRegistrationPayload$Outbound
+  | models.NewJerseyRegistrationPayload$Outbound
+  | models.NewMexicoRegistrationPayload$Outbound
+  | models.NewYorkRegistrationPayload$Outbound
+  | models.NorthDakotaRegistrationPayload$Outbound
+  | models.SouthCarolinaRegistrationPayload$Outbound
+  | models.OklahomaRegistrationPayload$Outbound
+  | models.LouisianaRegistrationPayload$Outbound
+  | models.OhioRegistrationPayload$Outbound
+  | models.PennsylvaniaRegistrationPayload$Outbound
+  | models.RhodeIslandRegistrationPayload$Outbound
+  | models.SouthDakotaRegistrationPayload$Outbound
+  | models.FloridaRegistrationPayload$Outbound
+  | models.NorthCarolinaRegistrationPayload$Outbound
+  | models.WyomingRegistrationPayload$Outbound
   | models.RegistrationCreatePayload$Outbound
   | models.OSSRegistrationCreatePayload$Outbound
   | models.SSTRegistrationCreatePayload$Outbound;
@@ -34,11 +225,58 @@ export const CreateRegistration$outboundSchema: z.ZodType<
   CreateRegistration$Outbound,
   z.ZodTypeDef,
   CreateRegistration
-> = z.union([
-  models.RegistrationCreatePayload$outboundSchema,
-  models.OSSRegistrationCreatePayload$outboundSchema,
-  models.SSTRegistrationCreatePayload$outboundSchema,
-]);
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.union([
+    models.AlabamaRegistrationPayload$outboundSchema,
+    models.ArizonaRegistrationPayload$outboundSchema,
+    models.ArkansasRegistrationPayload$outboundSchema,
+    models.CaliforniaRegistrationPayload$outboundSchema,
+    models.ConnecticutRegistrationPayload$outboundSchema,
+    models.DistrictOfColumbiaRegistrationPayload$outboundSchema,
+    models.GeorgiaRegistrationPayload$outboundSchema,
+    models.HawaiiRegistrationPayload$outboundSchema,
+    models.IdahoRegistrationPayload$outboundSchema,
+    models.IllinoisRegistrationPayload$outboundSchema,
+    models.IndianaRegistrationPayload$outboundSchema,
+    models.IowaRegistrationPayload$outboundSchema,
+    models.KansasRegistrationPayload$outboundSchema,
+    models.MassachusettsRegistrationPayload$outboundSchema,
+    models.MississippiRegistrationPayload$outboundSchema,
+    models.MichiganRegistrationPayload$outboundSchema,
+    models.MissouriRegistrationPayload$outboundSchema,
+    models.TennesseeRegistrationPayload$outboundSchema,
+    models.TexasRegistrationPayload$outboundSchema,
+    models.UtahRegistrationPayload$outboundSchema,
+    models.VermontRegistrationPayload$outboundSchema,
+    models.VirginiaRegistrationPayload$outboundSchema,
+    models.WashingtonRegistrationPayload$outboundSchema,
+    models.WestVirginiaRegistrationPayload$outboundSchema,
+    models.WisconsinRegistrationPayload$outboundSchema,
+    models.MaineRegistrationPayload$outboundSchema,
+    models.MinnesotaRegistrationPayload$outboundSchema,
+    models.KentuckyRegistrationPayload$outboundSchema,
+    models.MarylandRegistrationPayload$outboundSchema,
+    models.NebraskaRegistrationPayload$outboundSchema,
+    models.NevadaRegistrationPayload$outboundSchema,
+    models.NewJerseyRegistrationPayload$outboundSchema,
+    models.NewMexicoRegistrationPayload$outboundSchema,
+    models.NewYorkRegistrationPayload$outboundSchema,
+    models.NorthDakotaRegistrationPayload$outboundSchema,
+    models.SouthCarolinaRegistrationPayload$outboundSchema,
+    models.OklahomaRegistrationPayload$outboundSchema,
+    models.LouisianaRegistrationPayload$outboundSchema,
+    models.OhioRegistrationPayload$outboundSchema,
+    models.PennsylvaniaRegistrationPayload$outboundSchema,
+    models.RhodeIslandRegistrationPayload$outboundSchema,
+    models.SouthDakotaRegistrationPayload$outboundSchema,
+    models.FloridaRegistrationPayload$outboundSchema,
+    models.NorthCarolinaRegistrationPayload$outboundSchema,
+    models.WyomingRegistrationPayload$outboundSchema,
+    models.RegistrationCreatePayload$outboundSchema,
+    models.OSSRegistrationCreatePayload$outboundSchema,
+    models.SSTRegistrationCreatePayload$outboundSchema,
+  ])
+);
 
 export function createRegistrationToJSON(
   createRegistration: CreateRegistration,
@@ -54,5 +292,218 @@ export function createRegistrationFromJSON(
     jsonString,
     (x) => CreateRegistration$inboundSchema.parse(JSON.parse(x)),
     `Failed to parse 'CreateRegistration' from JSON`,
+  );
+}
+
+/** @internal */
+export const CreateRegistrationV1RegistrationsPostRequest$inboundSchema:
+  z.ZodType<
+    CreateRegistrationV1RegistrationsPostRequest,
+    z.ZodTypeDef,
+    unknown
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      "x-organization-id": z.nullable(z.string()),
+      RequestBody: z.union([
+        models.AlabamaRegistrationPayload$inboundSchema,
+        models.ArizonaRegistrationPayload$inboundSchema,
+        models.ArkansasRegistrationPayload$inboundSchema,
+        models.CaliforniaRegistrationPayload$inboundSchema,
+        models.ConnecticutRegistrationPayload$inboundSchema,
+        models.DistrictOfColumbiaRegistrationPayload$inboundSchema,
+        models.GeorgiaRegistrationPayload$inboundSchema,
+        models.HawaiiRegistrationPayload$inboundSchema,
+        models.IdahoRegistrationPayload$inboundSchema,
+        models.IllinoisRegistrationPayload$inboundSchema,
+        models.IndianaRegistrationPayload$inboundSchema,
+        models.IowaRegistrationPayload$inboundSchema,
+        models.KansasRegistrationPayload$inboundSchema,
+        models.MassachusettsRegistrationPayload$inboundSchema,
+        models.MississippiRegistrationPayload$inboundSchema,
+        models.MichiganRegistrationPayload$inboundSchema,
+        models.MissouriRegistrationPayload$inboundSchema,
+        models.TennesseeRegistrationPayload$inboundSchema,
+        models.TexasRegistrationPayload$inboundSchema,
+        models.UtahRegistrationPayload$inboundSchema,
+        models.VermontRegistrationPayload$inboundSchema,
+        models.VirginiaRegistrationPayload$inboundSchema,
+        models.WashingtonRegistrationPayload$inboundSchema,
+        models.WestVirginiaRegistrationPayload$inboundSchema,
+        models.WisconsinRegistrationPayload$inboundSchema,
+        models.MaineRegistrationPayload$inboundSchema,
+        models.MinnesotaRegistrationPayload$inboundSchema,
+        models.KentuckyRegistrationPayload$inboundSchema,
+        models.MarylandRegistrationPayload$inboundSchema,
+        models.NebraskaRegistrationPayload$inboundSchema,
+        models.NevadaRegistrationPayload$inboundSchema,
+        models.NewJerseyRegistrationPayload$inboundSchema,
+        models.NewMexicoRegistrationPayload$inboundSchema,
+        models.NewYorkRegistrationPayload$inboundSchema,
+        models.NorthDakotaRegistrationPayload$inboundSchema,
+        models.SouthCarolinaRegistrationPayload$inboundSchema,
+        models.OklahomaRegistrationPayload$inboundSchema,
+        models.LouisianaRegistrationPayload$inboundSchema,
+        models.OhioRegistrationPayload$inboundSchema,
+        models.PennsylvaniaRegistrationPayload$inboundSchema,
+        models.RhodeIslandRegistrationPayload$inboundSchema,
+        models.SouthDakotaRegistrationPayload$inboundSchema,
+        models.FloridaRegistrationPayload$inboundSchema,
+        models.NorthCarolinaRegistrationPayload$inboundSchema,
+        models.WyomingRegistrationPayload$inboundSchema,
+        models.RegistrationCreatePayload$inboundSchema,
+        models.OSSRegistrationCreatePayload$inboundSchema,
+        models.SSTRegistrationCreatePayload$inboundSchema,
+      ]),
+    }).transform((v) => {
+      return remap$(v, {
+        "x-organization-id": "xOrganizationId",
+        "RequestBody": "requestBody",
+      });
+    })
+  );
+/** @internal */
+export type CreateRegistrationV1RegistrationsPostRequest$Outbound = {
+  "x-organization-id": string | null;
+  RequestBody:
+    | models.AlabamaRegistrationPayload$Outbound
+    | models.ArizonaRegistrationPayload$Outbound
+    | models.ArkansasRegistrationPayload$Outbound
+    | models.CaliforniaRegistrationPayload$Outbound
+    | models.ConnecticutRegistrationPayload$Outbound
+    | models.DistrictOfColumbiaRegistrationPayload$Outbound
+    | models.GeorgiaRegistrationPayload$Outbound
+    | models.HawaiiRegistrationPayload$Outbound
+    | models.IdahoRegistrationPayload$Outbound
+    | models.IllinoisRegistrationPayload$Outbound
+    | models.IndianaRegistrationPayload$Outbound
+    | models.IowaRegistrationPayload$Outbound
+    | models.KansasRegistrationPayload$Outbound
+    | models.MassachusettsRegistrationPayload$Outbound
+    | models.MississippiRegistrationPayload$Outbound
+    | models.MichiganRegistrationPayload$Outbound
+    | models.MissouriRegistrationPayload$Outbound
+    | models.TennesseeRegistrationPayload$Outbound
+    | models.TexasRegistrationPayload$Outbound
+    | models.UtahRegistrationPayload$Outbound
+    | models.VermontRegistrationPayload$Outbound
+    | models.VirginiaRegistrationPayload$Outbound
+    | models.WashingtonRegistrationPayload$Outbound
+    | models.WestVirginiaRegistrationPayload$Outbound
+    | models.WisconsinRegistrationPayload$Outbound
+    | models.MaineRegistrationPayload$Outbound
+    | models.MinnesotaRegistrationPayload$Outbound
+    | models.KentuckyRegistrationPayload$Outbound
+    | models.MarylandRegistrationPayload$Outbound
+    | models.NebraskaRegistrationPayload$Outbound
+    | models.NevadaRegistrationPayload$Outbound
+    | models.NewJerseyRegistrationPayload$Outbound
+    | models.NewMexicoRegistrationPayload$Outbound
+    | models.NewYorkRegistrationPayload$Outbound
+    | models.NorthDakotaRegistrationPayload$Outbound
+    | models.SouthCarolinaRegistrationPayload$Outbound
+    | models.OklahomaRegistrationPayload$Outbound
+    | models.LouisianaRegistrationPayload$Outbound
+    | models.OhioRegistrationPayload$Outbound
+    | models.PennsylvaniaRegistrationPayload$Outbound
+    | models.RhodeIslandRegistrationPayload$Outbound
+    | models.SouthDakotaRegistrationPayload$Outbound
+    | models.FloridaRegistrationPayload$Outbound
+    | models.NorthCarolinaRegistrationPayload$Outbound
+    | models.WyomingRegistrationPayload$Outbound
+    | models.RegistrationCreatePayload$Outbound
+    | models.OSSRegistrationCreatePayload$Outbound
+    | models.SSTRegistrationCreatePayload$Outbound;
+};
+
+/** @internal */
+export const CreateRegistrationV1RegistrationsPostRequest$outboundSchema:
+  z.ZodType<
+    CreateRegistrationV1RegistrationsPostRequest$Outbound,
+    z.ZodTypeDef,
+    CreateRegistrationV1RegistrationsPostRequest
+  > = /* @__PURE__ */ lazySchema$(() =>
+    z.object({
+      xOrganizationId: z.nullable(z.string()),
+      requestBody: z.union([
+        models.AlabamaRegistrationPayload$outboundSchema,
+        models.ArizonaRegistrationPayload$outboundSchema,
+        models.ArkansasRegistrationPayload$outboundSchema,
+        models.CaliforniaRegistrationPayload$outboundSchema,
+        models.ConnecticutRegistrationPayload$outboundSchema,
+        models.DistrictOfColumbiaRegistrationPayload$outboundSchema,
+        models.GeorgiaRegistrationPayload$outboundSchema,
+        models.HawaiiRegistrationPayload$outboundSchema,
+        models.IdahoRegistrationPayload$outboundSchema,
+        models.IllinoisRegistrationPayload$outboundSchema,
+        models.IndianaRegistrationPayload$outboundSchema,
+        models.IowaRegistrationPayload$outboundSchema,
+        models.KansasRegistrationPayload$outboundSchema,
+        models.MassachusettsRegistrationPayload$outboundSchema,
+        models.MississippiRegistrationPayload$outboundSchema,
+        models.MichiganRegistrationPayload$outboundSchema,
+        models.MissouriRegistrationPayload$outboundSchema,
+        models.TennesseeRegistrationPayload$outboundSchema,
+        models.TexasRegistrationPayload$outboundSchema,
+        models.UtahRegistrationPayload$outboundSchema,
+        models.VermontRegistrationPayload$outboundSchema,
+        models.VirginiaRegistrationPayload$outboundSchema,
+        models.WashingtonRegistrationPayload$outboundSchema,
+        models.WestVirginiaRegistrationPayload$outboundSchema,
+        models.WisconsinRegistrationPayload$outboundSchema,
+        models.MaineRegistrationPayload$outboundSchema,
+        models.MinnesotaRegistrationPayload$outboundSchema,
+        models.KentuckyRegistrationPayload$outboundSchema,
+        models.MarylandRegistrationPayload$outboundSchema,
+        models.NebraskaRegistrationPayload$outboundSchema,
+        models.NevadaRegistrationPayload$outboundSchema,
+        models.NewJerseyRegistrationPayload$outboundSchema,
+        models.NewMexicoRegistrationPayload$outboundSchema,
+        models.NewYorkRegistrationPayload$outboundSchema,
+        models.NorthDakotaRegistrationPayload$outboundSchema,
+        models.SouthCarolinaRegistrationPayload$outboundSchema,
+        models.OklahomaRegistrationPayload$outboundSchema,
+        models.LouisianaRegistrationPayload$outboundSchema,
+        models.OhioRegistrationPayload$outboundSchema,
+        models.PennsylvaniaRegistrationPayload$outboundSchema,
+        models.RhodeIslandRegistrationPayload$outboundSchema,
+        models.SouthDakotaRegistrationPayload$outboundSchema,
+        models.FloridaRegistrationPayload$outboundSchema,
+        models.NorthCarolinaRegistrationPayload$outboundSchema,
+        models.WyomingRegistrationPayload$outboundSchema,
+        models.RegistrationCreatePayload$outboundSchema,
+        models.OSSRegistrationCreatePayload$outboundSchema,
+        models.SSTRegistrationCreatePayload$outboundSchema,
+      ]),
+    }).transform((v) => {
+      return remap$(v, {
+        xOrganizationId: "x-organization-id",
+        requestBody: "RequestBody",
+      });
+    })
+  );
+
+export function createRegistrationV1RegistrationsPostRequestToJSON(
+  createRegistrationV1RegistrationsPostRequest:
+    CreateRegistrationV1RegistrationsPostRequest,
+): string {
+  return JSON.stringify(
+    CreateRegistrationV1RegistrationsPostRequest$outboundSchema.parse(
+      createRegistrationV1RegistrationsPostRequest,
+    ),
+  );
+}
+export function createRegistrationV1RegistrationsPostRequestFromJSON(
+  jsonString: string,
+): SafeParseResult<
+  CreateRegistrationV1RegistrationsPostRequest,
+  SDKValidationError
+> {
+  return safeParse(
+    jsonString,
+    (x) =>
+      CreateRegistrationV1RegistrationsPostRequest$inboundSchema.parse(
+        JSON.parse(x),
+      ),
+    `Failed to parse 'CreateRegistrationV1RegistrationsPostRequest' from JSON`,
   );
 }

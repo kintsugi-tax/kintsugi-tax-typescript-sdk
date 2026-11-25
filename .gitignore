@@ -28,6 +28,5 @@
 .env
 .env.local
 .env.*.local
-
 # Local planning docs (plans, design notes); see the planning-doc-placement rule.
 docs/plans/

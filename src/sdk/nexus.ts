@@ -4,6 +4,8 @@
 
 import { nexusCreatePhysical } from "../funcs/nexusCreatePhysical.js";
 import { nexusDeletePhysical } from "../funcs/nexusDeletePhysical.js";
+import { nexusGetNexusDetailsForIdV1NexusNexusIdGet } from "../funcs/nexusGetNexusDetailsForIdV1NexusNexusIdGet.js";
+import { nexusGetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet } from "../funcs/nexusGetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet.js";
 import { nexusList } from "../funcs/nexusList.js";
 import { nexusListPhysical } from "../funcs/nexusListPhysical.js";
 import { nexusUpdatePhysical } from "../funcs/nexusUpdatePhysical.js";
@@ -14,16 +16,31 @@ import { unwrapAsync } from "../types/fp.js";
 
 export class Nexus extends ClientSDK {
   /**
-   * Get Physical Nexus
+   * Get nexus for org
+   *
+   * @remarks
+   * Get a list of all nexuses for the organization.
+   */
+  async list(
+    request: operations.GetNexusForOrgV1NexusGetRequest,
+    options?: RequestOptions,
+  ): Promise<operations.ResponseGetNexusForOrgV1NexusGet> {
+    return unwrapAsync(nexusList(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get physical nexus
    *
    * @remarks
    * Retrieve a paginated list of
    *     physical nexuses for a specific organization.
    */
   async listPhysical(
-    request?:
-      | operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest
-      | undefined,
+    request: operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest,
     options?: RequestOptions,
   ): Promise<models.PagePhysicalNexusRead> {
     return unwrapAsync(nexusListPhysical(
@@ -34,7 +51,7 @@ export class Nexus extends ClientSDK {
   }
 
   /**
-   * Create Physical Nexus
+   * Create physical nexus
    *
    * @remarks
    * The Create Physical Nexus API allows you to create a new physical
@@ -42,7 +59,7 @@ export class Nexus extends ClientSDK {
    *     start date, end date, etc.
    */
   async createPhysical(
-    request: models.PhysicalNexusCreate,
+    request: operations.CreatePhysicalNexusV1NexusPhysicalNexusPostRequest,
     options?: RequestOptions,
   ): Promise<models.PhysicalNexusRead> {
     return unwrapAsync(nexusCreatePhysical(
@@ -53,26 +70,27 @@ export class Nexus extends ClientSDK {
   }
 
   /**
-   * Update Physical Nexus
+   * Get physical nexus categories
    *
    * @remarks
-   * The Update Physical Nexus API allows you to modify the details of
-   *     an existing physical nexus by its unique ID.
+   * Get physical nexus categories
    */
-  async updatePhysical(
+  async getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
     request:
-      operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest,
+      operations.GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest,
     options?: RequestOptions,
-  ): Promise<models.PhysicalNexusRead> {
-    return unwrapAsync(nexusUpdatePhysical(
-      this,
-      request,
-      options,
-    ));
+  ): Promise<Array<models.PhysicalNexusCategories>> {
+    return unwrapAsync(
+      nexusGetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
+        this,
+        request,
+        options,
+      ),
+    );
   }
 
   /**
-   * Delete Physical Nexus
+   * Delete physical nexus
    *
    * @remarks
    * The Delete Physical Nexus API allows you to remove an existing
@@ -91,16 +109,35 @@ export class Nexus extends ClientSDK {
   }
 
   /**
-   * Get Nexus For Org
+   * Update physical nexus
    *
    * @remarks
-   * Get a list of all nexuses for the organization.
+   * The Update Physical Nexus API allows you to modify the details of
+   *     an existing physical nexus by its unique ID.
    */
-  async list(
-    request?: operations.GetNexusForOrgV1NexusGetRequest | undefined,
+  async updatePhysical(
+    request:
+      operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest,
     options?: RequestOptions,
-  ): Promise<models.PageNexusResponse> {
-    return unwrapAsync(nexusList(
+  ): Promise<models.PhysicalNexusRead> {
+    return unwrapAsync(nexusUpdatePhysical(
+      this,
+      request,
+      options,
+    ));
+  }
+
+  /**
+   * Get nexus details for id
+   *
+   * @remarks
+   * Get details for a specific nexus by its ID.
+   */
+  async getNexusDetailsForIdV1NexusNexusIdGet(
+    request: operations.GetNexusDetailsForIdV1NexusNexusIdGetRequest,
+    options?: RequestOptions,
+  ): Promise<models.NexusResponse> {
+    return unwrapAsync(nexusGetNexusDetailsForIdV1NexusNexusIdGet(
       this,
       request,
       options,

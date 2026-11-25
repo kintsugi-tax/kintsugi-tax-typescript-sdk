@@ -3,8 +3,12 @@
  */
 
 import * as z from "zod/v3";
+import { lazySchema as lazySchema$ } from "../lib/schemas.js";
 import { ClosedEnum } from "../types/enums.js";
 
+/**
+ * ISO-4217 currency code. Pair with a monetary amount on the same object.
+ */
 export const CurrencyEnum = {
   Aed: "AED",
   Afn: "AFN",
@@ -169,11 +173,14 @@ export const CurrencyEnum = {
   Zmw: "ZMW",
   Zwd: "ZWD",
 } as const;
+/**
+ * ISO-4217 currency code. Pair with a monetary amount on the same object.
+ */
 export type CurrencyEnum = ClosedEnum<typeof CurrencyEnum>;
 
 /** @internal */
 export const CurrencyEnum$inboundSchema: z.ZodNativeEnum<typeof CurrencyEnum> =
-  z.nativeEnum(CurrencyEnum);
+  /* @__PURE__ */ lazySchema$(() => z.nativeEnum(CurrencyEnum));
 /** @internal */
 export const CurrencyEnum$outboundSchema: z.ZodNativeEnum<typeof CurrencyEnum> =
   CurrencyEnum$inboundSchema;

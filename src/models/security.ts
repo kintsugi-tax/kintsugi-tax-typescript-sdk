@@ -4,13 +4,12 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 
 export type Security = {
   apiKeyHeader: string;
-  customHeader: string;
 };
 
 /** @internal */
@@ -18,19 +17,18 @@ export const Security$inboundSchema: z.ZodType<
   Security,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  APIKeyHeader: z.string(),
-  CustomHeader: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "APIKeyHeader": "apiKeyHeader",
-    "CustomHeader": "customHeader",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    APIKeyHeader: z.string(),
+  }).transform((v) => {
+    return remap$(v, {
+      "APIKeyHeader": "apiKeyHeader",
+    });
+  })
+);
 /** @internal */
 export type Security$Outbound = {
   APIKeyHeader: string;
-  CustomHeader: string;
 };
 
 /** @internal */
@@ -38,15 +36,15 @@ export const Security$outboundSchema: z.ZodType<
   Security$Outbound,
   z.ZodTypeDef,
   Security
-> = z.object({
-  apiKeyHeader: z.string(),
-  customHeader: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    apiKeyHeader: "APIKeyHeader",
-    customHeader: "CustomHeader",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    apiKeyHeader: z.string(),
+  }).transform((v) => {
+    return remap$(v, {
+      apiKeyHeader: "APIKeyHeader",
+    });
+  })
+);
 
 export function securityToJSON(security: Security): string {
   return JSON.stringify(Security$outboundSchema.parse(security));

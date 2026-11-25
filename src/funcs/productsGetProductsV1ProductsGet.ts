@@ -3,7 +3,8 @@
  */
 
 import { SDKCore } from "../core.js";
-import { encodeFormQuery } from "../lib/encodings.js";
+import { encodeFormQuery, encodeSimple } from "../lib/encodings.js";
+import { matchStatusCode } from "../lib/http.js";
 import * as M from "../lib/matchers.js";
 import { compactMap } from "../lib/primitives.js";
 import { safeParse } from "../lib/schemas.js";
@@ -27,20 +28,20 @@ import { APICall, APIPromise } from "../types/async.js";
 import { Result } from "../types/fp.js";
 
 /**
- * Get Products
+ * Get products
  *
  * @remarks
  * Retrieve a paginated list of products based on filters and search query.
  */
 export function productsGetProductsV1ProductsGet(
   client: SDKCore,
-  request?: operations.GetProductsV1ProductsGetRequest | undefined,
+  request: operations.GetProductsV1ProductsGetRequest,
   options?: RequestOptions,
 ): APIPromise<
   Result<
     models.PageProductRead,
     | errors.ErrorResponse
-    | errors.BackendSrcProductsResponsesValidationErrorResponse
+    | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -60,14 +61,14 @@ export function productsGetProductsV1ProductsGet(
 
 async function $do(
   client: SDKCore,
-  request?: operations.GetProductsV1ProductsGetRequest | undefined,
+  request: operations.GetProductsV1ProductsGetRequest,
   options?: RequestOptions,
 ): Promise<
   [
     Result<
       models.PageProductRead,
       | errors.ErrorResponse
-      | errors.BackendSrcProductsResponsesValidationErrorResponse
+      | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
       | SDKError
       | ResponseValidationError
       | ConnectionError
@@ -83,8 +84,7 @@ async function $do(
   const parsed = safeParse(
     request,
     (value) =>
-      operations.GetProductsV1ProductsGetRequest$outboundSchema.optional()
-        .parse(value),
+      operations.GetProductsV1ProductsGetRequest$outboundSchema.parse(value),
     "Input validation failed",
   );
   if (!parsed.ok) {
@@ -96,21 +96,28 @@ async function $do(
   const path = pathToFunc("/v1/products")();
 
   const query = encodeFormQuery({
-    "order_by": payload?.order_by,
-    "page": payload?.page,
-    "product_category__in": payload?.product_category__in,
-    "product_subcategory__in": payload?.product_subcategory__in,
-    "query": payload?.query,
-    "size": payload?.size,
-    "source__in": payload?.source__in,
-    "status__in": payload?.status__in,
+    "connection_id__in": payload.connection_id__in,
+    "order_by": payload.order_by,
+    "page": payload.page,
+    "product_category__in": payload.product_category__in,
+    "product_subcategory__in": payload.product_subcategory__in,
+    "query": payload.query,
+    "size": payload.size,
+    "source__in": payload.source__in,
+    "status__in": payload.status__in,
   });
 
   const headers = new Headers(compactMap({
     Accept: "application/json",
+    "x-organization-id": encodeSimple(
+      "x-organization-id",
+      payload["x-organization-id"],
+      { explode: false, charEncoding: "none" },
+    ),
   }));
 
-  const securityInput = await extractSecurity(client._options.security);
+  const secConfig = await extractSecurity(client._options.apiKeyHeader);
+  const securityInput = secConfig == null ? {} : { apiKeyHeader: secConfig };
   const requestSecurity = resolveGlobalSecurity(securityInput);
 
   const context = {
@@ -121,7 +128,7 @@ async function $do(
 
     resolvedSecurity: requestSecurity,
 
-    securitySource: client._options.security,
+    securitySource: client._options.apiKeyHeader,
     retryConfig: options?.retries
       || client._options.retryConfig
       || { strategy: "none" },
@@ -146,7 +153,8 @@ async function $do(
 
   const doResult = await client._do(req, {
     context,
-    errorCodes: ["401", "404", "422", "4XX", "500", "5XX"],
+    isErrorStatusCode: (statusCode: number) =>
+      matchStatusCode({ status: statusCode } as Response, ["4XX", "5XX"]),
     retryConfig: context.retryConfig,
     retryCodes: context.retryCodes,
   });
@@ -162,7 +170,7 @@ async function $do(
   const [result] = await M.match<
     models.PageProductRead,
     | errors.ErrorResponse
-    | errors.BackendSrcProductsResponsesValidationErrorResponse
+    | errors.BackendSrcProductsSchemasResponsesValidationErrorResponse
     | SDKError
     | ResponseValidationError
     | ConnectionError
@@ -176,7 +184,8 @@ async function $do(
     M.jsonErr([401, 404], errors.ErrorResponse$inboundSchema),
     M.jsonErr(
       422,
-      errors.BackendSrcProductsResponsesValidationErrorResponse$inboundSchema,
+      errors
+        .BackendSrcProductsSchemasResponsesValidationErrorResponse$inboundSchema,
     ),
     M.jsonErr(500, errors.ErrorResponse$inboundSchema),
     M.fail("4XX"),

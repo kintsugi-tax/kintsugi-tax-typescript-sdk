@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -21,10 +21,10 @@ import {
 export type ProductRead = {
   id: string;
   externalId: string;
-  sku: Array<string>;
+  sku: Array<string> | null;
   code: string;
   name: string;
-  description: string;
+  description: string | null;
   status: ProductStatusEnum;
   /**
    * Main category of the product.
@@ -35,17 +35,20 @@ export type ProductRead = {
    */
   productCategory: string;
   /**
-   * Subcategory of the product.
-   *
-   * @remarks
-   *         For example, General Clothing, UNKNOWN, etc. You can
-   *         retrieve supported subcategories from [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+   * Tax subcategory display label of the product (e.g. 'General Clothing'). List supported values from [GET /products/categories](/reference/api/products/get-product-categories).
    */
   productSubcategory: string;
   taxExempt: boolean;
   source: SourceEnum;
-  connectionId: string;
-  classificationFailed: boolean;
+  connectionId: string | null;
+  classificationFailed: boolean | null;
+  storeName?: string | null | undefined;
+  sourceTaxonomyType?: string | null | undefined;
+  sourceTaxonomyCode?: string | null | undefined;
+  sourceTaxonomyId?: string | null | undefined;
+  sourceTaxonomyName?: string | null | undefined;
+  sourceTaxonomyCategories?: Array<{ [k: string]: any }> | null | undefined;
+  sourceTaxonomyMetadata?: { [k: string]: any } | null | undefined;
 };
 
 /** @internal */
@@ -53,45 +56,69 @@ export const ProductRead$inboundSchema: z.ZodType<
   ProductRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  id: z.string(),
-  external_id: z.string(),
-  sku: z.array(z.string()),
-  code: z.string(),
-  name: z.string(),
-  description: z.string(),
-  status: ProductStatusEnum$inboundSchema,
-  product_category: z.string(),
-  product_subcategory: z.string(),
-  tax_exempt: z.boolean(),
-  source: SourceEnum$inboundSchema,
-  connection_id: z.string(),
-  classification_failed: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    "external_id": "externalId",
-    "product_category": "productCategory",
-    "product_subcategory": "productSubcategory",
-    "tax_exempt": "taxExempt",
-    "connection_id": "connectionId",
-    "classification_failed": "classificationFailed",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.string(),
+    external_id: z.string(),
+    sku: z.nullable(z.array(z.string())),
+    code: z.string(),
+    name: z.string(),
+    description: z.nullable(z.string()),
+    status: ProductStatusEnum$inboundSchema,
+    product_category: z.string(),
+    product_subcategory: z.string(),
+    tax_exempt: z.boolean(),
+    source: SourceEnum$inboundSchema,
+    connection_id: z.nullable(z.string()),
+    classification_failed: z.nullable(z.boolean()),
+    store_name: z.nullable(z.string()).optional(),
+    source_taxonomy_type: z.nullable(z.string()).optional(),
+    source_taxonomy_code: z.nullable(z.string()).optional(),
+    source_taxonomy_id: z.nullable(z.string()).optional(),
+    source_taxonomy_name: z.nullable(z.string()).optional(),
+    source_taxonomy_categories: z.nullable(z.array(z.record(z.any())))
+      .optional(),
+    source_taxonomy_metadata: z.nullable(z.record(z.any())).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      "external_id": "externalId",
+      "product_category": "productCategory",
+      "product_subcategory": "productSubcategory",
+      "tax_exempt": "taxExempt",
+      "connection_id": "connectionId",
+      "classification_failed": "classificationFailed",
+      "store_name": "storeName",
+      "source_taxonomy_type": "sourceTaxonomyType",
+      "source_taxonomy_code": "sourceTaxonomyCode",
+      "source_taxonomy_id": "sourceTaxonomyId",
+      "source_taxonomy_name": "sourceTaxonomyName",
+      "source_taxonomy_categories": "sourceTaxonomyCategories",
+      "source_taxonomy_metadata": "sourceTaxonomyMetadata",
+    });
+  })
+);
 /** @internal */
 export type ProductRead$Outbound = {
   id: string;
   external_id: string;
-  sku: Array<string>;
+  sku: Array<string> | null;
   code: string;
   name: string;
-  description: string;
+  description: string | null;
   status: string;
   product_category: string;
   product_subcategory: string;
   tax_exempt: boolean;
   source: string;
-  connection_id: string;
-  classification_failed: boolean;
+  connection_id: string | null;
+  classification_failed: boolean | null;
+  store_name?: string | null | undefined;
+  source_taxonomy_type?: string | null | undefined;
+  source_taxonomy_code?: string | null | undefined;
+  source_taxonomy_id?: string | null | undefined;
+  source_taxonomy_name?: string | null | undefined;
+  source_taxonomy_categories?: Array<{ [k: string]: any }> | null | undefined;
+  source_taxonomy_metadata?: { [k: string]: any } | null | undefined;
 };
 
 /** @internal */
@@ -99,30 +126,46 @@ export const ProductRead$outboundSchema: z.ZodType<
   ProductRead$Outbound,
   z.ZodTypeDef,
   ProductRead
-> = z.object({
-  id: z.string(),
-  externalId: z.string(),
-  sku: z.array(z.string()),
-  code: z.string(),
-  name: z.string(),
-  description: z.string(),
-  status: ProductStatusEnum$outboundSchema,
-  productCategory: z.string(),
-  productSubcategory: z.string(),
-  taxExempt: z.boolean(),
-  source: SourceEnum$outboundSchema,
-  connectionId: z.string(),
-  classificationFailed: z.boolean(),
-}).transform((v) => {
-  return remap$(v, {
-    externalId: "external_id",
-    productCategory: "product_category",
-    productSubcategory: "product_subcategory",
-    taxExempt: "tax_exempt",
-    connectionId: "connection_id",
-    classificationFailed: "classification_failed",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    id: z.string(),
+    externalId: z.string(),
+    sku: z.nullable(z.array(z.string())),
+    code: z.string(),
+    name: z.string(),
+    description: z.nullable(z.string()),
+    status: ProductStatusEnum$outboundSchema,
+    productCategory: z.string(),
+    productSubcategory: z.string(),
+    taxExempt: z.boolean(),
+    source: SourceEnum$outboundSchema,
+    connectionId: z.nullable(z.string()),
+    classificationFailed: z.nullable(z.boolean()),
+    storeName: z.nullable(z.string()).optional(),
+    sourceTaxonomyType: z.nullable(z.string()).optional(),
+    sourceTaxonomyCode: z.nullable(z.string()).optional(),
+    sourceTaxonomyId: z.nullable(z.string()).optional(),
+    sourceTaxonomyName: z.nullable(z.string()).optional(),
+    sourceTaxonomyCategories: z.nullable(z.array(z.record(z.any()))).optional(),
+    sourceTaxonomyMetadata: z.nullable(z.record(z.any())).optional(),
+  }).transform((v) => {
+    return remap$(v, {
+      externalId: "external_id",
+      productCategory: "product_category",
+      productSubcategory: "product_subcategory",
+      taxExempt: "tax_exempt",
+      connectionId: "connection_id",
+      classificationFailed: "classification_failed",
+      storeName: "store_name",
+      sourceTaxonomyType: "source_taxonomy_type",
+      sourceTaxonomyCode: "source_taxonomy_code",
+      sourceTaxonomyId: "source_taxonomy_id",
+      sourceTaxonomyName: "source_taxonomy_name",
+      sourceTaxonomyCategories: "source_taxonomy_categories",
+      sourceTaxonomyMetadata: "source_taxonomy_metadata",
+    });
+  })
+);
 
 export function productReadToJSON(productRead: ProductRead): string {
   return JSON.stringify(ProductRead$outboundSchema.parse(productRead));

@@ -4,7 +4,7 @@
 
 import * as z from "zod/v3";
 import { remap as remap$ } from "../lib/primitives.js";
-import { safeParse } from "../lib/schemas.js";
+import { lazySchema as lazySchema$, safeParse } from "../lib/schemas.js";
 import { Result as SafeParseResult } from "../types/fp.js";
 import { SDKValidationError } from "./errors/sdkvalidationerror.js";
 import {
@@ -33,16 +33,18 @@ export const AttachmentRead$inboundSchema: z.ZodType<
   AttachmentRead,
   z.ZodTypeDef,
   unknown
-> = z.object({
-  related_entity_id: z.string(),
-  related_entity_type: RelatedEntityType$inboundSchema,
-  id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    "related_entity_id": "relatedEntityId",
-    "related_entity_type": "relatedEntityType",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    related_entity_id: z.string(),
+    related_entity_type: RelatedEntityType$inboundSchema,
+    id: z.string(),
+  }).transform((v) => {
+    return remap$(v, {
+      "related_entity_id": "relatedEntityId",
+      "related_entity_type": "relatedEntityType",
+    });
+  })
+);
 /** @internal */
 export type AttachmentRead$Outbound = {
   related_entity_id: string;
@@ -55,16 +57,18 @@ export const AttachmentRead$outboundSchema: z.ZodType<
   AttachmentRead$Outbound,
   z.ZodTypeDef,
   AttachmentRead
-> = z.object({
-  relatedEntityId: z.string(),
-  relatedEntityType: RelatedEntityType$outboundSchema,
-  id: z.string(),
-}).transform((v) => {
-  return remap$(v, {
-    relatedEntityId: "related_entity_id",
-    relatedEntityType: "related_entity_type",
-  });
-});
+> = /* @__PURE__ */ lazySchema$(() =>
+  z.object({
+    relatedEntityId: z.string(),
+    relatedEntityType: RelatedEntityType$outboundSchema,
+    id: z.string(),
+  }).transform((v) => {
+    return remap$(v, {
+      relatedEntityId: "related_entity_id",
+      relatedEntityType: "related_entity_type",
+    });
+  })
+);
 
 export function attachmentReadToJSON(attachmentRead: AttachmentRead): string {
   return JSON.stringify(AttachmentRead$outboundSchema.parse(attachmentRead));

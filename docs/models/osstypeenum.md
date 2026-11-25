@@ -13,5 +13,5 @@ let value: OssTypeEnum = "UNION";
 ## Values
 
 ```typescript
-"UNION" | "NON_UNION"
+"UNION" | "NON_UNION" | "IOSS"
 ```

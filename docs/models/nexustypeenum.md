@@ -11,5 +11,5 @@ let value: NexusTypeEnum = "EU_AGGREGATOR";
 ## Values
 
 ```typescript
-"CANADA_FEDERAL" | "EU_AGGREGATOR" | "STATE" | "EU_MEMBER_STATE"
+"CANADA_FEDERAL" | "EU_AGGREGATOR" | "EU_IOSS" | "STATE" | "EU_MEMBER_STATE"
 ```
