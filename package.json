@@ -47,9 +47,9 @@
     "eslint": "^9.26.0",
     "express": "^4.22.3",
     "globals": "^15.14.0",
-    "tshy": "^3.3.2",
+    "tshy": "^4.1.4",
     "typescript": "~5.8.3",
-    "typescript-eslint": "^8.26.0"
+    "typescript-eslint": "^8.74.0"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",
