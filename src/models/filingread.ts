@@ -118,7 +118,7 @@ export type FilingRead = {
   /**
    * Timestamp when the filing was approved.
    */
-  approvedAt?: Date | null | undefined;
+  approvedAt?: string | null | undefined;
   /**
    * Reason why the filing has an issue, if applicable.
    */
@@ -138,11 +138,12 @@ export type FilingRead = {
    *
    * Registrations and filings may be SALES_AND_USE_TAX: one state account and
    * one return can cover both taxes, and each is stored as a single row.
-   * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
-   * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
-   * Swiss small-parcel threshold are separate obligations with their own met
-   * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
-   * tax registration covers it, and it has no account and no return of its own.
+   * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, SMALL_PARCEL_VAT,
+   * or LEASE_TAX. Each of these is a separate obligation. Each has its own met
+   * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales tax
+   * registration covers it, and it has no account and no return of its own.
+   * LEASE_TAX is a city tax on leased goods, such as the
+   * Chicago lease tax. It has its own account and return.
    */
   taxType?: TaxTypeEnum | undefined;
   /**
@@ -337,9 +338,7 @@ export const FilingRead$inboundSchema: z.ZodType<
     is_prepayment: z.boolean().default(false),
     is_final: z.boolean().default(false),
     approved_by: z.nullable(z.string()).optional(),
-    approved_at: z.nullable(
-      z.string().datetime({ offset: true }).transform(v => new Date(v)),
-    ).optional(),
+    approved_at: z.nullable(z.string()).optional(),
     issue_reason: z.nullable(z.string()).optional(),
     skip_reason: z.nullable(z.string()).optional(),
     cancelled_reason: z.nullable(z.string()).optional(),
@@ -550,7 +549,7 @@ export const FilingRead$outboundSchema: z.ZodType<
     isPrepayment: z.boolean().default(false),
     isFinal: z.boolean().default(false),
     approvedBy: z.nullable(z.string()).optional(),
-    approvedAt: z.nullable(z.date().transform(v => v.toISOString())).optional(),
+    approvedAt: z.nullable(z.string()).optional(),
     issueReason: z.nullable(z.string()).optional(),
     skipReason: z.nullable(z.string()).optional(),
     cancelledReason: z.nullable(z.string()).optional(),
